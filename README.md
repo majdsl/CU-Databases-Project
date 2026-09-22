@@ -18,7 +18,7 @@ docker compose run --rm runner
 ```
 
 The runner must print five engine PASS lines followed by an overall PASS.
-These are expected messages, not a claim that this branch has passed a live run.
+A team-run check passed for all five engines; see [setup validation](docs/setup-validation.md) for the tested commit, output and limitations.
 Running again repeats the check. The probe table is dropped after each successful creation;
 an interrupted run may leave it behind, in which case inspect and remove only
 `engine_lab.setup_probe` before retrying. Do not use this setup against an existing database.
@@ -58,7 +58,7 @@ The MariaDB image digest is pinned to the image downloaded during setup:
 `sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112`.
 The separately tested setup container reported MariaDB 11.8.9-MariaDB-ubu2404.
 The four-engine Compose stack passed on the team laptop on September 16 and 22, 2026,
-based on shared terminal output. The new five-engine build has not yet passed a live run.
+based on shared terminal output. The five-engine build also passed on September 22, 2026, based on team-provided terminal output (see docs/setup-validation.md).
 
 PyMySQL 1.1.2 is pinned with its wheel SHA-256 from
 [PyPI](https://pypi.org/project/PyMySQL/1.1.2/).
