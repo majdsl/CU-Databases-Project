@@ -1,11 +1,11 @@
-"""Four-engine integration check, not a performance benchmark."""
+"""Five-engine integration check, not a performance benchmark."""
 import os
 from pathlib import Path
 import sys
 import pymysql
 
 SCHEMA_DIR = Path(__file__).resolve().parents[1] / "sql"
-ENGINES = ("InnoDB", "Aria", "MyISAM", "MEMORY")
+ENGINES = ("InnoDB", "Aria", "MyISAM", "MEMORY", "ROCKSDB")
 
 def main():
     with pymysql.connect(
@@ -46,7 +46,7 @@ def main():
                     print("PASS:", engine, "- actual engine verified; 3 rows matched")
                 finally:
                     cursor.execute("DROP TABLE setup_probe")
-            print("PASS: all four engines. Setup check only; no benchmark results yet.")
+            print("PASS: all five engines. Setup check only; no benchmark results yet.")
 
 if __name__ == "__main__":
     try:

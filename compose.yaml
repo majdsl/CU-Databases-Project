@@ -1,7 +1,7 @@
 name: cu-engine-lab
 services:
   db:
-    image: mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+    build: ./docker/mariadb
     environment:
       MARIADB_ROOT_PASSWORD: ${CU_DB_ROOT_PASSWORD:?Run python scripts/init_env.py first}
       MARIADB_DATABASE: engine_lab

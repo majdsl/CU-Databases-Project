@@ -1,0 +1,5 @@
+[mariadb]
+plugin_load_add=ha_rocksdb
+binlog_format=ROW
+# Development memory budget; benchmark cache settings will be controlled separately.
+rocksdb_block_cache_size=128M

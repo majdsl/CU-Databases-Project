@@ -3,8 +3,8 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 # CU Databases Project: storage engine comparison
 
 **Status: environment foundation only. No benchmark measurements or engine recommendations yet.**
-The planned comparison uses Python and MariaDB with InnoDB, Aria, MyISAM and MEMORY.
-Four engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
+The planned comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
+Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
 
 ## First run (Windows PowerShell)
 
@@ -12,12 +12,12 @@ Requirements: Git, running Docker Desktop with Linux containers and Compose, and
 
 ```powershell
 python scripts/init_env.py
+docker compose build db runner
 docker compose up -d --wait db
-docker compose build runner
 docker compose run --rm runner
 ```
 
-The runner must print four engine PASS lines followed by an overall PASS.
+The runner must print five engine PASS lines followed by an overall PASS.
 These are expected messages, not a claim that this branch has passed a live run.
 Running again repeats the check. The probe table is dropped after each successful creation;
 an interrupted run may leave it behind, in which case inspect and remove only
@@ -43,7 +43,7 @@ The apostrophe-containing value checks that data is passed as parameters.
 The explicit BTREE primary index avoids MEMORY's default index-type difference.
 
 This small single-table probe is **not the benchmark data model**. It has an integer
-primary key and bounded character data so all four engines can use the same schema.
+primary key and bounded character data so all five engines can use the same schema.
 Benchmark schema design, dataset, and sizing will be developed separately.
 
 MariaDB data stays in a Docker named volume; no database port is exposed on the host.
@@ -57,7 +57,8 @@ Query cache is disabled and NO_ENGINE_SUBSTITUTION prevents silent engine fallba
 The MariaDB image digest is pinned to the image downloaded during setup:
 `sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112`.
 The separately tested setup container reported MariaDB 11.8.9-MariaDB-ubu2404.
-The new Compose stack still needs its own integration run.
+The four-engine Compose stack passed on the team laptop on September 16 and 22, 2026,
+based on shared terminal output. The new five-engine build has not yet passed a live run.
 
 PyMySQL 1.1.2 is pinned with its wheel SHA-256 from
 [PyPI](https://pypi.org/project/PyMySQL/1.1.2/).
@@ -79,7 +80,7 @@ No cleanup command that deletes volumes is part of normal setup.
 - Dockerfile / requirements.txt: Python runner and dependency.
 - scripts/init_env.py: local random credentials.
 - scripts/check_environment.py: real database integration check.
-- sql/: four explicit identical probe schemas differing only by engine.
+- sql/: five explicit identical probe schemas differing only by engine.
 - docs/evidence-plan.md: remaining work mapped to the rubric.
 
 ## Team and collaboration
@@ -94,3 +95,34 @@ before submission, because the published evaluator evaluates main.
 - [Assignment and current evaluation prompt](https://mariadb.org/bachelor_hackathon_2026-09/)
 - [MariaDB storage engines](https://mariadb.com/docs/server/server-usage/storage-engines)
 - [Official image healthcheck](https://mariadb.com/docs/server/server-management/automated-mariadb-deployment-and-administration/docker-and-mariadb/using-healthcheck-sh)
+
+## MyRocks setup
+
+The custom database image in docker/mariadb installs exactly
+`mariadb-plugin-rocksdb=1:11.8.9+maria~ubu2404` on the pinned base image.
+This candidate was confirmed in the team's amd64 Ubuntu 24.04 container.
+The build checks that mariadb-server-core remains at the matching version.
+Other transitive OS packages are not fully locked; preserve the built image digest
+and package manifest before final experiments. Other architectures are unverified.
+
+The package's rocksdb.cnf is replaced with explicit startup configuration, so
+MyRocks loads on both new and existing database volumes. It uses a 128 MiB block
+cache for initial development and ROW binary-log format. These are not finalized
+benchmark settings. The Python check requires ROCKSDB availability and verifies
+the actual engine and row contents, just as it does for the other four engines.
+
+To update an existing checkout on this branch:
+
+```powershell
+git pull --ff-only
+docker compose build db runner
+docker compose up -d --wait db
+docker compose run --rm runner
+```
+
+The database container will be recreated using the existing named data volume.
+Keep .env unchanged. Do not delete the volume to troubleshoot startup failures;
+inspect `docker compose logs --tail=80 db` instead. If the build fails, stop and
+inspect the error before running the remaining commands.
+
+Reference: [MariaDB MyRocks installation](https://mariadb.com/docs/server/server-usage/storage-engines/myrocks/getting-started-with-myrocks).

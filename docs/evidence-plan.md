@@ -3,8 +3,8 @@
 | Criterion | Required project evidence | Current status |
 | --- | --- | --- |
 | Documentation | Setup, reasoned benchmark schema and diagram, dataset provenance, methods, charts, recommendations, team | Initial setup documented; remainder pending |
-| MariaDB depth | Four engines, actual-engine checks, limits, crash recovery, transaction and locking behaviour | Four-engine setup check implemented; experimental work pending |
-| Execution | Equivalent workloads, controlled cache/durability/index settings, repeated runs, raw data, variation, correctness checks | Setup integration check implemented; live validation pending |
+| MariaDB depth | Five engines, actual-engine checks, limits, crash recovery, transaction and locking behaviour | Four engines passed on the team laptop; MyRocks integration implemented, live validation pending |
+| Execution | Equivalent workloads, controlled cache/durability/index settings, repeated runs, raw data, variation, correctness checks | Four-engine check passed; five-engine validation and benchmark experiments pending |
 | Usability | Short reproducible setup, quick and full runs, worked example, useful interpretation | Initial setup commands; benchmark tutorial pending |
 
 ## Experiments to design before implementation
