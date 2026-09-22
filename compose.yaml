@@ -1,0 +1,34 @@
+name: cu-engine-lab
+services:
+  db:
+    build: ./docker/mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${CU_DB_ROOT_PASSWORD:?Run python scripts/init_env.py first}
+      MARIADB_DATABASE: engine_lab
+      MARIADB_USER: benchmark
+      MARIADB_PASSWORD: ${CU_DB_PASSWORD:?Run python scripts/init_env.py first}
+    command: ["--sql-mode=STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION", "--query-cache-type=0", "--query-cache-size=0"]
+    mem_limit: 2g
+    cpus: 2.0
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+      start_period: 30s
+  runner:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_NAME: engine_lab
+      DB_USER: benchmark
+      DB_PASSWORD: ${CU_DB_PASSWORD:?Run python scripts/init_env.py first}
+    depends_on:
+      db:
+        condition: service_healthy
+    mem_limit: 512m
+    cpus: 1.0
+volumes:
+  db_data:

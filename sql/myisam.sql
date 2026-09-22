@@ -1,0 +1,5 @@
+CREATE TABLE setup_probe (
+    id INT NOT NULL,
+    payload VARCHAR(64) NOT NULL,
+    PRIMARY KEY (id) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

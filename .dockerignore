@@ -1,0 +1,7 @@
+*
+!Dockerfile
+!requirements.txt
+!scripts/
+!scripts/check_environment.py
+!sql/
+!sql/*.sql
