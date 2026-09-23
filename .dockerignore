@@ -5,3 +5,14 @@
 !scripts/check_environment.py
 !sql/
 !sql/*.sql
+!sql/benchmark/
+!sql/benchmark/*.sql
+!benchmarks/
+!benchmarks/*.py
+!tests/
+!tests/*.py
+!compose.yaml
+!docker/
+!docker/mariadb/
+!docker/mariadb/Dockerfile
+!docker/mariadb/rocksdb.cnf
