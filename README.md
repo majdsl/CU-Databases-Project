@@ -2,9 +2,28 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: environment foundation only. No benchmark measurements or engine recommendations yet.**
+**Status: five-engine setup validated; first load/read benchmark implemented, live validation pending. No published benchmark findings or engine recommendations yet.**
 The planned comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
 Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
+
+## First benchmark (milestone 2)
+
+The baseline uses 10000 reproducible synthetic flight events and five balanced-order
+rounds across all five engines. It measures load completion, warm point lookups and
+full-table aggregates. It saves every timing and verifies every loaded row.
+
+After completing first-run setup below:
+
+```powershell
+docker compose run --rm runner python -m unittest discover -s tests -v
+docker compose run --rm runner python -m benchmarks.run
+```
+
+Results appear in a new subfolder of `results/` on your computer. Open its
+`summary.md` for the table and preserve `results.json` for raw measurements.
+A small baseline does not establish engine recommendations. See the
+[benchmark method](docs/benchmark-method.md) for schema rationale, controlled variables,
+statistical units, workload limitations and troubleshooting.
 
 ## First run (Windows PowerShell)
 
@@ -44,7 +63,7 @@ The explicit BTREE primary index avoids MEMORY's default index-type difference.
 
 This small single-table probe is **not the benchmark data model**. It has an integer
 primary key and bounded character data so all five engines can use the same schema.
-Benchmark schema design, dataset, and sizing will be developed separately.
+The initial benchmark schema and synthetic dataset are documented in docs/benchmark-method.md; larger-scale and failure experiments remain pending.
 
 MariaDB data stays in a Docker named volume; no database port is exposed on the host.
 The database is capped at 2 CPUs and 2 GiB; the runner at 1 CPU and 512 MiB.
@@ -81,6 +100,10 @@ No cleanup command that deletes volumes is part of normal setup.
 - scripts/init_env.py: local random credentials.
 - scripts/check_environment.py: real database integration check.
 - sql/: five explicit identical probe schemas differing only by engine.
+- benchmarks/: seeded generation, baseline harness, and report statistics.
+- tests/: unit checks for reproducibility, integrity and reporting.
+- sql/benchmark/: identical benchmark schemas across all five engines.
+- docs/benchmark-method.md: first experiment design and limitations.
 - docs/evidence-plan.md: remaining work mapped to the rubric.
 
 ## Team and collaboration
