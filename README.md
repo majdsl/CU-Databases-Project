@@ -2,9 +2,46 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: environment foundation only. No benchmark measurements or engine recommendations yet.**
+**Status: five-engine setup and first team load/read baseline validated; first concurrent-write run validated; CPU-limit diagnostic completed with four archived runs and generated charts. Final engine recommendations remain pending.**
 The planned comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
 Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
+
+## First benchmark (milestone 2)
+
+The baseline uses 10000 reproducible synthetic flight events and five balanced-order
+rounds across all five engines. It measures load completion, warm point lookups and
+full-table aggregates. It saves every timing and verifies every loaded row.
+
+After completing first-run setup below:
+
+```powershell
+docker compose run --rm runner python -m unittest discover -s tests -v
+docker compose run --rm runner python -m benchmarks.run
+```
+
+Results appear in a new subfolder of `results/` on your computer. Open its
+`summary.md` for the table and preserve `results.json` for raw measurements.
+A small baseline does not establish engine recommendations. See the
+[benchmark method](docs/benchmark-method.md) for schema rationale, controlled variables,
+statistical units, workload limitations and troubleshooting.
+
+## Verified baseline and next experiment
+
+The [first measured baseline](evidence/baseline/20260923T121610Z-92b1c313/README.md)
+contains the original raw results, summary and review notes. It covers five repeated
+trials per engine on 10000 synthetic rows, not a general engine ranking.
+
+The [concurrent-write experiment](docs/concurrency-method.md) compares 1, 2 and 4
+clients with disjoint rows and a shared hotspot, with full final-data verification.
+The first team run completed 150 trials with verified final data. The [CPU findings and charts](docs/cpu-findings.md) show that runner quota
+affected throughput; engine-level scaling conclusions remain limited. Storage size, recovery,
+OpenFlights integration, CI and final recommendations remain unfinished.
+
+## Findings with evidence
+
+Start with [CPU findings and charts](docs/cpu-findings.md): four archived runs,
+power conditions kept separate, complete tables, uncertainty and reproduction steps.
+The raw code and data are on this development branch; they must reach main before submission.
 
 ## First run (Windows PowerShell)
 
@@ -44,7 +81,7 @@ The explicit BTREE primary index avoids MEMORY's default index-type difference.
 
 This small single-table probe is **not the benchmark data model**. It has an integer
 primary key and bounded character data so all five engines can use the same schema.
-Benchmark schema design, dataset, and sizing will be developed separately.
+The initial benchmark schema and synthetic dataset are documented in docs/benchmark-method.md; larger-scale and failure experiments remain pending.
 
 MariaDB data stays in a Docker named volume; no database port is exposed on the host.
 The database is capped at 2 CPUs and 2 GiB; the runner at 1 CPU and 512 MiB.
@@ -81,6 +118,10 @@ No cleanup command that deletes volumes is part of normal setup.
 - scripts/init_env.py: local random credentials.
 - scripts/check_environment.py: real database integration check.
 - sql/: five explicit identical probe schemas differing only by engine.
+- benchmarks/: seeded generation, baseline harness, and report statistics.
+- tests/: unit checks for reproducibility, integrity and reporting.
+- sql/benchmark/: identical benchmark schemas across all five engines.
+- docs/benchmark-method.md: first experiment design and limitations.
 - docs/evidence-plan.md: remaining work mapped to the rubric.
 
 ## Team and collaboration

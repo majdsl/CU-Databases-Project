@@ -1,0 +1,3 @@
+# Optional offline report generation only; not used by the benchmark runner.
+# Direct dependency pinned; transitive plotting dependencies are not fully locked.
+matplotlib==3.10.8
