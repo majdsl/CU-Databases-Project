@@ -1,8 +1,9 @@
 # Does the runner CPU quota affect the four-client slowdown?
 
 Status: telemetry and quota override implemented; 32 unit tests pass locally.
-Live telemetry collection and CPU comparison remain pending. Docker is unavailable
-in the assistant execution environment, so the actual container build is unverified.
+The team built this revision and completed four instrumented runs; uploaded results
+passed offline checks. See [findings and charts](cpu-findings.md). Docker remains
+unavailable in the assistant environment; live execution evidence is team-provided.
 
 ## Evidence motivating this test
 
