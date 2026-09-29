@@ -8,7 +8,7 @@ COPY sql sql
 COPY benchmarks benchmarks
 COPY tests tests
 # Non-secret provenance inputs for the result manifest.
-COPY Dockerfile compose.yaml ./
+COPY Dockerfile compose.yaml compose.runner-2cpu.yaml ./
 COPY docker/mariadb docker/mariadb
 USER 10001:10001
 CMD ["python", "scripts/check_environment.py"]

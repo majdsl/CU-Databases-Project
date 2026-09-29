@@ -2,7 +2,7 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: five-engine setup and first team load/read baseline validated; concurrent-write harness implemented, live validation pending. Final engine recommendations remain pending.**
+**Status: five-engine setup and first team load/read baseline validated; first concurrent-write run validated; CPU-limit diagnostic implemented, live validation pending. Final engine recommendations remain pending.**
 The planned comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
 Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
 
@@ -33,7 +33,9 @@ trials per engine on 10000 synthetic rows, not a general engine ranking.
 
 The [concurrent-write experiment](docs/concurrency-method.md) compares 1, 2 and 4
 clients with disjoint rows and a shared hotspot, with full final-data verification.
-Its unit tests pass; a live team run is still required. Storage size, recovery,
+The first team run completed 150 trials with verified final data. Its four-client
+slowdown needs the [CPU-limit diagnostic](docs/cpu-diagnostic.md) before engine-level
+conclusions. Storage size, recovery,
 OpenFlights integration, CI and final recommendations remain unfinished.
 
 ## First run (Windows PowerShell)

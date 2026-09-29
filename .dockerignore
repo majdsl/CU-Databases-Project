@@ -16,3 +16,4 @@
 !docker/mariadb/
 !docker/mariadb/Dockerfile
 !docker/mariadb/rocksdb.cnf
+!compose.runner-2cpu.yaml

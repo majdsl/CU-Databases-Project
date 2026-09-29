@@ -11,6 +11,7 @@ import threading
 import time
 import uuid
 
+from .telemetry import snapshot, difference, quota_cpus
 from .core import Config, ENGINES, dataset_digest, describe, engine_schedule, generate_rows
 from .run import INSERT, LOCK_NAME, ROOT, runtime_metadata, save_json, source_fingerprint, variables, verify_rows
 
@@ -77,10 +78,13 @@ def write_worker(keys, barrier, connection_factory=connect):
 def execute_workers(keys, connection_factory=connect):
     clock = {}
     barrier = threading.Barrier(len(keys), action=lambda: clock.update(start=time.perf_counter_ns()))
+    cpu_before = snapshot()
     with ThreadPoolExecutor(max_workers=len(keys)) as pool:
         futures = [pool.submit(write_worker, stream, barrier, connection_factory) for stream in keys]
         workers = [future.result() for future in futures]
-    result = {"workers": workers, "completed": sum(w["completed"] for w in workers)}
+    cpu_after = snapshot()
+    result = {"workers": workers, "completed": sum(w["completed"] for w in workers),
+              "runner_cpu": difference(cpu_before, cpu_after)}
     if any("error_type" in w for w in workers):
         result["status"] = "failed"
     else:
@@ -142,23 +146,46 @@ def report(result):
                     raise ValueError("Missing trials")
                 stats = describe(values)
                 lines.append(f"| {engine} | {mode} | {clients} | {len(values)} | {stats['mean']:.2f} | {stats['sample_sd']:.2f} |")
+    if result.get("format_version", 1) >= 2:
+        lines += ["", "## Runner CPU diagnostics", "",
+                  "Window includes worker setup and teardown; it differs from the throughput interval.",
+                  "Average cores is CPU seconds / wall seconds, not a percentage of the whole machine.",
+                  "These counters cover the runner only, not MariaDB or the Windows host.", "",
+                  "| Engine | Pattern | Clients | Mean runner cores | Trials with throttling / observed |",
+                  "| --- | --- | --- | --- | --- |"]
+        for engine in ENGINES:
+            for mode in MODES:
+                for clients in CLIENTS:
+                    trials = [t for t in result["trials"]
+                              if (t["engine"], t["mode"], t["clients"]) == (engine, mode, clients)]
+                    cpu = [t["runner_cpu"] for t in trials if t["runner_cpu"]["cgroup_status"] == "available"]
+                    cores = f"{sum(t['cgroup_average_cores'] for t in cpu)/len(cpu):.3f}" if cpu else "unavailable"
+                    observed = [t for t in cpu if "nr_throttled" in t["counter_delta"]]
+                    throttled = sum(t["counter_delta"]["nr_throttled"] > 0 for t in observed)
+                    lines.append(f"| {engine} | {mode} | {clients} | {cores} | {throttled}/{len(observed)} |")
     return "\n".join(lines) + "\n"
 
 
-def run(config, total, output):
+def run(config, total, output, expected_runner_cpus=None):
     config.validate()
     streams(config.rows, total, 4, "disjoint")
     if os.environ.get("DB_NAME") != "engine_lab":
         raise ValueError("Only the dedicated engine_lab database is allowed")
+    runtime = runtime_metadata()
+    if expected_runner_cpus is not None:
+        actual = quota_cpus(runtime.get("cgroup_cpu_max", "unavailable"))
+        if actual != expected_runner_cpus:
+            raise ValueError("Runner CPU quota differs from expected value; check Compose files")
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-writes-" + uuid.uuid4().hex[:8]
     directory = output / run_id
     directory.mkdir(parents=True, exist_ok=False)
     rows = generate_rows(config)
-    result = {"format_version": 1, "experiment": "concurrent_updates", "run_id": run_id,
+    result = {"format_version": 2, "experiment": "concurrent_updates", "run_id": run_id,
               "status": "running", "config": asdict(config), "updates_per_trial": total,
               "clients": CLIENTS, "modes": MODES, "dataset_sha256": dataset_digest(rows),
-              "source_sha256": source_fingerprint(), "runtime": runtime_metadata(), "trials": [],
-              "limitations": ["same server reused", "unequal durability", "one CPU Python client",
+              "source_sha256": source_fingerprint(), "runtime": runtime, "trials": [],
+              "expected_runner_cpus": expected_runner_cpus,
+              "limitations": ["same server reused", "unequal durability", "Python thread and CPU limits",
                               "short fixed-work bursts, not sustained saturation", "warm data", "no retry policy"]}
     save_json(directory / "results.json", result)
     try:
@@ -209,9 +236,10 @@ def main():
     parser.add_argument("--rounds", type=int, default=5)
     parser.add_argument("--updates", type=int, default=1000)
     parser.add_argument("--output", type=Path, default=Path("/results"))
+    parser.add_argument("--expected-runner-cpus", type=int, choices=(1, 2))
     args = parser.parse_args()
     try:
-        run(Config(rows=args.rows, rounds=args.rounds), args.updates, args.output)
+        run(Config(rows=args.rows, rounds=args.rounds), args.updates, args.output, args.expected_runner_cpus)
     except Exception as error:
         print("FAILED:", str(error), file=sys.stderr)
         return 1

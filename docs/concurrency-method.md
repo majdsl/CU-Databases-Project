@@ -1,7 +1,11 @@
 # Concurrent writes: first experiment
 
-Status: implemented with unit tests; live database validation is pending. No measured
-concurrency findings are claimed yet.
+Status: first team run completed and uploaded raw data validated on 2026-09-29.
+Run 20260929T064106Z-writes-612ad3ec contains 150 trials and 150000 updates;
+all expected final-data checksums and summary calculations passed offline checks.
+The raw upload has not yet been archived in this repository. A four-client slowdown
+in MyISAM/MEMORY is observed; its cause is not established. See the
+[CPU diagnostic](cpu-diagnostic.md) before interpreting engine scaling.
 
 ## Question and design
 

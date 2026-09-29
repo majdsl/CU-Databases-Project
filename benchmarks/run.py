@@ -41,7 +41,7 @@ def save_json(path, data):
 
 
 def source_fingerprint():
-    paths = [ROOT / "Dockerfile", ROOT / "requirements.txt", ROOT / "compose.yaml"]
+    paths = [ROOT / "Dockerfile", ROOT / "requirements.txt", ROOT / "compose.yaml", ROOT / "compose.runner-2cpu.yaml"]
     for directory in ("benchmarks", "sql/benchmark", "docker/mariadb"):
         paths += [p for p in (ROOT / directory).rglob("*") if p.is_file() and "__pycache__" not in p.parts]
     return {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
