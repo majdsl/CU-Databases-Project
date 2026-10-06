@@ -4,6 +4,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir --require-hashes -r requirements.txt
 COPY scripts/check_environment.py scripts/check_environment.py
+# Storage unit tests import the host orchestrator; they mock all Docker calls.
+COPY scripts/run_storage.py scripts/run_storage.py
 COPY sql sql
 COPY benchmarks benchmarks
 COPY tests tests
