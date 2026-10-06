@@ -2,8 +2,8 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: five-engine setup and first team load/read baseline validated; first concurrent-write run validated; CPU-limit diagnostic completed with four archived runs and generated charts. Final engine recommendations remain pending.**
-The planned comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
+**Status: five-engine setup and first team load/read baseline validated; first concurrent-write run validated; CPU-limit diagnostic completed with four archived runs and generated charts; isolated storage pilot and full 25-trial run verified, with findings and charts. Crash recovery and final engine recommendations remain pending.**
+The comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
 Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
 
 ## First benchmark (milestone 2)
@@ -25,7 +25,7 @@ A small baseline does not establish engine recommendations. See the
 [benchmark method](docs/benchmark-method.md) for schema rationale, controlled variables,
 statistical units, workload limitations and troubleshooting.
 
-## Verified baseline and next experiment
+## Verified experiments
 
 The [first measured baseline](evidence/baseline/20260923T121610Z-92b1c313/README.md)
 contains the original raw results, summary and review notes. It covers five repeated
@@ -34,14 +34,65 @@ trials per engine on 10000 synthetic rows, not a general engine ranking.
 The [concurrent-write experiment](docs/concurrency-method.md) compares 1, 2 and 4
 clients with disjoint rows and a shared hotspot, with full final-data verification.
 The first team run completed 150 trials with verified final data. The [CPU findings and charts](docs/cpu-findings.md) show that runner quota
-affected throughput; engine-level scaling conclusions remain limited. Storage size, recovery,
-OpenFlights integration, CI and final recommendations remain unfinished.
+affected throughput; engine-level scaling conclusions remain limited.
+
+The [storage findings and charts](docs/storage-findings.md) cover the verified October 6 full run:
+25 fresh-volume trials, 10,000 identical rows per trial, matching checksums and 50 clean
+shutdown records. Allocated datadir growth includes logs, metadata and restart effects;
+MEMORY's live RAM allocation is reported separately. The pilot is excluded from the full-run
+statistics. See the [storage method](docs/storage-method.md) and [archived evidence](evidence/storage/).
+Clean shutdowns are not crash-recovery tests.
 
 ## Findings with evidence
 
 Start with [CPU findings and charts](docs/cpu-findings.md): four archived runs,
 power conditions kept separate, complete tables, uncertainty and reproduction steps.
+Then read [storage findings and charts](docs/storage-findings.md), including the measured
+file allocation, live MEMORY allocation and limits on interpretation.
 The raw code and data are on this development branch; they must reach main before submission.
+
+## Reproduce the storage experiment
+
+After first-run setup, use host Python from the repository root. Run each command separately.
+Keep host conditions stable and replace the power-condition text if your settings differ.
+
+```powershell
+python -m unittest discover -s tests -p test_storage.py -v
+python scripts/run_storage.py --pilot --power-condition "plugged in; battery saver off"
+```
+
+Review the pilot results before running the full five-round experiment:
+
+```powershell
+python scripts/run_storage.py --power-condition "plugged in; battery saver off"
+```
+
+The script uses `compose.storage.yaml` with unique temporary projects and volumes, leaving
+the normal database separate. Successful temporary volumes are removed after evidence is saved;
+failed-trial volumes are retained for diagnosis. Results are saved under `results/`.
+The archived full run is `20261006T120404Z-storage-a5d23142`; rerunning is not required to view it.
+
+Charts are already committed. Optional regeneration requires Matplotlib on the host:
+
+```powershell
+python scripts/report_storage_findings.py
+```
+
+This reads archived evidence and does not rerun the database experiment.
+
+## Remaining work before submission
+
+- Design and run controlled crash-recovery experiments in disposable instances. Measure
+  acknowledged-write survival, restart/recovery behavior and any required repair; distinguish
+  transactional behavior and MEMORY volatility. Do not crash the normal project database.
+- Review OpenFlights integration and complementary data coverage against the area-6 brief;
+  explain why the current synthetic workload was chosen and what it cannot represent.
+- Turn the measured trade-offs into workload-specific recommendations and explain the
+  storage, locking and durability mechanisms, with evidence and limitations.
+- Add correctness CI and check reproduction from a clean checkout. Pin the Python image
+  and document the machine/VM configuration; preserve historical run metadata.
+- Add the team roster and actual contributions, finish the tutorial, then review and merge
+  the project into `main`. See [evidence plan](docs/evidence-plan.md).
 
 ## First run (Windows PowerShell)
 
@@ -122,6 +173,11 @@ No cleanup command that deletes volumes is part of normal setup.
 - tests/: unit checks for reproducibility, integrity and reporting.
 - sql/benchmark/: identical benchmark schemas across all five engines.
 - docs/benchmark-method.md: first experiment design and limitations.
+- compose.storage.yaml / scripts/run_storage.py: isolated storage experiment.
+- benchmarks/storage.py: verified loading and stopped-server file inventory.
+- docs/storage-findings.md / docs/figures/: storage interpretation and charts.
+- scripts/report_storage_findings.py: reproduce storage charts and derived data.
+- evidence/storage/: verified pilot and full raw results.
 - docs/evidence-plan.md: remaining work mapped to the rubric.
 
 ## Team and collaboration
