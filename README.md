@@ -80,9 +80,26 @@ python scripts/report_storage_findings.py
 
 This reads archived evidence and does not rerun the database experiment.
 
+## Recovery experiment (pilot pending)
+
+The [recovery protocol](docs/recovery-method.md) and harness are now implemented.
+They compare acknowledged-row survival after a clean restart and a forced database-process
+stop, using a fresh isolated database per trial. The writer holds its connection open;
+no statement is in flight at the stop. This is not a power-loss test.
+
+Code/unit checks are complete; real Docker recovery results are still pending. Rebuild
+the runner and run the unit suite before the pilot. Then run from the host terminal:
+
+```powershell
+python scripts/run_recovery.py --pilot --power-condition "plugged in; battery saver off"
+```
+
+The pilot has 10 trials. Review its receipts, raw results and restart logs before the
+50-trial `--full` run. Do not run crash commands manually against the normal database.
+
 ## Remaining work before submission
 
-- Design and run controlled crash-recovery experiments in disposable instances. Measure
+- Validate the implemented recovery pilot, then run repeated trials in disposable instances. Measure
   acknowledged-write survival, restart/recovery behavior and any required repair; distinguish
   transactional behavior and MEMORY volatility. Do not crash the normal project database.
 - Review OpenFlights integration and complementary data coverage against the area-6 brief;

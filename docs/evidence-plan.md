@@ -26,7 +26,12 @@ physical-host disk-size, equal-durability or crash-recovery claim follows from t
 
 ## Next experiment: crash recovery
 
-Write the protocol before running anything. Use only disposable, explicitly isolated
+The [protocol and harness](recovery-method.md) are implemented and unit-tested; the real
+Docker pilot and full measurements remain pending. The first design pairs clean and
+forced restarts after all single-row autocommit writes are acknowledged. No statement
+is in flight, and the writer connection stays open until the intervention.
+
+Follow the documented protocol before running anything. Use only disposable, explicitly isolated
 instances. Record the crash mechanism, server/engine durability settings, client-acknowledged
 writes versus uncertain outcomes, persisted rows after restart, recovery time and any repair.
 Repeat trials and preserve failures as evidence. A process crash is not a power-loss test.
