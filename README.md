@@ -172,6 +172,12 @@ These are initial development limits, not a finalized experimental configuration
 The Compose healthcheck waits for InnoDB initialization before the runner starts.
 Query cache is disabled and NO_ENGINE_SUBSTITUTION prevents silent engine fallback.
 
+## Team laptop environment
+
+The [October 9 environment record](docs/benchmark-environment.md) documents the CPU,
+Windows-visible RAM, Windows version, Docker-visible resources, Engine and Compose versions.
+It is a later snapshot; each archived run retains its original metadata.
+
 ## Versions and verification status
 
 The MariaDB image digest is pinned to the image downloaded during setup:

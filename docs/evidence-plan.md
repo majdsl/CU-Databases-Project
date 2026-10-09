@@ -7,7 +7,7 @@ are evidence for their stated workloads, not a universal engine ranking.
 | --- | --- | --- |
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage and recovery findings/charts, explicit limits | Workload recommendations, team roster/contributions, complete tutorial |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage and between-statement process-crash experiments | Transaction/locking explanations backed by evidence, engine suitability; broader failure claims need separate experiments |
-| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials and 50 full recovery trials, each with a separate pilot | Dataset coverage, complete machine settings and stronger environment pinning |
+| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials and 50 full recovery trials, each with a separate pilot | Dataset coverage, remaining environment details and stronger environment pinning |
 | Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator | Clean-checkout reproduction, correctness CI, review and merge to main |
 
 ## Completed measurement scope
@@ -49,8 +49,10 @@ experiments in disposable isolated instances; never crash the normal project dat
 2. Explain when each engine helps and what it costs, connecting measurements to storage,
    indexes, locking, transaction support and durability. Unsupported features are findings.
 3. Add correctness CI; keep performance measurement on a controlled machine.
-4. Pin the runner base image and record machine/VM/container settings and image identities.
-   Preserve old run metadata rather than rewriting its provenance.
+4. Pin the runner base image and complete the remaining environment details and image identities.
+   The [October 9 laptop snapshot](benchmark-environment.md) records CPU, RAM, Windows,
+   Docker-visible resources, Engine and Compose versions. It does not establish historical
+   host settings; preserve old run metadata rather than rewriting its provenance.
 5. Add the actual team roster and contributions; review setup, all links and worked examples.
 6. Audit against the current published evaluation prompt, then merge reviewed work into main.
 
