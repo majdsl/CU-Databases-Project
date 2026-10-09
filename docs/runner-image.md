@@ -32,12 +32,29 @@ or the availability of MyRocks on them.
 
 ## Validation status and next steps
 
-**Pin recorded and Dockerfile updated; post-change laptop rebuild and tests pending.**
+**Validated on the team laptop on October 9, 2026 at commit
+`3d56209e1151c8010f3f7945d38563e298408ab9`: runner rebuild succeeded and all 82 Docker
+unit tests passed (0.240 seconds).** The build reused cached layers; this is not yet a
+clean-checkout or cache-free reproduction. No live database integration test was run by
+this unit-test command. [Captured test output](../evidence/environment/20261009-pinned-runner-tests.txt)
+includes temporary fixture results, which are not benchmark evidence.
+
+The supplied build output recorded:
+
+| Built runner component | Digest |
+| --- | --- |
+| Image manifest | `sha256:f468c11db00c6a1b2fcde1be737d11b2f9458f52b7387551e7044ee3c8d72913` |
+| Image config | `sha256:905952be592dc28cd9be1b1bbdb4008b6b1f8bd3dea1f87cc6b37e46e9e26b12` |
+| Output index (including attestation) | `sha256:6d1293c942208b607f0a8e2a9d8db7ab2a4756b2fc094c9595dff8bf1565da5d` |
+
+These describe this build's output, not the Python base index or a promise that another
+build's attestation/index digest will be identical.
+
 The October 9 OpenFlights runner build displayed the matching digest prefix, and both
 archived OpenFlights runs reported Python 3.12.15. This corroborates the version observed
 then but is not a replacement for their original source/runtime provenance.
 
-After pulling this change, rebuild and test, one command at a time:
+To repeat the runner rebuild and unit check, use one command at a time:
 
 ```powershell
 docker compose build runner

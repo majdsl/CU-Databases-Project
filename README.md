@@ -150,8 +150,8 @@ complementary-data justification and failure handling. Results and original summ
   experiments when making workload-specific recommendations; keep their scopes separate.
 - Turn the measured trade-offs into workload-specific recommendations and explain the
   storage, locking and durability mechanisms, with evidence and limitations.
-- Add correctness CI and check reproduction from a clean checkout. Validate the pinned runner
-  build and complete machine/VM configuration details; preserve historical run metadata.
+- Add correctness CI and check reproduction from a clean checkout. Complete remaining
+  machine/VM configuration details; preserve historical run metadata.
 - Add the team roster and actual contributions, finish the tutorial, then review and merge
   the project into `main`. See [evidence plan](docs/evidence-plan.md).
 
@@ -221,7 +221,7 @@ PyMySQL 1.1.2 is pinned with its wheel SHA-256 from
 The Python runner base is now pinned to the October 9 inspected image index:
 `sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1`.
 See [runner image provenance](docs/runner-image.md) for the linux/amd64 manifest, reported
-Python version and validation status. Keep historical benchmark metadata unchanged;
+Python version and successful team-laptop rebuild/82-test validation. Keep historical benchmark metadata unchanged;
 base-image pinning does not lock the custom database build's transitive packages.
 
 ## Stop and troubleshoot

@@ -54,5 +54,5 @@ Docker Compose version v5.5.1
   source hashes or settings with this snapshot.
 - The Docker Desktop application version, storage-device/filesystem details, explicit WSL
   configuration and complete historical host conditions have not yet been captured here.
-  The runner base is now [digest-pinned](runner-image.md); rebuild validation and
-  clean-checkout reproduction remain separate tasks.
+  The runner base is [digest-pinned and rebuild-tested](runner-image.md), with all 82
+  Docker unit tests passing. Clean-checkout reproduction remains a separate task.
