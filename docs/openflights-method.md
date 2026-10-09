@@ -1,7 +1,8 @@
 # OpenFlights route comparison
 
-**Status: ingestion and harness implemented; local unit checks and full-source parsing passed.
-The real Docker pilot and full benchmark remain pending. No OpenFlights timing result is claimed yet.**
+**Status: 82 unit tests passed in Docker; the October 9, 2026 pilot (five trials) and
+full run (25 trials) are verified and archived.** See [findings and charts](openflights-findings.md)
+for full-run measurements, all five round means, uncertainty and evidence links.
 
 ## Why add this experiment?
 
@@ -167,6 +168,6 @@ A failed or interrupted trial preserves its table for inspection and writes a fa
 without a success summary. Inspect that table and partial results before retrying; never
 delete the database volume to clear an error. This harness never issues crash commands.
 
-Remaining validation: real Docker pilot, repeated full run, evidence review and findings.
+The real pilot/full runs, evidence review and findings are complete for this scope.
 OpenFlights integration alone does not complete CI, fresh-checkout reproduction, image pinning,
 workload recommendations, team contributions or the final reviewed merge to main.

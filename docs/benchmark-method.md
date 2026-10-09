@@ -20,7 +20,7 @@ We generate synthetic flight-event records using a recorded seed. They are not
 real flights, bookings or measured traffic. This avoids download failures and makes
 the exact data repeatable while the harness is developed. No external dataset is
 redistributed by this generator. The separate [OpenFlights route comparison](openflights-method.md)
-is now implemented, with real Docker measurements pending. Its method explains how reference
+now has [verified Docker findings](openflights-findings.md). Its method explains how reference
 routes and synthetic events complement each other.
 
 | Column | SQL type | Purpose |
@@ -145,7 +145,7 @@ a Linux shell, not PowerShell. No root-run benchmark is required.
 
 Repeated concurrent-write diagnostics, storage measurements and controlled process-crash
 recovery now have archived evidence and findings. They do not retroactively broaden this
-baseline's scope. The [evidence plan](evidence-plan.md) tracks remaining OpenFlights validation,
+baseline's scope. The [evidence plan](evidence-plan.md) tracks remaining synthesis,
 reproducibility, recommendations and submission work. Larger datasets, equal cache budgets,
 cold reads, sustained compaction, transaction/rollback scenarios and alternative index types
 remain outside the measured baseline; make no claims that depend on unrun experiments.

@@ -1,13 +1,14 @@
 # Evidence plan
 
-Status reviewed after the verified October 6, 2026 storage and recovery runs. Completed measurements
+Status reviewed after the verified October 9, 2026 OpenFlights full run, alongside the
+October 6 storage and recovery evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
-| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage and recovery findings/charts, explicit limits | Workload recommendations, team roster/contributions, complete tutorial |
-| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage and between-statement process-crash experiments | Transaction/locking explanations backed by evidence, engine suitability; broader failure claims need separate experiments |
-| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials and 50 full recovery trials, each with a separate pilot | Dataset coverage, remaining environment details and stronger environment pinning |
+| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits | Workload recommendations, team roster/contributions, complete tutorial |
+| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Transaction/locking explanations backed by evidence, engine suitability; broader failure claims need separate experiments |
+| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Scope-aware recommendations, remaining environment details and stronger environment pinning |
 | Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator | Clean-checkout reproduction, correctness CI, review and merge to main |
 
 ## Completed measurement scope
@@ -29,6 +30,16 @@ Storage allocation includes whole-datadir regular files, logs, metadata and rest
 side effects. MEMORY RAM is a separate metric. No steady-state MyRocks compaction,
 physical-host disk-size, equal-durability or crash-recovery claim follows from this run.
 
+## Verified OpenFlights scope
+
+The [OpenFlights findings](openflights-findings.md) cover full run
+`20261009T160813Z-openflights-6884f225`: 25 trials, 67,663 routes each and 1,691,575 verified
+row loads. All source/dataset checksums, seeded query streams, sampled plans and statistics
+were checked. The five-trial pilot is archived separately. All 82 unit tests passed in Docker.
+The route dataset adds real reference distributions; synthetic data retains its role in
+controlled update and failure experiments. No real-time traffic, joins, cold-cache or
+large-scale steady-state claims are established by this addition.
+
 ## Verified process-crash scope
 
 The [protocol and harness](recovery-method.md) have real Docker pilot/full evidence and
@@ -43,10 +54,9 @@ experiments in disposable isolated instances; never crash the normal project dat
 
 ## Other unfinished work
 
-1. Validate the [implemented OpenFlights comparison](openflights-method.md) with a real Docker
-   pilot and full run, then archive and interpret the results. The pinned 67,663-row route
-   snapshot, schema projection and complementary synthetic-data rationale are documented;
-   real measurements are pending. Any larger-scale claims need appropriate repeated evidence.
+1. Synthesize the [verified OpenFlights results](openflights-findings.md) with the other
+   experiments. Explain the costs of each workload-specific choice and preserve the
+   complementary-data rationale. Larger-scale claims require separate repeated evidence.
 2. Explain when each engine helps and what it costs, connecting measurements to storage,
    indexes, locking, transaction support and durability. Unsupported features are findings.
 3. Add correctness CI; keep performance measurement on a controlled machine.

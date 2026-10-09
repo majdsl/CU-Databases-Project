@@ -2,7 +2,7 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. Final engine recommendations remain pending.**
+**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. The OpenFlights pilot and full 25-trial comparison are verified with charts. Final engine recommendations remain pending.**
 The comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
 Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
 
@@ -51,6 +51,8 @@ Then read [storage findings and charts](docs/storage-findings.md), including the
 file allocation, live MEMORY allocation and limits on interpretation.
 The [recovery findings and charts](docs/recovery-findings.md) compare acknowledged-row survival
 and restart through verification, including the MyISAM crash-table warnings.
+Then read the [OpenFlights findings](docs/openflights-findings.md), covering 67,663 real
+route records across all five engines with load and warm-read measurements.
 The raw code and data are on this development branch; they must reach main before submission.
 
 ## Reproduce the storage experiment
@@ -112,7 +114,7 @@ python scripts/run_recovery.py --pilot --power-condition "plugged in; battery sa
 The pilot has 10 trials. Review its receipts, raw results and restart logs before the
 50-trial `--full` run. Do not run crash commands manually against the normal database.
 
-## OpenFlights comparison (pilot pending)
+## Verified OpenFlights comparison
 
 The [OpenFlights route harness](docs/openflights-method.md) adds a pinned, checksum-verified
 snapshot of all 67,663 routes alongside the existing synthetic experiments. It preserves
@@ -120,8 +122,12 @@ missing IDs and repeated route combinations, and uses identical schemas and quer
 across five engines. Loading, warm point lookups, full scans and source-airport aggregates
 are verified against exact Python oracles.
 
-**Status: source validation and 82 local unit tests passed; real Docker pilot/full results
-remain pending.** From the host, download the data before rebuilding the runner:
+**Status: 82 tests passed in Docker; the five-trial pilot and full 25-trial run are verified
+and archived.** Read the [OpenFlights findings and charts](docs/openflights-findings.md)
+for all trial means, uncertainty, query-plan checks and workload limits. The pilot is excluded
+from full-run statistics. Viewing the findings needs no new experiment.
+
+For a new run, download the data on the host before rebuilding the runner:
 
 ```powershell
 python scripts/fetch_openflights.py
@@ -133,15 +139,15 @@ docker compose run --rm runner python -m benchmarks.openflights --pilot --power-
 
 Run each command separately and review the five-trial pilot before the 25-trial full run.
 See the method for the full command, data attribution/license, schema rationale,
-complementary-data justification and failure handling. No benchmark outcome is inferred
-from the unit tests.
+complementary-data justification and failure handling. Results and original summaries are
+[archived here](evidence/openflights/). The findings page documents optional chart regeneration.
 
 ## Remaining work before submission
 
 - Explain the verified recovery outcomes alongside transaction and durability limits.
   Interrupted statements, open transactions and power loss remain outside the measured scope.
-- Validate the implemented OpenFlights pilot and full comparison, archive its results, and
-  explain how the reference routes and controlled synthetic workloads complement each other.
+- Combine the verified OpenFlights reference-data results with the controlled synthetic
+  experiments when making workload-specific recommendations; keep their scopes separate.
 - Turn the measured trade-offs into workload-specific recommendations and explain the
   storage, locking and durability mechanisms, with evidence and limitations.
 - Add correctness CI and check reproduction from a clean checkout. Pin the Python image
@@ -245,6 +251,7 @@ No cleanup command that deletes volumes is part of normal setup.
 - benchmarks/openflights.py / sql/openflights/: verified five-engine route comparison.
 - data/openflights/ / scripts/fetch_openflights.py: pinned download, checksum and data license.
 - docs/openflights-method.md: dataset coverage, procedure and limitations.
+- docs/openflights-findings.md / scripts/report_openflights_findings.py: measured findings and chart reproduction.
 - docs/evidence-plan.md: remaining work mapped to the rubric.
 
 ## Team and collaboration

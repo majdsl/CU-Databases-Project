@@ -1,0 +1,500 @@
+{
+  "full_run": "20261009T160813Z-openflights-6884f225",
+  "excluded_pilot": "20261009T152651Z-openflights-b44366ef",
+  "statistical_unit": "one trial; round mean for reads",
+  "full_statistics": {
+    "InnoDB": {
+      "load_seconds": {
+        "n": 5,
+        "mean": 1.183985997,
+        "median": 1.163476967,
+        "sample_sd": 0.038345804877968855,
+        "min": 1.155070839,
+        "max": 1.244992995,
+        "p95_nearest_rank": 1.244992995
+      },
+      "lookup_ms": {
+        "n": 5,
+        "mean": 0.24131437,
+        "median": 0.24402205,
+        "sample_sd": 0.005703547240394569,
+        "min": 0.234992485,
+        "max": 0.246879615,
+        "p95_nearest_rank": 0.246879615
+      },
+      "scan_ms": {
+        "n": 5,
+        "mean": 11.47452688,
+        "median": 11.3579024,
+        "sample_sd": 0.4860037775394875,
+        "min": 10.9942414,
+        "max": 12.2875588,
+        "p95_nearest_rank": 12.2875588
+      },
+      "source_ms": {
+        "n": 5,
+        "mean": 0.217291546,
+        "median": 0.21846284,
+        "sample_sd": 0.008524179875796256,
+        "min": 0.20465003,
+        "max": 0.22815733,
+        "p95_nearest_rank": 0.22815733
+      }
+    },
+    "Aria": {
+      "load_seconds": {
+        "n": 5,
+        "mean": 2.0078219426,
+        "median": 2.010007133,
+        "sample_sd": 0.030491561977354094,
+        "min": 1.972790461,
+        "max": 2.044930084,
+        "p95_nearest_rank": 2.044930084
+      },
+      "lookup_ms": {
+        "n": 5,
+        "mean": 0.247899353,
+        "median": 0.249836395,
+        "sample_sd": 0.006942606628603733,
+        "min": 0.240497655,
+        "max": 0.257116725,
+        "p95_nearest_rank": 0.257116725
+      },
+      "scan_ms": {
+        "n": 5,
+        "mean": 9.769428,
+        "median": 9.8096592,
+        "sample_sd": 0.4150130239977776,
+        "min": 9.3320142,
+        "max": 10.2806176,
+        "p95_nearest_rank": 10.2806176
+      },
+      "source_ms": {
+        "n": 5,
+        "mean": 0.244135848,
+        "median": 0.24584603,
+        "sample_sd": 0.011176746358541472,
+        "min": 0.23253697,
+        "max": 0.25636848,
+        "p95_nearest_rank": 0.25636848
+      }
+    },
+    "MyISAM": {
+      "load_seconds": {
+        "n": 5,
+        "mean": 0.7931739946,
+        "median": 0.784667196,
+        "sample_sd": 0.021298812133011,
+        "min": 0.770487101,
+        "max": 0.816101535,
+        "p95_nearest_rank": 0.816101535
+      },
+      "lookup_ms": {
+        "n": 5,
+        "mean": 0.237372893,
+        "median": 0.23761262,
+        "sample_sd": 0.009147259011899824,
+        "min": 0.22535475,
+        "max": 0.248799915,
+        "p95_nearest_rank": 0.248799915
+      },
+      "scan_ms": {
+        "n": 5,
+        "mean": 10.35074984,
+        "median": 10.3774974,
+        "sample_sd": 0.32219568215872724,
+        "min": 9.858996600000001,
+        "max": 10.753279,
+        "p95_nearest_rank": 10.753279
+      },
+      "source_ms": {
+        "n": 5,
+        "mean": 0.252402672,
+        "median": 0.25433844,
+        "sample_sd": 0.013747147034034735,
+        "min": 0.23463493,
+        "max": 0.26672718,
+        "p95_nearest_rank": 0.26672718
+      }
+    },
+    "MEMORY": {
+      "load_seconds": {
+        "n": 5,
+        "mean": 0.6906217646,
+        "median": 0.668325557,
+        "sample_sd": 0.04096064169394544,
+        "min": 0.659549357,
+        "max": 0.759147871,
+        "p95_nearest_rank": 0.759147871
+      },
+      "lookup_ms": {
+        "n": 5,
+        "mean": 0.233702148,
+        "median": 0.23537193,
+        "sample_sd": 0.007294616820694386,
+        "min": 0.22239699500000001,
+        "max": 0.24068458,
+        "p95_nearest_rank": 0.24068458
+      },
+      "scan_ms": {
+        "n": 5,
+        "mean": 5.74579152,
+        "median": 5.6914406,
+        "sample_sd": 0.33245365102066804,
+        "min": 5.291827,
+        "max": 6.209664,
+        "p95_nearest_rank": 6.209664
+      },
+      "source_ms": {
+        "n": 5,
+        "mean": 0.20804945,
+        "median": 0.20510446,
+        "sample_sd": 0.011890156684716139,
+        "min": 0.19741676,
+        "max": 0.22597989,
+        "p95_nearest_rank": 0.22597989
+      }
+    },
+    "ROCKSDB": {
+      "load_seconds": {
+        "n": 5,
+        "mean": 1.2440490826000001,
+        "median": 1.239536418,
+        "sample_sd": 0.018182124012051,
+        "min": 1.224903091,
+        "max": 1.273879068,
+        "p95_nearest_rank": 1.273879068
+      },
+      "lookup_ms": {
+        "n": 5,
+        "mean": 0.249113317,
+        "median": 0.248039515,
+        "sample_sd": 0.007852287584929143,
+        "min": 0.23934558,
+        "max": 0.259929145,
+        "p95_nearest_rank": 0.259929145
+      },
+      "scan_ms": {
+        "n": 5,
+        "mean": 18.84770692,
+        "median": 18.8485958,
+        "sample_sd": 0.39853594990340874,
+        "min": 18.213603,
+        "max": 19.235948,
+        "p95_nearest_rank": 19.235948
+      },
+      "source_ms": {
+        "n": 5,
+        "mean": 0.25781234,
+        "median": 0.2509934,
+        "sample_sd": 0.019706010894883066,
+        "min": 0.23921256,
+        "max": 0.28291567,
+        "p95_nearest_rank": 0.28291567
+      }
+    }
+  },
+  "pilot_statistics": {
+    "InnoDB": {
+      "load_seconds": {
+        "n": 1,
+        "mean": 1.145588927,
+        "median": 1.145588927,
+        "sample_sd": null,
+        "min": 1.145588927,
+        "max": 1.145588927,
+        "p95_nearest_rank": 1.145588927
+      },
+      "lookup_ms": {
+        "n": 1,
+        "mean": 0.232728655,
+        "median": 0.232728655,
+        "sample_sd": null,
+        "min": 0.232728655,
+        "max": 0.232728655,
+        "p95_nearest_rank": 0.232728655
+      },
+      "scan_ms": {
+        "n": 1,
+        "mean": 11.020292,
+        "median": 11.020292,
+        "sample_sd": null,
+        "min": 11.020292,
+        "max": 11.020292,
+        "p95_nearest_rank": 11.020292
+      },
+      "source_ms": {
+        "n": 1,
+        "mean": 0.2131898,
+        "median": 0.2131898,
+        "sample_sd": null,
+        "min": 0.2131898,
+        "max": 0.2131898,
+        "p95_nearest_rank": 0.2131898
+      }
+    },
+    "Aria": {
+      "load_seconds": {
+        "n": 1,
+        "mean": 2.145938653,
+        "median": 2.145938653,
+        "sample_sd": null,
+        "min": 2.145938653,
+        "max": 2.145938653,
+        "p95_nearest_rank": 2.145938653
+      },
+      "lookup_ms": {
+        "n": 1,
+        "mean": 0.398027845,
+        "median": 0.398027845,
+        "sample_sd": null,
+        "min": 0.398027845,
+        "max": 0.398027845,
+        "p95_nearest_rank": 0.398027845
+      },
+      "scan_ms": {
+        "n": 1,
+        "mean": 12.4746744,
+        "median": 12.4746744,
+        "sample_sd": null,
+        "min": 12.4746744,
+        "max": 12.4746744,
+        "p95_nearest_rank": 12.4746744
+      },
+      "source_ms": {
+        "n": 1,
+        "mean": 0.3691644,
+        "median": 0.3691644,
+        "sample_sd": null,
+        "min": 0.3691644,
+        "max": 0.3691644,
+        "p95_nearest_rank": 0.3691644
+      }
+    },
+    "MyISAM": {
+      "load_seconds": {
+        "n": 1,
+        "mean": 0.800069339,
+        "median": 0.800069339,
+        "sample_sd": null,
+        "min": 0.800069339,
+        "max": 0.800069339,
+        "p95_nearest_rank": 0.800069339
+      },
+      "lookup_ms": {
+        "n": 1,
+        "mean": 0.260213795,
+        "median": 0.260213795,
+        "sample_sd": null,
+        "min": 0.260213795,
+        "max": 0.260213795,
+        "p95_nearest_rank": 0.260213795
+      },
+      "scan_ms": {
+        "n": 1,
+        "mean": 10.4283894,
+        "median": 10.4283894,
+        "sample_sd": null,
+        "min": 10.4283894,
+        "max": 10.4283894,
+        "p95_nearest_rank": 10.4283894
+      },
+      "source_ms": {
+        "n": 1,
+        "mean": 0.25358955,
+        "median": 0.25358955,
+        "sample_sd": null,
+        "min": 0.25358955,
+        "max": 0.25358955,
+        "p95_nearest_rank": 0.25358955
+      }
+    },
+    "MEMORY": {
+      "load_seconds": {
+        "n": 1,
+        "mean": 0.657547097,
+        "median": 0.657547097,
+        "sample_sd": null,
+        "min": 0.657547097,
+        "max": 0.657547097,
+        "p95_nearest_rank": 0.657547097
+      },
+      "lookup_ms": {
+        "n": 1,
+        "mean": 0.22309871,
+        "median": 0.22309871,
+        "sample_sd": null,
+        "min": 0.22309871,
+        "max": 0.22309871,
+        "p95_nearest_rank": 0.22309871
+      },
+      "scan_ms": {
+        "n": 1,
+        "mean": 5.9589554,
+        "median": 5.9589554,
+        "sample_sd": null,
+        "min": 5.9589554,
+        "max": 5.9589554,
+        "p95_nearest_rank": 5.9589554
+      },
+      "source_ms": {
+        "n": 1,
+        "mean": 0.18663037,
+        "median": 0.18663037,
+        "sample_sd": null,
+        "min": 0.18663037,
+        "max": 0.18663037,
+        "p95_nearest_rank": 0.18663037
+      }
+    },
+    "ROCKSDB": {
+      "load_seconds": {
+        "n": 1,
+        "mean": 1.229009392,
+        "median": 1.229009392,
+        "sample_sd": null,
+        "min": 1.229009392,
+        "max": 1.229009392,
+        "p95_nearest_rank": 1.229009392
+      },
+      "lookup_ms": {
+        "n": 1,
+        "mean": 0.2363056,
+        "median": 0.2363056,
+        "sample_sd": null,
+        "min": 0.2363056,
+        "max": 0.2363056,
+        "p95_nearest_rank": 0.2363056
+      },
+      "scan_ms": {
+        "n": 1,
+        "mean": 18.4722084,
+        "median": 18.4722084,
+        "sample_sd": null,
+        "min": 18.4722084,
+        "max": 18.4722084,
+        "p95_nearest_rank": 18.4722084
+      },
+      "source_ms": {
+        "n": 1,
+        "mean": 0.24592137,
+        "median": 0.24592137,
+        "sample_sd": null,
+        "min": 0.24592137,
+        "max": 0.24592137,
+        "p95_nearest_rank": 0.24592137
+      }
+    }
+  },
+  "dataset": {
+    "schema_version": 1,
+    "repository": "https://github.com/MariaDB/openflights",
+    "commit": "1608b8d24f30d153175dcc16bfe50e56dcc9256e",
+    "path": "data/routes.dat",
+    "url": "https://raw.githubusercontent.com/MariaDB/openflights/1608b8d24f30d153175dcc16bfe50e56dcc9256e/data/routes.dat",
+    "sha256": "2b2a73310b0d8e4c3993042ee1e3827ee3c368730edd23441b4dfd79591839d2",
+    "bytes": 2309485,
+    "rows": 67663,
+    "license": "ODbL-1.0",
+    "attribution": "OpenFlights (https://openflights.org/data.html), distributed through MariaDB/openflights"
+  },
+  "dataset_sha256": "ea46aabb9533882cf36baa761b285ef8f8829915ff1b3a689fc8315206532441",
+  "canonical_results_sha256": {
+    "20261009T160813Z-openflights-6884f225": "ee594c1f74edbc2d7821b35477d3ea04d7e26c93a26a2a3f87cca10e73f28585",
+    "20261009T152651Z-openflights-b44366ef": "32e0fad18847b5aabb119ed0d6f4837cd1a4ce006a6bd1b41c0a0df0bc1f4939"
+  },
+  "runtime": {
+    "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "cpu_count_visible": 12,
+    "pymysql": "1.1.2",
+    "cgroup_memory_max": "536870912",
+    "cgroup_cpu_max": "100000 100000"
+  },
+  "server_version": "11.8.9-MariaDB-ubu2404",
+  "power_condition": "plugged in; battery saver off",
+  "source_sha256": {
+    "Dockerfile": "43416920c49c33ada3abf7c927214f4ed3bca1b41898b813a89fe8142ce573fe",
+    "benchmarks/__init__.py": "9302d9cd9e93114268ef96c7455e43cacf31f46d1d189cc49e9f78c1b06e8aa2",
+    "benchmarks/concurrency.py": "615836674bed9dcdc210616d00dc6b58888d5c33bea2d9b7f1a6f58a908c76ff",
+    "benchmarks/core.py": "254801569f623ec6ea5b32abc2677e7152da559dd4184f75f5dfeb31a6ea8f16",
+    "benchmarks/openflights.py": "0dee23afa6197e50161c9105690badb414027a0384b4867b9d6181c10d91a5d2",
+    "benchmarks/openflights_data.py": "aa97d704328304f108346183290723f7b68b9d6a64f3ca940adaa3b5802aec35",
+    "benchmarks/recovery.py": "ff22109310a89c4473b93efb34b3daf4367bfd6243d282aef6b9f6e076b0e60d",
+    "benchmarks/report.py": "4f00133096fbaede623324b8e1937925a40f2ee512f210c21c272fc71953cc49",
+    "benchmarks/run.py": "ecc546294a53e1bbeb3deccbb72b7905c3d4707df60aa2d69848d21ce618864f",
+    "benchmarks/storage.py": "defec96a7c2ad7087facce0c2a56b4f96342fa2f45a0f334dae76ca7eb3bc18b",
+    "benchmarks/telemetry.py": "fab4a2f5548f4c42dda50a313288dec3a74f3757d88246c418555d4d3b4c29ad",
+    "compose.runner-2cpu.yaml": "72b06796ce524dd1da5094c7d5fea70d8b1e2751345c6e4b3e6da934b6020ea5",
+    "compose.yaml": "6877567197ec5acfd834a2996923baff52f81ca742215353a04b583bcc5c7531",
+    "docker/mariadb/Dockerfile": "a81eb730f89c4c5a44d8480cba51ed9f213a827875cfb51197582fadb82bc92b",
+    "docker/mariadb/rocksdb.cnf": "b01c06374d627bb863dcc83b2278918d0d61334766a36972c629e7629e353edb",
+    "requirements.txt": "8476629b5f3e1c887347b763a6462e48b3f327d5a1a8d6b6b4964e21b1a83075",
+    "sql/benchmark/aria.sql": "aefbd9abd5cde2186669e412874ad2349f1c1f6297f7d5b6407036ff0c569084",
+    "sql/benchmark/innodb.sql": "18857b82c169928d1cf68abfc3c197fc382c328f800819e4bedfa3426f967b7c",
+    "sql/benchmark/memory.sql": "f9b457a4c1e4d8d18694e30643e62156602fb8053f5d39448772f17c6f2b2e69",
+    "sql/benchmark/myisam.sql": "e23a19430947801da592d62cf43c8609995efa7bd7e954597e9df36470dbc32b",
+    "sql/benchmark/rocksdb.sql": "2504f94265055ba19291f431763c45703ab85c1f656bfd118a59a25c2dbf0abc",
+    "sql/openflights/myisam.sql": "b58bba03a42a051c05d0fba209dfb98d7c553e57f16bbbe4ae095579ed3c3b71",
+    "sql/openflights/aria.sql": "ae6327d21ae318ef5c8b69761decca75bc1ff0e76d2dabe4ab26b422e106ce85",
+    "sql/openflights/rocksdb.sql": "83160ce58d03dde93e9497d28d79e73c2727fac44fabd7a99789ba63620192fc",
+    "sql/openflights/memory.sql": "427371c0aae4f3705c158128fb8ced15e6f75b142d8a5ad9d9af2fb3380d269b",
+    "sql/openflights/innodb.sql": "b86bf330791fe5666bcb86906d615973c5fe7ae2e73efcd9fd5567a2515214cb",
+    "data/openflights/manifest.json": "781ff41980ca22e37acb93e11fc55aaeaf1d072570becab592cc24f86e37b2ef",
+    "scripts/fetch_openflights.py": "c89d1aa8a045d349d62a71b2da8ff261c6a2c1918442db44a5b42e657bd5ef31"
+  },
+  "global_variables": {
+    "aria_pagecache_buffer_size": "134217728",
+    "aria_recover_options": "BACKUP,QUICK",
+    "aria_used_for_temp_tables": "ON",
+    "autocommit": "ON",
+    "binlog_format": "ROW",
+    "innodb_buffer_pool_size": "134217728",
+    "innodb_file_per_table": "ON",
+    "innodb_flush_log_at_trx_commit": "1",
+    "key_buffer_size": "134217728",
+    "log_bin": "OFF",
+    "max_heap_table_size": "16777216",
+    "query_cache_size": "0",
+    "query_cache_type": "OFF",
+    "rocksdb_block_cache_size": "134217728",
+    "rocksdb_default_cf_options": "",
+    "rocksdb_flush_log_at_trx_commit": "1",
+    "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+    "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+    "sync_binlog": "0",
+    "tmp_table_size": "16777216",
+    "tx_isolation": "REPEATABLE-READ",
+    "version": "11.8.9-MariaDB-ubu2404",
+    "version_comment": "mariadb.org binary distribution",
+    "version_compile_machine": "x86_64",
+    "version_compile_os": "debian-linux-gnu"
+  },
+  "session_variables": {
+    "aria_pagecache_buffer_size": "134217728",
+    "aria_recover_options": "BACKUP,QUICK",
+    "aria_used_for_temp_tables": "ON",
+    "autocommit": "ON",
+    "binlog_format": "ROW",
+    "innodb_buffer_pool_size": "134217728",
+    "innodb_file_per_table": "ON",
+    "innodb_flush_log_at_trx_commit": "1",
+    "key_buffer_size": "134217728",
+    "log_bin": "OFF",
+    "max_heap_table_size": "134217728",
+    "query_cache_size": "0",
+    "query_cache_type": "OFF",
+    "rocksdb_block_cache_size": "134217728",
+    "rocksdb_default_cf_options": "",
+    "rocksdb_flush_log_at_trx_commit": "1",
+    "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+    "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+    "sync_binlog": "0",
+    "tmp_table_size": "16777216",
+    "tx_isolation": "REPEATABLE-READ",
+    "version": "11.8.9-MariaDB-ubu2404",
+    "version_comment": "mariadb.org binary distribution",
+    "version_compile_machine": "x86_64",
+    "version_compile_os": "debian-linux-gnu"
+  }
+}
