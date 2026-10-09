@@ -1,8 +1,17 @@
 # Correctness CI
 
 The [Correctness workflow](../.github/workflows/correctness.yml) runs on pushes,
-pull requests and manual dispatch. **Implementation added; the first GitHub-hosted
-run must pass before CI is recorded as validated.**
+pull requests and manual dispatch. **Validated on October 9, 2026:** both push and pull-request runs passed for
+branch head `f77f8f5a86ed353aa9d06760688a8c03b4a85339`.
+The pull-request event checks GitHub's merge revision; the push checks the branch revision.
+
+- [Push run 37999991984](https://github.com/majdsl/CU-Databases-Project/actions/runs/37999991984)
+- [Pull-request run 37999992942](https://github.com/majdsl/CU-Databases-Project/actions/runs/37999992942)
+
+Fresh runner/database builds, all 82 unit tests, healthcheck and all five real engine
+round trips passed. The integration server reported MariaDB 11.8.9-MariaDB-ubu2404.
+A short [log excerpt](../evidence/environment/20261009-ci-validation.txt) preserves the
+unit-test conclusion and engine output; full build logs remain linked in Actions.
 
 Each job starts from a fresh checkout on Ubuntu 24.04 and:
 

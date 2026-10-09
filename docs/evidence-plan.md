@@ -9,7 +9,7 @@ are evidence for their stated workloads, not a universal engine ranking.
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits | Workload recommendations, team roster/contributions, complete tutorial |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Transaction/locking explanations backed by evidence, engine suitability; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Scope-aware recommendations, remaining environment details and stronger environment pinning |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator | Clean-checkout reproduction, correctness CI, review and merge to main |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 82 tests and five-engine integration | Windows clean-checkout tutorial reproduction, review and merge to main |
 
 ## Completed measurement scope
 
@@ -59,9 +59,9 @@ experiments in disposable isolated instances; never crash the normal project dat
    complementary-data rationale. Larger-scale claims require separate repeated evidence.
 2. Explain when each engine helps and what it costs, connecting measurements to storage,
    indexes, locking, transaction support and durability. Unsupported features are findings.
-3. Validate the first [correctness CI](ci.md) run: fresh container builds, unit suite and
-   five-engine integration. The workflow is implemented; hosted success remains pending.
-   Keep performance measurement on a controlled machine.
+3. Keep [correctness CI](ci.md) green. October 9 push and pull-request runs passed
+   fresh builds, all 82 unit tests and real five-engine integration. Windows clean-checkout
+   tutorial reproduction remains separate. Keep performance measurement on a controlled machine.
 4. Complete remaining environment details and database build/package identities. The
    [pinned runner base](runner-image.md) was rebuilt on the team laptop and passed all 82
    Docker unit tests on October 9; its build identities and test transcript are recorded.

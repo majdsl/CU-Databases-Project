@@ -1,0 +1,18 @@
+GitHub correctness CI validation, 2026-10-09 UTC
+Branch head: f77f8f5a86ed353aa9d06760688a8c03b4a85339
+PR run: https://github.com/majdsl/CU-Databases-Project/actions/runs/37999992942
+Job: 114055458592; conclusion: success
+Push run: https://github.com/majdsl/CU-Databases-Project/actions/runs/37999991984
+Push job: 114055455484; conclusion: success
+
+Selected exact lines from PR job log (not a complete transcript):
+2026-10-09T22:35:05.3512534Z Server: Docker Engine - Community
+2026-10-09T22:35:11.9636408Z Ran 82 tests in 0.131s
+2026-10-09T22:35:11.9636560Z OK
+2026-10-09T22:35:30.6218335Z Server: 11.8.9-MariaDB-ubu2404
+2026-10-09T22:35:30.6248440Z PASS: InnoDB - actual engine verified; 3 rows matched
+2026-10-09T22:35:30.6287916Z PASS: Aria - actual engine verified; 3 rows matched
+2026-10-09T22:35:30.6329061Z PASS: MyISAM - actual engine verified; 3 rows matched
+2026-10-09T22:35:30.6349843Z PASS: MEMORY - actual engine verified; 3 rows matched
+2026-10-09T22:35:30.6379061Z PASS: ROCKSDB - actual engine verified; 3 rows matched
+2026-10-09T22:35:30.6390528Z PASS: all five engines. Setup check only; no benchmark results yet.

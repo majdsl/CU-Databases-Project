@@ -145,8 +145,8 @@ complementary-data justification and failure handling. Results and original summ
 ## Automated correctness checks
 
 The [CI workflow](.github/workflows/correctness.yml) builds fresh containers, runs the
-unit suite and verifies all five actual engines on GitHub Actions. Its first hosted run
-is pending validation. See [CI scope and operation](docs/ci.md); performance experiments
+unit suite and verifies all five actual engines on GitHub Actions. The October 9 push
+and pull-request runs passed: 82 unit tests and five real engine round trips. See [CI scope and operation](docs/ci.md); performance experiments
 remain separate from shared CI machines.
 
 ## Remaining work before submission
@@ -157,7 +157,7 @@ remain separate from shared CI machines.
   experiments when making workload-specific recommendations; keep their scopes separate.
 - Turn the measured trade-offs into workload-specific recommendations and explain the
   storage, locking and durability mechanisms, with evidence and limitations.
-- Verify the new correctness CI run and check the Windows tutorial from a clean checkout. Complete remaining
+- Keep correctness CI green and check the Windows tutorial from a clean checkout. Complete remaining
   machine/VM configuration details; preserve historical run metadata.
 - Add the team roster and actual contributions, finish the tutorial, then review and merge
   the project into `main`. See [evidence plan](docs/evidence-plan.md).
