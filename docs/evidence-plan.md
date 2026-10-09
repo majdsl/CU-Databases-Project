@@ -1,13 +1,13 @@
 # Evidence plan
 
-Status reviewed after the verified October 6, 2026 storage run. Completed measurements
+Status reviewed after the verified October 6, 2026 storage and recovery runs. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
-| Documentation | Setup, baseline schema rationale, archived baseline, CPU and storage findings/charts, explicit limits | Workload recommendations, team roster/contributions, complete tutorial |
-| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write and storage experiments | Crash recovery, transaction/locking explanations backed by evidence, engine suitability |
-| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials plus a separate pilot | Recovery protocol, dataset coverage, complete machine settings and stronger environment pinning |
+| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage and recovery findings/charts, explicit limits | Workload recommendations, team roster/contributions, complete tutorial |
+| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage and between-statement process-crash experiments | Transaction/locking explanations backed by evidence, engine suitability; broader failure claims need separate experiments |
+| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials and 50 full recovery trials, each with a separate pilot | Dataset coverage, complete machine settings and stronger environment pinning |
 | Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator | Clean-checkout reproduction, correctness CI, review and merge to main |
 
 ## Completed measurement scope
@@ -19,23 +19,27 @@ are evidence for their stated workloads, not a universal engine ranking.
   The full run has 25 trials and 250,000 verified row loads. All 50 recorded shutdowns
   were clean. File sums/deltas and the saved summary were independently recalculated.
   The pilot is not pooled into full-run statistics.
+- Recovery: verified pilot plus full run `20261006T161514Z-recovery-99656d7e`.
+  Fifty full trials pair clean and forced process restarts after 1,000 acknowledged inserts.
+  Four engines returned all rows unchanged; MEMORY emptied after both conditions.
+  All five MyISAM forced trials logged crashed-table warnings; all five Aria forced
+  trials logged Aria recovery completion. All 60 pilot/full logs are archived with checksums.
 
 Storage allocation includes whole-datadir regular files, logs, metadata and restart
 side effects. MEMORY RAM is a separate metric. No steady-state MyRocks compaction,
 physical-host disk-size, equal-durability or crash-recovery claim follows from this run.
 
-## Next experiment: crash recovery
+## Verified process-crash scope
 
-The [protocol and harness](recovery-method.md) are implemented and unit-tested; the real
-Docker pilot and full measurements remain pending. The first design pairs clean and
+The [protocol and harness](recovery-method.md) have real Docker pilot/full evidence and
+[findings with charts](recovery-findings.md). The design pairs clean and
 forced restarts after all single-row autocommit writes are acknowledged. No statement
 is in flight, and the writer connection stays open until the intervention.
 
-Follow the documented protocol before running anything. Use only disposable, explicitly isolated
-instances. Record the crash mechanism, server/engine durability settings, client-acknowledged
-writes versus uncertain outcomes, persisted rows after restart, recovery time and any repair.
-Repeat trials and preserve failures as evidence. A process crash is not a power-loss test.
-The normal project database must not be the crash target.
+Recorded timings include Docker, readiness polling and full verification, not engine-only
+recovery latency. A process crash is not a power-loss test. Open transactions, interrupted
+statements and uncertain commit outcomes are not covered. Additional claims require separate
+experiments in disposable isolated instances; never crash the normal project database.
 
 ## Other unfinished work
 
@@ -52,4 +56,4 @@ The normal project database must not be the crash target.
 
 References: [assignment](https://mariadb.org/bachelor_hackathon_2026-09/),
 [CPU findings](cpu-findings.md), [storage findings](storage-findings.md),
-[storage method](storage-method.md).
+[storage method](storage-method.md), [recovery findings](recovery-findings.md).

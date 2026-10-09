@@ -2,7 +2,7 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: five-engine setup and first team load/read baseline validated; first concurrent-write run validated; CPU-limit diagnostic completed with four archived runs and generated charts; isolated storage pilot and full 25-trial run verified, with findings and charts. Crash recovery and final engine recommendations remain pending.**
+**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. Final engine recommendations remain pending.**
 The comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
 Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
 
@@ -49,6 +49,8 @@ Start with [CPU findings and charts](docs/cpu-findings.md): four archived runs,
 power conditions kept separate, complete tables, uncertainty and reproduction steps.
 Then read [storage findings and charts](docs/storage-findings.md), including the measured
 file allocation, live MEMORY allocation and limits on interpretation.
+The [recovery findings and charts](docs/recovery-findings.md) compare acknowledged-row survival
+and restart through verification, including the MyISAM crash-table warnings.
 The raw code and data are on this development branch; they must reach main before submission.
 
 ## Reproduce the storage experiment
@@ -80,15 +82,28 @@ python scripts/report_storage_findings.py
 
 This reads archived evidence and does not rerun the database experiment.
 
-## Recovery experiment (pilot pending)
+## Verified recovery experiment
 
 The [recovery protocol](docs/recovery-method.md) and harness are now implemented.
 They compare acknowledged-row survival after a clean restart and a forced database-process
 stop, using a fresh isolated database per trial. The writer holds its connection open;
 no statement is in flight at the stop. This is not a power-loss test.
 
-Code/unit checks are complete; real Docker recovery results are still pending. Rebuild
-the runner and run the unit suite before the pilot. Then run from the host terminal:
+The October 6 pilot (10 trials) and full run (50 trials) are verified and
+[archived with all 60 restart logs](evidence/recovery/). Read the
+[findings and charts](docs/recovery-findings.md): four engines preserved all acknowledged
+rows in these trials; MEMORY emptied after both restart conditions. MyISAM logged
+crashed-table warnings in every forced trial despite subsequently returning intact rows.
+This does not establish power-loss durability or transaction guarantees.
+
+Viewing the committed report requires no rerun. Optional chart regeneration on the host:
+
+```powershell
+python scripts/report_recovery_findings.py
+```
+
+See the report for the Matplotlib dependency. To collect a new experiment, follow the
+recovery protocol, rebuild the runner and run the unit suite before the pilot:
 
 ```powershell
 python scripts/run_recovery.py --pilot --power-condition "plugged in; battery saver off"
@@ -99,9 +114,8 @@ The pilot has 10 trials. Review its receipts, raw results and restart logs befor
 
 ## Remaining work before submission
 
-- Validate the implemented recovery pilot, then run repeated trials in disposable instances. Measure
-  acknowledged-write survival, restart/recovery behavior and any required repair; distinguish
-  transactional behavior and MEMORY volatility. Do not crash the normal project database.
+- Explain the verified recovery outcomes alongside transaction and durability limits.
+  Interrupted statements, open transactions and power loss remain outside the measured scope.
 - Review OpenFlights integration and complementary data coverage against the area-6 brief;
   explain why the current synthetic workload was chosen and what it cannot represent.
 - Turn the measured trade-offs into workload-specific recommendations and explain the
@@ -149,7 +163,8 @@ The explicit BTREE primary index avoids MEMORY's default index-type difference.
 
 This small single-table probe is **not the benchmark data model**. It has an integer
 primary key and bounded character data so all five engines can use the same schema.
-The initial benchmark schema and synthetic dataset are documented in docs/benchmark-method.md; larger-scale and failure experiments remain pending.
+The initial benchmark schema and synthetic dataset are documented in docs/benchmark-method.md;
+larger-scale workloads and failure scenarios beyond the documented process-crash test remain pending.
 
 MariaDB data stays in a Docker named volume; no database port is exposed on the host.
 The database is capped at 2 CPUs and 2 GiB; the runner at 1 CPU and 512 MiB.
@@ -195,6 +210,8 @@ No cleanup command that deletes volumes is part of normal setup.
 - docs/storage-findings.md / docs/figures/: storage interpretation and charts.
 - scripts/report_storage_findings.py: reproduce storage charts and derived data.
 - evidence/storage/: verified pilot and full raw results.
+- docs/recovery-findings.md / scripts/report_recovery_findings.py: recovery report and chart reproduction.
+- evidence/recovery/: verified pilot/full results, acknowledgment receipts and restart logs.
 - docs/evidence-plan.md: remaining work mapped to the rubric.
 
 ## Team and collaboration

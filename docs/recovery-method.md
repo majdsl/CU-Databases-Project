@@ -1,9 +1,10 @@
 # Controlled process-crash recovery experiment
 
-**Status: code and 65 unit tests validated locally; real Docker pilot pending.**
-The earlier 43-test Docker run was verified on the team laptop on October 6, 2026,
-after rebuilding the runner with the storage orchestrator. No recovery measurements
-have been collected yet. Unit tests use mocked Docker/database operations.
+**Status: 65 unit tests passed in Docker on the team laptop; the October 6, 2026
+pilot (10 trials) and full run (50 trials) are verified and archived.**
+See [recovery findings and charts](recovery-findings.md) for row survival, log diagnostics,
+timing and evidence links. The pilot is excluded from full-run statistics.
+Unit tests use mocked Docker/database operations; the archived runs are real Docker measurements.
 
 ## Question
 
