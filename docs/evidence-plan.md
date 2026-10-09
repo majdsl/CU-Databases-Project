@@ -60,7 +60,8 @@ experiments in disposable isolated instances; never crash the normal project dat
 2. Explain when each engine helps and what it costs, connecting measurements to storage,
    indexes, locking, transaction support and durability. Unsupported features are findings.
 3. Add correctness CI; keep performance measurement on a controlled machine.
-4. Pin the runner base image and complete the remaining environment details and image identities.
+4. Validate the [pinned runner base](runner-image.md) with a rebuild and Docker unit suite,
+   then complete remaining environment details and built-image identities.
    The [October 9 laptop snapshot](benchmark-environment.md) records CPU, RAM, Windows,
    Docker-visible resources, Engine and Compose versions. It does not establish historical
    host settings; preserve old run metadata rather than rewriting its provenance.
