@@ -43,9 +43,10 @@ experiments in disposable isolated instances; never crash the normal project dat
 
 ## Other unfinished work
 
-1. Review OpenFlights integration and complementary dataset coverage against the brief;
-   document the synthetic generator's purpose and limits. Any larger-scale claims need
-   appropriately larger datasets and repeated measurements.
+1. Validate the [implemented OpenFlights comparison](openflights-method.md) with a real Docker
+   pilot and full run, then archive and interpret the results. The pinned 67,663-row route
+   snapshot, schema projection and complementary synthetic-data rationale are documented;
+   real measurements are pending. Any larger-scale claims need appropriate repeated evidence.
 2. Explain when each engine helps and what it costs, connecting measurements to storage,
    indexes, locking, transaction support and durability. Unsupported features are findings.
 3. Add correctness CI; keep performance measurement on a controlled machine.

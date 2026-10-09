@@ -1,7 +1,8 @@
 # Milestone 2: warm-read and load baseline
 
-Status: implemented, unit-tested locally; live five-engine benchmark validation pending.
-The earlier three-row setup check passed on the team laptop. That does not validate this harness.
+Status: the initial load/read baseline is archived in
+[evidence/baseline](../evidence/baseline/). This document describes that experiment's method;
+see [the evidence plan](evidence-plan.md) for later concurrency, storage and recovery work.
 
 ## Research question and scope
 
@@ -18,8 +19,9 @@ physical disk footprint and concurrent workloads need separate experiments.
 We generate synthetic flight-event records using a recorded seed. They are not
 real flights, bookings or measured traffic. This avoids download failures and makes
 the exact data repeatable while the harness is developed. No external dataset is
-redistributed. An OpenFlights-based worked example and the justification for any
-complementary data remain planned work before final submission.
+redistributed by this generator. The separate [OpenFlights route comparison](openflights-method.md)
+is now implemented, with real Docker measurements pending. Its method explains how reference
+routes and synthetic events complement each other.
 
 | Column | SQL type | Purpose |
 | --- | --- | --- |
@@ -139,14 +141,14 @@ a Linux shell, not PowerShell. No root-run benchmark is required.
 - A MEMORY table-full error is a real limit, not a zero-time result or an automatic skip.
 - Stop a failed run and inspect its error and partial JSON. Do not compare incomplete runs.
 
-## Milestones still required for the complete project
+## Project progress beyond this baseline
 
-1. Live baseline run, fresh-environment reproduction, and independent teammate run.
-2. Fully identify Python base/built images and OS packages; automate correctness in CI.
-3. Larger datasets and cache-budget profiles; range queries and alternative MEMORY indexes.
-4. Concurrent writes, contention, transaction/rollback semantics and repeated crash recovery.
-5. Physical storage measurement with engine-specific accounting and compaction handling.
-6. Charts, uncertainty, explained mechanisms, limitations and actionable recommendations.
+Repeated concurrent-write diagnostics, storage measurements and controlled process-crash
+recovery now have archived evidence and findings. They do not retroactively broaden this
+baseline's scope. The [evidence plan](evidence-plan.md) tracks remaining OpenFlights validation,
+reproducibility, recommendations and submission work. Larger datasets, equal cache budgets,
+cold reads, sustained compaction, transaction/rollback scenarios and alternative index types
+remain outside the measured baseline; make no claims that depend on unrun experiments.
 
 ## References
 

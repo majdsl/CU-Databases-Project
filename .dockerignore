@@ -17,3 +17,14 @@
 !docker/mariadb/Dockerfile
 !docker/mariadb/rocksdb.cnf
 !compose.runner-2cpu.yaml
+!scripts/run_storage.py
+!scripts/run_recovery.py
+!scripts/fetch_openflights.py
+!sql/openflights/
+!sql/openflights/*.sql
+!data/
+!data/openflights/
+!data/openflights/manifest.json
+!data/openflights/LICENSE
+!data/openflights/README.md
+!data/openflights/routes.dat

@@ -219,3 +219,6 @@ __marimo__/
 
 # Local benchmark runs (review selected evidence before committing it)
 /results/
+
+# Downloaded, checksum-pinned OpenFlights snapshot; fetched before runner build.
+/data/openflights/routes.dat

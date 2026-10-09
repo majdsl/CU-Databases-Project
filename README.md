@@ -112,12 +112,36 @@ python scripts/run_recovery.py --pilot --power-condition "plugged in; battery sa
 The pilot has 10 trials. Review its receipts, raw results and restart logs before the
 50-trial `--full` run. Do not run crash commands manually against the normal database.
 
+## OpenFlights comparison (pilot pending)
+
+The [OpenFlights route harness](docs/openflights-method.md) adds a pinned, checksum-verified
+snapshot of all 67,663 routes alongside the existing synthetic experiments. It preserves
+missing IDs and repeated route combinations, and uses identical schemas and query streams
+across five engines. Loading, warm point lookups, full scans and source-airport aggregates
+are verified against exact Python oracles.
+
+**Status: source validation and 82 local unit tests passed; real Docker pilot/full results
+remain pending.** From the host, download the data before rebuilding the runner:
+
+```powershell
+python scripts/fetch_openflights.py
+docker compose build runner
+docker compose run --rm --no-deps runner python -m unittest discover -s tests -v
+docker compose up -d --wait db
+docker compose run --rm runner python -m benchmarks.openflights --pilot --power-condition "plugged in; battery saver off"
+```
+
+Run each command separately and review the five-trial pilot before the 25-trial full run.
+See the method for the full command, data attribution/license, schema rationale,
+complementary-data justification and failure handling. No benchmark outcome is inferred
+from the unit tests.
+
 ## Remaining work before submission
 
 - Explain the verified recovery outcomes alongside transaction and durability limits.
   Interrupted statements, open transactions and power loss remain outside the measured scope.
-- Review OpenFlights integration and complementary data coverage against the area-6 brief;
-  explain why the current synthetic workload was chosen and what it cannot represent.
+- Validate the implemented OpenFlights pilot and full comparison, archive its results, and
+  explain how the reference routes and controlled synthetic workloads complement each other.
 - Turn the measured trade-offs into workload-specific recommendations and explain the
   storage, locking and durability mechanisms, with evidence and limitations.
 - Add correctness CI and check reproduction from a clean checkout. Pin the Python image
@@ -218,6 +242,9 @@ No cleanup command that deletes volumes is part of normal setup.
 - evidence/storage/: verified pilot and full raw results.
 - docs/recovery-findings.md / scripts/report_recovery_findings.py: recovery report and chart reproduction.
 - evidence/recovery/: verified pilot/full results, acknowledgment receipts and restart logs.
+- benchmarks/openflights.py / sql/openflights/: verified five-engine route comparison.
+- data/openflights/ / scripts/fetch_openflights.py: pinned download, checksum and data license.
+- docs/openflights-method.md: dataset coverage, procedure and limitations.
 - docs/evidence-plan.md: remaining work mapped to the rubric.
 
 ## Team and collaboration
