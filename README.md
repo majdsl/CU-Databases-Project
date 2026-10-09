@@ -142,6 +142,13 @@ See the method for the full command, data attribution/license, schema rationale,
 complementary-data justification and failure handling. Results and original summaries are
 [archived here](evidence/openflights/). The findings page documents optional chart regeneration.
 
+## Automated correctness checks
+
+The [CI workflow](.github/workflows/correctness.yml) builds fresh containers, runs the
+unit suite and verifies all five actual engines on GitHub Actions. Its first hosted run
+is pending validation. See [CI scope and operation](docs/ci.md); performance experiments
+remain separate from shared CI machines.
+
 ## Remaining work before submission
 
 - Explain the verified recovery outcomes alongside transaction and durability limits.
@@ -150,7 +157,7 @@ complementary-data justification and failure handling. Results and original summ
   experiments when making workload-specific recommendations; keep their scopes separate.
 - Turn the measured trade-offs into workload-specific recommendations and explain the
   storage, locking and durability mechanisms, with evidence and limitations.
-- Add correctness CI and check reproduction from a clean checkout. Complete remaining
+- Verify the new correctness CI run and check the Windows tutorial from a clean checkout. Complete remaining
   machine/VM configuration details; preserve historical run metadata.
 - Add the team roster and actual contributions, finish the tutorial, then review and merge
   the project into `main`. See [evidence plan](docs/evidence-plan.md).

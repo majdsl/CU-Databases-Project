@@ -59,7 +59,9 @@ experiments in disposable isolated instances; never crash the normal project dat
    complementary-data rationale. Larger-scale claims require separate repeated evidence.
 2. Explain when each engine helps and what it costs, connecting measurements to storage,
    indexes, locking, transaction support and durability. Unsupported features are findings.
-3. Add correctness CI; keep performance measurement on a controlled machine.
+3. Validate the first [correctness CI](ci.md) run: fresh container builds, unit suite and
+   five-engine integration. The workflow is implemented; hosted success remains pending.
+   Keep performance measurement on a controlled machine.
 4. Complete remaining environment details and database build/package identities. The
    [pinned runner base](runner-image.md) was rebuilt on the team laptop and passed all 82
    Docker unit tests on October 9; its build identities and test transcript are recorded.
