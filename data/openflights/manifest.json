@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/MariaDB/openflights",
+  "commit": "1608b8d24f30d153175dcc16bfe50e56dcc9256e",
+  "path": "data/routes.dat",
+  "url": "https://raw.githubusercontent.com/MariaDB/openflights/1608b8d24f30d153175dcc16bfe50e56dcc9256e/data/routes.dat",
+  "sha256": "2b2a73310b0d8e4c3993042ee1e3827ee3c368730edd23441b4dfd79591839d2",
+  "bytes": 2309485,
+  "rows": 67663,
+  "license": "ODbL-1.0",
+  "attribution": "OpenFlights (https://openflights.org/data.html), distributed through MariaDB/openflights"
+}

@@ -1,0 +1,142 @@
+{
+  "run_id": "20261006T120404Z-storage-a5d23142",
+  "trials": 25,
+  "rows_per_trial": 10000,
+  "dataset_sha256": "d028552f258805e22c1f98db00f912a4cf23609fe375046d014459fa9493398e",
+  "source_results_sha256": "a13b8d61b8294e3535e240147be7b3a3beb05d6c85cf0a9481d617454b8385e5",
+  "generator_sha256": "1ab75955df1c10ce6b2d06329fead380f2188af9d13b88fc701c7f2766b5dc8c",
+  "matplotlib_version": "3.10.8",
+  "byte_unit": "MiB = 1048576 bytes",
+  "statistics": {
+    "InnoDB": {
+      "allocated_delta_bytes": {
+        "mean": 9572352,
+        "sd": 0.0,
+        "min": 9572352,
+        "max": 9572352
+      },
+      "apparent_delta_bytes": {
+        "mean": 9502994.6,
+        "sd": 60.143993881351115,
+        "min": 9502908,
+        "max": 9503061
+      },
+      "live_data_length_bytes": {
+        "mean": 1589248,
+        "sd": 0.0,
+        "min": 1589248,
+        "max": 1589248
+      },
+      "live_index_length_bytes": {
+        "mean": 278528,
+        "sd": 0.0,
+        "min": 278528,
+        "max": 278528
+      }
+    },
+    "Aria": {
+      "allocated_delta_bytes": {
+        "mean": 3911680,
+        "sd": 0.0,
+        "min": 3911680,
+        "max": 3911680
+      },
+      "apparent_delta_bytes": {
+        "mean": 3850012.2,
+        "sd": 34.651118308071965,
+        "min": 3849963,
+        "max": 3850061
+      },
+      "live_data_length_bytes": {
+        "mean": 1097728,
+        "sd": 0.0,
+        "min": 1097728,
+        "max": 1097728
+      },
+      "live_index_length_bytes": {
+        "mean": 335872,
+        "sd": 0.0,
+        "min": 335872,
+        "max": 335872
+      }
+    },
+    "MyISAM": {
+      "allocated_delta_bytes": {
+        "mean": 1327104,
+        "sd": 0.0,
+        "min": 1327104,
+        "max": 1327104
+      },
+      "apparent_delta_bytes": {
+        "mean": 1261574,
+        "sd": 66.17023500033834,
+        "min": 1261514,
+        "max": 1261666
+      },
+      "live_data_length_bytes": {
+        "mean": 919772,
+        "sd": 0.0,
+        "min": 919772,
+        "max": 919772
+      },
+      "live_index_length_bytes": {
+        "mean": 276480,
+        "sd": 0.0,
+        "min": 276480,
+        "max": 276480
+      }
+    },
+    "ROCKSDB": {
+      "allocated_delta_bytes": {
+        "mean": 1224704,
+        "sd": 0.0,
+        "min": 1224704,
+        "max": 1224704
+      },
+      "apparent_delta_bytes": {
+        "mean": 1169922.2,
+        "sd": 22.543291685111118,
+        "min": 1169882,
+        "max": 1169934
+      },
+      "live_data_length_bytes": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "live_index_length_bytes": {
+        "mean": 0,
+        "sd": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "MEMORY": {
+      "allocated_delta_bytes": {
+        "mean": 126976,
+        "sd": 0.0,
+        "min": 126976,
+        "max": 126976
+      },
+      "apparent_delta_bytes": {
+        "mean": 65320.8,
+        "sd": 41.30617387267913,
+        "min": 65261,
+        "max": 65361
+      },
+      "live_data_length_bytes": {
+        "mean": 8388576,
+        "sd": 0.0,
+        "min": 8388576,
+        "max": 8388576
+      },
+      "live_index_length_bytes": {
+        "mean": 760000,
+        "sd": 0.0,
+        "min": 760000,
+        "max": 760000
+      }
+    }
+  }
+}
