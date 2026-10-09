@@ -6,9 +6,9 @@ are evidence for their stated workloads, not a universal engine ranking.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
-| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits | Workload recommendations, team roster/contributions, complete tutorial |
-| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Transaction/locking explanations backed by evidence, engine suitability; broader failure claims need separate experiments |
-| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Scope-aware recommendations, remaining environment details and stronger environment pinning |
+| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Team review, roster/contributions, complete tutorial |
+| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
+| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
 | Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 82 tests and five-engine integration | Windows clean-checkout tutorial reproduction, review and merge to main |
 
 ## Completed measurement scope
@@ -52,17 +52,27 @@ recovery latency. A process crash is not a power-loss test. Open transactions, i
 statements and uncertain commit outcomes are not covered. Additional claims require separate
 experiments in disposable isolated instances; never crash the normal project database.
 
+## Recommendation synthesis
+
+The [engine recommendations](engine-recommendations.md) combine measured load/read,
+CPU/concurrency, storage and recovery trade-offs with cited MariaDB feature documentation.
+They distinguish observations, documented capabilities and application-design inferences.
+The decision table covers all five engines without pooling datasets or claiming a universal
+winner. Multi-statement transaction behavior is documented, not experimentally validated.
+
 ## Other unfinished work
 
-1. Synthesize the [verified OpenFlights results](openflights-findings.md) with the other
-   experiments. Explain the costs of each workload-specific choice and preserve the
-   complementary-data rationale. Larger-scale claims require separate repeated evidence.
-2. Explain when each engine helps and what it costs, connecting measurements to storage,
-   indexes, locking, transaction support and durability. Unsupported features are findings.
+1. Team-review the [recommendations](engine-recommendations.md) and explain their
+   requirement-based choices in the final tutorial.
+2. Keep claims within the measured scope. Broader transaction/failure, large-scale and
+   steady-state claims require separate experiments; these are not existing results.
 3. Keep [correctness CI](ci.md) green. October 9 push and pull-request runs passed
    fresh builds, all 82 unit tests and real five-engine integration. Windows clean-checkout
    tutorial reproduction remains separate. Keep performance measurement on a controlled machine.
-4. Complete remaining environment details and database build/package identities. The
+4. Complete remaining environment details and stronger database package locking. The
+   October 10 laptop [database image ID](../evidence/environment/20261010-db-image-id.txt)
+   and [installed package inventory](../evidence/environment/20261010-db-packages.txt)
+   are archived; this records the observed build without making it reconstructible by itself. The
    [pinned runner base](runner-image.md) was rebuilt on the team laptop and passed all 82
    Docker unit tests on October 9; its build identities and test transcript are recorded.
    The [October 9 laptop snapshot](benchmark-environment.md) records CPU, RAM, Windows,

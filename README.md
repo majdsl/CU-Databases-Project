@@ -2,9 +2,16 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. The OpenFlights pilot and full 25-trial comparison are verified with charts. Final engine recommendations remain pending.**
+**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. The OpenFlights pilot and full 25-trial comparison are verified with charts. Workload-specific engine recommendations are available; final tutorial/team review and merge to main remain pending.**
 The comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
 Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
+
+## Choosing an engine
+
+Read the [engine recommendations](docs/engine-recommendations.md) for a decision table,
+measured costs, documented transaction/locking differences and limits. Start with InnoDB
+for transactional application data; consider MEMORY for rebuildable caches and evaluate
+Aria, MyISAM or MyRocks against the specific workload and required guarantees.
 
 ## First benchmark (milestone 2)
 
@@ -151,16 +158,12 @@ remain separate from shared CI machines.
 
 ## Remaining work before submission
 
-- Explain the verified recovery outcomes alongside transaction and durability limits.
-  Interrupted statements, open transactions and power loss remain outside the measured scope.
-- Combine the verified OpenFlights reference-data results with the controlled synthetic
-  experiments when making workload-specific recommendations; keep their scopes separate.
-- Turn the measured trade-offs into workload-specific recommendations and explain the
-  storage, locking and durability mechanisms, with evidence and limitations.
-- Keep correctness CI green and check the Windows tutorial from a clean checkout. Complete remaining
-  machine/VM configuration details; preserve historical run metadata.
-- Add the team roster and actual contributions, finish the tutorial, then review and merge
-  the project into `main`. See [evidence plan](docs/evidence-plan.md).
+- Review the [workload recommendations](docs/engine-recommendations.md) as a team.
+  Broader transaction, power-loss and large-scale claims remain outside the experiments.
+- Keep correctness CI green and check the Windows tutorial from a clean checkout.
+  Complete remaining environment details; preserve historical run metadata.
+- Add the team roster and actual contributions, finish the tutorial, then audit and merge
+  the reviewed project into `main`. See [evidence plan](docs/evidence-plan.md).
 
 ## First run (Windows PowerShell)
 
