@@ -1,0 +1,169 @@
+✔ Image cu-engine-lab-runner Built     docker compose run --rm --no-deps runner python -m unittest discover -s tests -v C:\Users\majdw\CU-Databases-Project> 
+Container cu-engine-lab-runner-run-2a9cb9e2b9a8 Creating 
+Container cu-engine-lab-runner-run-2a9cb9e2b9a8 Created 
+test_all_engine_schemas_have_same_columns_and_indexes (test_baseline.BaselineTests.test_all_engine_schemas_have_same_columns_and_indexes) ... ok
+test_complete_report_labels_statistical_unit (test_baseline.BaselineTests.test_complete_report_labels_statistical_unit) ... ok
+test_deterministic_dataset_and_fingerprint (test_baseline.BaselineTests.test_deterministic_dataset_and_fingerprint) ... ok
+test_existing_table_is_never_dropped (test_baseline.BaselineTests.test_existing_table_is_never_dropped) ... ok
+test_invalid_workload_rejected (test_baseline.BaselineTests.test_invalid_workload_rejected) ... ok
+test_json_checkpoint_replaces_previous_valid_file (test_baseline.BaselineTests.test_json_checkpoint_replaces_previous_valid_file) ... ok
+test_lookup_stream_is_reproducible_and_in_range (test_baseline.BaselineTests.test_lookup_stream_is_reproducible_and_in_range) ... ok
+test_partial_runs_cannot_be_reported_as_complete (test_baseline.BaselineTests.test_partial_runs_cannot_be_reported_as_complete) ... ok
+test_row_validation_detects_corruption_missing_and_extra_rows (test_baseline.BaselineTests.test_row_validation_detects_corruption_missing_and_extra_rows) ... ok
+test_scan_oracle_has_known_answer (test_baseline.BaselineTests.test_scan_oracle_has_known_answer) ... ok
+test_schedule_balances_every_position (test_baseline.BaselineTests.test_schedule_balances_every_position) ... ok
+test_silent_engine_substitution_fails_and_cleans_up_owned_table (test_baseline.BaselineTests.test_silent_engine_substitution_fails_and_cleans_up_owned_table) ... ok
+test_statistics_known_values (test_baseline.BaselineTests.test_statistics_known_values) ... ok
+test_summary_weights_rounds_equally (test_baseline.BaselineTests.test_summary_weights_rounds_equally) ... ok
+test_wrong_database_is_rejected_before_connection (test_baseline.BaselineTests.test_wrong_database_is_rejected_before_connection) ... ok
+test_connection_failure_aborts_barrier_without_success_report (test_concurrency.ConcurrencyTests.test_connection_failure_aborts_barrier_without_success_report) ... ok
+test_engine_substitution_refused_and_owned_table_cleaned (test_concurrency.ConcurrencyTests.test_engine_substitution_refused_and_owned_table_cleaned) ... ok
+test_existing_table_never_dropped (test_concurrency.ConcurrencyTests.test_existing_table_never_dropped) ... ok
+test_failed_or_incomplete_runs_cannot_be_summarized (test_concurrency.ConcurrencyTests.test_failed_or_incomplete_runs_cannot_be_summarized) ... ok
+test_invalid_workload_rejected (test_concurrency.ConcurrencyTests.test_invalid_workload_rejected) ... ok
+test_same_total_work_and_key_frequencies_at_all_client_counts (test_concurrency.ConcurrencyTests.test_same_total_work_and_key_frequencies_at_all_client_counts) ... ok
+test_update_failure_is_not_retried (test_concurrency.ConcurrencyTests.test_update_failure_is_not_retried) ... ok
+test_update_oracle_changes_only_expected_column (test_concurrency.ConcurrencyTests.test_update_oracle_changes_only_expected_column) ... ok
+test_workers_preserve_all_successful_operations (test_concurrency.ConcurrencyTests.test_workers_preserve_all_successful_operations) ... ok
+test_wrong_database_rejected_before_connecting (test_concurrency.ConcurrencyTests.test_wrong_database_rejected_before_connecting) ... ok
+test_bad_network_payload_never_becomes_dataset (test_openflights.OpenFlightsTests.test_bad_network_payload_never_becomes_dataset) ... ok
+test_checksum_and_row_count_are_required (test_openflights.OpenFlightsTests.test_checksum_and_row_count_are_required) ... ok
+test_complete_pilot_checkpoint_and_summary (test_openflights.OpenFlightsTests.test_complete_pilot_checkpoint_and_summary) ... OpenFlights round 1/1: MyISAM
+OpenFlights round 1/1: ROCKSDB
+OpenFlights round 1/1: InnoDB
+OpenFlights round 1/1: MEMORY
+OpenFlights round 1/1: Aria
+# OpenFlights route comparison
+
+Run: 20261009T164506Z-openflights-a645f426
+
+**PILOT: one round per engine; no variability estimate or ranking.**
+
+Rows per trial: 3. Power condition: test.
+Read statistics summarize round means, not pooled individual queries. Values are mean ± sample SD.
+
+| Engine | Load (s) | Point lookup (ms) | Full scan (ms) | Source aggregate (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| InnoDB | 0.0000 ± n/a | 0.0012 ± n/a | 0.0046 ± n/a | 0.0039 ± n/a |
+| Aria | 0.0000 ± n/a | 0.0014 ± n/a | 0.0050 ± n/a | 0.0047 ± n/a |
+| MyISAM | 0.0000 ± n/a | 0.0009 ± n/a | 0.0034 ± n/a | 0.0026 ± n/a |
+| MEMORY | 0.0000 ± n/a | 0.0013 ± n/a | 0.0054 ± n/a | 0.0045 ± n/a |
+| ROCKSDB | 0.0000 ± n/a | 0.0009 ± n/a | 0.0246 ± n/a | 0.0029 ± n/a |
+
+Every row and query answer was checked. Raw samples, query streams, plans, actual DDL,
+dataset/source hashes and runtime/settings metadata are in results.json.
+These are warm reads on a reused server. Timings include driver/network work; durability and
+cache budgets are not equalized. No physical-disk, cold-cache or steady-state claim is made.
+The routes snapshot is historical reference data, not observed flights or current schedules.
+Keep these results separate from synthetic events and the pilot separate from full statistics.
+Data: OpenFlights, via MariaDB/openflights; ODbL 1.0. See docs/openflights-method.md.
+
+Saved: /tmp/tmp6kz4o5w4/20261009T164506Z-openflights-a645f426
+ok
+test_connection_failure_leaves_failed_checkpoint_without_summary (test_openflights.OpenFlightsTests.test_connection_failure_leaves_failed_checkpoint_without_summary) ... Partial results: /tmp/tmp4z_gi_5v/20261009T164506Z-openflights-b5573664
+An owned failed-trial table may remain; inspect it before any retry.
+ok
+test_existing_bad_download_is_never_replaced (test_openflights.OpenFlightsTests.test_existing_bad_download_is_never_replaced) ... ok
+test_existing_table_is_not_changed (test_openflights.OpenFlightsTests.test_existing_table_is_not_changed) ... ok
+test_incomplete_invalid_or_unverified_runs_cannot_be_summarized (test_openflights.OpenFlightsTests.test_incomplete_invalid_or_unverified_runs_cannot_be_summarized) ... ok
+test_invalid_config_and_database_rejected_before_loading (test_openflights.OpenFlightsTests.test_invalid_config_and_database_rejected_before_loading) ... ok
+test_oracles_include_nulls_and_nonindexed_row_values (test_openflights.OpenFlightsTests.test_oracles_include_nulls_and_nonindexed_row_values) ... ok
+test_parser_preserves_nulls_empty_strings_and_repeated_route_keys (test_openflights.OpenFlightsTests.test_parser_preserves_nulls_empty_strings_and_repeated_route_keys) ... ok
+test_parser_rejects_malformed_rows_and_truncation (test_openflights.OpenFlightsTests.test_parser_rejects_malformed_rows_and_truncation) ... ok
+test_schema_is_identical_except_engine_and_uses_btree (test_openflights.OpenFlightsTests.test_schema_is_identical_except_engine_and_uses_btree) ... ok
+test_statistics_use_five_round_means (test_openflights.OpenFlightsTests.test_statistics_use_five_round_means) ... ok
+test_substitution_and_failed_writes_preserve_trial_table (test_openflights.OpenFlightsTests.test_substitution_and_failed_writes_preserve_trial_table) ... ok
+test_successful_trial_checks_data_and_cleans_only_owned_table (test_openflights.OpenFlightsTests.test_successful_trial_checks_data_and_cleans_only_owned_table) ... ok
+test_verification_detects_changed_missing_extra_and_reordered_rows (test_openflights.OpenFlightsTests.test_verification_detects_changed_missing_extra_and_reordered_rows) ... ok
+test_verified_download_and_offline_reuse (test_openflights.OpenFlightsTests.test_verified_download_and_offline_reuse) ... ok
+test_atomic_receipt_refuses_overwrite (test_recovery.RecoveryTests.test_atomic_receipt_refuses_overwrite) ... ok
+test_authentication_failure_is_not_retried_or_called_data_loss (test_recovery.RecoveryTests.test_authentication_failure_is_not_retried_or_called_data_loss) ... ok
+test_check_table_errors_retain_even_matching_data (test_recovery.RecoveryTests.test_check_table_errors_retain_even_matching_data) ... ok
+test_clean_control_rejects_forced_shutdown (test_recovery.RecoveryTests.test_clean_control_rejects_forced_shutdown) ... ok
+test_compare_intact_missing_changed_unexpected_and_duplicates (test_recovery.RecoveryTests.test_compare_intact_missing_changed_unexpected_and_duplicates) ... ok
+test_complete_pilot_records_both_conditions_and_retains_unreadable_trials (test_recovery.RecoveryTests.test_complete_pilot_records_both_conditions_and_retains_unreadable_trials) ... Recovery round 1/1: MyISAM clean
+Recovery round 1/1: MyISAM sigkill
+Recovery round 1/1: MEMORY sigkill
+Recovery round 1/1: MEMORY clean
+Recovery round 1/1: ROCKSDB clean
+Recovery round 1/1: ROCKSDB sigkill
+Recovery round 1/1: InnoDB sigkill
+Recovery round 1/1: InnoDB clean
+Recovery round 1/1: Aria clean
+Recovery round 1/1: Aria sigkill
+# Recovery pilot
+
+Run: 20261009T164506Z-recovery-7892e3bb
+
+100 acknowledged single-row autocommit inserts per trial; 1 round(s).
+Each trial uses a fresh volume. No write is in flight at the planned stop.
+SIGKILL tests a database-process crash with host/kernel still running, not power loss.
+
+| Engine | Round | Stop | Observation | Intact rows | Missing | Changed | Restart through verification (s) |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: |
+| MyISAM | 1 | clean | unreadable | n/a | n/a | n/a | 0.000 |
+| MyISAM | 1 | sigkill | unreadable | n/a | n/a | n/a | 0.000 |
+| MEMORY | 1 | sigkill | readable | 0 | 100 | 0 | 0.001 |
+| MEMORY | 1 | clean | readable | 0 | 100 | 0 | 0.001 |
+| ROCKSDB | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| ROCKSDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+| InnoDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+| InnoDB | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| Aria | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| Aria | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+
+Timing includes Docker startup, observer-container launch, connection polling, full data read and CHECK TABLE.
+It is not engine-only recovery latency. Unavailable/unreadable tables have unknown survival, not zero rows.
+MEMORY rows are volatile even for clean restarts. Data survival in this test is not a durability guarantee.
+The writer holds its connection open until the stop; receipt transfer and host orchestration introduce delay.
+Automatic engine recovery may occur; the harness never issues REPAIR TABLE or forces compaction.
+Completed means the protocol finished, not that every engine preserved every row.
+Raw receipts, observations, source hashes, settings, timings and server logs are saved beside this report.
+Retained projects needing review: 2
+See docs/recovery-method.md for protocol and limitations.
+
+Saved: /tmp/tmppkfebqiu/results/20261009T164506Z-recovery-7892e3bb
+ok
+test_compose_cannot_target_normal_project (test_recovery.RecoveryTests.test_compose_cannot_target_normal_project) ... ok
+test_each_ack_follows_a_single_row_success (test_recovery.RecoveryTests.test_each_ack_follows_a_single_row_success) ... ok
+test_empty_is_readable_loss_not_unavailable (test_recovery.RecoveryTests.test_empty_is_readable_loss_not_unavailable) ... ok
+test_existing_project_refused (test_recovery.RecoveryTests.test_existing_project_refused) ... ok
+test_guard_rejects_normal_database (test_recovery.RecoveryTests.test_guard_rejects_normal_database) ... ok
+test_inserts_not_retried_after_ambiguous_failure (test_recovery.RecoveryTests.test_inserts_not_retried_after_ambiguous_failure) ... ok
+test_partial_reports_rejected (test_recovery.RecoveryTests.test_partial_reports_rejected) ... ok
+test_prepare_holds_connection_after_receipt_without_postload_queries (test_recovery.RecoveryTests.test_prepare_holds_connection_after_receipt_without_postload_queries) ... ok
+test_prepare_refuses_preexisting_tables_before_ddl (test_recovery.RecoveryTests.test_prepare_refuses_preexisting_tables_before_ddl) ... ok
+test_receipt_needs_complete_ordered_acknowledgments (test_recovery.RecoveryTests.test_receipt_needs_complete_ordered_acknowledgments) ... ok
+test_row_limits (test_recovery.RecoveryTests.test_row_limits) ... ok
+test_sigkill_requires_137_and_not_oom (test_recovery.RecoveryTests.test_sigkill_requires_137_and_not_oom) ... ok
+test_startup_failure_retains_evidence_and_never_kills_or_deletes (test_recovery.RecoveryTests.test_startup_failure_retains_evidence_and_never_kills_or_deletes) ... Recovery round 1/1: MyISAM clean
+Partial results: /tmp/tmpzfg5qm5s/results/20261009T164506Z-recovery-f8a59ce8
+ok
+test_unlabelled_existing_volume_refused (test_recovery.RecoveryTests.test_unlabelled_existing_volume_refused) ... ok
+test_unreadable_table_does_not_become_zero_survival (test_recovery.RecoveryTests.test_unreadable_table_does_not_become_zero_survival) ... ok
+test_wrong_container_or_mount_blocks_crash (test_recovery.RecoveryTests.test_wrong_container_or_mount_blocks_crash) ... ok
+test_existing_project_rejected (test_storage.StorageTests.test_existing_project_rejected) ... ok
+test_existing_tables_not_changed (test_storage.StorageTests.test_existing_tables_not_changed) ... ok
+test_failed_trial_preserves_evidence_and_volume (test_storage.StorageTests.test_failed_trial_preserves_evidence_and_volume) ... Storage round 1/1: MyISAM
+Partial results: /tmp/tmpzn5c5dvk/results/20261009T164506Z-storage-17831642
+ok
+test_incomplete_report_rejected (test_storage.StorageTests.test_incomplete_report_rejected) ... ok
+test_inventory_sparse_hardlinks_symlinks (test_storage.StorageTests.test_inventory_sparse_hardlinks_symlinks) ... ok
+test_loader_requires_isolation (test_storage.StorageTests.test_loader_requires_isolation) ... ok
+test_memory_and_disk_are_distinguished (test_storage.StorageTests.test_memory_and_disk_are_distinguished) ... ok
+test_negative_delta_retained (test_storage.StorageTests.test_negative_delta_retained) ... ok
+test_no_snapshot_of_live_database (test_storage.StorageTests.test_no_snapshot_of_live_database) ... ok
+test_normal_project_rejected_before_command (test_storage.StorageTests.test_normal_project_rejected_before_command) ... ok
+test_unclean_shutdown_blocks_measurement (test_storage.StorageTests.test_unclean_shutdown_blocks_measurement) ... ok
+test_counter_units_and_deltas (test_telemetry.TelemetryTests.test_counter_units_and_deltas) ... ok
+test_cpu_report_marks_unavailable_observations (test_telemetry.TelemetryTests.test_cpu_report_marks_unavailable_observations) ... ok
+test_missing_data_is_not_zero_throttling (test_telemetry.TelemetryTests.test_missing_data_is_not_zero_throttling) ... ok
+test_parsing_and_invalid_counters (test_telemetry.TelemetryTests.test_parsing_and_invalid_counters) ... ok
+test_reset_and_quota_change_not_reported_as_valid (test_telemetry.TelemetryTests.test_reset_and_quota_change_not_reported_as_valid) ... ok
+test_snapshot_handles_missing_cgroup_files (test_telemetry.TelemetryTests.test_snapshot_handles_missing_cgroup_files) ... ok
+test_wrong_quota_rejected_before_database_connection (test_telemetry.TelemetryTests.test_wrong_quota_rejected_before_database_connection) ... ok
+
+----------------------------------------------------------------------
+Ran 82 tests in 0.240s
+
+OK

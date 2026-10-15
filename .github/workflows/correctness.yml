@@ -1,0 +1,52 @@
+name: Correctness
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: correctness-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  correctness:
+    name: Unit tests and five-engine integration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      CI_PROJECT: cu-ci-${{ github.run_id }}-${{ github.run_attempt }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out tested revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Prepare ephemeral credentials and verified dataset
+        run: |
+          python3 scripts/init_env.py
+          python3 scripts/fetch_openflights.py
+          mkdir -p results
+          docker version
+          docker compose version
+      - name: Build runner
+        run: docker compose -p "$CI_PROJECT" build runner
+      - name: Run unit tests
+        run: docker compose -p "$CI_PROJECT" run --rm --no-deps runner python -m unittest discover -s tests -v
+      - name: Build five-engine database
+        run: docker compose -p "$CI_PROJECT" build db
+      - name: Start fresh database
+        run: docker compose -p "$CI_PROJECT" up -d --wait --wait-timeout 180 db
+      - name: Verify actual engines and parameterized row round trips
+        run: docker compose -p "$CI_PROJECT" run --rm runner
+      - name: Database diagnostics on failure
+        if: failure()
+        run: docker compose -p "$CI_PROJECT" logs --no-color --tail=200 db
+      - name: Remove disposable CI stack
+        if: always()
+        run: docker compose -p "$CI_PROJECT" down --volumes --remove-orphans

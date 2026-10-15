@@ -1,0 +1,4 @@
+# Diagnostic override: only the runner CPU quota changes. Database stays at 2 CPUs.
+services:
+  runner:
+    cpus: 2.0

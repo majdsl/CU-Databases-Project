@@ -1,0 +1,38 @@
+# Standalone file, used only by scripts/run_recovery.py with unique project names.
+services:
+  db:
+    image: cu-engine-lab-recovery-db:local
+    build: ./docker/mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${CU_DB_ROOT_PASSWORD:?Existing project .env required}
+      MARIADB_DATABASE: engine_lab
+      MARIADB_USER: benchmark
+      MARIADB_PASSWORD: ${CU_DB_PASSWORD:?Existing project .env required}
+    command: ["--sql-mode=STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION", "--query-cache-type=0", "--query-cache-size=0"]
+    mem_limit: 2g
+    cpus: 2.0
+    restart: "no"
+    stop_grace_period: 120s
+    volumes:
+      - recovery_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+      start_period: 30s
+  runner:
+    image: cu-engine-lab-recovery-runner:local
+    build: .
+    volumes:
+      - ./results:/results
+    environment:
+      DB_HOST: db
+      DB_NAME: engine_lab
+      DB_USER: benchmark
+      DB_PASSWORD: ${CU_DB_PASSWORD:?Existing project .env required}
+      RECOVERY_EXPERIMENT: isolated-process-v1
+    mem_limit: 512m
+    cpus: 1.0
+volumes:
+  recovery_data:

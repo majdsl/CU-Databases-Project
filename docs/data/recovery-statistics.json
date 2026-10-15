@@ -1,0 +1,285 @@
+{
+  "full_run": "20261006T161514Z-recovery-99656d7e",
+  "excluded_pilot": "20261006T155703Z-recovery-adbea5ba",
+  "statistical_unit": "one fresh-volume trial",
+  "timing": "Docker restart request through observer completion, including full read and CHECK TABLE",
+  "power_condition": "plugged in; battery saver off",
+  "host_platform": "Windows-10-10.0.26200-SP0",
+  "compose_version": "5.5.1",
+  "groups": [
+    {
+      "engine": "InnoDB",
+      "stop": "clean",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.186999999998079,
+      "restart_seconds_min": 1.9530000000013388,
+      "restart_seconds_max": 2.7189999999973224
+    },
+    {
+      "engine": "InnoDB",
+      "stop": "sigkill",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.625,
+      "restart_seconds_min": 2.25,
+      "restart_seconds_max": 2.9690000000045984
+    },
+    {
+      "engine": "Aria",
+      "stop": "clean",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.2339999999967404,
+      "restart_seconds_min": 2.172000000005937,
+      "restart_seconds_max": 3.4530000000013388
+    },
+    {
+      "engine": "Aria",
+      "stop": "sigkill",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 5,
+      "restart_seconds_median": 2.7659999999959837,
+      "restart_seconds_min": 2.2030000000013388,
+      "restart_seconds_max": 3.5940000000045984
+    },
+    {
+      "engine": "MyISAM",
+      "stop": "clean",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.4539999999979045,
+      "restart_seconds_min": 1.9219999999986612,
+      "restart_seconds_max": 3.514999999999418
+    },
+    {
+      "engine": "MyISAM",
+      "stop": "sigkill",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 5,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.2339999999967404,
+      "restart_seconds_min": 1.9219999999986612,
+      "restart_seconds_max": 3.485000000000582
+    },
+    {
+      "engine": "MEMORY",
+      "stop": "clean",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        0
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.485000000000582,
+      "restart_seconds_min": 2.0469999999986612,
+      "restart_seconds_max": 3.0
+    },
+    {
+      "engine": "MEMORY",
+      "stop": "sigkill",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        0
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.9530000000013388,
+      "restart_seconds_min": 1.9680000000007567,
+      "restart_seconds_max": 5.5310000000026776
+    },
+    {
+      "engine": "ROCKSDB",
+      "stop": "clean",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.9690000000045984,
+      "restart_seconds_min": 1.9529999999940628,
+      "restart_seconds_max": 3.5
+    },
+    {
+      "engine": "ROCKSDB",
+      "stop": "sigkill",
+      "trials": 5,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.7039999999979045,
+      "restart_seconds_min": 1.9530000000013388,
+      "restart_seconds_max": 3.1719999999986612
+    }
+  ],
+  "pilot_groups": [
+    {
+      "engine": "InnoDB",
+      "stop": "clean",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 4.453000000001339,
+      "restart_seconds_min": 4.453000000001339,
+      "restart_seconds_max": 4.453000000001339
+    },
+    {
+      "engine": "InnoDB",
+      "stop": "sigkill",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.7189999999973224,
+      "restart_seconds_min": 2.7189999999973224,
+      "restart_seconds_max": 2.7189999999973224
+    },
+    {
+      "engine": "Aria",
+      "stop": "clean",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.2180000000007567,
+      "restart_seconds_min": 2.2180000000007567,
+      "restart_seconds_max": 2.2180000000007567
+    },
+    {
+      "engine": "Aria",
+      "stop": "sigkill",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 1,
+      "restart_seconds_median": 2.2660000000032596,
+      "restart_seconds_min": 2.2660000000032596,
+      "restart_seconds_max": 2.2660000000032596
+    },
+    {
+      "engine": "MyISAM",
+      "stop": "clean",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 3.0,
+      "restart_seconds_min": 3.0,
+      "restart_seconds_max": 3.0
+    },
+    {
+      "engine": "MyISAM",
+      "stop": "sigkill",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 1,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 2.4839999999967404,
+      "restart_seconds_min": 2.4839999999967404,
+      "restart_seconds_max": 2.4839999999967404
+    },
+    {
+      "engine": "MEMORY",
+      "stop": "clean",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        0
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 1.9690000000045984,
+      "restart_seconds_min": 1.9690000000045984,
+      "restart_seconds_max": 1.9690000000045984
+    },
+    {
+      "engine": "MEMORY",
+      "stop": "sigkill",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        0
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 3.7819999999992433,
+      "restart_seconds_min": 3.7819999999992433,
+      "restart_seconds_max": 3.7819999999992433
+    },
+    {
+      "engine": "ROCKSDB",
+      "stop": "clean",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 3.0469999999986612,
+      "restart_seconds_min": 3.0469999999986612,
+      "restart_seconds_max": 3.0469999999986612
+    },
+    {
+      "engine": "ROCKSDB",
+      "stop": "sigkill",
+      "trials": 1,
+      "intact_rows_per_trial": [
+        1000
+      ],
+      "crashed_table_warning_trials": 0,
+      "aria_recovery_done_trials": 0,
+      "restart_seconds_median": 3.2190000000045984,
+      "restart_seconds_min": 3.2190000000045984,
+      "restart_seconds_max": 3.2190000000045984
+    }
+  ],
+  "db_image_id": "sha256:2574030b7288e6488d92768ec0502a6b1fe9069bd45151a052078a67fa97491a",
+  "runner_image_id": "sha256:a06a95ad3acf50816575aa1f26b51c34a4f228e1fbf0ca2a70cba1214dc777f5",
+  "run_source_sha256": {
+    "compose.recovery.yaml": "2ecbc4be680fca2d856001a49a9c88f23f35f8586bd18709317a3706ee7443ef",
+    "Dockerfile": "a8c38d65b43935bdb0d2e77d1b8dcf518daaa127bb2f96f18017b9a39123a145",
+    "scripts/run_recovery.py": "be0063d4911640ca2d685dd6e5e1f90ea19c44178d1bc2907a8db43416a2e8c4",
+    "benchmarks/recovery.py": "ff22109310a89c4473b93efb34b3daf4367bfd6243d282aef6b9f6e076b0e60d"
+  },
+  "canonical_results_sha256": {
+    "20261006T155703Z-recovery-adbea5ba": "67cf8aefffa27547cb34a4c8a246cb63b162c3b0652a86b663441df7292ce84c",
+    "20261006T161514Z-recovery-99656d7e": "231d4afbbe94457cde897b75860f518d112aa7a58deb2d5072a8d9546bbae66e"
+  }
+}
