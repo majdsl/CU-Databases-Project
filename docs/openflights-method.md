@@ -169,5 +169,7 @@ without a success summary. Inspect that table and partial results before retryin
 delete the database volume to clear an error. This harness never issues crash commands.
 
 The real pilot/full runs, evidence review and findings are complete for this scope.
-OpenFlights integration alone does not complete CI, fresh-checkout reproduction, image pinning,
-workload recommendations, team contributions or the final reviewed merge to main.
+The project is now on `main`, with [correctness CI](ci.md), a [pinned Python base](runner-image.md)
+and [workload recommendations](engine-recommendations.md). Independent fresh-checkout
+reproduction, confirmed team contributions and the remaining [audit items](tutorial-audit.md)
+still require follow-up.

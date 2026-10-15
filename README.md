@@ -2,9 +2,44 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # CU Databases Project: storage engine comparison
 
-**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. The OpenFlights pilot and full 25-trial comparison are verified with charts. Workload-specific engine recommendations are available; final tutorial/team review and merge to main remain pending.**
+**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. The OpenFlights pilot and full 25-trial comparison are verified with charts. Workload-specific engine recommendations are available; the complete project is on `main`. Independent team review and contribution documentation remain pending.**
 The comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
-Five engines alone do not establish depth: the final project must explain measured trade-offs and failure behaviour.
+The reports explain measured trade-offs, failure behaviour and the limits of each experiment.
+
+## What we found
+
+| Observation | Practical implication | Evidence |
+| --- | --- | --- |
+| MEMORY had the lowest mean OpenFlights load and scan times, but lost all rows after every tested restart | Consider it for rebuildable caches, not the sole persistent copy | [Reads](docs/openflights-findings.md), [recovery](docs/recovery-findings.md) |
+| MyISAM loaded fastest among disk-backed engines; Aria scanned fastest among them | Loading and scan priorities lead to different candidates; MyISAM crash warnings still matter | [Recommendations](docs/engine-recommendations.md) |
+| MyRocks had the smallest persistent datadir growth in the 10,000-row experiment and the slowest OpenFlights scan mean | Investigate the space/read trade-off at the intended scale | [Storage](docs/storage-findings.md), [reads](docs/openflights-findings.md) |
+| Increasing the load generator's CPU quota changed concurrent-write throughput substantially | Check the measuring client before attributing scaling to an engine | [CPU diagnostic](docs/cpu-findings.md) |
+
+These observations come from different workloads and are not a combined ranking.
+Read the committed reports without installing anything, or follow setup below to run the harness.
+
+## Data model and method
+
+We compare five engines with the same logical schema, rows and query stream **within each
+experiment**. The synthetic event table and real route table serve different purposes.
+
+| Dataset | Schema decisions | Why |
+| --- | --- | --- |
+| 10,000 seeded synthetic events | Integer event key; route/time index; integer fare and delay fields; bounded payload | Reproducible updates and failure checks; integer values avoid monetary rounding; high-entropy payload does not represent all compression workloads |
+| 67,663 pinned OpenFlights routes | Source-row primary key; nonunique source/destination index; nullable original IDs | Preserve repeated route combinations and missing IDs instead of dropping records |
+
+Both use explicit BTREE declarations and utf8mb4_bin. Equivalent SQL declarations do not
+imply identical physical storage. The shared schemas omit foreign keys and engine-specific
+features to permit the comparison; this is not a complete airline application.
+See [synthetic schema rationale](docs/benchmark-method.md), [route schema and transformation](docs/openflights-method.md),
+[synthetic SQL](sql/benchmark/) and [route SQL](sql/openflights/).
+
+The harness creates the table, verifies the actual engine, loads identical rows, checks
+every value, runs timed queries and checks each answer, then saves raw samples and metadata.
+Full read/load comparisons balance engine order over five rounds. Read statistics summarize
+trial means; error bars show sample SD. Validation warms caches. Storage and recovery use
+separate isolated volumes and protocols. Timings include client overhead, and cache/durability
+budgets are not equalized.
 
 ## Choosing an engine
 
@@ -13,7 +48,62 @@ measured costs, documented transaction/locking differences and limits. Start wit
 for transactional application data; consider MEMORY for rebuildable caches and evaluate
 Aria, MyISAM or MyRocks against the specific workload and required guarantees.
 
-## First benchmark (milestone 2)
+## First run (Windows PowerShell)
+
+Requirements: Git, local Python 3.9+, and running Docker Desktop with Linux containers
+and Compose. The five-engine image is tested on linux/amd64; other architectures are
+unverified. Initial setup needs internet access for images, packages and the pinned dataset.
+The configured database and runner limits are 2 GiB and 512 MiB respectively; Docker needs
+additional capacity for builds and its own services.
+
+For a **new checkout**, run these commands separately from a parent directory:
+
+```powershell
+git clone --branch main https://github.com/majdsl/CU-Databases-Project.git
+cd CU-Databases-Project
+```
+
+For an existing checkout, use its repository folder; do not clone inside it. Check your
+branch with `git branch --show-current`. Save your edits before changing branches.
+The normal Compose project has a fixed name, so multiple checkouts can share its volume;
+do not treat a second folder as an isolated fresh database.
+
+Run each command separately from the repository root. Stop at the first error:
+
+```powershell
+python scripts/init_env.py
+python scripts/fetch_openflights.py
+docker compose build db runner
+docker compose up -d --wait db
+docker compose run --rm runner
+```
+
+The download must report that the dataset was verified; the database must become Healthy.
+The runner must print five engine PASS lines followed by an overall PASS.
+A team-run check passed for all five engines; see [setup validation](docs/setup-validation.md) for the tested commit, output and limitations.
+Running again repeats the check. The probe table is dropped after each successful creation;
+an interrupted run may leave it behind, in which case inspect and remove only
+`engine_lab.setup_probe` before retrying. Do not use this setup against an existing database.
+
+The .env file contains generated credentials and is already excluded by the repository's
+.gitignore. Keep it locally; do not paste it into chat or commit it.
+The generator preserves an existing .env. Database initialization credentials apply on
+first creation of the volume; changing .env later does not change existing database passwords.
+
+Run the correctness suite before collecting measurements:
+
+```powershell
+docker compose run --rm --no-deps runner python -m unittest discover -s tests -v
+```
+
+The current suite has 82 tests; success ends with `OK`. Fixture tests deliberately print
+some failed/partial-run messages while testing error handling. Judge the final unittest
+result, not those intermediate fixture messages.
+
+For the first real-data experiment, continue with the [worked example](#worked-example-openflights).
+For repeatable synthetic measurements, use the baseline below.
+
+## Synthetic load/read baseline
 
 The baseline uses 10000 reproducible synthetic flight events and five balanced-order
 rounds across all five engines. It measures load completion, warm point lookups and
@@ -31,6 +121,46 @@ Results appear in a new subfolder of `results/` on your computer. Open its
 A small baseline does not establish engine recommendations. See the
 [benchmark method](docs/benchmark-method.md) for schema rationale, controlled variables,
 statistical units, workload limitations and troubleshooting.
+
+## Worked example: OpenFlights
+
+After setup and the unit suite, run a pilot with your actual power conditions
+(replace the example text if needed):
+
+```powershell
+docker compose run --rm runner python -m benchmarks.openflights --pilot --power-condition "plugged in; battery saver off"
+```
+
+Expect one round for each of the five engines, a table labelled PILOT and a saved directory.
+This verifies the procedure; one round cannot estimate variability or establish a ranking.
+The complete dataset is used even in the pilot.
+
+Inside the container, output is `/results/<run-id>`; on your computer it is
+`results/<run-id>` under this checkout. Open `summary.md` and preserve `results.json`.
+A successful run reports that every row and query answer was checked. If it reports an
+error or only partial results, inspect those before continuing.
+
+After reviewing the pilot, run five balanced rounds:
+
+```powershell
+docker compose run --rm runner python -m benchmarks.openflights --full --power-condition "plugged in; battery saver off"
+```
+
+The full run has 25 trials. Compare your variation and conditions with the archived example;
+different hardware need not reproduce identical timings. Keep pilots separate.
+
+**Reading the archived result:** InnoDB loaded in 1.1840 ± 0.0383 seconds; MEMORY in
+0.6906 ± 0.0410 seconds (five trial means, sample SD). That supports a loading advantage
+for MEMORY in this run, but the separate recovery test emptied MEMORY even after clean
+restarts. A cache can accept that cost; authoritative records usually cannot.
+The [complete comparison](docs/openflights-findings.md) supplies all engines, queries and
+limits, while the [recommendations](docs/engine-recommendations.md) explain the choices.
+
+![OpenFlights load times with individual trials and sample SD](docs/figures/openflights-load.png)
+
+To read the example without running Docker, open the
+[archived full summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
+and its [raw measurements](evidence/openflights/20261009T160813Z-openflights-6884f225/results.json).
 
 ## Verified experiments
 
@@ -60,7 +190,7 @@ The [recovery findings and charts](docs/recovery-findings.md) compare acknowledg
 and restart through verification, including the MyISAM crash-table warnings.
 Then read the [OpenFlights findings](docs/openflights-findings.md), covering 67,663 real
 route records across all five engines with load and warm-read measurements.
-The raw code and data are on this development branch; they must reach main before submission.
+The code, archived evidence and reports are available on `main`.
 
 ## Reproduce the storage experiment
 
@@ -153,7 +283,9 @@ complementary-data justification and failure handling. Results and original summ
 
 The [CI workflow](.github/workflows/correctness.yml) builds fresh containers, runs the
 unit suite and verifies all five actual engines on GitHub Actions. The October 9 push
-and pull-request runs passed: 82 unit tests and five real engine round trips. See [CI scope and operation](docs/ci.md); performance experiments
+and pull-request runs passed: 82 unit tests and five real engine round trips.
+The [October 15 main-branch run](https://github.com/majdsl/CU-Databases-Project/actions/runs/38788927632)
+also passed on merge commit `84a6ad0`. See [CI scope and operation](docs/ci.md); performance experiments
 remain separate from shared CI machines.
 
 ## Remaining work before submission
@@ -162,35 +294,9 @@ remain separate from shared CI machines.
   Broader transaction, power-loss and large-scale claims remain outside the experiments.
 - Keep correctness CI green and check the Windows tutorial from a clean checkout.
   Complete remaining environment details; preserve historical run metadata.
-- Add the team roster and actual contributions, finish the tutorial, then audit and merge
-  the reviewed project into `main`. See [evidence plan](docs/evidence-plan.md).
-
-## First run (Windows PowerShell)
-
-Requirements: Git, running Docker Desktop with Linux containers and Compose, and local Python 3.9+ for credential generation. Run from the repository root:
-
-```powershell
-python scripts/init_env.py
-docker compose build db runner
-docker compose up -d --wait db
-docker compose run --rm runner
-```
-
-The runner must print five engine PASS lines followed by an overall PASS.
-A team-run check passed for all five engines; see [setup validation](docs/setup-validation.md) for the tested commit, output and limitations.
-Running again repeats the check. The probe table is dropped after each successful creation;
-an interrupted run may leave it behind, in which case inspect and remove only
-`engine_lab.setup_probe` before retrying. Do not use this setup against an existing database.
-
-The .env file contains generated credentials and is already excluded by the repository's
-.gitignore. Keep it locally; do not paste it into chat or commit it.
-The generator preserves an existing .env. Database initialization credentials apply on
-first creation of the volume; changing .env later does not change existing database passwords.
-
-If local Python is unavailable, generate credentials using a container:
-```powershell
-docker run --rm -v "${PWD}:/work" -w /work python:3.12-slim python scripts/init_env.py
-```
+- Add the confirmed team roster and completed contributions, finish independent reproduction
+  and address review findings through pull requests into `main`. See [evidence plan](docs/evidence-plan.md)
+  and [tutorial audit](docs/tutorial-audit.md).
 
 ## What the setup verifies
 
@@ -271,8 +377,8 @@ No cleanup command that deletes volumes is part of normal setup.
 
 Constructor University database course, Fall 2026.
 Team roster and contributions will be supplied by the team before submission.
-Use task branches and pull requests; verify the runnable project is merged into main
-before submission, because the published evaluator evaluates main.
+The project was merged into `main` on October 15. Use task branches and pull requests
+for further changes; rerun the published evaluation against `main` after changes merge.
 
 ## References
 
@@ -295,10 +401,11 @@ cache for initial development and ROW binary-log format. These are not finalized
 benchmark settings. The Python check requires ROCKSDB availability and verifies
 the actual engine and row contents, just as it does for the other four engines.
 
-To update an existing checkout on this branch:
+To update an existing checkout already on `main` (save/commit your own edits first):
 
 ```powershell
 git pull --ff-only
+python scripts/fetch_openflights.py
 docker compose build db runner
 docker compose up -d --wait db
 docker compose run --rm runner

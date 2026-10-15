@@ -1,7 +1,7 @@
 # Evidence plan
 
-Status reviewed after the verified October 9, 2026 OpenFlights full run, alongside the
-October 6 storage and recovery evidence. Completed measurements
+Status reviewed October 15, 2026 after the merge to `main` and tutorial audit, using the
+verified October 9 OpenFlights run and October 6 storage/recovery evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking.
 
 | Criterion | Evidence available | Remaining work |
@@ -9,7 +9,7 @@ are evidence for their stated workloads, not a universal engine ranking.
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Team review, roster/contributions, complete tutorial |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 82 tests and five-engine integration | Windows clean-checkout tutorial reproduction, review and merge to main |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 82 tests and five-engine integration | Independent Windows clean-checkout tutorial reproduction and team review |
 
 ## Completed measurement scope
 
@@ -79,7 +79,9 @@ winner. Multi-statement transaction behavior is documented, not experimentally v
    Docker-visible resources, Engine and Compose versions. It does not establish historical
    host settings; preserve old run metadata rather than rewriting its provenance.
 5. Add the actual team roster and contributions; review setup, all links and worked examples.
-6. Audit against the current published evaluation prompt, then merge reviewed work into main.
+6. Rerun the published evaluation against `main` and address concrete findings.
+   The project was merged on October 15; main CI passed on `84a6ad0`.
+   See the [tutorial audit](tutorial-audit.md) for completed checks and remaining gaps.
 
 References: [assignment](https://mariadb.org/bachelor_hackathon_2026-09/),
 [CPU findings](cpu-findings.md), [storage findings](storage-findings.md),
