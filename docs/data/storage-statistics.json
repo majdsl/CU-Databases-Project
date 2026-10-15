@@ -3,8 +3,8 @@
   "trials": 25,
   "rows_per_trial": 10000,
   "dataset_sha256": "d028552f258805e22c1f98db00f912a4cf23609fe375046d014459fa9493398e",
-  "source_results_sha256": "a13b8d61b8294e3535e240147be7b3a3beb05d6c85cf0a9481d617454b8385e5",
-  "generator_sha256": "1ab75955df1c10ce6b2d06329fead380f2188af9d13b88fc701c7f2766b5dc8c",
+  "source_results_canonical_sha256": "ec27caf3b2fb521f244c596552cde98213328700752838b5027adcab4e183ce8",
+  "generator_lf_sha256": "39ba5ec99dbe8b8b855cd6be905504c5591d1af73c34bc759f530caac37a4bf7",
   "matplotlib_version": "3.10.8",
   "byte_unit": "MiB = 1048576 bytes",
   "statistics": {

@@ -4,25 +4,25 @@
       "run_id": "20260929T082232Z-writes-75f6c965",
       "block": "morning",
       "runner_cpus": 1,
-      "results_sha256": "f665b19d0876d62acebde6fa97d53184ad524ea3f575fabaa4eb2ccb30ce703e"
+      "results_canonical_sha256": "8bfea5e20a81ab181b0f5816aa0fe67dda3a91cf684ba599f80ca1162e667699"
     },
     {
       "run_id": "20260929T083304Z-writes-98fdb761",
       "block": "morning",
       "runner_cpus": 2,
-      "results_sha256": "877916dac15ed3b448c4e529f0981aafe436a3ecb693c6775a6ce689aa619c1b"
+      "results_canonical_sha256": "05466f864284ee2f0f4837861ffbfea6c1ba8b4d15ddf4349a776d469c5c0cb2"
     },
     {
       "run_id": "20260929T164329Z-writes-17d5c81f",
       "block": "evening",
       "runner_cpus": 1,
-      "results_sha256": "5010f1ca15eadb4b7cca8e249be8c86b7269c29233711ed7a5f19da67ff7f74d"
+      "results_canonical_sha256": "89f19ac30d4126798aeb11d1540f854521d876c0dc534202dea1c331193618ad"
     },
     {
       "run_id": "20260929T162946Z-writes-18a13d6d",
       "block": "evening",
       "runner_cpus": 2,
-      "results_sha256": "fe486c8e7e47d4c2b0a69ac1c97e03b5696aaca235c6a6c04dffe4fcb7a16e19"
+      "results_canonical_sha256": "34ed24dd80528feef6830e9a47baa7d826cadc2b5ff8cec58120b8f861e54a70"
     }
   ],
   "records": [

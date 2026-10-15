@@ -59,7 +59,8 @@ hotspot observations. Lines connect tested client counts; they do not predict un
 
 See [all 120 condition summaries](cpu-measurements.md) for exact means, standard
 deviations and throttled-trial counts. The [chart data and input hashes](figures/cpu-chart-data.json)
-provide machine-readable provenance.
+provide machine-readable provenance. Result hashes use sorted compact JSON so Git/OS
+line-ending conversion does not change the identity of the parsed measurements.
 
 ## What this tells a reader
 

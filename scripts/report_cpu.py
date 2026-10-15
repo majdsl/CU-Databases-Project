@@ -34,7 +34,8 @@ def collect():
                 raise ValueError('Incomplete trial matrix')
             runs.append(run)
             provenance.append({'run_id': run_id, 'block': block, 'runner_cpus': quota,
-                               'results_sha256': hashlib.sha256(raw).hexdigest()})
+                               'results_canonical_sha256': hashlib.sha256(json.dumps(
+                                   run, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()})
             for engine in ENGINES:
                 for mode in MODES:
                     for clients in (1, 2, 4):
@@ -105,7 +106,7 @@ def main():
     for r in records:
         lines.append(f"| {r['block']} | {r['engine']} | {r['pattern']} | {r['clients']} | {r['runner_cpus']} | {r['mean_updates_s']:.2f} | {r['sample_sd_updates_s']:.2f} | {r['throttled_trials']} |")
     (ROOT / 'docs/cpu-measurements.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
-    print('Generated two SVG charts, 120 condition summaries and raw-file SHA-256 provenance.')
+    print('Generated two SVG charts, 120 condition summaries and canonical-JSON SHA-256 provenance.')
 
 
 if __name__ == '__main__':

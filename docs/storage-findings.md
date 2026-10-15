@@ -43,6 +43,7 @@ ROCKSDB reported zero for live `Data_length` and `Index_length`, despite nonzero
 
 - [Full raw results](../evidence/storage/20261006T120404Z-storage-a5d23142/results.json) and [original summary](../evidence/storage/20261006T120404Z-storage-a5d23142/summary.md).
 - [All 25 observations](data/storage-observations.csv), [statistics and provenance](data/storage-statistics.json), and [experiment method](storage-method.md).
+- Provenance hashes parsed results as sorted compact JSON and generator text with LF line endings. This avoids Git/OS newline differences; raw experiment files are unchanged. SVG timestamps are omitted and IDs use a fixed salt. Exact rendering still depends on Matplotlib/fonts/platform.
 - The existing experiment dependencies are unchanged. Regenerating figures additionally requires Matplotlib; viewing the PNG/SVG files needs no installation.
 - From the project root, with Matplotlib installed:
 

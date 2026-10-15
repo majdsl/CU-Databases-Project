@@ -51,7 +51,7 @@ def build(source, output):
                     for key in list(rows[0])[2:]}
     plt.rcParams.update({'font.family':'DejaVu Sans','font.size':11,'axes.spines.top':False,
         'axes.spines.right':False, 'axes.spines.left':False, 'axes.titleweight':'bold',
-        'svg.fonttype':'none', 'savefig.facecolor':'white'})
+        'svg.fonttype':'none', 'svg.hashsalt':'cu-storage-findings', 'savefig.facecolor':'white'})
     colors = ['#285F88','#32857E','#AA7037','#7464A7']
     fig,ax=plt.subplots(figsize=(10,5.6));fig.subplots_adjust(left=.14,right=.95,bottom=.34,top=.78)
     values=[stats[e]['allocated_delta_bytes']['mean']/MIB for e in ENGINES[:4]]
@@ -62,7 +62,9 @@ def build(source, output):
     fig.suptitle('Disk growth after loading 10,000 rows',x=.08,y=.94,ha='left',fontsize=19,weight='bold')
     fig.text(.08,.86,'Five fresh-volume trials per engine • MariaDB 11.8.9 • clean shutdown',fontsize=11,color='#4B5966')
     fig.text(.08,.06,'Means shown; allocated-byte sample SD = 0 for every engine in this run.\nIncludes logs, metadata and restart effects; not table-only size or host SSD usage.\nMEMORY is excluded here because its rows are volatile. 1 MiB = 1,048,576 bytes.',fontsize=10,color='#4B5966',linespacing=1.6)
-    for ext in ('png','svg'): fig.savefig(figures/f'storage-disk-growth.{ext}',dpi=180)
+    for ext in ('png','svg'):
+        fig.savefig(figures/f'storage-disk-growth.{ext}',dpi=180,
+                    metadata={'Date': None} if ext == 'svg' else None)
     plt.close(fig)
     fig,ax=plt.subplots(figsize=(10,4.5));fig.subplots_adjust(left=.14,right=.95,bottom=.36,top=.73)
     d=stats['MEMORY']['live_data_length_bytes']['mean']/MIB;i=stats['MEMORY']['live_index_length_bytes']['mean']/MIB
@@ -76,7 +78,9 @@ def build(source, output):
     fig.suptitle('MEMORY uses RAM for its rows and indexes',x=.08,y=.94,ha='left',fontsize=19,weight='bold')
     fig.text(.08,.85,f'Index allocation: {i:.3f} MiB • identical reported values in all five trials',color='#4B5966')
     fig.text(.08,.04,'Approximate engine allocation, not total process RAM. Rows disappear at shutdown.\nIts 0.121 MiB disk growth is metadata/server overhead, not persistent row storage.',fontsize=10,color='#4B5966',linespacing=1.6)
-    for ext in ('png','svg'): fig.savefig(figures/f'storage-memory-allocation.{ext}',dpi=180)
+    for ext in ('png','svg'):
+        fig.savefig(figures/f'storage-memory-allocation.{ext}',dpi=180,
+                    metadata={'Date': None} if ext == 'svg' else None)
     plt.close(fig)
     lines=['# Storage findings','',
         '**The full run completed 25 verified trials: 10,000 identical rows per trial, five trials per engine.**',
@@ -107,14 +111,17 @@ def build(source, output):
         '## Evidence and reproduction','',
         f'- [Full raw results](../evidence/storage/{RUN}/results.json) and [original summary](../evidence/storage/{RUN}/summary.md).',
         '- [All 25 observations](data/storage-observations.csv), [statistics and provenance](data/storage-statistics.json), and [experiment method](storage-method.md).',
+        '- Provenance hashes parsed results as sorted compact JSON and generator text with LF line endings. This avoids Git/OS newline differences; raw experiment files are unchanged. SVG timestamps are omitted and IDs use a fixed salt. Exact rendering still depends on Matplotlib/fonts/platform.',
         '- The existing experiment dependencies are unchanged. Regenerating figures additionally requires Matplotlib; viewing the PNG/SVG files needs no installation.',
         '- From the project root, with Matplotlib installed:','',
         '```powershell','python scripts/report_storage_findings.py','```','',
         'This regenerates the report, charts and derived data without rerunning MariaDB.','']
     (docs/'storage-findings.md').write_text('\n'.join(lines),encoding='utf-8')
     provenance={'run_id':r['run_id'],'trials':25,'rows_per_trial':r['rows'],
-        'dataset_sha256':r['dataset_sha256'],'source_results_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
-        'generator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'dataset_sha256':r['dataset_sha256'],
+        'source_results_canonical_sha256':hashlib.sha256(
+            json.dumps(r, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest(),
+        'generator_lf_sha256':hashlib.sha256(Path(__file__).read_text(encoding='utf-8').encode('utf-8')).hexdigest(),
         'matplotlib_version':matplotlib.__version__,'byte_unit':'MiB = 1048576 bytes','statistics':stats}
     (data/'storage-statistics.json').write_text(json.dumps(provenance,indent=2)+'\n',encoding='utf-8')
     print('Generated report, four figure files, and two derived-data files.')

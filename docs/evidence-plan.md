@@ -60,6 +60,13 @@ They distinguish observations, documented capabilities and application-design in
 The decision table covers all five engines without pooling datasets or claiming a universal
 winner. Multi-statement transaction behavior is documented, not experimentally validated.
 
+## Offline reporting verified
+
+The [October 15 report check](report-reproducibility.md) regenerated CPU, storage, recovery
+and OpenFlights reports from a fresh source archive. Numerical results matched; line-ending
+provenance and storage SVG determinism were corrected without changing raw evidence.
+This does not replace independent database reproduction.
+
 ## Other unfinished work
 
 1. Team-review the [recommendations](engine-recommendations.md) and explain their

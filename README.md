@@ -279,6 +279,12 @@ See the method for the full command, data attribution/license, schema rationale,
 complementary-data justification and failure handling. Results and original summaries are
 [archived here](evidence/openflights/). The findings page documents optional chart regeneration.
 
+## Regenerate reports without running experiments
+
+The [offline reproducibility check](docs/report-reproducibility.md) regenerated all four
+report families and all 14 chart files from archived evidence. It includes the complete
+reporting-environment commands, verification results and platform limits.
+
 ## Automated correctness checks
 
 The [CI workflow](.github/workflows/correctness.yml) builds fresh containers, runs the
