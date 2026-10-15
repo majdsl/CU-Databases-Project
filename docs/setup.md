@@ -16,6 +16,11 @@ memory for Docker and builds. Recorded hardware and software are in
 
 ## One-command setup
 
+Validated from a fresh Ubuntu CI checkout on October 15:
+[85 tests and all five engines passed](https://github.com/majdsl/CU-Databases-Project/actions/runs/38824387276)
+at `ead6f10`, including the output-write probe. Independent reproduction of this
+wrapper on Windows remains pending.
+
 From the checkout, run `python scripts/setup_project.py` on Windows or
 `python3 scripts/setup_project.py` on Linux. The wrapper resolves the repository directory
 from its own path, checks the engine and Compose, preserves or creates credentials,

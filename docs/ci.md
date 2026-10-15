@@ -1,5 +1,11 @@
 # Correctness CI
 
+**Setup-wrapper validation, October 15, 2026:** [run 38824387276](https://github.com/majdsl/CU-Databases-Project/actions/runs/38824387276)
+passed on `ead6f10b1d9ac486898d112d0569926fcf20375a`. The fresh Ubuntu job
+ran the documented wrapper, verified writable output, passed all 85 unit tests,
+built MariaDB and passed all five engine checks, ending with `SETUP PASS`.
+This validates the Linux CI path; independent Windows reproduction remains pending.
+
 The [Correctness workflow](../.github/workflows/correctness.yml) runs on pushes,
 pull requests and manual dispatch. **Validated on October 9, 2026:** both push and pull-request runs passed for
 branch head `f77f8f5a86ed353aa9d06760688a8c03b4a85339`.
