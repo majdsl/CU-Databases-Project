@@ -93,3 +93,13 @@ This does not replace independent database reproduction.
 References: [assignment](https://mariadb.org/bachelor_hackathon_2026-09/),
 [CPU findings](cpu-findings.md), [storage findings](storage-findings.md),
 [storage method](storage-method.md), [recovery findings](recovery-findings.md).
+
+## Tutorial and settings follow-up
+
+The README now has an upfront measured comparison and a single setup wrapper.
+Detailed platform support, output permissions and troubleshooting are in
+[setup](setup.md). The [cache/durability table](cache-and-durability.md) is drawn
+from the archived OpenFlights snapshot; it does not claim equal budgets. The
+wrapper has three failure-path tests (85 total), and CI runs the documented command.
+Team reproduction, contribution confirmation and targeted mechanism experiments
+remain separate tasks; no new performance measurements are claimed here.

@@ -1,425 +1,151 @@
 A project for area 6, "Choosing the right storage engine" for the [MariaDB student database projects, 2026-09](https://mariadb.org/bachelor_hackathon_2026-09/).
 
-# CU Databases Project: storage engine comparison
+# CU Databases Project: choosing a storage engine
 
-**Status: five-engine setup, load/read baseline, concurrent-write diagnostic, CPU findings, storage findings, and the isolated recovery pilot plus full 50-trial run verified. Storage and recovery charts are available. The OpenFlights pilot and full 25-trial comparison are verified with charts. Workload-specific engine recommendations are available; the complete project is on `main`. Independent team review and contribution documentation remain pending.**
-The comparison uses Python and MariaDB with InnoDB, Aria, MyISAM, MEMORY and MyRocks (SQL engine name ROCKSDB).
-The reports explain measured trade-offs, failure behaviour and the limits of each experiment.
+We use Python and MariaDB 11.8.9 to compare **InnoDB, Aria, MyISAM, MEMORY and MyRocks**
+(SQL engine name `ROCKSDB`). The project measures load/read performance, concurrent
+updates, storage allocation and acknowledged-row survival after process restarts.
+The runnable code, raw evidence and reports are on `main`.
 
-## What we found
+## Which engine, and what does it cost?
 
-| Observation | Practical implication | Evidence |
-| --- | --- | --- |
-| MEMORY had the lowest mean OpenFlights load and scan times, but lost all rows after every tested restart | Consider it for rebuildable caches, not the sole persistent copy | [Reads](docs/openflights-findings.md), [recovery](docs/recovery-findings.md) |
-| MyISAM loaded fastest among disk-backed engines; Aria scanned fastest among them | Loading and scan priorities lead to different candidates; MyISAM crash warnings still matter | [Recommendations](docs/engine-recommendations.md) |
-| MyRocks had the smallest persistent datadir growth in the 10,000-row experiment and the slowest OpenFlights scan mean | Investigate the space/read trade-off at the intended scale | [Storage](docs/storage-findings.md), [reads](docs/openflights-findings.md) |
-| Increasing the load generator's CPU quota changed concurrent-write throughput substantially | Check the measuring client before attributing scaling to an engine | [CPU diagnostic](docs/cpu-findings.md) |
+| Engine | OpenFlights load (s) | OpenFlights scan (ms) | Synthetic disk growth (MiB) | Starting recommendation |
+| --- | ---: | ---: | ---: | --- |
+| InnoDB | 1.1840 ± 0.0383 | 11.4745 ± 0.4860 | 9.129 | Transactional application data; largest measured small-table growth |
+| Aria | 2.0078 ± 0.0305 | 9.7694 ± 0.4150 | 3.730 | Persistent non-transactional reference scans; slower loading here |
+| MyISAM | 0.7932 ± 0.0213 | 10.3507 ± 0.3222 | 1.266 | Rebuildable loading-focused workloads; crash-table warnings in every forced trial |
+| MEMORY | 0.6906 ± 0.0410 | 5.7458 ± 0.3325 | 0.121 overhead only | Rebuildable RAM cache; every tested restart emptied its rows |
+| ROCKSDB | 1.2440 ± 0.0182 | 18.8477 ± 0.3985 | 1.168 | Investigate storage-constrained workloads; slowest scan here |
 
-These observations come from different workloads and are not a combined ranking.
-Read the committed reports without installing anything, or follow setup below to run the harness.
+Read/load values are mean ± sample SD across **five trials of 67,663 real routes**.
+Disk growth comes from a **separate 10,000-row synthetic experiment**, includes logs and
+restart effects, and is not bytes per route. MEMORY's separate live allocation was
+8.725 MiB for that synthetic table. The four persistent engines preserved all 1,000
+acknowledged rows in each tested clean/forced restart; this does not prove power-loss
+durability or transactional equivalence.
 
-## Data model and method
+See the [decision guide](docs/engine-recommendations.md) for requirements, mechanisms
+and evidence. There is no universal winner. In the [CPU diagnostic](docs/cpu-findings.md),
+changing the load generator's quota substantially changed throughput, demonstrating
+why client limits must be checked before judging engine scaling.
 
-We compare five engines with the same logical schema, rows and query stream **within each
-experiment**. The synthetic event table and real route table serve different purposes.
+![OpenFlights load measurements: individual trials and sample SD](docs/figures/openflights-load.png)
 
-| Dataset | Schema decisions | Why |
-| --- | --- | --- |
-| 10,000 seeded synthetic events | Integer event key; route/time index; integer fare and delay fields; bounded payload | Reproducible updates and failure checks; integer values avoid monetary rounding; high-entropy payload does not represent all compression workloads |
-| 67,663 pinned OpenFlights routes | Source-row primary key; nonunique source/destination index; nullable original IDs | Preserve repeated route combinations and missing IDs instead of dropping records |
+## Start here
 
-Both use explicit BTREE declarations and utf8mb4_bin. Equivalent SQL declarations do not
-imply identical physical storage. The shared schemas omit foreign keys and engine-specific
-features to permit the comparison; this is not a complete airline application.
-See [synthetic schema rationale](docs/benchmark-method.md), [route schema and transformation](docs/openflights-method.md),
-[synthetic SQL](sql/benchmark/) and [route SQL](sql/openflights/).
+To explore without installing anything, read the [full OpenFlights summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
+and [findings](docs/openflights-findings.md), then the [decision guide](docs/engine-recommendations.md).
 
-The harness creates the table, verifies the actual engine, loads identical rows, checks
-every value, runs timed queries and checks each answer, then saves raw samples and metadata.
-Full read/load comparisons balance engine order over five rounds. Read statistics summarize
-trial means; error bars show sample SD. Validation warms caches. Storage and recovery use
-separate isolated volumes and protocols. Timings include client overhead, and cache/durability
-budgets are not equalized.
+To run the project, install **Git, Python 3.9+ and Docker with Compose**, start Docker,
+and use **Linux amd64 containers**. Windows Docker Desktop and Ubuntu amd64 are the
+primary paths. Initial setup needs internet access. The DB/runner limits are 2 GiB/512 MiB;
+allow extra memory for Docker and builds. For Linux permissions, ARM limitations,
+manual steps and troubleshooting, see [setup details](docs/setup.md).
 
-## Choosing an engine
-
-Read the [engine recommendations](docs/engine-recommendations.md) for a decision table,
-measured costs, documented transaction/locking differences and limits. Start with InnoDB
-for transactional application data; consider MEMORY for rebuildable caches and evaluate
-Aria, MyISAM or MyRocks against the specific workload and required guarantees.
-
-## First run (Windows PowerShell)
-
-Requirements: Git, local Python 3.9+, and running Docker Desktop with Linux containers
-and Compose. The five-engine image is tested on linux/amd64; other architectures are
-unverified. Initial setup needs internet access for images, packages and the pinned dataset.
-The configured database and runner limits are 2 GiB and 512 MiB respectively; Docker needs
-additional capacity for builds and its own services.
-
-For a **new checkout**, run these commands separately from a parent directory:
+For a new checkout:
 
 ```powershell
 git clone --branch main https://github.com/majdsl/CU-Databases-Project.git
 cd CU-Databases-Project
+python scripts/setup_project.py
 ```
 
-For an existing checkout, use its repository folder; do not clone inside it. Check your
-branch with `git branch --show-current`. Save your edits before changing branches.
-The normal Compose project has a fixed name, so multiple checkouts can share its volume;
-do not treat a second folder as an isolated fresh database.
+After cloning, **setup is one command**. On Linux use `python3 scripts/setup_project.py`.
+The wrapper verifies Docker, preserves/creates local credentials, fetches checksum-verified
+data, builds containers, checks result-write permissions, runs unit tests and checks
+all five actual engines. Success ends with **`SETUP PASS`**. Stop on errors.
+Setup runs no benchmark and never deletes volumes. It can recreate this lab's container,
+so do not run it during active measurements.
 
-Run each command separately from the repository root. Stop at the first error:
+Keep `.env` private and unchanged for an existing database. A second clone shares the
+normal Compose project name; it is not automatically an isolated database.
+Stop the lab with `docker compose stop` to preserve data.
 
-```powershell
-python scripts/init_env.py
-python scripts/fetch_openflights.py
-docker compose build db runner
-docker compose up -d --wait db
-docker compose run --rm runner
-```
+## Run one comparison and read the result
 
-The download must report that the dataset was verified; the database must become Healthy.
-The runner must print five engine PASS lines followed by an overall PASS.
-A team-run check passed for all five engines; see [setup validation](docs/setup-validation.md) for the tested commit, output and limitations.
-Running again repeats the check. The probe table is dropped after each successful creation;
-an interrupted run may leave it behind, in which case inspect and remove only
-`engine_lab.setup_probe` before retrying. Do not use this setup against an existing database.
-
-The .env file contains generated credentials and is already excluded by the repository's
-.gitignore. Keep it locally; do not paste it into chat or commit it.
-The generator preserves an existing .env. Database initialization credentials apply on
-first creation of the volume; changing .env later does not change existing database passwords.
-
-Run the correctness suite before collecting measurements:
-
-```powershell
-docker compose run --rm --no-deps runner python -m unittest discover -s tests -v
-```
-
-The current suite has 82 tests; success ends with `OK`. Fixture tests deliberately print
-some failed/partial-run messages while testing error handling. Judge the final unittest
-result, not those intermediate fixture messages.
-
-For the first real-data experiment, continue with the [worked example](#worked-example-openflights).
-For repeatable synthetic measurements, use the baseline below.
-
-## Synthetic load/read baseline
-
-The baseline uses 10000 reproducible synthetic flight events and five balanced-order
-rounds across all five engines. It measures load completion, warm point lookups and
-full-table aggregates. It saves every timing and verifies every loaded row.
-
-After completing first-run setup below:
-
-```powershell
-docker compose run --rm runner python -m unittest discover -s tests -v
-docker compose run --rm runner python -m benchmarks.run
-```
-
-Results appear in a new subfolder of `results/` on your computer. Open its
-`summary.md` for the table and preserve `results.json` for raw measurements.
-A small baseline does not establish engine recommendations. See the
-[benchmark method](docs/benchmark-method.md) for schema rationale, controlled variables,
-statistical units, workload limitations and troubleshooting.
-
-## Worked example: OpenFlights
-
-After setup and the unit suite, run a pilot with your actual power conditions
-(replace the example text if needed):
+Keep power conditions stable and replace the label with your actual settings:
 
 ```powershell
 docker compose run --rm runner python -m benchmarks.openflights --pilot --power-condition "plugged in; battery saver off"
 ```
 
-Expect one round for each of the five engines, a table labelled PILOT and a saved directory.
-This verifies the procedure; one round cannot estimate variability or establish a ranking.
-The complete dataset is used even in the pilot.
+Expect five engine trials and a summary marked **PILOT**. Every loaded row and query
+answer is checked. The saved container path `/results/<run-id>` maps to
+`results/<run-id>` in your checkout. Open `summary.md`; retain `results.json` for the
+raw samples, checksums, query plans and runtime/settings metadata. One pilot round cannot
+estimate variability. Investigate partial/failed output before proceeding.
 
-Inside the container, output is `/results/<run-id>`; on your computer it is
-`results/<run-id>` under this checkout. Open `summary.md` and preserve `results.json`.
-A successful run reports that every row and query answer was checked. If it reports an
-error or only partial results, inspect those before continuing.
-
-After reviewing the pilot, run five balanced rounds:
+After reviewing the pilot:
 
 ```powershell
 docker compose run --rm runner python -m benchmarks.openflights --full --power-condition "plugged in; battery saver off"
 ```
 
-The full run has 25 trials. Compare your variation and conditions with the archived example;
-different hardware need not reproduce identical timings. Keep pilots separate.
+This runs 25 trials, placing each engine once in each position over five rounds.
+Timings on another machine need not be identical. Compare the conditions and variation,
+and keep pilot observations separate from full-run statistics.
 
-**Reading the archived result:** InnoDB loaded in 1.1840 ± 0.0383 seconds; MEMORY in
-0.6906 ± 0.0410 seconds (five trial means, sample SD). That supports a loading advantage
-for MEMORY in this run, but the separate recovery test emptied MEMORY even after clean
-restarts. A cache can accept that cost; authoritative records usually cannot.
-The [complete comparison](docs/openflights-findings.md) supplies all engines, queries and
-limits, while the [recommendations](docs/engine-recommendations.md) explain the choices.
+**Worked interpretation:** MEMORY loaded the archived route table in 0.6906 ± 0.0410 s,
+versus InnoDB's 1.1840 ± 0.0383 s. That advantage can help a rebuildable cache.
+Our separate restart test lost all MEMORY rows even after clean shutdown, so speed alone
+does not justify using it for the only copy of authoritative data. The linked reports
+show all trials and qualify each conclusion.
 
-![OpenFlights load times with individual trials and sample SD](docs/figures/openflights-load.png)
+## Data model and measurement method
 
-To read the example without running Docker, open the
-[archived full summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
-and its [raw measurements](evidence/openflights/20261009T160813Z-openflights-6884f225/results.json).
+| Dataset | Design | Reason |
+| --- | --- | --- |
+| Seeded synthetic flight events | Integer event key; route/time index; integer fare, delay and passenger fields; bounded high-entropy payload | Reproducible updates and integrity checks without monetary floating-point rounding |
+| Pinned OpenFlights routes | Source-row key; nonunique source/destination index; nullable original IDs | Preserve repeated route combinations and missing IDs instead of silently dropping records |
 
-## Verified experiments
+Each engine receives the same rows, logical schema and query stream **within an experiment**.
+Explicit BTREE declarations and utf8mb4_bin avoid MEMORY's default HASH index as a confounder.
+Physical storage still differs. No foreign keys or engine-specific alternatives are added
+to the common schema; this is not a complete airline application. See the
+[synthetic schema rationale](docs/benchmark-method.md), [route transformation](docs/openflights-method.md)
+and directly comparable [SQL schemas](sql/openflights/).
 
-The [first measured baseline](evidence/baseline/20260923T121610Z-92b1c313/README.md)
-contains the original raw results, summary and review notes. It covers five repeated
-trials per engine on 10000 synthetic rows, not a general engine ranking.
+The harness verifies the actual engine, checks every loaded value and validates query
+answers. Verification warms caches. Timings include driver/network work; read statistics
+summarize trial means, not pooled queries. Five repeats are on one laptop, not independent
+machines. [Recorded cache and durability settings](docs/cache-and-durability.md) explain why
+equal configured cache sizes are not equal total memory or durability guarantees.
 
-The [concurrent-write experiment](docs/concurrency-method.md) compares 1, 2 and 4
-clients with disjoint rows and a shared hotspot, with full final-data verification.
-The first team run completed 150 trials with verified final data. The [CPU findings and charts](docs/cpu-findings.md) show that runner quota
-affected throughput; engine-level scaling conclusions remain limited.
+Storage uses stopped-server inventories on fresh volumes. Recovery uses clean versus
+SIGKILL restarts between acknowledged statements, with the host/cache still running.
+Neither test establishes physical SSD footprint, device power-loss behaviour, interrupted
+transactions or steady-state MyRocks compaction.
 
-The [storage findings and charts](docs/storage-findings.md) cover the verified October 6 full run:
-25 fresh-volume trials, 10,000 identical rows per trial, matching checksums and 50 clean
-shutdown records. Allocated datadir growth includes logs, metadata and restart effects;
-MEMORY's live RAM allocation is reported separately. The pilot is excluded from the full-run
-statistics. See the [storage method](docs/storage-method.md) and [archived evidence](evidence/storage/).
-Clean shutdowns are not crash-recovery tests.
+## Explore or reproduce the other experiments
 
-## Findings with evidence
+| Question | Method and commands | Findings and evidence |
+| --- | --- | --- |
+| Synthetic loading and warm reads | [Baseline](docs/benchmark-method.md) | [Original baseline](evidence/baseline/20260923T121610Z-92b1c313/README.md) |
+| Concurrent updates and client CPU limits | [Concurrency](docs/concurrency-method.md), [CPU diagnostic](docs/cpu-diagnostic.md) | [CPU findings](docs/cpu-findings.md) |
+| Persistent allocation versus live RAM | [Storage procedure](docs/storage-method.md) | [Storage findings](docs/storage-findings.md) |
+| Rows surviving clean/process-crash restarts | [Isolated recovery procedure](docs/recovery-method.md) | [Recovery findings](docs/recovery-findings.md) |
+| Real route data and secondary-index queries | [OpenFlights](docs/openflights-method.md) | [Route findings](docs/openflights-findings.md) |
 
-Start with [CPU findings and charts](docs/cpu-findings.md): four archived runs,
-power conditions kept separate, complete tables, uncertainty and reproduction steps.
-Then read [storage findings and charts](docs/storage-findings.md), including the measured
-file allocation, live MEMORY allocation and limits on interpretation.
-The [recovery findings and charts](docs/recovery-findings.md) compare acknowledged-row survival
-and restart through verification, including the MyISAM crash-table warnings.
-Then read the [OpenFlights findings](docs/openflights-findings.md), covering 67,663 real
-route records across all five engines with load and warm-read measurements.
-The code, archived evidence and reports are available on `main`.
+Read reports without rerunning experiments. The storage/recovery harnesses use isolated
+temporary projects; never manually crash the normal lab database. Failed trials preserve
+diagnostic evidence. The historical route snapshot is OpenFlights data, via MariaDB/openflights,
+under [ODbL 1.0](data/openflights/LICENSE); its [download manifest](data/openflights/manifest.json)
+pins the source and checksum. Synthetic events are complementary generated data, not real flights.
 
-## Reproduce the storage experiment
+All four report generators and 14 chart files were regenerated offline; see
+[report reproduction commands and checks](docs/report-reproducibility.md).
+CI uses fresh containers and runs unit tests plus real five-engine checks;
+see [CI scope](docs/ci.md). Performance measurements stay on controlled machines.
+The [laptop record](docs/benchmark-environment.md), [runner image pin](docs/runner-image.md)
+and [setup details](docs/setup.md) document versions and remaining environment limits.
 
-After first-run setup, use host Python from the repository root. Run each command separately.
-Keep host conditions stable and replace the power-condition text if your settings differ.
+## Team and further review
 
-```powershell
-python -m unittest discover -s tests -p test_storage.py -v
-python scripts/run_storage.py --pilot --power-condition "plugged in; battery saver off"
-```
+Constructor University database course, Fall 2026. Full names, GitHub identities and
+completed contributions will be added after team confirmation; ongoing review is not
+presented as finished work. Follow-up changes use branches and pull requests into `main`,
+the branch read by the official evaluator. Remaining evidence gaps are tracked in the
+[evidence plan](docs/evidence-plan.md); this is not a claim of a final grade.
 
-Review the pilot results before running the full five-round experiment:
-
-```powershell
-python scripts/run_storage.py --power-condition "plugged in; battery saver off"
-```
-
-The script uses `compose.storage.yaml` with unique temporary projects and volumes, leaving
-the normal database separate. Successful temporary volumes are removed after evidence is saved;
-failed-trial volumes are retained for diagnosis. Results are saved under `results/`.
-The archived full run is `20261006T120404Z-storage-a5d23142`; rerunning is not required to view it.
-
-Charts are already committed. Optional regeneration requires Matplotlib on the host:
-
-```powershell
-python scripts/report_storage_findings.py
-```
-
-This reads archived evidence and does not rerun the database experiment.
-
-## Verified recovery experiment
-
-The [recovery protocol](docs/recovery-method.md) and harness are now implemented.
-They compare acknowledged-row survival after a clean restart and a forced database-process
-stop, using a fresh isolated database per trial. The writer holds its connection open;
-no statement is in flight at the stop. This is not a power-loss test.
-
-The October 6 pilot (10 trials) and full run (50 trials) are verified and
-[archived with all 60 restart logs](evidence/recovery/). Read the
-[findings and charts](docs/recovery-findings.md): four engines preserved all acknowledged
-rows in these trials; MEMORY emptied after both restart conditions. MyISAM logged
-crashed-table warnings in every forced trial despite subsequently returning intact rows.
-This does not establish power-loss durability or transaction guarantees.
-
-Viewing the committed report requires no rerun. Optional chart regeneration on the host:
-
-```powershell
-python scripts/report_recovery_findings.py
-```
-
-See the report for the Matplotlib dependency. To collect a new experiment, follow the
-recovery protocol, rebuild the runner and run the unit suite before the pilot:
-
-```powershell
-python scripts/run_recovery.py --pilot --power-condition "plugged in; battery saver off"
-```
-
-The pilot has 10 trials. Review its receipts, raw results and restart logs before the
-50-trial `--full` run. Do not run crash commands manually against the normal database.
-
-## Verified OpenFlights comparison
-
-The [OpenFlights route harness](docs/openflights-method.md) adds a pinned, checksum-verified
-snapshot of all 67,663 routes alongside the existing synthetic experiments. It preserves
-missing IDs and repeated route combinations, and uses identical schemas and query streams
-across five engines. Loading, warm point lookups, full scans and source-airport aggregates
-are verified against exact Python oracles.
-
-**Status: 82 tests passed in Docker; the five-trial pilot and full 25-trial run are verified
-and archived.** Read the [OpenFlights findings and charts](docs/openflights-findings.md)
-for all trial means, uncertainty, query-plan checks and workload limits. The pilot is excluded
-from full-run statistics. Viewing the findings needs no new experiment.
-
-For a new run, download the data on the host before rebuilding the runner:
-
-```powershell
-python scripts/fetch_openflights.py
-docker compose build runner
-docker compose run --rm --no-deps runner python -m unittest discover -s tests -v
-docker compose up -d --wait db
-docker compose run --rm runner python -m benchmarks.openflights --pilot --power-condition "plugged in; battery saver off"
-```
-
-Run each command separately and review the five-trial pilot before the 25-trial full run.
-See the method for the full command, data attribution/license, schema rationale,
-complementary-data justification and failure handling. Results and original summaries are
-[archived here](evidence/openflights/). The findings page documents optional chart regeneration.
-
-## Regenerate reports without running experiments
-
-The [offline reproducibility check](docs/report-reproducibility.md) regenerated all four
-report families and all 14 chart files from archived evidence. It includes the complete
-reporting-environment commands, verification results and platform limits.
-
-## Automated correctness checks
-
-The [CI workflow](.github/workflows/correctness.yml) builds fresh containers, runs the
-unit suite and verifies all five actual engines on GitHub Actions. The October 9 push
-and pull-request runs passed: 82 unit tests and five real engine round trips.
-The [October 15 main-branch run](https://github.com/majdsl/CU-Databases-Project/actions/runs/38788927632)
-also passed on merge commit `84a6ad0`. See [CI scope and operation](docs/ci.md); performance experiments
-remain separate from shared CI machines.
-
-## Remaining work before submission
-
-- Review the [workload recommendations](docs/engine-recommendations.md) as a team.
-  Broader transaction, power-loss and large-scale claims remain outside the experiments.
-- Keep correctness CI green and check the Windows tutorial from a clean checkout.
-  Complete remaining environment details; preserve historical run metadata.
-- Add the confirmed team roster and completed contributions, finish independent reproduction
-  and address review findings through pull requests into `main`. See [evidence plan](docs/evidence-plan.md)
-  and [tutorial audit](docs/tutorial-audit.md).
-
-## What the setup verifies
-
-The runner uses a non-root database account restricted to engine_lab.
-It checks the server is MariaDB, checks engine availability, creates an identical
-probe schema for each engine, verifies the actual engine in information_schema,
-and inserts and reads back three rows using parameterized values.
-The apostrophe-containing value checks that data is passed as parameters.
-The explicit BTREE primary index avoids MEMORY's default index-type difference.
-
-This small single-table probe is **not the benchmark data model**. It has an integer
-primary key and bounded character data so all five engines can use the same schema.
-The initial benchmark schema and synthetic dataset are documented in docs/benchmark-method.md;
-larger-scale workloads and failure scenarios beyond the documented process-crash test remain pending.
-
-MariaDB data stays in a Docker named volume; no database port is exposed on the host.
-The database is capped at 2 CPUs and 2 GiB; the runner at 1 CPU and 512 MiB.
-These are initial development limits, not a finalized experimental configuration.
-The Compose healthcheck waits for InnoDB initialization before the runner starts.
-Query cache is disabled and NO_ENGINE_SUBSTITUTION prevents silent engine fallback.
-
-## Team laptop environment
-
-The [October 9 environment record](docs/benchmark-environment.md) documents the CPU,
-Windows-visible RAM, Windows version, Docker-visible resources, Engine and Compose versions.
-It is a later snapshot; each archived run retains its original metadata.
-
-## Versions and verification status
-
-The MariaDB image digest is pinned to the image downloaded during setup:
-`sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112`.
-The separately tested setup container reported MariaDB 11.8.9-MariaDB-ubu2404.
-The four-engine Compose stack passed on the team laptop on September 16 and 22, 2026,
-based on shared terminal output. The five-engine build also passed on September 22, 2026, based on team-provided terminal output (see docs/setup-validation.md).
-
-PyMySQL 1.1.2 is pinned with its wheel SHA-256 from
-[PyPI](https://pypi.org/project/PyMySQL/1.1.2/).
-The Python runner base is now pinned to the October 9 inspected image index:
-`sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1`.
-See [runner image provenance](docs/runner-image.md) for the linux/amd64 manifest, reported
-Python version and successful team-laptop rebuild/82-test validation. Keep historical benchmark metadata unchanged;
-base-image pinning does not lock the custom database build's transitive packages.
-
-## Stop and troubleshoot
-
-`docker compose stop` stops this stack and preserves data.
-`docker compose logs --tail=60 db` shows database startup diagnostics.
-`docker compose ps` shows service health.
-The earlier standalone cu-mariadb-check container is separate; stop it before measurements
-using `docker stop cu-mariadb-check`.
-No cleanup command that deletes volumes is part of normal setup.
-
-## Files
-
-- compose.yaml: database, runner, healthcheck and development resource limits.
-- Dockerfile / requirements.txt: Python runner and dependency.
-- scripts/init_env.py: local random credentials.
-- scripts/check_environment.py: real database integration check.
-- sql/: five explicit identical probe schemas differing only by engine.
-- benchmarks/: seeded generation, baseline harness, and report statistics.
-- tests/: unit checks for reproducibility, integrity and reporting.
-- sql/benchmark/: identical benchmark schemas across all five engines.
-- docs/benchmark-method.md: first experiment design and limitations.
-- compose.storage.yaml / scripts/run_storage.py: isolated storage experiment.
-- benchmarks/storage.py: verified loading and stopped-server file inventory.
-- docs/storage-findings.md / docs/figures/: storage interpretation and charts.
-- scripts/report_storage_findings.py: reproduce storage charts and derived data.
-- evidence/storage/: verified pilot and full raw results.
-- docs/recovery-findings.md / scripts/report_recovery_findings.py: recovery report and chart reproduction.
-- evidence/recovery/: verified pilot/full results, acknowledgment receipts and restart logs.
-- benchmarks/openflights.py / sql/openflights/: verified five-engine route comparison.
-- data/openflights/ / scripts/fetch_openflights.py: pinned download, checksum and data license.
-- docs/openflights-method.md: dataset coverage, procedure and limitations.
-- docs/openflights-findings.md / scripts/report_openflights_findings.py: measured findings and chart reproduction.
-- docs/evidence-plan.md: remaining work mapped to the rubric.
-
-## Team and collaboration
-
-Constructor University database course, Fall 2026.
-Team roster and contributions will be supplied by the team before submission.
-The project was merged into `main` on October 15. Use task branches and pull requests
-for further changes; rerun the published evaluation against `main` after changes merge.
-
-## References
-
-- [Assignment and current evaluation prompt](https://mariadb.org/bachelor_hackathon_2026-09/)
-- [MariaDB storage engines](https://mariadb.com/docs/server/server-usage/storage-engines)
-- [Official image healthcheck](https://mariadb.com/docs/server/server-management/automated-mariadb-deployment-and-administration/docker-and-mariadb/using-healthcheck-sh)
-
-## MyRocks setup
-
-The custom database image in docker/mariadb installs exactly
-`mariadb-plugin-rocksdb=1:11.8.9+maria~ubu2404` on the pinned base image.
-This candidate was confirmed in the team's amd64 Ubuntu 24.04 container.
-The build checks that mariadb-server-core remains at the matching version.
-Other transitive OS packages are not fully locked; preserve the built image digest
-and package manifest before final experiments. Other architectures are unverified.
-
-The package's rocksdb.cnf is replaced with explicit startup configuration, so
-MyRocks loads on both new and existing database volumes. It uses a 128 MiB block
-cache for initial development and ROW binary-log format. These are not finalized
-benchmark settings. The Python check requires ROCKSDB availability and verifies
-the actual engine and row contents, just as it does for the other four engines.
-
-To update an existing checkout already on `main` (save/commit your own edits first):
-
-```powershell
-git pull --ff-only
-python scripts/fetch_openflights.py
-docker compose build db runner
-docker compose up -d --wait db
-docker compose run --rm runner
-```
-
-The database container will be recreated using the existing named data volume.
-Keep .env unchanged. Do not delete the volume to troubleshoot startup failures;
-inspect `docker compose logs --tail=80 db` instead. If the build fails, stop and
-inspect the error before running the remaining commands.
-
-Reference: [MariaDB MyRocks installation](https://mariadb.com/docs/server/server-usage/storage-engines/myrocks/getting-started-with-myrocks).
+References: [official assignment and rubric](https://mariadb.org/bachelor_hackathon_2026-09/),
+[MariaDB engine documentation](https://mariadb.com/docs/server/server-usage/storage-engines).

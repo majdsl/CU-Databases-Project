@@ -61,8 +61,8 @@ usability has a direct setup-to-results path. These are evidence locations, not 
   tested commit so later improvements are distinguishable.
 - Windows walkthrough validation on another checkout/machine remains outstanding.
   For native Linux benchmark reruns, the non-root runner (UID 10001) needs write access
-  to the bind-mounted results directory; CI's setup check does not exercise benchmark
-  result writes to that mount. Native Linux benchmark permissions are not validated here.
+  to the bind-mounted results directory; the new setup wrapper now probes that mount before starting MariaDB.
+  A full native Linux benchmark reproduction remains separate from this write probe.
 - Remaining environment details and fully locked transitive database packages are still
   limitations. The [recorded package inventory](../evidence/environment/20261010-db-packages.txt)
   identifies one installed build; it does not guarantee a future byte-identical rebuild.
@@ -71,3 +71,12 @@ usability has a direct setup-to-results path. These are evidence locations, not 
 
 Historical evidence and its original reports are preserved. Continue improvements through
 reviewable commits and reevaluate the resulting main revision.
+
+## Follow-up: tutorial simplification
+
+The README now presents findings first and one setup command, with detailed
+platform requirements and troubleshooting in [setup](setup.md). The obsolete
+root ZIP-install note was removed. The wrapper checks output permissions before
+starting MariaDB, and CI invokes that same wrapper. Three failure-path tests bring
+the suite to 85 tests. [Recorded cache and durability settings](cache-and-durability.md)
+make the comparison limits explicit. Independent team review remains outstanding.

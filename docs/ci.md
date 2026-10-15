@@ -13,11 +13,13 @@ round trips passed. The integration server reported MariaDB 11.8.9-MariaDB-ubu24
 A short [log excerpt](../evidence/environment/20261009-ci-validation.txt) preserves the
 unit-test conclusion and engine output; full build logs remain linked in Actions.
 
-Each job starts from a fresh checkout on Ubuntu 24.04 and:
+Each job starts from a fresh checkout on Ubuntu 24.04. It prepares a disposable
+results directory for UID 10001 and runs the README setup wrapper,
+`scripts/setup_project.py`, with a unique CI project name. The wrapper:
 
 1. Generates disposable local credentials without printing their values.
 2. Downloads the pinned OpenFlights snapshot and verifies its checksum.
-3. Builds the pinned Python runner and runs the complete unit suite (currently 82 tests).
+3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 85 tests).
 4. Builds the custom MariaDB image, including the pinned MyRocks plugin package.
 5. Starts a fresh database volume and waits for its healthcheck.
 6. Checks all five actual storage engines and verifies parameterized inserts/readback.
