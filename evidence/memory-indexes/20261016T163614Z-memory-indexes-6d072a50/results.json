@@ -1,0 +1,3072 @@
+{
+  "format_version": 1,
+  "experiment": "memory_indexes_v1",
+  "run_id": "20261016T163614Z-memory-indexes-6d072a50",
+  "config": {
+    "mode": "pilot",
+    "seed": 20261016
+  },
+  "status": "completed",
+  "schedule": [
+    {
+      "round": 1,
+      "rows": 10000,
+      "position": 1,
+      "index": "HASH"
+    },
+    {
+      "round": 1,
+      "rows": 10000,
+      "position": 2,
+      "index": "BTREE"
+    },
+    {
+      "round": 1,
+      "rows": 100000,
+      "position": 1,
+      "index": "HASH"
+    },
+    {
+      "round": 1,
+      "rows": 100000,
+      "position": 2,
+      "index": "BTREE"
+    }
+  ],
+  "trials": [
+    {
+      "round": 1,
+      "rows": 10000,
+      "position": 1,
+      "index": "HASH",
+      "load_seconds": 0.041685881,
+      "verified_rows": 10000,
+      "verified_dataset_sha256": "dd1ed3013da4ec80f34780a9df2e8d94cb7c3d1e22e7843f61a9e676c7fcd013",
+      "actual_ddl": "CREATE TABLE `memory_index_probe` (\n  `id` int(11) NOT NULL,\n  `k` int(11) NOT NULL,\n  `v` int(11) NOT NULL,\n  PRIMARY KEY (`id`) USING BTREE,\n  KEY `probe_k` (`k`) USING HASH\n) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "actual_indexes": [
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 0,
+          "Key_name": "PRIMARY",
+          "Seq_in_index": 1,
+          "Column_name": "id",
+          "Collation": "A",
+          "Cardinality": null,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "BTREE",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        },
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 1,
+          "Key_name": "probe_k",
+          "Seq_in_index": 1,
+          "Column_name": "k",
+          "Collation": null,
+          "Cardinality": 0,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "HASH",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        }
+      ],
+      "query_streams": {
+        "equality": [
+          [
+            1541
+          ],
+          [
+            2575
+          ],
+          [
+            9824
+          ],
+          [
+            9971
+          ],
+          [
+            5458
+          ],
+          [
+            434
+          ],
+          [
+            6553
+          ],
+          [
+            3845
+          ],
+          [
+            7114
+          ],
+          [
+            7723
+          ],
+          [
+            3684
+          ],
+          [
+            6166
+          ],
+          [
+            7776
+          ],
+          [
+            3884
+          ],
+          [
+            6705
+          ],
+          [
+            7712
+          ],
+          [
+            7848
+          ],
+          [
+            4935
+          ],
+          [
+            160
+          ],
+          [
+            9636
+          ]
+        ],
+        "range_10": [
+          [
+            4049,
+            4058
+          ],
+          [
+            9855,
+            9864
+          ],
+          [
+            1611,
+            1620
+          ],
+          [
+            547,
+            556
+          ],
+          [
+            2986,
+            2995
+          ],
+          [
+            7228,
+            7237
+          ],
+          [
+            7189,
+            7198
+          ],
+          [
+            1855,
+            1864
+          ],
+          [
+            4629,
+            4638
+          ],
+          [
+            7063,
+            7072
+          ],
+          [
+            8890,
+            8899
+          ],
+          [
+            373,
+            382
+          ],
+          [
+            6791,
+            6800
+          ],
+          [
+            2803,
+            2812
+          ],
+          [
+            5109,
+            5118
+          ],
+          [
+            1873,
+            1882
+          ],
+          [
+            4560,
+            4569
+          ],
+          [
+            1036,
+            1045
+          ],
+          [
+            9619,
+            9628
+          ],
+          [
+            5703,
+            5712
+          ]
+        ],
+        "range_1000": [
+          [
+            4217,
+            5216
+          ],
+          [
+            4478,
+            5477
+          ],
+          [
+            8814,
+            9813
+          ],
+          [
+            2318,
+            3317
+          ],
+          [
+            3665,
+            4664
+          ],
+          [
+            225,
+            1224
+          ],
+          [
+            6224,
+            7223
+          ],
+          [
+            5816,
+            6815
+          ],
+          [
+            3052,
+            4051
+          ],
+          [
+            4541,
+            5540
+          ],
+          [
+            1047,
+            2046
+          ],
+          [
+            1935,
+            2934
+          ],
+          [
+            5856,
+            6855
+          ],
+          [
+            5544,
+            6543
+          ],
+          [
+            5090,
+            6089
+          ],
+          [
+            1866,
+            2865
+          ],
+          [
+            5857,
+            6856
+          ],
+          [
+            7233,
+            8232
+          ],
+          [
+            3040,
+            4039
+          ],
+          [
+            3017,
+            4016
+          ]
+        ]
+      },
+      "answers": {
+        "equality": [
+          [
+            1,
+            1005
+          ],
+          [
+            1,
+            237
+          ],
+          [
+            1,
+            955
+          ],
+          [
+            1,
+            115
+          ],
+          [
+            1,
+            450
+          ],
+          [
+            1,
+            493
+          ],
+          [
+            1,
+            264
+          ],
+          [
+            1,
+            602
+          ],
+          [
+            1,
+            568
+          ],
+          [
+            1,
+            396
+          ],
+          [
+            1,
+            27
+          ],
+          [
+            1,
+            160
+          ],
+          [
+            1,
+            155
+          ],
+          [
+            1,
+            290
+          ],
+          [
+            1,
+            182
+          ],
+          [
+            1,
+            356
+          ],
+          [
+            1,
+            920
+          ],
+          [
+            1,
+            219
+          ],
+          [
+            1,
+            295
+          ],
+          [
+            1,
+            194
+          ]
+        ],
+        "range_10": [
+          [
+            10,
+            4887
+          ],
+          [
+            10,
+            4610
+          ],
+          [
+            10,
+            5308
+          ],
+          [
+            10,
+            5711
+          ],
+          [
+            10,
+            4740
+          ],
+          [
+            10,
+            4374
+          ],
+          [
+            10,
+            5885
+          ],
+          [
+            10,
+            5882
+          ],
+          [
+            10,
+            3374
+          ],
+          [
+            10,
+            4095
+          ],
+          [
+            10,
+            7117
+          ],
+          [
+            10,
+            4568
+          ],
+          [
+            10,
+            5018
+          ],
+          [
+            10,
+            4260
+          ],
+          [
+            10,
+            5140
+          ],
+          [
+            10,
+            5976
+          ],
+          [
+            10,
+            4844
+          ],
+          [
+            10,
+            4833
+          ],
+          [
+            10,
+            4043
+          ],
+          [
+            10,
+            4284
+          ]
+        ],
+        "range_1000": [
+          [
+            1000,
+            516576
+          ],
+          [
+            1000,
+            508403
+          ],
+          [
+            1000,
+            498708
+          ],
+          [
+            1000,
+            496510
+          ],
+          [
+            1000,
+            507185
+          ],
+          [
+            1000,
+            500472
+          ],
+          [
+            1000,
+            499418
+          ],
+          [
+            1000,
+            505159
+          ],
+          [
+            1000,
+            497888
+          ],
+          [
+            1000,
+            505772
+          ],
+          [
+            1000,
+            516667
+          ],
+          [
+            1000,
+            497284
+          ],
+          [
+            1000,
+            505220
+          ],
+          [
+            1000,
+            498089
+          ],
+          [
+            1000,
+            493638
+          ],
+          [
+            1000,
+            496074
+          ],
+          [
+            1000,
+            505220
+          ],
+          [
+            1000,
+            504193
+          ],
+          [
+            1000,
+            497469
+          ],
+          [
+            1000,
+            498637
+          ]
+        ]
+      },
+      "timings_ms": {
+        "equality": [
+          0.23808,
+          0.20266,
+          0.307367,
+          0.324515,
+          0.263391,
+          0.27833,
+          0.208051,
+          0.187471,
+          0.203803,
+          0.196528,
+          0.174896,
+          0.173473,
+          0.173954,
+          0.20239,
+          0.215777,
+          0.174625,
+          0.257489,
+          0.256397,
+          0.234072,
+          0.225165
+        ],
+        "range_10": [
+          0.404309,
+          0.406663,
+          0.419128,
+          0.410972,
+          0.408728,
+          0.428297,
+          0.444238,
+          0.42006,
+          0.407896,
+          0.404159,
+          0.380422,
+          0.582585,
+          0.426002,
+          0.453195,
+          0.49074,
+          0.452174,
+          0.448165,
+          0.471271,
+          0.390672,
+          0.395602
+        ],
+        "range_1000": [
+          0.468425,
+          0.437535,
+          0.404159,
+          0.48548,
+          0.477153,
+          0.424369,
+          0.441963,
+          0.435882,
+          0.448857,
+          0.437544,
+          0.515559,
+          0.41503,
+          0.427374,
+          0.432495,
+          0.433096,
+          0.465941,
+          0.512984,
+          0.491532,
+          0.462324,
+          0.544296
+        ]
+      },
+      "diagnostics": {
+        "equality": {
+          "parameters": [
+            1541
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ref",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": "const",
+              "rows": "2",
+              "Extra": ""
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 1,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        },
+        "range_10": {
+          "parameters": [
+            4049,
+            4058
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ALL",
+              "possible_keys": "probe_k",
+              "key": null,
+              "key_len": null,
+              "ref": null,
+              "rows": "10000",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 0,
+            "Handler_read_last": 0,
+            "Handler_read_next": 0,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 10001
+          }
+        },
+        "range_1000": {
+          "parameters": [
+            4217,
+            5216
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ALL",
+              "possible_keys": "probe_k",
+              "key": null,
+              "key_len": null,
+              "ref": null,
+              "rows": "10000",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 0,
+            "Handler_read_last": 0,
+            "Handler_read_next": 0,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 10001
+          }
+        }
+      },
+      "engine_reported_table_status": [
+        {
+          "Name": "memory_index_probe",
+          "Engine": "MEMORY",
+          "Version": 10,
+          "Row_format": "Fixed",
+          "Rows": 10000,
+          "Avg_row_length": 13,
+          "Data_length": 2097120,
+          "Max_data_length": 22958117,
+          "Index_length": 4554272,
+          "Data_free": 0,
+          "Auto_increment": null,
+          "Create_time": "2026-10-16 16:36:14",
+          "Update_time": null,
+          "Check_time": null,
+          "Collation": "utf8mb4_uca1400_ai_ci",
+          "Checksum": null,
+          "Create_options": "",
+          "Comment": "",
+          "Max_index_length": 0,
+          "Temporary": "N"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "rows": 10000,
+      "position": 2,
+      "index": "BTREE",
+      "load_seconds": 0.040551191,
+      "verified_rows": 10000,
+      "verified_dataset_sha256": "dd1ed3013da4ec80f34780a9df2e8d94cb7c3d1e22e7843f61a9e676c7fcd013",
+      "actual_ddl": "CREATE TABLE `memory_index_probe` (\n  `id` int(11) NOT NULL,\n  `k` int(11) NOT NULL,\n  `v` int(11) NOT NULL,\n  PRIMARY KEY (`id`) USING BTREE,\n  KEY `probe_k` (`k`) USING BTREE\n) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "actual_indexes": [
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 0,
+          "Key_name": "PRIMARY",
+          "Seq_in_index": 1,
+          "Column_name": "id",
+          "Collation": "A",
+          "Cardinality": null,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "BTREE",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        },
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 1,
+          "Key_name": "probe_k",
+          "Seq_in_index": 1,
+          "Column_name": "k",
+          "Collation": "A",
+          "Cardinality": null,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "BTREE",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        }
+      ],
+      "query_streams": {
+        "equality": [
+          [
+            1541
+          ],
+          [
+            2575
+          ],
+          [
+            9824
+          ],
+          [
+            9971
+          ],
+          [
+            5458
+          ],
+          [
+            434
+          ],
+          [
+            6553
+          ],
+          [
+            3845
+          ],
+          [
+            7114
+          ],
+          [
+            7723
+          ],
+          [
+            3684
+          ],
+          [
+            6166
+          ],
+          [
+            7776
+          ],
+          [
+            3884
+          ],
+          [
+            6705
+          ],
+          [
+            7712
+          ],
+          [
+            7848
+          ],
+          [
+            4935
+          ],
+          [
+            160
+          ],
+          [
+            9636
+          ]
+        ],
+        "range_10": [
+          [
+            4049,
+            4058
+          ],
+          [
+            9855,
+            9864
+          ],
+          [
+            1611,
+            1620
+          ],
+          [
+            547,
+            556
+          ],
+          [
+            2986,
+            2995
+          ],
+          [
+            7228,
+            7237
+          ],
+          [
+            7189,
+            7198
+          ],
+          [
+            1855,
+            1864
+          ],
+          [
+            4629,
+            4638
+          ],
+          [
+            7063,
+            7072
+          ],
+          [
+            8890,
+            8899
+          ],
+          [
+            373,
+            382
+          ],
+          [
+            6791,
+            6800
+          ],
+          [
+            2803,
+            2812
+          ],
+          [
+            5109,
+            5118
+          ],
+          [
+            1873,
+            1882
+          ],
+          [
+            4560,
+            4569
+          ],
+          [
+            1036,
+            1045
+          ],
+          [
+            9619,
+            9628
+          ],
+          [
+            5703,
+            5712
+          ]
+        ],
+        "range_1000": [
+          [
+            4217,
+            5216
+          ],
+          [
+            4478,
+            5477
+          ],
+          [
+            8814,
+            9813
+          ],
+          [
+            2318,
+            3317
+          ],
+          [
+            3665,
+            4664
+          ],
+          [
+            225,
+            1224
+          ],
+          [
+            6224,
+            7223
+          ],
+          [
+            5816,
+            6815
+          ],
+          [
+            3052,
+            4051
+          ],
+          [
+            4541,
+            5540
+          ],
+          [
+            1047,
+            2046
+          ],
+          [
+            1935,
+            2934
+          ],
+          [
+            5856,
+            6855
+          ],
+          [
+            5544,
+            6543
+          ],
+          [
+            5090,
+            6089
+          ],
+          [
+            1866,
+            2865
+          ],
+          [
+            5857,
+            6856
+          ],
+          [
+            7233,
+            8232
+          ],
+          [
+            3040,
+            4039
+          ],
+          [
+            3017,
+            4016
+          ]
+        ]
+      },
+      "answers": {
+        "equality": [
+          [
+            1,
+            1005
+          ],
+          [
+            1,
+            237
+          ],
+          [
+            1,
+            955
+          ],
+          [
+            1,
+            115
+          ],
+          [
+            1,
+            450
+          ],
+          [
+            1,
+            493
+          ],
+          [
+            1,
+            264
+          ],
+          [
+            1,
+            602
+          ],
+          [
+            1,
+            568
+          ],
+          [
+            1,
+            396
+          ],
+          [
+            1,
+            27
+          ],
+          [
+            1,
+            160
+          ],
+          [
+            1,
+            155
+          ],
+          [
+            1,
+            290
+          ],
+          [
+            1,
+            182
+          ],
+          [
+            1,
+            356
+          ],
+          [
+            1,
+            920
+          ],
+          [
+            1,
+            219
+          ],
+          [
+            1,
+            295
+          ],
+          [
+            1,
+            194
+          ]
+        ],
+        "range_10": [
+          [
+            10,
+            4887
+          ],
+          [
+            10,
+            4610
+          ],
+          [
+            10,
+            5308
+          ],
+          [
+            10,
+            5711
+          ],
+          [
+            10,
+            4740
+          ],
+          [
+            10,
+            4374
+          ],
+          [
+            10,
+            5885
+          ],
+          [
+            10,
+            5882
+          ],
+          [
+            10,
+            3374
+          ],
+          [
+            10,
+            4095
+          ],
+          [
+            10,
+            7117
+          ],
+          [
+            10,
+            4568
+          ],
+          [
+            10,
+            5018
+          ],
+          [
+            10,
+            4260
+          ],
+          [
+            10,
+            5140
+          ],
+          [
+            10,
+            5976
+          ],
+          [
+            10,
+            4844
+          ],
+          [
+            10,
+            4833
+          ],
+          [
+            10,
+            4043
+          ],
+          [
+            10,
+            4284
+          ]
+        ],
+        "range_1000": [
+          [
+            1000,
+            516576
+          ],
+          [
+            1000,
+            508403
+          ],
+          [
+            1000,
+            498708
+          ],
+          [
+            1000,
+            496510
+          ],
+          [
+            1000,
+            507185
+          ],
+          [
+            1000,
+            500472
+          ],
+          [
+            1000,
+            499418
+          ],
+          [
+            1000,
+            505159
+          ],
+          [
+            1000,
+            497888
+          ],
+          [
+            1000,
+            505772
+          ],
+          [
+            1000,
+            516667
+          ],
+          [
+            1000,
+            497284
+          ],
+          [
+            1000,
+            505220
+          ],
+          [
+            1000,
+            498089
+          ],
+          [
+            1000,
+            493638
+          ],
+          [
+            1000,
+            496074
+          ],
+          [
+            1000,
+            505220
+          ],
+          [
+            1000,
+            504193
+          ],
+          [
+            1000,
+            497469
+          ],
+          [
+            1000,
+            498637
+          ]
+        ]
+      },
+      "timings_ms": {
+        "equality": [
+          0.172712,
+          0.173804,
+          0.182491,
+          0.175046,
+          0.17207,
+          0.172221,
+          0.17187,
+          0.173162,
+          0.201799,
+          0.175337,
+          0.1717,
+          0.171419,
+          0.171219,
+          0.172621,
+          0.171829,
+          0.194474,
+          0.175687,
+          0.186799,
+          0.174205,
+          0.171719
+        ],
+        "range_10": [
+          0.171699,
+          0.220649,
+          0.206238,
+          0.177681,
+          0.196419,
+          0.180957,
+          0.173864,
+          0.173132,
+          0.174084,
+          0.193392,
+          0.175097,
+          0.174986,
+          0.173293,
+          0.173393,
+          0.173423,
+          0.186348,
+          0.175847,
+          0.185767,
+          0.176228,
+          0.184324
+        ],
+        "range_1000": [
+          0.257108,
+          0.256267,
+          0.265284,
+          0.301435,
+          0.260155,
+          0.359711,
+          0.356806,
+          0.304061,
+          0.291847,
+          0.26827,
+          0.34897,
+          0.289623,
+          0.259222,
+          0.283711,
+          0.256878,
+          0.270023,
+          0.261146,
+          0.354992,
+          0.25821,
+          0.271516
+        ]
+      },
+      "diagnostics": {
+        "equality": {
+          "parameters": [
+            1541
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ref",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": "const",
+              "rows": "1",
+              "Extra": ""
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 1,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        },
+        "range_10": {
+          "parameters": [
+            4049,
+            4058
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "range",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": null,
+              "rows": "10",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 10,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        },
+        "range_1000": {
+          "parameters": [
+            4217,
+            5216
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "range",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": null,
+              "rows": "730",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 1000,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        }
+      },
+      "engine_reported_table_status": [
+        {
+          "Name": "memory_index_probe",
+          "Engine": "MEMORY",
+          "Version": 10,
+          "Row_format": "Fixed",
+          "Rows": 10000,
+          "Avg_row_length": 13,
+          "Data_length": 2097120,
+          "Max_data_length": 19827457,
+          "Index_length": 720000,
+          "Data_free": 0,
+          "Auto_increment": null,
+          "Create_time": "2026-10-16 16:36:14",
+          "Update_time": null,
+          "Check_time": null,
+          "Collation": "utf8mb4_uca1400_ai_ci",
+          "Checksum": null,
+          "Create_options": "",
+          "Comment": "",
+          "Max_index_length": 0,
+          "Temporary": "N"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "rows": 100000,
+      "position": 1,
+      "index": "HASH",
+      "load_seconds": 0.403286711,
+      "verified_rows": 100000,
+      "verified_dataset_sha256": "b859b07ce03d22e915b88840361ec6926eeb36f4f3b992869316dd21c22a5d5f",
+      "actual_ddl": "CREATE TABLE `memory_index_probe` (\n  `id` int(11) NOT NULL,\n  `k` int(11) NOT NULL,\n  `v` int(11) NOT NULL,\n  PRIMARY KEY (`id`) USING BTREE,\n  KEY `probe_k` (`k`) USING HASH\n) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "actual_indexes": [
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 0,
+          "Key_name": "PRIMARY",
+          "Seq_in_index": 1,
+          "Column_name": "id",
+          "Collation": "A",
+          "Cardinality": null,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "BTREE",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        },
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 1,
+          "Key_name": "probe_k",
+          "Seq_in_index": 1,
+          "Column_name": "k",
+          "Collation": null,
+          "Cardinality": 0,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "HASH",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        }
+      ],
+      "query_streams": {
+        "equality": [
+          [
+            20930
+          ],
+          [
+            246
+          ],
+          [
+            4512
+          ],
+          [
+            50015
+          ],
+          [
+            4243
+          ],
+          [
+            13385
+          ],
+          [
+            44492
+          ],
+          [
+            65292
+          ],
+          [
+            70032
+          ],
+          [
+            50781
+          ],
+          [
+            68998
+          ],
+          [
+            73859
+          ],
+          [
+            65828
+          ],
+          [
+            92281
+          ],
+          [
+            18669
+          ],
+          [
+            15266
+          ],
+          [
+            45924
+          ],
+          [
+            68376
+          ],
+          [
+            29773
+          ],
+          [
+            29734
+          ]
+        ],
+        "range_10": [
+          [
+            86463,
+            86472
+          ],
+          [
+            8641,
+            8650
+          ],
+          [
+            75064,
+            75073
+          ],
+          [
+            86804,
+            86813
+          ],
+          [
+            96049,
+            96058
+          ],
+          [
+            4561,
+            4570
+          ],
+          [
+            3565,
+            3574
+          ],
+          [
+            45338,
+            45347
+          ],
+          [
+            35832,
+            35841
+          ],
+          [
+            21758,
+            21767
+          ],
+          [
+            41887,
+            41896
+          ],
+          [
+            39108,
+            39117
+          ],
+          [
+            40076,
+            40085
+          ],
+          [
+            64245,
+            64254
+          ],
+          [
+            51235,
+            51244
+          ],
+          [
+            11829,
+            11838
+          ],
+          [
+            782,
+            791
+          ],
+          [
+            28286,
+            28295
+          ],
+          [
+            26235,
+            26244
+          ],
+          [
+            66285,
+            66294
+          ]
+        ],
+        "range_1000": [
+          [
+            8083,
+            9082
+          ],
+          [
+            98533,
+            99532
+          ],
+          [
+            42265,
+            43264
+          ],
+          [
+            29496,
+            30495
+          ],
+          [
+            89252,
+            90251
+          ],
+          [
+            71333,
+            72332
+          ],
+          [
+            54146,
+            55145
+          ],
+          [
+            95985,
+            96984
+          ],
+          [
+            32348,
+            33347
+          ],
+          [
+            15405,
+            16404
+          ],
+          [
+            88119,
+            89118
+          ],
+          [
+            49949,
+            50948
+          ],
+          [
+            50112,
+            51111
+          ],
+          [
+            6989,
+            7988
+          ],
+          [
+            45743,
+            46742
+          ],
+          [
+            33256,
+            34255
+          ],
+          [
+            19209,
+            20208
+          ],
+          [
+            84520,
+            85519
+          ],
+          [
+            44012,
+            45011
+          ],
+          [
+            89700,
+            90699
+          ]
+        ]
+      },
+      "answers": {
+        "equality": [
+          [
+            1,
+            412
+          ],
+          [
+            1,
+            280
+          ],
+          [
+            1,
+            442
+          ],
+          [
+            1,
+            505
+          ],
+          [
+            1,
+            978
+          ],
+          [
+            1,
+            796
+          ],
+          [
+            1,
+            701
+          ],
+          [
+            1,
+            170
+          ],
+          [
+            1,
+            160
+          ],
+          [
+            1,
+            410
+          ],
+          [
+            1,
+            162
+          ],
+          [
+            1,
+            608
+          ],
+          [
+            1,
+            16
+          ],
+          [
+            1,
+            689
+          ],
+          [
+            1,
+            507
+          ],
+          [
+            1,
+            941
+          ],
+          [
+            1,
+            391
+          ],
+          [
+            1,
+            433
+          ],
+          [
+            1,
+            665
+          ],
+          [
+            1,
+            775
+          ]
+        ],
+        "range_10": [
+          [
+            10,
+            4522
+          ],
+          [
+            10,
+            5395
+          ],
+          [
+            10,
+            4995
+          ],
+          [
+            10,
+            4423
+          ],
+          [
+            10,
+            5359
+          ],
+          [
+            10,
+            4842
+          ],
+          [
+            10,
+            6097
+          ],
+          [
+            10,
+            4093
+          ],
+          [
+            10,
+            4623
+          ],
+          [
+            10,
+            4495
+          ],
+          [
+            10,
+            5563
+          ],
+          [
+            10,
+            6848
+          ],
+          [
+            10,
+            5497
+          ],
+          [
+            10,
+            5718
+          ],
+          [
+            10,
+            4529
+          ],
+          [
+            10,
+            3835
+          ],
+          [
+            10,
+            4700
+          ],
+          [
+            10,
+            4502
+          ],
+          [
+            10,
+            5509
+          ],
+          [
+            10,
+            5117
+          ]
+        ],
+        "range_1000": [
+          [
+            1000,
+            506002
+          ],
+          [
+            1000,
+            499855
+          ],
+          [
+            1000,
+            509885
+          ],
+          [
+            1000,
+            502636
+          ],
+          [
+            1000,
+            496000
+          ],
+          [
+            1000,
+            496500
+          ],
+          [
+            1000,
+            515933
+          ],
+          [
+            1000,
+            522362
+          ],
+          [
+            1000,
+            490599
+          ],
+          [
+            1000,
+            504910
+          ],
+          [
+            1000,
+            520685
+          ],
+          [
+            1000,
+            513648
+          ],
+          [
+            1000,
+            512453
+          ],
+          [
+            1000,
+            505513
+          ],
+          [
+            1000,
+            507237
+          ],
+          [
+            1000,
+            497764
+          ],
+          [
+            1000,
+            493439
+          ],
+          [
+            1000,
+            491299
+          ],
+          [
+            1000,
+            507960
+          ],
+          [
+            1000,
+            497376
+          ]
+        ]
+      },
+      "timings_ms": {
+        "equality": [
+          0.179655,
+          0.174515,
+          0.209704,
+          0.179514,
+          0.172892,
+          0.176328,
+          0.176309,
+          0.191228,
+          0.192731,
+          0.191538,
+          0.192501,
+          0.195937,
+          0.173914,
+          0.174255,
+          0.170617,
+          0.170727,
+          0.172891,
+          0.18223,
+          0.18691,
+          0.171549
+        ],
+        "range_10": [
+          2.436225,
+          2.310556,
+          2.387769,
+          2.512906,
+          2.225659,
+          2.250138,
+          2.785246,
+          2.825936,
+          2.537575,
+          2.432144,
+          2.520976,
+          2.7233,
+          3.359763,
+          2.899481,
+          3.28318,
+          2.316088,
+          2.568583,
+          2.614628,
+          3.255184,
+          3.004001
+        ],
+        "range_1000": [
+          2.954611,
+          3.634013,
+          2.571272,
+          2.48887,
+          2.374884,
+          2.442658,
+          3.355753,
+          2.649457,
+          2.772477,
+          2.440423,
+          2.366648,
+          2.675889,
+          2.670602,
+          2.767377,
+          2.895687,
+          3.3406,
+          2.47919,
+          2.371778,
+          2.54004,
+          2.41177
+        ]
+      },
+      "diagnostics": {
+        "equality": {
+          "parameters": [
+            20930
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ref",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": "const",
+              "rows": "2",
+              "Extra": ""
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 1,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        },
+        "range_10": {
+          "parameters": [
+            86463,
+            86472
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ALL",
+              "possible_keys": "probe_k",
+              "key": null,
+              "key_len": null,
+              "ref": null,
+              "rows": "100000",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 0,
+            "Handler_read_last": 0,
+            "Handler_read_next": 0,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 100001
+          }
+        },
+        "range_1000": {
+          "parameters": [
+            8083,
+            9082
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ALL",
+              "possible_keys": "probe_k",
+              "key": null,
+              "key_len": null,
+              "ref": null,
+              "rows": "100000",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 0,
+            "Handler_read_last": 0,
+            "Handler_read_next": 0,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 100001
+          }
+        }
+      },
+      "engine_reported_table_status": [
+        {
+          "Name": "memory_index_probe",
+          "Engine": "MEMORY",
+          "Version": 10,
+          "Row_format": "Fixed",
+          "Rows": 100000,
+          "Avg_row_length": 13,
+          "Data_length": 2097120,
+          "Max_data_length": 22958117,
+          "Index_length": 7794272,
+          "Data_free": 0,
+          "Auto_increment": null,
+          "Create_time": "2026-10-16 16:36:14",
+          "Update_time": null,
+          "Check_time": null,
+          "Collation": "utf8mb4_uca1400_ai_ci",
+          "Checksum": null,
+          "Create_options": "",
+          "Comment": "",
+          "Max_index_length": 0,
+          "Temporary": "N"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "rows": 100000,
+      "position": 2,
+      "index": "BTREE",
+      "load_seconds": 0.483326334,
+      "verified_rows": 100000,
+      "verified_dataset_sha256": "b859b07ce03d22e915b88840361ec6926eeb36f4f3b992869316dd21c22a5d5f",
+      "actual_ddl": "CREATE TABLE `memory_index_probe` (\n  `id` int(11) NOT NULL,\n  `k` int(11) NOT NULL,\n  `v` int(11) NOT NULL,\n  PRIMARY KEY (`id`) USING BTREE,\n  KEY `probe_k` (`k`) USING BTREE\n) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "actual_indexes": [
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 0,
+          "Key_name": "PRIMARY",
+          "Seq_in_index": 1,
+          "Column_name": "id",
+          "Collation": "A",
+          "Cardinality": null,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "BTREE",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        },
+        {
+          "Table": "memory_index_probe",
+          "Non_unique": 1,
+          "Key_name": "probe_k",
+          "Seq_in_index": 1,
+          "Column_name": "k",
+          "Collation": "A",
+          "Cardinality": null,
+          "Sub_part": null,
+          "Packed": null,
+          "Null": "",
+          "Index_type": "BTREE",
+          "Comment": "",
+          "Index_comment": "",
+          "Ignored": "NO"
+        }
+      ],
+      "query_streams": {
+        "equality": [
+          [
+            20930
+          ],
+          [
+            246
+          ],
+          [
+            4512
+          ],
+          [
+            50015
+          ],
+          [
+            4243
+          ],
+          [
+            13385
+          ],
+          [
+            44492
+          ],
+          [
+            65292
+          ],
+          [
+            70032
+          ],
+          [
+            50781
+          ],
+          [
+            68998
+          ],
+          [
+            73859
+          ],
+          [
+            65828
+          ],
+          [
+            92281
+          ],
+          [
+            18669
+          ],
+          [
+            15266
+          ],
+          [
+            45924
+          ],
+          [
+            68376
+          ],
+          [
+            29773
+          ],
+          [
+            29734
+          ]
+        ],
+        "range_10": [
+          [
+            86463,
+            86472
+          ],
+          [
+            8641,
+            8650
+          ],
+          [
+            75064,
+            75073
+          ],
+          [
+            86804,
+            86813
+          ],
+          [
+            96049,
+            96058
+          ],
+          [
+            4561,
+            4570
+          ],
+          [
+            3565,
+            3574
+          ],
+          [
+            45338,
+            45347
+          ],
+          [
+            35832,
+            35841
+          ],
+          [
+            21758,
+            21767
+          ],
+          [
+            41887,
+            41896
+          ],
+          [
+            39108,
+            39117
+          ],
+          [
+            40076,
+            40085
+          ],
+          [
+            64245,
+            64254
+          ],
+          [
+            51235,
+            51244
+          ],
+          [
+            11829,
+            11838
+          ],
+          [
+            782,
+            791
+          ],
+          [
+            28286,
+            28295
+          ],
+          [
+            26235,
+            26244
+          ],
+          [
+            66285,
+            66294
+          ]
+        ],
+        "range_1000": [
+          [
+            8083,
+            9082
+          ],
+          [
+            98533,
+            99532
+          ],
+          [
+            42265,
+            43264
+          ],
+          [
+            29496,
+            30495
+          ],
+          [
+            89252,
+            90251
+          ],
+          [
+            71333,
+            72332
+          ],
+          [
+            54146,
+            55145
+          ],
+          [
+            95985,
+            96984
+          ],
+          [
+            32348,
+            33347
+          ],
+          [
+            15405,
+            16404
+          ],
+          [
+            88119,
+            89118
+          ],
+          [
+            49949,
+            50948
+          ],
+          [
+            50112,
+            51111
+          ],
+          [
+            6989,
+            7988
+          ],
+          [
+            45743,
+            46742
+          ],
+          [
+            33256,
+            34255
+          ],
+          [
+            19209,
+            20208
+          ],
+          [
+            84520,
+            85519
+          ],
+          [
+            44012,
+            45011
+          ],
+          [
+            89700,
+            90699
+          ]
+        ]
+      },
+      "answers": {
+        "equality": [
+          [
+            1,
+            412
+          ],
+          [
+            1,
+            280
+          ],
+          [
+            1,
+            442
+          ],
+          [
+            1,
+            505
+          ],
+          [
+            1,
+            978
+          ],
+          [
+            1,
+            796
+          ],
+          [
+            1,
+            701
+          ],
+          [
+            1,
+            170
+          ],
+          [
+            1,
+            160
+          ],
+          [
+            1,
+            410
+          ],
+          [
+            1,
+            162
+          ],
+          [
+            1,
+            608
+          ],
+          [
+            1,
+            16
+          ],
+          [
+            1,
+            689
+          ],
+          [
+            1,
+            507
+          ],
+          [
+            1,
+            941
+          ],
+          [
+            1,
+            391
+          ],
+          [
+            1,
+            433
+          ],
+          [
+            1,
+            665
+          ],
+          [
+            1,
+            775
+          ]
+        ],
+        "range_10": [
+          [
+            10,
+            4522
+          ],
+          [
+            10,
+            5395
+          ],
+          [
+            10,
+            4995
+          ],
+          [
+            10,
+            4423
+          ],
+          [
+            10,
+            5359
+          ],
+          [
+            10,
+            4842
+          ],
+          [
+            10,
+            6097
+          ],
+          [
+            10,
+            4093
+          ],
+          [
+            10,
+            4623
+          ],
+          [
+            10,
+            4495
+          ],
+          [
+            10,
+            5563
+          ],
+          [
+            10,
+            6848
+          ],
+          [
+            10,
+            5497
+          ],
+          [
+            10,
+            5718
+          ],
+          [
+            10,
+            4529
+          ],
+          [
+            10,
+            3835
+          ],
+          [
+            10,
+            4700
+          ],
+          [
+            10,
+            4502
+          ],
+          [
+            10,
+            5509
+          ],
+          [
+            10,
+            5117
+          ]
+        ],
+        "range_1000": [
+          [
+            1000,
+            506002
+          ],
+          [
+            1000,
+            499855
+          ],
+          [
+            1000,
+            509885
+          ],
+          [
+            1000,
+            502636
+          ],
+          [
+            1000,
+            496000
+          ],
+          [
+            1000,
+            496500
+          ],
+          [
+            1000,
+            515933
+          ],
+          [
+            1000,
+            522362
+          ],
+          [
+            1000,
+            490599
+          ],
+          [
+            1000,
+            504910
+          ],
+          [
+            1000,
+            520685
+          ],
+          [
+            1000,
+            513648
+          ],
+          [
+            1000,
+            512453
+          ],
+          [
+            1000,
+            505513
+          ],
+          [
+            1000,
+            507237
+          ],
+          [
+            1000,
+            497764
+          ],
+          [
+            1000,
+            493439
+          ],
+          [
+            1000,
+            491299
+          ],
+          [
+            1000,
+            507960
+          ],
+          [
+            1000,
+            497376
+          ]
+        ]
+      },
+      "timings_ms": {
+        "equality": [
+          0.183863,
+          0.18221,
+          0.215556,
+          0.2176,
+          0.203332,
+          0.244593,
+          0.200095,
+          0.223402,
+          0.199464,
+          0.199895,
+          0.214344,
+          0.189815,
+          0.227981,
+          0.204404,
+          0.236898,
+          0.206468,
+          0.199785,
+          0.220916,
+          0.20758,
+          0.193132
+        ],
+        "range_10": [
+          0.229444,
+          0.257248,
+          0.198091,
+          0.21775,
+          0.279382,
+          0.268851,
+          0.248221,
+          0.226688,
+          0.225803,
+          0.225859,
+          0.221487,
+          0.192099,
+          0.19202,
+          0.200917,
+          0.206528,
+          0.227447,
+          0.189014,
+          0.208963,
+          0.232913,
+          0.224521
+        ],
+        "range_1000": [
+          0.307448,
+          0.294181,
+          0.310754,
+          0.287047,
+          0.284923,
+          0.491251,
+          0.463937,
+          0.479558,
+          0.454418,
+          0.481361,
+          0.453486,
+          0.447043,
+          0.31859,
+          0.426784,
+          0.46554,
+          0.437866,
+          0.457344,
+          0.447855,
+          0.443627,
+          0.393278
+        ]
+      },
+      "diagnostics": {
+        "equality": {
+          "parameters": [
+            20930
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "ref",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": "const",
+              "rows": "1",
+              "Extra": ""
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 1,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        },
+        "range_10": {
+          "parameters": [
+            86463,
+            86472
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "range",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": null,
+              "rows": "8",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 10,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        },
+        "range_1000": {
+          "parameters": [
+            8083,
+            9082
+          ],
+          "explain": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "memory_index_probe",
+              "type": "range",
+              "possible_keys": "probe_k",
+              "key": "probe_k",
+              "key_len": "4",
+              "ref": null,
+              "rows": "816",
+              "Extra": "Using where"
+            }
+          ],
+          "handler_read_delta": {
+            "Handler_read_first": 0,
+            "Handler_read_key": 1,
+            "Handler_read_last": 0,
+            "Handler_read_next": 1000,
+            "Handler_read_prev": 0,
+            "Handler_read_retry": 0,
+            "Handler_read_rnd": 0,
+            "Handler_read_rnd_deleted": 0,
+            "Handler_read_rnd_next": 0
+          }
+        }
+      },
+      "engine_reported_table_status": [
+        {
+          "Name": "memory_index_probe",
+          "Engine": "MEMORY",
+          "Version": 10,
+          "Row_format": "Fixed",
+          "Rows": 100000,
+          "Avg_row_length": 13,
+          "Data_length": 2097120,
+          "Max_data_length": 19827457,
+          "Index_length": 7200000,
+          "Data_free": 0,
+          "Auto_increment": null,
+          "Create_time": "2026-10-16 16:36:16",
+          "Update_time": null,
+          "Check_time": null,
+          "Collation": "utf8mb4_uca1400_ai_ci",
+          "Checksum": null,
+          "Create_options": "",
+          "Comment": "",
+          "Max_index_length": 0,
+          "Temporary": "N"
+        }
+      ]
+    }
+  ],
+  "power_condition": "plugged in; battery saver off",
+  "runtime": {
+    "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "cpu_count_visible": 12,
+    "pymysql": "1.1.2",
+    "cgroup_memory_max": "536870912",
+    "cgroup_cpu_max": "100000 100000"
+  },
+  "source_sha256": {
+    "Dockerfile": "52b29de683d87af26db21126c1ca130c31d210616948729ff8c854b5e9eee37e",
+    "benchmarks/__init__.py": "9302d9cd9e93114268ef96c7455e43cacf31f46d1d189cc49e9f78c1b06e8aa2",
+    "benchmarks/concurrency.py": "615836674bed9dcdc210616d00dc6b58888d5c33bea2d9b7f1a6f58a908c76ff",
+    "benchmarks/core.py": "254801569f623ec6ea5b32abc2677e7152da559dd4184f75f5dfeb31a6ea8f16",
+    "benchmarks/memory_indexes.py": "b76d9e85cd6458d09c0dd9b147427181a6c4571c42bff2d895e379526c801b5f",
+    "benchmarks/openflights.py": "0dee23afa6197e50161c9105690badb414027a0384b4867b9d6181c10d91a5d2",
+    "benchmarks/openflights_data.py": "aa97d704328304f108346183290723f7b68b9d6a64f3ca940adaa3b5802aec35",
+    "benchmarks/recovery.py": "ff22109310a89c4473b93efb34b3daf4367bfd6243d282aef6b9f6e076b0e60d",
+    "benchmarks/report.py": "4f00133096fbaede623324b8e1937925a40f2ee512f210c21c272fc71953cc49",
+    "benchmarks/run.py": "ecc546294a53e1bbeb3deccbb72b7905c3d4707df60aa2d69848d21ce618864f",
+    "benchmarks/storage.py": "13d5e723de4e6a1cb13c3c2c7ba4e8f831656a91c83ea34f5b40355cad753637",
+    "benchmarks/telemetry.py": "fab4a2f5548f4c42dda50a313288dec3a74f3757d88246c418555d4d3b4c29ad",
+    "compose.runner-2cpu.yaml": "72b06796ce524dd1da5094c7d5fea70d8b1e2751345c6e4b3e6da934b6020ea5",
+    "compose.yaml": "6877567197ec5acfd834a2996923baff52f81ca742215353a04b583bcc5c7531",
+    "docker/mariadb/Dockerfile": "a81eb730f89c4c5a44d8480cba51ed9f213a827875cfb51197582fadb82bc92b",
+    "docker/mariadb/rocksdb.cnf": "b01c06374d627bb863dcc83b2278918d0d61334766a36972c629e7629e353edb",
+    "requirements.txt": "8476629b5f3e1c887347b763a6462e48b3f327d5a1a8d6b6b4964e21b1a83075",
+    "sql/benchmark/aria.sql": "aefbd9abd5cde2186669e412874ad2349f1c1f6297f7d5b6407036ff0c569084",
+    "sql/benchmark/innodb.sql": "18857b82c169928d1cf68abfc3c197fc382c328f800819e4bedfa3426f967b7c",
+    "sql/benchmark/memory.sql": "f9b457a4c1e4d8d18694e30643e62156602fb8053f5d39448772f17c6f2b2e69",
+    "sql/benchmark/myisam.sql": "e23a19430947801da592d62cf43c8609995efa7bd7e954597e9df36470dbc32b",
+    "sql/benchmark/rocksdb.sql": "2504f94265055ba19291f431763c45703ab85c1f656bfd118a59a25c2dbf0abc"
+  },
+  "server_version": "11.8.9-MariaDB-ubu2404",
+  "global_variables": {
+    "aria_pagecache_buffer_size": "134217728",
+    "aria_recover_options": "BACKUP,QUICK",
+    "aria_used_for_temp_tables": "ON",
+    "autocommit": "ON",
+    "binlog_format": "ROW",
+    "innodb_buffer_pool_size": "134217728",
+    "innodb_file_per_table": "ON",
+    "innodb_flush_log_at_trx_commit": "1",
+    "key_buffer_size": "134217728",
+    "log_bin": "OFF",
+    "max_heap_table_size": "16777216",
+    "query_cache_size": "0",
+    "query_cache_type": "OFF",
+    "rocksdb_block_cache_size": "134217728",
+    "rocksdb_default_cf_options": "",
+    "rocksdb_flush_log_at_trx_commit": "1",
+    "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+    "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+    "sync_binlog": "0",
+    "tmp_table_size": "16777216",
+    "tx_isolation": "REPEATABLE-READ",
+    "version": "11.8.9-MariaDB-ubu2404",
+    "version_comment": "mariadb.org binary distribution",
+    "version_compile_machine": "x86_64",
+    "version_compile_os": "debian-linux-gnu"
+  },
+  "session_variables": {
+    "aria_pagecache_buffer_size": "134217728",
+    "aria_recover_options": "BACKUP,QUICK",
+    "aria_used_for_temp_tables": "ON",
+    "autocommit": "ON",
+    "binlog_format": "ROW",
+    "innodb_buffer_pool_size": "134217728",
+    "innodb_file_per_table": "ON",
+    "innodb_flush_log_at_trx_commit": "1",
+    "key_buffer_size": "134217728",
+    "log_bin": "OFF",
+    "max_heap_table_size": "134217728",
+    "query_cache_size": "0",
+    "query_cache_type": "OFF",
+    "rocksdb_block_cache_size": "134217728",
+    "rocksdb_default_cf_options": "",
+    "rocksdb_flush_log_at_trx_commit": "1",
+    "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+    "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+    "sync_binlog": "0",
+    "tmp_table_size": "16777216",
+    "tx_isolation": "REPEATABLE-READ",
+    "version": "11.8.9-MariaDB-ubu2404",
+    "version_comment": "mariadb.org binary distribution",
+    "version_compile_machine": "x86_64",
+    "version_compile_os": "debian-linux-gnu"
+  },
+  "statistics": {
+    "10000": {
+      "HASH": {
+        "equality": {
+          "n": 1,
+          "mean": 0.2249217,
+          "median": 0.2249217,
+          "sample_sd": null,
+          "min": 0.2249217,
+          "max": 0.2249217,
+          "p95_nearest_rank": 0.2249217
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 0.4322639,
+          "median": 0.4322639,
+          "sample_sd": null,
+          "min": 0.4322639,
+          "max": 0.4322639,
+          "p95_nearest_rank": 0.4322639
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 0.4580999,
+          "median": 0.4580999,
+          "sample_sd": null,
+          "min": 0.4580999,
+          "max": 0.4580999,
+          "p95_nearest_rank": 0.4580999
+        }
+      },
+      "BTREE": {
+        "equality": {
+          "n": 1,
+          "mean": 0.1766092,
+          "median": 0.1766092,
+          "sample_sd": null,
+          "min": 0.1766092,
+          "max": 0.1766092,
+          "p95_nearest_rank": 0.1766092
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 0.18234105,
+          "median": 0.18234105,
+          "sample_sd": null,
+          "min": 0.18234105,
+          "max": 0.18234105,
+          "p95_nearest_rank": 0.18234105
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 0.28876175,
+          "median": 0.28876175,
+          "sample_sd": null,
+          "min": 0.28876175,
+          "max": 0.28876175,
+          "p95_nearest_rank": 0.28876175
+        }
+      }
+    },
+    "100000": {
+      "HASH": {
+        "equality": {
+          "n": 1,
+          "mean": 0.18179725,
+          "median": 0.18179725,
+          "sample_sd": null,
+          "min": 0.18179725,
+          "max": 0.18179725,
+          "p95_nearest_rank": 0.18179725
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 2.6624669,
+          "median": 2.6624669,
+          "sample_sd": null,
+          "min": 2.6624669,
+          "max": 2.6624669,
+          "p95_nearest_rank": 2.6624669
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 2.71019995,
+          "median": 2.71019995,
+          "sample_sd": null,
+          "min": 2.71019995,
+          "max": 2.71019995,
+          "p95_nearest_rank": 2.71019995
+        }
+      },
+      "BTREE": {
+        "equality": {
+          "n": 1,
+          "mean": 0.20856665,
+          "median": 0.20856665,
+          "sample_sd": null,
+          "min": 0.20856665,
+          "max": 0.20856665,
+          "p95_nearest_rank": 0.20856665
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 0.2236623,
+          "median": 0.2236623,
+          "sample_sd": null,
+          "min": 0.2236623,
+          "max": 0.2236623,
+          "p95_nearest_rank": 0.2236623
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 0.40731455,
+          "median": 0.40731455,
+          "sample_sd": null,
+          "min": 0.40731455,
+          "max": 0.40731455,
+          "p95_nearest_rank": 0.40731455
+        }
+      }
+    }
+  }
+}
