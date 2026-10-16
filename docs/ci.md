@@ -25,7 +25,7 @@ results directory for UID 10001 and runs the README setup wrapper,
 
 1. Generates disposable local credentials without printing their values.
 2. Downloads the pinned OpenFlights snapshot and verifies its checksum.
-3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 85 tests).
+3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 94 tests).
 4. Builds the custom MariaDB image, including the pinned MyRocks plugin package.
 5. Starts a fresh database volume and waits for its healthcheck.
 6. Checks all five actual storage engines and verifies parameterized inserts/readback.
@@ -38,7 +38,9 @@ isolation and failure handling with fixtures; they are not new benchmark observa
 
 ## Scope and operation
 
-The workflow does not run timing benchmarks or crash experiments. Shared CI host
+The workflow also runs a tiny MEMORY HASH/BTREE correctness smoke against the real
+server. Its output includes timings, but these are not performance evidence.
+The workflow does not run full timing benchmarks or crash experiments. Shared CI host
 performance cannot replace the controlled laptop measurements. Passing CI establishes
 fresh Linux build/setup and correctness checks for that revision; it does not establish
 a Windows tutorial reproduction, power-loss durability or engine recommendations.

@@ -103,3 +103,10 @@ from the archived OpenFlights snapshot; it does not claim equal budgets. The
 wrapper has three failure-path tests (85 total), and CI runs the documented command.
 Team reproduction, contribution confirmation and targeted mechanism experiments
 remain separate tasks; no new performance measurements are claimed here.
+
+## MEMORY mechanism experiment
+
+The [HASH/BTREE harness](memory-index-method.md) changes only the secondary index
+type and records verified answers, plans and session handler deltas. Nine new unit
+tests bring the suite to 94; CI also exercises a small real-server correctness run.
+Laptop pilot/full measurements and analysis are pending, not completed evidence.

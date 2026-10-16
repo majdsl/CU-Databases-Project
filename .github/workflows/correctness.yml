@@ -33,6 +33,8 @@ jobs:
           sudo chown 10001:10001 results
       - name: Run documented setup wrapper
         run: python3 scripts/setup_project.py --project-name "$CI_PROJECT"
+      - name: MEMORY index correctness smoke (not benchmark evidence)
+        run: docker compose -p "$CI_PROJECT" run --rm runner python -m benchmarks.memory_indexes --smoke --power-condition CI-correctness-only
       - name: Database diagnostics on failure
         if: failure()
         run: docker compose -p "$CI_PROJECT" logs --no-color --tail=200 db
