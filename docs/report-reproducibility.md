@@ -54,6 +54,7 @@ python -m venv .venv-report
 .\.venv-report\Scripts\python.exe scripts/report_storage_findings.py
 .\.venv-report\Scripts\python.exe scripts/report_recovery_findings.py
 .\.venv-report\Scripts\python.exe scripts/report_openflights_findings.py
+.\.venv-report\Scripts\python.exe scripts/report_memory_findings.py
 git diff --stat
 ```
 
@@ -71,3 +72,19 @@ reviews. Native Linux bind-mount write permissions for benchmark output and the 
 host/build details listed in the [tutorial audit](tutorial-audit.md) still need validation.
 No new claim about power loss, transaction rollback or larger-scale performance follows
 from successful report regeneration.
+
+## MEMORY report follow-up — October 16, 2026
+
+The fifth generator, `scripts/report_memory_findings.py`, validates the four-trial
+pilot and 24-trial full run archived in `7246f7e`. It verifies original summaries,
+all trial statistics, datasets, query streams/answers, actual indexes/DDL and
+recorded plans/handler deltas. Only the full run contributes to the report and charts.
+The outputs are 72 CSV observations, JSON statistics/provenance, a findings report
+and two charts in PNG and SVG (four files). Matplotlib 3.10.8 is used.
+Canonical evidence hashes ignore line endings; historical raw evidence is untouched.
+
+Validation for this addition: all seven generated files reproduced byte-for-byte
+on a second run. All 152 archived evidence files retained their bytes. The 94-unit-test
+suite passed locally. Deliberately incomplete runs, changed plans, changed counters
+and missing diagnostics were rejected by the report validator. Both charts were
+visually inspected. These checks validate the report, not new performance observations.

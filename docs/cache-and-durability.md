@@ -51,7 +51,8 @@ Small lookup differences are not general engine rankings.
 
 A future mechanism experiment should change one setting, verify identical answers,
 record plans and settings, and repeat balanced trials. The [MEMORY HASH-versus-BTREE harness](memory-index-method.md) now implements
-equality and range access; laptop measurements remain pending. Larger working sets and sustained
+equality and range access; [verified laptop findings](memory-index-findings.md) now
+show the observed plans, counters and timing differences. Larger working sets and sustained
 writes need additional cache and compaction observations. These are proposed
 extensions, not completed evidence.
 

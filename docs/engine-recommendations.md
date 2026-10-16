@@ -83,8 +83,9 @@ Aria for new applications [4]; our loading result is a workload-specific reason 
 compare them, not to disregard that guidance.
 
 **MEMORY:** RAM storage explains its volatility; the documentation also permits HASH
-and BTREE indexes [5]. Our benchmark explicitly uses BTREE, so it is not a test of
-MEMORY's default HASH advantage. The warm-read result does not isolate disk avoidance:
+and BTREE indexes [5]. The shared flight benchmarks explicitly use BTREE; the
+separate index comparison below tests HASH versus BTREE. The flight warm-read result
+does not isolate disk avoidance:
 the persistent engines were warmed too. Rebuild time, RAM exhaustion and concurrent
 cache refresh remain unmeasured.
 
@@ -107,6 +108,17 @@ measure server lock waits, server CPU or Python scheduling directly, so table lo
 is a possible contributor, not an established sole cause. For future concurrency tests,
 start with two runner CPUs, record throttling and fixed power conditions, and measure
 server contention before attributing scaling to engine architecture.
+
+## Choosing the MEMORY index
+
+The separate [HASH/BTREE experiment](memory-index-findings.md) changes only the
+secondary index on an integer key. Across six rounds per size/index, both variants
+used indexed equality access with similar observed mean latency. Range queries
+scanned with HASH and used index-range access with BTREE. At 100,000 rows, HASH
+took 13.52 times as long for a 10-row range and 6.45 times as long for a 1,000-row
+range. These are ratios of means from one warm, single-client run, not universal
+speedups. Choose BTREE for this kind of range workload; test writes and duplicate
+keys separately. Neither index changes MEMORY's restart volatility.
 
 ## Applying the recommendation
 

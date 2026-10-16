@@ -29,6 +29,11 @@ and evidence. There is no universal winner. In the [CPU diagnostic](docs/cpu-fin
 changing the load generator's quota substantially changed throughput, demonstrating
 why client limits must be checked before judging engine scaling.
 
+A separate [MEMORY index experiment](docs/memory-index-findings.md) changes only HASH
+versus BTREE: at 100,000 rows, the 10-row range took 13.52 times as long with HASH.
+Plans and counters showed a table scan versus index-range access; equality means
+were similar. This is a scoped mechanism result, not a new five-engine ranking.
+
 ![OpenFlights load measurements: individual trials and sample SD](docs/figures/openflights-load.png)
 
 ## Start here
@@ -99,7 +104,9 @@ show all trials and qualify each conclusion.
 | Pinned OpenFlights routes | Source-row key; nonunique source/destination index; nullable original IDs | Preserve repeated route combinations and missing IDs instead of silently dropping records |
 
 Each engine receives the same rows, logical schema and query stream **within an experiment**.
-Explicit BTREE declarations and utf8mb4_bin avoid MEMORY's default HASH index as a confounder.
+The shared flight schemas use explicit BTREE declarations and utf8mb4_bin to avoid
+MEMORY's default HASH index as a confounder. The separate integer-only index experiment
+deliberately changes HASH versus BTREE.
 Physical storage still differs. No foreign keys or engine-specific alternatives are added
 to the common schema; this is not a complete airline application. See the
 [synthetic schema rationale](docs/benchmark-method.md), [route transformation](docs/openflights-method.md)
@@ -107,8 +114,8 @@ and directly comparable [SQL schemas](sql/openflights/).
 
 The harness verifies the actual engine, checks every loaded value and validates query
 answers. Verification warms caches. Timings include driver/network work; read statistics
-summarize trial means, not pooled queries. Five repeats are on one laptop, not independent
-machines. [Recorded cache and durability settings](docs/cache-and-durability.md) explain why
+summarize trial means, not pooled queries. The flight comparisons use five repeats; the MEMORY index comparison uses six.
+These are repeats on one laptop, not independent machines. [Recorded cache and durability settings](docs/cache-and-durability.md) explain why
 equal configured cache sizes are not equal total memory or durability guarantees.
 
 Storage uses stopped-server inventories on fresh volumes. Recovery uses clean versus
@@ -124,7 +131,7 @@ transactions or steady-state MyRocks compaction.
 | Concurrent updates and client CPU limits | [Concurrency](docs/concurrency-method.md), [CPU diagnostic](docs/cpu-diagnostic.md) | [CPU findings](docs/cpu-findings.md) |
 | Persistent allocation versus live RAM | [Storage procedure](docs/storage-method.md) | [Storage findings](docs/storage-findings.md) |
 | Rows surviving clean/process-crash restarts | [Isolated recovery procedure](docs/recovery-method.md) | [Recovery findings](docs/recovery-findings.md) |
-| MEMORY index access paths (measurements pending) | [HASH versus BTREE protocol](docs/memory-index-method.md) | Pilot/full evidence pending |
+| MEMORY index access paths | [HASH versus BTREE protocol](docs/memory-index-method.md) | [Index findings and charts](docs/memory-index-findings.md) |
 | Real route data and secondary-index queries | [OpenFlights](docs/openflights-method.md) | [Route findings](docs/openflights-findings.md) |
 
 Read reports without rerunning experiments. The storage/recovery harnesses use isolated
@@ -133,7 +140,7 @@ diagnostic evidence. The historical route snapshot is OpenFlights data, via Mari
 under [ODbL 1.0](data/openflights/LICENSE); its [download manifest](data/openflights/manifest.json)
 pins the source and checksum. Synthetic events are complementary generated data, not real flights.
 
-All four report generators and 14 chart files were regenerated offline; see
+Five report generators cover 18 chart files; the MEMORY report adds verified index-mechanism evidence. See
 [report reproduction commands and checks](docs/report-reproducibility.md).
 CI uses fresh containers and runs unit tests plus real five-engine checks;
 see [CI scope](docs/ci.md). Performance measurements stay on controlled machines.

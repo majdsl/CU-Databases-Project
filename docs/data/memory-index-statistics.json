@@ -1,0 +1,559 @@
+{
+  "full_run": "20261016T170049Z-memory-indexes-d7d3b1c7",
+  "excluded_pilot": "20261016T163614Z-memory-indexes-6d072a50",
+  "statistical_unit": "trial mean of 100 queries; six rounds per size/index",
+  "full_statistics": {
+    "10000": {
+      "HASH": {
+        "equality": {
+          "n": 6,
+          "mean": 0.19349910666666667,
+          "median": 0.19331952,
+          "sample_sd": 0.005343202346079238,
+          "min": 0.18666852,
+          "max": 0.20014615,
+          "p95_nearest_rank": 0.20014615
+        },
+        "range_10": {
+          "n": 6,
+          "mean": 0.42568893,
+          "median": 0.424137385,
+          "sample_sd": 0.015653251281222066,
+          "min": 0.4057743,
+          "max": 0.44723877,
+          "p95_nearest_rank": 0.44723877
+        },
+        "range_1000": {
+          "n": 6,
+          "mean": 0.47583078166666665,
+          "median": 0.47792383,
+          "sample_sd": 0.013694418615886411,
+          "min": 0.45852617,
+          "max": 0.49107951,
+          "p95_nearest_rank": 0.49107951
+        }
+      },
+      "BTREE": {
+        "equality": {
+          "n": 6,
+          "mean": 0.19159068333333332,
+          "median": 0.19129444499999998,
+          "sample_sd": 0.0036509989696611347,
+          "min": 0.18769697,
+          "max": 0.19814167,
+          "p95_nearest_rank": 0.19814167
+        },
+        "range_10": {
+          "n": 6,
+          "mean": 0.20100405166666666,
+          "median": 0.19559335,
+          "sample_sd": 0.014200883122341952,
+          "min": 0.19083462,
+          "max": 0.22886436,
+          "p95_nearest_rank": 0.22886436
+        },
+        "range_1000": {
+          "n": 6,
+          "mean": 0.31330006666666665,
+          "median": 0.31612184,
+          "sample_sd": 0.011744936791447905,
+          "min": 0.29819679,
+          "max": 0.32486589,
+          "p95_nearest_rank": 0.32486589
+        }
+      }
+    },
+    "100000": {
+      "HASH": {
+        "equality": {
+          "n": 6,
+          "mean": 0.193371425,
+          "median": 0.19287966,
+          "sample_sd": 0.008075198410701126,
+          "min": 0.18229738,
+          "max": 0.20393088,
+          "p95_nearest_rank": 0.20393088
+        },
+        "range_10": {
+          "n": 6,
+          "mean": 2.59736819,
+          "median": 2.529922145,
+          "sample_sd": 0.1162294709242757,
+          "min": 2.51142934,
+          "max": 2.75044586,
+          "p95_nearest_rank": 2.75044586
+        },
+        "range_1000": {
+          "n": 6,
+          "mean": 2.7059496133333334,
+          "median": 2.573221995,
+          "sample_sd": 0.3523104727548061,
+          "min": 2.50484592,
+          "max": 3.41646251,
+          "p95_nearest_rank": 3.41646251
+        }
+      },
+      "BTREE": {
+        "equality": {
+          "n": 6,
+          "mean": 0.19276883833333333,
+          "median": 0.191657385,
+          "sample_sd": 0.00377722109312344,
+          "min": 0.18916962,
+          "max": 0.1973937,
+          "p95_nearest_rank": 0.1973937
+        },
+        "range_10": {
+          "n": 6,
+          "mean": 0.192070105,
+          "median": 0.190108015,
+          "sample_sd": 0.00603041104698097,
+          "min": 0.18712679,
+          "max": 0.20363183,
+          "p95_nearest_rank": 0.20363183
+        },
+        "range_1000": {
+          "n": 6,
+          "mean": 0.4196990816666667,
+          "median": 0.40043168500000004,
+          "sample_sd": 0.0389781977004363,
+          "min": 0.39118252,
+          "max": 0.48827753,
+          "p95_nearest_rank": 0.48827753
+        }
+      }
+    }
+  },
+  "pilot_statistics": {
+    "10000": {
+      "HASH": {
+        "equality": {
+          "n": 1,
+          "mean": 0.2249217,
+          "median": 0.2249217,
+          "sample_sd": null,
+          "min": 0.2249217,
+          "max": 0.2249217,
+          "p95_nearest_rank": 0.2249217
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 0.4322639,
+          "median": 0.4322639,
+          "sample_sd": null,
+          "min": 0.4322639,
+          "max": 0.4322639,
+          "p95_nearest_rank": 0.4322639
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 0.4580999,
+          "median": 0.4580999,
+          "sample_sd": null,
+          "min": 0.4580999,
+          "max": 0.4580999,
+          "p95_nearest_rank": 0.4580999
+        }
+      },
+      "BTREE": {
+        "equality": {
+          "n": 1,
+          "mean": 0.1766092,
+          "median": 0.1766092,
+          "sample_sd": null,
+          "min": 0.1766092,
+          "max": 0.1766092,
+          "p95_nearest_rank": 0.1766092
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 0.18234105,
+          "median": 0.18234105,
+          "sample_sd": null,
+          "min": 0.18234105,
+          "max": 0.18234105,
+          "p95_nearest_rank": 0.18234105
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 0.28876175,
+          "median": 0.28876175,
+          "sample_sd": null,
+          "min": 0.28876175,
+          "max": 0.28876175,
+          "p95_nearest_rank": 0.28876175
+        }
+      }
+    },
+    "100000": {
+      "HASH": {
+        "equality": {
+          "n": 1,
+          "mean": 0.18179725,
+          "median": 0.18179725,
+          "sample_sd": null,
+          "min": 0.18179725,
+          "max": 0.18179725,
+          "p95_nearest_rank": 0.18179725
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 2.6624669,
+          "median": 2.6624669,
+          "sample_sd": null,
+          "min": 2.6624669,
+          "max": 2.6624669,
+          "p95_nearest_rank": 2.6624669
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 2.71019995,
+          "median": 2.71019995,
+          "sample_sd": null,
+          "min": 2.71019995,
+          "max": 2.71019995,
+          "p95_nearest_rank": 2.71019995
+        }
+      },
+      "BTREE": {
+        "equality": {
+          "n": 1,
+          "mean": 0.20856665,
+          "median": 0.20856665,
+          "sample_sd": null,
+          "min": 0.20856665,
+          "max": 0.20856665,
+          "p95_nearest_rank": 0.20856665
+        },
+        "range_10": {
+          "n": 1,
+          "mean": 0.2236623,
+          "median": 0.2236623,
+          "sample_sd": null,
+          "min": 0.2236623,
+          "max": 0.2236623,
+          "p95_nearest_rank": 0.2236623
+        },
+        "range_1000": {
+          "n": 1,
+          "mean": 0.40731455,
+          "median": 0.40731455,
+          "sample_sd": null,
+          "min": 0.40731455,
+          "max": 0.40731455,
+          "p95_nearest_rank": 0.40731455
+        }
+      }
+    }
+  },
+  "paired_differences": [
+    {
+      "rows": 10000,
+      "round": 1,
+      "workload": "equality",
+      "hash_minus_btree_ms": 0.006379860000000015
+    },
+    {
+      "rows": 10000,
+      "round": 1,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 0.23671198999999998
+    },
+    {
+      "rows": 10000,
+      "round": 1,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 0.16026691999999998
+    },
+    {
+      "rows": 10000,
+      "round": 2,
+      "workload": "equality",
+      "hash_minus_btree_ms": 0.008214040000000006
+    },
+    {
+      "rows": 10000,
+      "round": 2,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 0.24172507000000001
+    },
+    {
+      "rows": 10000,
+      "round": 2,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 0.1748423
+    },
+    {
+      "rows": 10000,
+      "round": 3,
+      "workload": "equality",
+      "hash_minus_btree_ms": 0.004283910000000002
+    },
+    {
+      "rows": 10000,
+      "round": 3,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 0.22780388000000001
+    },
+    {
+      "rows": 10000,
+      "round": 3,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 0.18634980999999995
+    },
+    {
+      "rows": 10000,
+      "round": 4,
+      "workload": "equality",
+      "hash_minus_btree_ms": -0.009189959999999997
+    },
+    {
+      "rows": 10000,
+      "round": 4,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 0.21148715999999998
+    },
+    {
+      "rows": 10000,
+      "round": 4,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 0.13561918
+    },
+    {
+      "rows": 10000,
+      "round": 5,
+      "workload": "equality",
+      "hash_minus_btree_ms": 0.004001379999999999
+    },
+    {
+      "rows": 10000,
+      "round": 5,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 0.24502442000000002
+    },
+    {
+      "rows": 10000,
+      "round": 5,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 0.16621362
+    },
+    {
+      "rows": 10000,
+      "round": 6,
+      "workload": "equality",
+      "hash_minus_btree_ms": -0.0022386899999999876
+    },
+    {
+      "rows": 10000,
+      "round": 6,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 0.18535675000000001
+    },
+    {
+      "rows": 10000,
+      "round": 6,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 0.15189246
+    },
+    {
+      "rows": 100000,
+      "round": 1,
+      "workload": "equality",
+      "hash_minus_btree_ms": 0.0065371800000000035
+    },
+    {
+      "rows": 100000,
+      "round": 1,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 2.54681403
+    },
+    {
+      "rows": 100000,
+      "round": 1,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 2.92818498
+    },
+    {
+      "rows": 100000,
+      "round": 2,
+      "workload": "equality",
+      "hash_minus_btree_ms": 0.0030417900000000164
+    },
+    {
+      "rows": 100000,
+      "round": 2,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 2.5536607
+    },
+    {
+      "rows": 100000,
+      "round": 2,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 2.25740037
+    },
+    {
+      "rows": 100000,
+      "round": 3,
+      "workload": "equality",
+      "hash_minus_btree_ms": 0.010568699999999986
+    },
+    {
+      "rows": 100000,
+      "round": 3,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 2.31821772
+    },
+    {
+      "rows": 100000,
+      "round": 3,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 2.11890849
+    },
+    {
+      "rows": 100000,
+      "round": 4,
+      "workload": "equality",
+      "hash_minus_btree_ms": -0.007837309999999986
+    },
+    {
+      "rows": 100000,
+      "round": 4,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 2.34373812
+    },
+    {
+      "rows": 100000,
+      "round": 4,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 2.17971084
+    },
+    {
+      "rows": 100000,
+      "round": 5,
+      "workload": "equality",
+      "hash_minus_btree_ms": -0.007492949999999998
+    },
+    {
+      "rows": 100000,
+      "round": 5,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 2.33163801
+    },
+    {
+      "rows": 100000,
+      "round": 5,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 2.13083675
+    },
+    {
+      "rows": 100000,
+      "round": 6,
+      "workload": "equality",
+      "hash_minus_btree_ms": -0.001201890000000011
+    },
+    {
+      "rows": 100000,
+      "round": 6,
+      "workload": "range_10",
+      "hash_minus_btree_ms": 2.33771993
+    },
+    {
+      "rows": 100000,
+      "round": 6,
+      "workload": "range_1000",
+      "hash_minus_btree_ms": 2.10246176
+    }
+  ],
+  "canonical_results_sha256": {
+    "20261016T170049Z-memory-indexes-d7d3b1c7": "841f814c470deaf954fa046ed7c156fccfbb98db811e7685990e4d1df5e0eea1",
+    "20261016T163614Z-memory-indexes-6d072a50": "9e751e4f585f4ebbf431ca987575cc872e77f0aa6124dd7146ea6db5ce7d4de6"
+  },
+  "runtime": {
+    "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "cpu_count_visible": 12,
+    "pymysql": "1.1.2",
+    "cgroup_memory_max": "536870912",
+    "cgroup_cpu_max": "100000 100000"
+  },
+  "server_version": "11.8.9-MariaDB-ubu2404",
+  "power_condition": "plugged in; battery saver off",
+  "source_sha256": {
+    "Dockerfile": "52b29de683d87af26db21126c1ca130c31d210616948729ff8c854b5e9eee37e",
+    "benchmarks/__init__.py": "9302d9cd9e93114268ef96c7455e43cacf31f46d1d189cc49e9f78c1b06e8aa2",
+    "benchmarks/concurrency.py": "615836674bed9dcdc210616d00dc6b58888d5c33bea2d9b7f1a6f58a908c76ff",
+    "benchmarks/core.py": "254801569f623ec6ea5b32abc2677e7152da559dd4184f75f5dfeb31a6ea8f16",
+    "benchmarks/memory_indexes.py": "b76d9e85cd6458d09c0dd9b147427181a6c4571c42bff2d895e379526c801b5f",
+    "benchmarks/openflights.py": "0dee23afa6197e50161c9105690badb414027a0384b4867b9d6181c10d91a5d2",
+    "benchmarks/openflights_data.py": "aa97d704328304f108346183290723f7b68b9d6a64f3ca940adaa3b5802aec35",
+    "benchmarks/recovery.py": "ff22109310a89c4473b93efb34b3daf4367bfd6243d282aef6b9f6e076b0e60d",
+    "benchmarks/report.py": "4f00133096fbaede623324b8e1937925a40f2ee512f210c21c272fc71953cc49",
+    "benchmarks/run.py": "ecc546294a53e1bbeb3deccbb72b7905c3d4707df60aa2d69848d21ce618864f",
+    "benchmarks/storage.py": "13d5e723de4e6a1cb13c3c2c7ba4e8f831656a91c83ea34f5b40355cad753637",
+    "benchmarks/telemetry.py": "fab4a2f5548f4c42dda50a313288dec3a74f3757d88246c418555d4d3b4c29ad",
+    "compose.runner-2cpu.yaml": "72b06796ce524dd1da5094c7d5fea70d8b1e2751345c6e4b3e6da934b6020ea5",
+    "compose.yaml": "6877567197ec5acfd834a2996923baff52f81ca742215353a04b583bcc5c7531",
+    "docker/mariadb/Dockerfile": "a81eb730f89c4c5a44d8480cba51ed9f213a827875cfb51197582fadb82bc92b",
+    "docker/mariadb/rocksdb.cnf": "b01c06374d627bb863dcc83b2278918d0d61334766a36972c629e7629e353edb",
+    "requirements.txt": "8476629b5f3e1c887347b763a6462e48b3f327d5a1a8d6b6b4964e21b1a83075",
+    "sql/benchmark/aria.sql": "aefbd9abd5cde2186669e412874ad2349f1c1f6297f7d5b6407036ff0c569084",
+    "sql/benchmark/innodb.sql": "18857b82c169928d1cf68abfc3c197fc382c328f800819e4bedfa3426f967b7c",
+    "sql/benchmark/memory.sql": "f9b457a4c1e4d8d18694e30643e62156602fb8053f5d39448772f17c6f2b2e69",
+    "sql/benchmark/myisam.sql": "e23a19430947801da592d62cf43c8609995efa7bd7e954597e9df36470dbc32b",
+    "sql/benchmark/rocksdb.sql": "2504f94265055ba19291f431763c45703ab85c1f656bfd118a59a25c2dbf0abc"
+  },
+  "session_variables": {
+    "aria_pagecache_buffer_size": "134217728",
+    "aria_recover_options": "BACKUP,QUICK",
+    "aria_used_for_temp_tables": "ON",
+    "autocommit": "ON",
+    "binlog_format": "ROW",
+    "innodb_buffer_pool_size": "134217728",
+    "innodb_file_per_table": "ON",
+    "innodb_flush_log_at_trx_commit": "1",
+    "key_buffer_size": "134217728",
+    "log_bin": "OFF",
+    "max_heap_table_size": "134217728",
+    "query_cache_size": "0",
+    "query_cache_type": "OFF",
+    "rocksdb_block_cache_size": "134217728",
+    "rocksdb_default_cf_options": "",
+    "rocksdb_flush_log_at_trx_commit": "1",
+    "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+    "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+    "sync_binlog": "0",
+    "tmp_table_size": "16777216",
+    "tx_isolation": "REPEATABLE-READ",
+    "version": "11.8.9-MariaDB-ubu2404",
+    "version_comment": "mariadb.org binary distribution",
+    "version_compile_machine": "x86_64",
+    "version_compile_os": "debian-linux-gnu"
+  },
+  "global_variables": {
+    "aria_pagecache_buffer_size": "134217728",
+    "aria_recover_options": "BACKUP,QUICK",
+    "aria_used_for_temp_tables": "ON",
+    "autocommit": "ON",
+    "binlog_format": "ROW",
+    "innodb_buffer_pool_size": "134217728",
+    "innodb_file_per_table": "ON",
+    "innodb_flush_log_at_trx_commit": "1",
+    "key_buffer_size": "134217728",
+    "log_bin": "OFF",
+    "max_heap_table_size": "16777216",
+    "query_cache_size": "0",
+    "query_cache_type": "OFF",
+    "rocksdb_block_cache_size": "134217728",
+    "rocksdb_default_cf_options": "",
+    "rocksdb_flush_log_at_trx_commit": "1",
+    "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+    "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+    "sync_binlog": "0",
+    "tmp_table_size": "16777216",
+    "tx_isolation": "REPEATABLE-READ",
+    "version": "11.8.9-MariaDB-ubu2404",
+    "version_comment": "mariadb.org binary distribution",
+    "version_compile_machine": "x86_64",
+    "version_compile_os": "debian-linux-gnu"
+  }
+}

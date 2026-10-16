@@ -109,4 +109,9 @@ remain separate tasks; no new performance measurements are claimed here.
 The [HASH/BTREE harness](memory-index-method.md) changes only the secondary index
 type and records verified answers, plans and session handler deltas. Nine new unit
 tests bring the suite to 94; CI also exercises a small real-server correctness run.
-Laptop pilot/full measurements and analysis are pending, not completed evidence.
+The October 16 laptop pilot and 24-trial full run are archived. The
+[findings](memory-index-findings.md) report six rounds per size/index, 72 trial/workload
+means and consistent plan/counter evidence: HASH scans for ranges, BTREE uses range
+access. Equality means were similar. Four figure files, derived data and an offline
+validator reproduce the findings. Larger-than-memory, duplicate-heavy, write and
+concurrent-index behavior remain unmeasured.

@@ -1,7 +1,10 @@
 # MEMORY: HASH versus BTREE
 
-Status: harness and correctness checks prepared; laptop pilot and repeated performance
-measurements are pending. Do not treat CI smoke timings as benchmark evidence.
+Status: October 16 laptop pilot and full run are archived and validated. The full
+run has 24 trials; see [findings and charts](memory-index-findings.md).
+[CI run 38830141972](https://github.com/majdsl/CU-Databases-Project/actions/runs/38830141972)
+passed 94 unit tests, five-engine checks and the real MEMORY index smoke at commit
+`8d2a8f4`. Do not treat CI smoke timings as benchmark evidence.
 
 ## Question and controlled change
 
@@ -88,7 +91,7 @@ actual index types, verified row counts, plans and handler deltas before proceed
 docker compose run --rm runner python -m benchmarks.memory_indexes --full --power-condition "plugged in; battery saver off"
 ```
 
-No performance conclusion is published until full results are inspected. Keep pilot
+For a new run, inspect the full evidence before drawing conclusions. Keep pilot
 and full runs separate. This command uses the existing dedicated `engine_lab` database
 and the shared benchmark lock. A pre-existing `memory_index_probe` table is never
 modified. Successful trial tables are dropped; failed tables and partial results are
