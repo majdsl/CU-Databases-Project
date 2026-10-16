@@ -35,6 +35,10 @@ jobs:
         run: python3 scripts/setup_project.py --project-name "$CI_PROJECT"
       - name: MEMORY index correctness smoke (not benchmark evidence)
         run: docker compose -p "$CI_PROJECT" run --rm runner python -m benchmarks.memory_indexes --smoke --power-condition CI-correctness-only
+      - name: Isolated cache-pressure lifecycle smoke (not performance evidence)
+        run: |
+          sudo chown "$(id -u):$(id -g)" results
+          python3 scripts/run_cache_pressure.py --smoke --power-condition CI-correctness-only
       - name: Database diagnostics on failure
         if: failure()
         run: docker compose -p "$CI_PROJECT" logs --no-color --tail=200 db

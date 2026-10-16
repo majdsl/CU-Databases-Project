@@ -29,3 +29,5 @@
 !data/openflights/LICENSE
 !data/openflights/README.md
 !data/openflights/routes.dat
+
+!scripts/run_cache_pressure.py

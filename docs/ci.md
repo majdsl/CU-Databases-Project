@@ -25,7 +25,7 @@ results directory for UID 10001 and runs the README setup wrapper,
 
 1. Generates disposable local credentials without printing their values.
 2. Downloads the pinned OpenFlights snapshot and verifies its checksum.
-3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 94 tests).
+3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 106 tests).
 4. Builds the custom MariaDB image, including the pinned MyRocks plugin package.
 5. Starts a fresh database volume and waits for its healthcheck.
 6. Checks all five actual storage engines and verifies parameterized inserts/readback.
@@ -67,3 +67,9 @@ run is not a byte-for-byte reproducibility guarantee. No cached database volume 
 
 References: [workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax),
 [checkout v7.0.1](https://github.com/actions/checkout/releases/tag/v7.0.1).
+
+The cache-pressure extension also runs its host orchestrator in smoke mode against
+two fresh isolated databases. CI gives its disposable results parent back to the
+host user before this host-written output. The smoke covers actual SQL and lifecycle,
+not the large-table footprint thresholds or performance. Failed isolated volumes
+are retained for inspection during a local run; the hosted CI VM is disposable.

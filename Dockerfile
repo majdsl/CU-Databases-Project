@@ -9,6 +9,7 @@ COPY scripts/run_storage.py scripts/run_storage.py
 COPY scripts/run_recovery.py scripts/run_recovery.py
 COPY scripts/fetch_openflights.py scripts/fetch_openflights.py
 COPY scripts/setup_project.py scripts/setup_project.py
+COPY scripts/run_cache_pressure.py scripts/run_cache_pressure.py
 COPY data/openflights data/openflights
 COPY sql sql
 COPY benchmarks benchmarks

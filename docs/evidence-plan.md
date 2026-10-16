@@ -115,3 +115,11 @@ means and consistent plan/counter evidence: HASH scans for ranges, BTREE uses ra
 access. Equality means were similar. Four figure files, derived data and an offline
 validator reproduce the findings. Larger-than-memory, duplicate-heavy, write and
 concurrent-index behavior remain unmeasured.
+
+## InnoDB cache-pressure extension (measurements pending)
+
+The [isolated protocol](cache-pressure-method.md) compares 32 MiB and 256 MiB
+payloads against a fixed 128 MiB pool, verifies actual table allocation and records
+read counters. Full mode has six rounds per size. This addresses a targeted
+larger-than-buffer-pool question; it is not a five-engine equal-cache comparison
+or physical SSD latency measurement. Laptop pilot/full evidence is pending.
