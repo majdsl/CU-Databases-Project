@@ -116,10 +116,16 @@ access. Equality means were similar. Four figure files, derived data and an offl
 validator reproduce the findings. Larger-than-memory, duplicate-heavy, write and
 concurrent-index behavior remain unmeasured.
 
-## InnoDB cache-pressure extension (measurements pending)
+## InnoDB cache-pressure extension (verified)
 
 The [isolated protocol](cache-pressure-method.md) compares 32 MiB and 256 MiB
 payloads against a fixed 128 MiB pool, verifies actual table allocation and records
 read counters. Full mode has six rounds per size. This addresses a targeted
 larger-than-buffer-pool question; it is not a five-engine equal-cache comparison
-or physical SSD latency measurement. Laptop pilot/full evidence is pending.
+or physical SSD latency measurement. The two-trial pilot and 12-trial full run are
+archived with all 14 worker files. [Findings and charts](cache-pressure-findings.md)
+show 37.56/293.78 MiB tables against the 128 MiB pool, with zero measured data reads
+for the small table and read activity for every large-table phase. Full evidence
+covers 1,769,472 verified rows, 60,000 lookups and 36 scans. OS caching, dirty-page
+history and different table sizes limit causal claims; pilot/full image IDs differ
+and are explicitly preserved. Team contributions remain for final confirmation.

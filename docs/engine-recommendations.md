@@ -120,6 +120,18 @@ range. These are ratios of means from one warm, single-client run, not universal
 speedups. Choose BTREE for this kind of range workload; test writes and duplicate
 keys separately. Neither index changes MEMORY's restart volatility.
 
+## Checking the InnoDB working set
+
+The [cache-pressure experiment](cache-pressure-findings.md) adds six fresh-volume
+trials per size against a fixed 128 MiB pool. The 37.56 MiB table required no new
+InnoDB data reads in measured phases; the 293.78 MiB table generated reads in each
+phase. Its observed lookup mean was 1.95 times the smaller table's mean. The large
+scan also processes eight times more payload, so its 58.71 ratio is not a pure
+cache penalty. Size queries and memory budgets against the intended working set.
+These counters do not establish physical SSD reads, and this InnoDB-only experiment
+does not rank the five engines at larger scale. See the report for dirty-page,
+OS-cache, image-provenance and fixed-order limitations.
+
 ## Applying the recommendation
 
 For a hypothetical booking service, choose InnoDB for bookings and related authoritative

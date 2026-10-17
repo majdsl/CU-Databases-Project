@@ -55,6 +55,7 @@ python -m venv .venv-report
 .\.venv-report\Scripts\python.exe scripts/report_recovery_findings.py
 .\.venv-report\Scripts\python.exe scripts/report_openflights_findings.py
 .\.venv-report\Scripts\python.exe scripts/report_memory_findings.py
+.\.venv-report\Scripts\python.exe scripts/report_cache_pressure_findings.py
 git diff --stat
 ```
 
@@ -88,3 +89,19 @@ on a second run. All 152 archived evidence files retained their bytes. The 94-un
 suite passed locally. Deliberately incomplete runs, changed plans, changed counters
 and missing diagnostics were rejected by the report validator. Both charts were
 visually inspected. These checks validate the report, not new performance observations.
+
+## Cache-pressure report follow-up — October 17, 2026
+
+The sixth generator, `scripts/report_cache_pressure_findings.py`, validates two
+pilot and 12 full trials archived in `d662bb6`, including all 14 worker files,
+regenerated SHA-256/CRC oracles, schedules, query streams, clean stops, footprints,
+counter deltas, original summaries and statistics. Only full observations enter
+the charts. Outputs are 24 CSV trial/phase observations, provenance/statistics JSON,
+a findings report and two charts in PNG/SVG. Pilot and full image identities differ
+and are retained separately; no byte-identical cross-run image claim is made.
+
+Validation: two consecutive regeneration runs produced matching bytes for all seven
+derived files; all 170 archived evidence files remained unchanged. The 106-unit-test
+suite passed locally. Deliberately incomplete runs, altered counter deltas, mismatched
+footprint metadata and changed source hashes were rejected. Both figures were
+visually inspected. Rendering remains dependent on plotting libraries and fonts.

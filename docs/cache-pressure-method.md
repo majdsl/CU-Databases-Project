@@ -1,6 +1,7 @@
 # InnoDB cache pressure: table size versus buffer pool
 
-Status: implementation prepared; laptop pilot/full measurements and findings are pending.
+Status: pilot and full measurements are archived and validated. The full run has
+six trials per size; see [findings and charts](cache-pressure-findings.md).
 This is a targeted InnoDB mechanism experiment, not a five-engine larger-data ranking.
 
 ## Question and scope
