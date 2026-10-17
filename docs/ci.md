@@ -25,7 +25,7 @@ results directory for UID 10001 and runs the README setup wrapper,
 
 1. Generates disposable local credentials without printing their values.
 2. Downloads the pinned OpenFlights snapshot and verifies its checksum.
-3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 106 tests).
+3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 115 tests).
 4. Builds the custom MariaDB image, including the pinned MyRocks plugin package.
 5. Starts a fresh database volume and waits for its healthcheck.
 6. Checks all five actual storage engines and verifies parameterized inserts/readback.
@@ -73,3 +73,8 @@ two fresh isolated databases. CI gives its disposable results parent back to the
 host user before this host-written output. The smoke covers actual SQL and lifecycle,
 not the large-table footprint thresholds or performance. Failed isolated volumes
 are retained for inspection during a local run; the hosted CI VM is disposable.
+
+The write-diagnostics smoke exercises all five engines, both write patterns and
+1/2/4 clients (30 short trials). It checks staged loading/writing/verification,
+real SQL status snapshots, host-read database cgroup CPU counters and isolated
+volume lifecycle. Its timings are not performance evidence.

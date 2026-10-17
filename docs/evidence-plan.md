@@ -129,3 +129,12 @@ for the small table and read activity for every large-table phase. Full evidence
 covers 1,769,472 verified rows, 60,000 lookups and 36 scans. OS caching, dirty-page
 history and different table sizes limit causal claims; pilot/full image IDs differ
 and are explicitly preserved. Team contributions remain for final confirmation.
+
+## Server CPU and lock diagnostics
+
+The [isolated concurrent-write protocol](write-diagnostics-method.md) now prepares
+server-container CPU observations and global table/InnoDB row-lock counters alongside
+runner telemetry. Laptop pilot/full data and findings remain pending. It retains
+the fixed-work disjoint/16-row-hotspot workloads, with two-CPU runners and fresh
+isolation per run. This does not claim equal durability, pure query CPU time or
+complete instrumentation of MyRocks/internal locks.

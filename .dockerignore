@@ -31,3 +31,5 @@
 !data/openflights/routes.dat
 
 !scripts/run_cache_pressure.py
+
+!scripts/run_write_diagnostics.py

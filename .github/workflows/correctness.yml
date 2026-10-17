@@ -39,6 +39,8 @@ jobs:
         run: |
           sudo chown "$(id -u):$(id -g)" results
           python3 scripts/run_cache_pressure.py --smoke --power-condition CI-correctness-only
+      - name: Isolated write-diagnostic lifecycle smoke (not performance evidence)
+        run: python3 scripts/run_write_diagnostics.py --smoke --power-condition CI-correctness-only
       - name: Database diagnostics on failure
         if: failure()
         run: docker compose -p "$CI_PROJECT" logs --no-color --tail=200 db
