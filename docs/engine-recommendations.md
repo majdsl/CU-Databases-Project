@@ -103,11 +103,26 @@ CPUs increased four-client disjoint-update throughput by 61.4% / 54.7% for MyISA
 in the morning block and 53.4% / 57.1% in the evening block. Recorded local runner
 throttling disappeared at two CPUs. Power blocks remain separate.
 
-Four clients still underperformed two for those engines after the change. We did not
-measure server lock waits, server CPU or Python scheduling directly, so table locking
-is a possible contributor, not an established sole cause. For future concurrency tests,
-start with two runner CPUs, record throttling and fixed power conditions, and measure
-server contention before attributing scaling to engine architecture.
+Four clients still underperformed two for those engines after the change. That earlier
+experiment did not measure server lock waits or database CPU. The separate
+[October 17 write diagnostic](write-diagnostics-findings.md) now adds 150 trials and
+1.5 million verified updates, with two-CPU runners, global lock counters and
+host-sampled database-container CPU. Do not pool it with the earlier runs.
+
+Aria showed almost one table-lock wait event per update at two/four clients and
+little throughput improvement between those client counts, even for disjoint rows.
+MyISAM and MEMORY table-lock waits rose at four clients while runner CPU approached
+1.66 average cores; disjoint throughput fell 46.1% and 49.8% from two to four clients.
+No local quota throttling was recorded in either container. Locking and client
+execution both warrant investigation; the experiment does not isolate a sole cause.
+InnoDB row-lock wait counts/time remained zero under this short-transaction workload.
+
+For write-heavy workloads, test representative transaction lengths and use counters
+alongside timing. Disjoint records do not eliminate table locks. Database CPU uses
+a wider window than throughput and includes background/startup effects; it is not
+pure query CPU or a latency decomposition. Zero observed InnoDB waits does not prove
+absence of contention in other workloads. Durability remains unequal, so faster
+non-transactional updates do not override the application's correctness requirements.
 
 ## Choosing the MEMORY index
 

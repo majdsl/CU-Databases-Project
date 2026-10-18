@@ -1,7 +1,7 @@
 # Evidence plan
 
-Status reviewed October 15, 2026 after the merge to `main` and tutorial audit, using the
-verified October 9 OpenFlights run and October 6 storage/recovery evidence. Completed measurements
+Status reviewed October 18, 2026, including verified OpenFlights, storage/recovery,
+MEMORY index, InnoDB cache-pressure and server CPU/lock-wait evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking.
 
 | Criterion | Evidence available | Remaining work |
@@ -9,7 +9,7 @@ are evidence for their stated workloads, not a universal engine ranking.
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Team review, roster/contributions, complete tutorial |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 82 tests and five-engine integration | Independent Windows clean-checkout tutorial reproduction and team review |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 115 tests and five-engine integration | Independent Windows clean-checkout tutorial reproduction and team review |
 
 ## Completed measurement scope
 
@@ -132,9 +132,12 @@ and are explicitly preserved. Team contributions remain for final confirmation.
 
 ## Server CPU and lock diagnostics
 
-The [isolated concurrent-write protocol](write-diagnostics-method.md) now prepares
-server-container CPU observations and global table/InnoDB row-lock counters alongside
-runner telemetry. Laptop pilot/full data and findings remain pending. It retains
-the fixed-work disjoint/16-row-hotspot workloads, with two-CPU runners and fresh
-isolation per run. This does not claim equal durability, pure query CPU time or
-complete instrumentation of MyRocks/internal locks.
+The [October 17 diagnostic findings](write-diagnostics-findings.md) validate 30 pilot
+and 150 full trials, 1.5 million full-run updates and all 540 raw stage files.
+Three charts (six PNG/SVG files), trial CSV, summary statistics and an offline
+generator now accompany the immutable evidence. Global table-lock waits are observed
+under concurrent writes; InnoDB row-wait deltas are zero for this workload. Neither
+container recorded local quota throttling. Runner and DB CPU windows differ, so
+these data do not isolate query CPU or a single scaling bottleneck. Full and pilot
+statistics are separate. Team review/contributions and updated evaluation remain
+pending; broader claims still require separate experiments.

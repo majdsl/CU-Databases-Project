@@ -129,7 +129,7 @@ transactions or steady-state MyRocks compaction.
 | --- | --- | --- |
 | Synthetic loading and warm reads | [Baseline](docs/benchmark-method.md) | [Original baseline](evidence/baseline/20260923T121610Z-92b1c313/README.md) |
 | Concurrent updates and client CPU limits | [Concurrency](docs/concurrency-method.md), [CPU diagnostic](docs/cpu-diagnostic.md) | [CPU findings](docs/cpu-findings.md) |
-| Concurrent writes with database CPU and lock counters (measurements pending) | [Isolated write diagnostic](docs/write-diagnostics-method.md) | Laptop pilot/full pending |
+| Concurrent writes with database CPU and lock counters | [Isolated write diagnostic](docs/write-diagnostics-method.md) | [CPU and lock-wait findings](docs/write-diagnostics-findings.md) |
 | Persistent allocation versus live RAM | [Storage procedure](docs/storage-method.md) | [Storage findings](docs/storage-findings.md) |
 | Rows surviving clean/process-crash restarts | [Isolated recovery procedure](docs/recovery-method.md) | [Recovery findings](docs/recovery-findings.md) |
 | InnoDB table size versus buffer pool | [Isolated cache-pressure protocol](docs/cache-pressure-method.md) | [Cache-pressure findings and charts](docs/cache-pressure-findings.md) |
@@ -142,7 +142,7 @@ diagnostic evidence. The historical route snapshot is OpenFlights data, via Mari
 under [ODbL 1.0](data/openflights/LICENSE); its [download manifest](data/openflights/manifest.json)
 pins the source and checksum. Synthetic events are complementary generated data, not real flights.
 
-Six report generators cover 22 chart files, including index and buffer-pool mechanism evidence. See
+Seven report generators cover 28 chart files, including index, buffer-pool and lock-wait evidence. See
 [report reproduction commands and checks](docs/report-reproducibility.md).
 CI uses fresh containers and runs unit tests plus real five-engine checks;
 see [CI scope](docs/ci.md). Performance measurements stay on controlled machines.

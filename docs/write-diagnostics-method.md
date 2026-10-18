@@ -1,6 +1,7 @@
 # Concurrent writes: database CPU and lock-wait observations
 
-Status: implementation prepared; laptop pilot/full measurements and findings pending.
+Status: 30 pilot and 150 full trials are archived and validated. See the
+[CPU and lock-wait findings and charts](write-diagnostics-findings.md).
 This extends the [earlier concurrency experiment](concurrency-method.md), whose
 [CPU diagnostic](cpu-findings.md) measured the runner, not database CPU or locks.
 Old evidence is retained unchanged and must not be pooled with this experiment.

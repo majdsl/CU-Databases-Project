@@ -105,3 +105,27 @@ derived files; all 170 archived evidence files remained unchanged. The 106-unit-
 suite passed locally. Deliberately incomplete runs, altered counter deltas, mismatched
 footprint metadata and changed source hashes were rejected. Both figures were
 visually inspected. Rendering remains dependent on plotting libraries and fonts.
+
+## Write-diagnostics report follow-up — October 18, 2026
+
+The seventh generator, `scripts/report_write_diagnostics_findings.py`, validates
+30 pilot and 150 full trials archived in `b5eefc3`, including all 540 raw stage
+files. It regenerates row hashes, checks worker counts, schedules, runner/DB CPU
+arithmetic, SQL deltas, source/settings metadata, original summaries and clean
+stops. Only the full run enters the 150-row CSV and 30 condition summaries.
+Three figures in PNG/SVG cover throughput, CPU windows and table-lock waits.
+Pilot/full image identities differ and remain separately recorded.
+
+```powershell
+python -m pip install -r requirements-report.txt
+python scripts/report_write_diagnostics_findings.py
+```
+
+Two consecutive generations matched all nine derived files byte-for-byte; all
+714 archived evidence files retained their original bytes. The 544 write-diagnostic
+files in the GitHub source snapshot matched the team's reviewed ZIP uploads after
+JSON parsing/newline normalization. Incomplete runs, altered CPU arithmetic, wrong
+update counts, changed final hashes and incorrect source identities were rejected.
+All 115 unit tests passed locally, the new local documentation links resolved, and
+all three figures were visually inspected. This validates reporting, not new
+measurements or independent-machine performance reproduction.
