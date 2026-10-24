@@ -1,0 +1,112 @@
+.................Cache pressure: {'round': 1, 'rows': 128, 'position': 1}
+Partial results: /tmp/tmp5r_upskw/results/20261024T190714Z-cache-pressure-907ab2ea
+Failed isolated project retained: cu-pressure-907ab2ea5d17423c9e52d0e002e58ed4-1
+...............................OpenFlights round 1/1: MyISAM
+OpenFlights round 1/1: ROCKSDB
+OpenFlights round 1/1: InnoDB
+OpenFlights round 1/1: MEMORY
+OpenFlights round 1/1: Aria
+.Partial results: /tmp/tmpsfhf3ifr/20261024T190714Z-openflights-99f0f427
+An owned failed-trial table may remain; inspect it before any retry.
+...................# OpenFlights route comparison
+
+Run: 20261024T190714Z-openflights-729c2fa3
+
+**PILOT: one round per engine; no variability estimate or ranking.**
+
+Rows per trial: 3. Power condition: test.
+Read statistics summarize round means, not pooled individual queries. Values are mean ± sample SD.
+
+| Engine | Load (s) | Point lookup (ms) | Full scan (ms) | Source aggregate (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| InnoDB | 0.0000 ± n/a | 0.0006 ± n/a | 0.0025 ± n/a | 0.0020 ± n/a |
+| Aria | 0.0000 ± n/a | 0.0006 ± n/a | 0.0022 ± n/a | 0.0038 ± n/a |
+| MyISAM | 0.0000 ± n/a | 0.0006 ± n/a | 0.0025 ± n/a | 0.0020 ± n/a |
+| MEMORY | 0.0000 ± n/a | 0.0007 ± n/a | 0.0020 ± n/a | 0.0020 ± n/a |
+| ROCKSDB | 0.0000 ± n/a | 0.0026 ± n/a | 0.0024 ± n/a | 0.0020 ± n/a |
+
+Every row and query answer was checked. Raw samples, query streams, plans, actual DDL,
+dataset/source hashes and runtime/settings metadata are in results.json.
+These are warm reads on a reused server. Timings include driver/network work; durability and
+cache budgets are not equalized. No physical-disk, cold-cache or steady-state claim is made.
+The routes snapshot is historical reference data, not observed flights or current schedules.
+Keep these results separate from synthetic events and the pilot separate from full statistics.
+Data: OpenFlights, via MariaDB/openflights; ODbL 1.0. See docs/openflights-method.md.
+
+Saved: /tmp/tmp1fe06ebs/20261024T190714Z-openflights-729c2fa3
+Recovery round 1/1: MyISAM clean
+Recovery round 1/1: MyISAM sigkill
+Recovery round 1/1: MEMORY sigkill
+Recovery round 1/1: MEMORY clean
+Recovery round 1/1: ROCKSDB clean
+Recovery round 1/1: ROCKSDB sigkill
+Recovery round 1/1: InnoDB sigkill
+Recovery round 1/1: InnoDB clean
+Recovery round 1/1: Aria clean
+Recovery round 1/1: Aria sigkill
+.............# Recovery pilot
+
+Run: 20261024T190714Z-recovery-12eb58df
+
+100 acknowledged single-row autocommit inserts per trial; 1 round(s).
+Each trial uses a fresh volume. No write is in flight at the planned stop.
+SIGKILL tests a database-process crash with host/kernel still running, not power loss.
+
+| Engine | Round | Stop | Observation | Intact rows | Missing | Changed | Restart through verification (s) |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: |
+| MyISAM | 1 | clean | unreadable | n/a | n/a | n/a | 0.000 |
+| MyISAM | 1 | sigkill | unreadable | n/a | n/a | n/a | 0.000 |
+| MEMORY | 1 | sigkill | readable | 0 | 100 | 0 | 0.001 |
+| MEMORY | 1 | clean | readable | 0 | 100 | 0 | 0.001 |
+| ROCKSDB | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| ROCKSDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+| InnoDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+| InnoDB | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| Aria | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| Aria | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+
+Timing includes Docker startup, observer-container launch, connection polling, full data read and CHECK TABLE.
+It is not engine-only recovery latency. Unavailable/unreadable tables have unknown survival, not zero rows.
+MEMORY rows are volatile even for clean restarts. Data survival in this test is not a durability guarantee.
+The writer holds its connection open until the stop; receipt transfer and host orchestration introduce delay.
+Automatic engine recovery may occur; the harness never issues REPAIR TABLE or forces compaction.
+Completed means the protocol finished, not that every engine preserved every row.
+Raw receipts, observations, source hashes, settings, timings and server logs are saved beside this report.
+Retained projects needing review: 2
+See docs/recovery-method.md for protocol and limitations.
+
+Saved: /tmp/tmpqs9coebt/results/20261024T190714Z-recovery-12eb58df
+Recovery round 1/1: MyISAM clean
+Partial results: /tmp/tmp_u8k03ac/results/20261024T190714Z-recovery-ec3b9370
+....
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+.
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+
+== Build Python runner ==
+
+== Check benchmark output permissions ==
+.
+== Check Docker engine ==
+...Storage round 1/1: MyISAM
+Partial results: /tmp/tmph6ishmov/results/20261024T190714Z-storage-b8480f17
+...................Write diagnostics: {'round': 1, 'engine': 'InnoDB', 'pattern': 'disjoint', 'clients': 1}
+Partial results: /tmp/tmpx6e7jexy/results/20261024T190715Z-write-diagnostics-18b831b6
+Failed isolated project retained: cu-writes-18b831b6737f4bdd94f1d8b38444e81e-1
+.......
+----------------------------------------------------------------------
+Ran 116 tests in 1.475s
+
+OK

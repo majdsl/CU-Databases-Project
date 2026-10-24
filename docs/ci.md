@@ -78,3 +78,14 @@ The write-diagnostics smoke exercises all five engines, both write patterns and
 1/2/4 clients (30 short trials). It checks staged loading/writing/verification,
 real SQL status snapshots, host-read database cgroup CPU counters and isolated
 volume lifecycle. Its timings are not performance evidence.
+
+## Offline storage-report regression
+
+A separate `report-validation` job installs `requirements-report.txt` in a temporary
+virtual environment and runs `report-tests/test_storage_findings.py`, both normally
+and with optimized Python (`-O`). Hassan Kheder's regression covers row count,
+checksum, exit code, OOM, inventory totals and storage deltas, requiring rejection
+before any output directory is created. The database image continues to run its
+115 lightweight tests without Matplotlib or the archived evidence. The extra offline
+test uses archived data; it is not another database experiment. See the
+[contribution review](teammate-1-review.md).

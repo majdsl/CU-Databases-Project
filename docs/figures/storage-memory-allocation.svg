@@ -181,18 +181,18 @@ z
 " style="fill: #287c83"/>
     </g>
     <g id="text_11">
-     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="134.3" y="259.666406" transform="rotate(-0 134.3 259.666406)">Data_length</text>
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="134.3" y="259.666406" transform="rotate(-0 134.3 259.666406)">Row data (Data_length)</text>
     </g>
     <g id="patch_7">
-     <path d="M 223.126719 259.666406 
-L 245.126719 259.666406 
-L 245.126719 251.966406 
-L 223.126719 251.966406 
+     <path d="M 286.354375 259.666406 
+L 308.354375 259.666406 
+L 308.354375 251.966406 
+L 286.354375 251.966406 
 z
 " style="fill: #dcab55"/>
     </g>
     <g id="text_12">
-     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="253.926719" y="259.666406" transform="rotate(-0 253.926719 259.666406)">Index_length</text>
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="317.154375" y="259.666406" transform="rotate(-0 317.154375 259.666406)">Indexes (Index_length)</text>
     </g>
    </g>
   </g>
