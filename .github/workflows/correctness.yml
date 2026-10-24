@@ -47,3 +47,21 @@ jobs:
       - name: Remove disposable CI stack
         if: always()
         run: docker compose -p "$CI_PROJECT" down --volumes --remove-orphans
+
+  report-validation:
+    name: Offline storage-report validation (normal and optimized Python)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out tested revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install isolated reporting dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/report-validation"
+          "$RUNNER_TEMP/report-validation/bin/python" -m pip install -r requirements-report.txt
+      - name: Reject corrupt storage evidence with and without optimization
+        run: |
+          "$RUNNER_TEMP/report-validation/bin/python" -m unittest discover -s report-tests -v
+          "$RUNNER_TEMP/report-validation/bin/python" -O -m unittest discover -s report-tests -v

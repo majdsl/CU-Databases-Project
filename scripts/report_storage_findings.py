@@ -25,14 +25,19 @@ def build(source, output):
         raise ValueError('Missing or duplicate trials')
     records = []
     for t in r['trials']:
-        assert t['load']['verified_rows'] == r['rows']
-        assert t['load']['verified_dataset_sha256'] == r['dataset_sha256']
+        if t['load']['verified_rows'] != r['rows']:
+            raise ValueError('Verified row count does not match expected rows')
+        if t['load']['verified_dataset_sha256'] != r['dataset_sha256']:
+            raise ValueError('Verified dataset checksum does not match')
         for phase in ('before', 'after'):
-            assert t[phase+'_stop']['ExitCode'] == 0 and not t[phase+'_stop']['OOMKilled']
+            if t[phase+'_stop']['ExitCode'] != 0 or t[phase+'_stop']['OOMKilled']:
+                raise ValueError('Expected clean shutdown without OOM')
             for metric in ('allocated_bytes', 'apparent_bytes'):
-                assert t[phase]['regular_file_'+metric] == sum(f[metric] for f in t[phase]['files'] if f['counted'])
+                if t[phase]['regular_file_'+metric] != sum(f[metric] for f in t[phase]['files'] if f['counted']):
+                    raise ValueError('File inventory total does not match counted files')
         for metric in ('allocated_bytes', 'apparent_bytes'):
-            assert t['delta']['regular_file_'+metric] == t['after']['regular_file_'+metric]-t['before']['regular_file_'+metric]
+            if t['delta']['regular_file_'+metric] != t['after']['regular_file_'+metric]-t['before']['regular_file_'+metric]:
+                raise ValueError('Storage delta does not match before/after inventories')
         status = t['load']['live_engine_reported_table_status']
         records.append(dict(engine=t['engine'], round=t['round'],
             allocated_delta_bytes=t['delta']['regular_file_allocated_bytes'],
@@ -68,8 +73,8 @@ def build(source, output):
     plt.close(fig)
     fig,ax=plt.subplots(figsize=(10,4.5));fig.subplots_adjust(left=.14,right=.95,bottom=.36,top=.73)
     d=stats['MEMORY']['live_data_length_bytes']['mean']/MIB;i=stats['MEMORY']['live_index_length_bytes']['mean']/MIB
-    ax.barh(['MEMORY'],[d],color='#287C83',height=.42,label='Data_length')
-    ax.barh(['MEMORY'],[i],left=[d],color='#DCAB55',height=.42,label='Index_length')
+    ax.barh(['MEMORY'],[d],color='#287C83',height=.42,label='Row data (Data_length)')
+    ax.barh(['MEMORY'],[i],left=[d],color='#DCAB55',height=.42,label='Indexes (Index_length)')
     ax.text(d/2,0,f'{d:.3f} MiB',ha='center',va='center',color='white',weight='bold')
     ax.text(d+i+.12,0,f'{d+i:.3f} MiB total',va='center',weight='bold')
     ax.set_xlim(0,10.7);ax.set_ylim(-.55,.55);ax.set_xlabel('Engine-reported allocation while the server is running (MiB)')

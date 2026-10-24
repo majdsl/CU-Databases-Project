@@ -1,5 +1,8 @@
 # Offline report reproducibility — October 15, 2026
 
+For the October 24 reproduction, optimized-Python validation fix and graph revision,
+see the [teammate 1 review](teammate-1-review.md).
+
 All four report generators were run from a fresh source archive of main commit
 `31369d7e2c6d4279354b44775313e37f93761a5c`, using Python 3.12 and Matplotlib 3.10.8.
 The pinned OpenFlights dataset was downloaded and checksum-verified again.
