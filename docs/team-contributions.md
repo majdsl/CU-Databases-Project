@@ -43,35 +43,72 @@ archived measurements are distinct from hosted CI correctness tests.
 
 ## Hassan Kheder
 
-Hassan reproduced all seven reports from archived data, reviewed their numerical
-outputs and figures, and contributed a storage-report validation fix with six
-corrupted-evidence regression cases. The fix prevents optimized Python from removing
-row-count, checksum, shutdown, inventory and delta checks. He revised the MEMORY
-allocation legend and supplied normal/optimized test logs.
+Hassan contributed reproducibility assessment, reporting quality assurance and
+visualization analysis. His review connected the archived data, generated outputs
+and validation code, producing a concrete reporting fix and a repeatable test record.
 
-The [named review](teammate-1-review.md), [submitted logs and provenance](../evidence/reviews/20261024-hassan/README.md)
-and [PR #3](https://github.com/majdsl/CU-Databases-Project/pull/3) document this work.
-The maintainer independently reran the reports and tests and adapted the regression
-for the separate offline CI job. Hassan's contribution is archived-report
-reproduction, testing, debugging and visualization review; it is not presented as a
-new Docker benchmark or independent-machine performance measurement.
+- **Archived-report reproduction:** ran all seven report generators with the
+  documented reporting dependencies, repeated generation and checked that the
+  numerical findings remained consistent.
+- **Data analysis and integrity review:** examined the generated statistics and
+  figures against the stored evidence, with SHA-256 checks confirming that all
+  714 evidence files in his reviewed snapshot retained their bytes.
+- **Defect diagnosis and corrective implementation:** identified that optimized
+  Python removed storage-report assertions, and replaced them with explicit
+  validation failures for inconsistent row counts, checksums, shutdown records,
+  file inventories and storage deltas.
+- **Regression testing:** added six corrupted-evidence cases requiring failure
+  before report output was created. His submitted 116-test snapshot passed in
+  normal and optimized Python; the regression is now part of the offline CI suite.
+- **Visualization review and refinement:** reviewed chart readability and the
+  distinction between measurements and interpretation, and revised the MEMORY
+  allocation legend to distinguish row data from index allocation clearly.
+- **Reproducibility documentation and handoff:** supplied the patch, test logs,
+  reproduction commands and review notes, making the changes inspectable and
+  straightforward to integrate and verify.
+
+Published outputs: [named review](teammate-1-review.md),
+[submitted test logs and provenance](../evidence/reviews/20261024-hassan/README.md),
+[storage-report generator](../scripts/report_storage_findings.py),
+[offline regression](../report-tests/test_storage_findings.py) and
+[PR #3](https://github.com/majdsl/CU-Databases-Project/pull/3).
+The maintainer independently reproduced the reports/tests and integrated the
+report regression into the separate dependency-equipped CI job.
 
 ## Zeineldin Mohamed Hassan
 
-Zeineldin reviewed the project against the published evaluation, checked
-and revised documentation, reviewed experiment design and interpreted the reported
-data. These completed review activities were confirmed by the repository owner.
-He also authored the hands-on SQL tutorial, connecting five-engine table creation,
-engine metadata, MEMORY index plans, concurrent locking and restart persistence to
-the measured reports.
+Zeineldin contributed evaluation analysis, experiment and documentation review,
+and the hands-on tutorial. His work connected the measured results to the assignment
+criteria and to practical SQL examples a reader can follow and reuse.
 
-The [tutorial](tutorial.md), original [PR #4](https://github.com/majdsl/CU-Databases-Project/pull/4),
-[authored commit](https://github.com/majdsl/CU-Databases-Project/commit/f4c5696667108c0497c09bba572cc1f6d264a5e5)
-and [review record](teammate-2-review.md) document the contribution. Later tutorial
-corrections and automated CI validation are identified separately from his original
-commit. The newest evaluation was reported as 33/40; its full text, model/tool
-context and evaluated revision have not yet been archived, so no criterion scores
-or explanations are inferred from that total.
+- **Evaluation and criteria analysis:** reviewed the repository with the published
+  MariaDB evaluation, identified opportunities for improvement and communicated
+  criterion-level feedback to guide the team's revisions.
+- **Experiment and design review:** reviewed the experimental choices, comparable
+  schemas and workloads, and the relationship between the measured evidence and
+  the conclusions presented to readers. The repository owner confirmed this
+  completed review activity.
+- **Data evaluation and interpretation:** reviewed the reported engine trade-offs
+  and explained how index access, table locking, restart volatility and storage
+  metadata relate to the project's observed results.
+- **Technical documentation and reader guidance:** checked and revised the
+  documentation, added the README tutorial entry point, and organized a coherent
+  setup-to-SQL-to-interpretation path with links to the measured findings.
+- **Hands-on SQL tutorial development:** authored the initial walkthrough and seven
+  SQL scripts covering comparable engine schemas, generated data, MyRocks setup,
+  engine metadata, MEMORY HASH/BTREE plans, concurrent writes, restart persistence
+  and cleanup.
+- **Review communication and project refinement:** brought evaluation findings
+  back to the team, including the need to evaluate `main`, and helped connect
+  documentation improvements to the project's experimental objectives.
+
+Published outputs: [hands-on tutorial](tutorial.md),
+[original SQL tutorial commit](https://github.com/majdsl/CU-Databases-Project/commit/f4c5696667108c0497c09bba572cc1f6d264a5e5),
+[PR #4](https://github.com/majdsl/CU-Databases-Project/pull/4),
+[named review](teammate-2-review.md) and
+[received evaluation response](../evidence/evaluations/20261026-team-review-35/README.md).
+The later source corrections and automated tutorial validation are documented
+as maintainer integration work, preserving the attribution of his original tutorial.
 
 ## Shared workflow and remaining evidence
 
@@ -81,6 +118,11 @@ commit counts alone do not describe all review and experimental contributions.
 The original measurements and historical source metadata are preserved. Tutorial
 SQL demonstrations and mock-based unit output are not new performance observations.
 
-The confirmed roster is complete. Remaining evidence concerns are the full latest
-evaluation, any separate manual tutorial/reproduction transcript, and the broader
-limitations in the [evidence plan](evidence-plan.md). No official grade is claimed.
+The confirmed roster and completed contributions are recorded. The latest supplied
+practice evaluation is [archived as 35/40](evaluation-follow-up.md); its exact evaluated
+revision and model/tool context remain to be supplied. Separate manual reproduction
+transcripts and broader limitations remain in the [evidence plan](evidence-plan.md).
+Hassan's recorded reproduction concerns archived reports; hosted tutorial checks
+concern Linux amd64 SQL correctness. Neither is presented as new independent-machine
+performance evidence. Further completed contributions can be appended with their
+outputs and validation records. No official grade is claimed.

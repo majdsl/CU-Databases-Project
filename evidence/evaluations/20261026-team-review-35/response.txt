@@ -1,0 +1,47 @@
+REPOSITORY: https://github.com/majdsl/CU-Databases-Project, branch main (README.md at the root, project code present)
+
+AREA: 6, "Choosing the right storage engine" (Tier B). The README's first line names it. Criteria read at https://mariadb.org/bachelor_hackathon_2026-09/, with reference page https://mariadb.com/docs/server/server-usage/storage-engines.
+
+SCORES: documentation=8, mariadb_depth=9, execution=9, usability=9
+
+TOTAL: 35/40
+
+VERDICT: Assessed - no blocking issues.
+
+SUMMARY: A rigorous, reproducible five-engine comparison (InnoDB, Aria, MyISAM, MEMORY, MyRocks) on MariaDB 11.8.9, now with a hands-on tutorial. The only visible gap is the missing team roster.
+
+NOTES: About 13 Python files in benchmarks/, 15 in scripts/, 10 test modules, 15 SQL DDL files plus 7 tutorial SQL files, roughly 30 Markdown docs, 7 YAML files, 2 Dockerfiles. MariaDB capabilities found: InnoDB, Aria, MyISAM, MEMORY HASH/BTREE, MyRocks, lock-wait status counters, SIGKILL recovery. A rigorous five-engine benchmark with a hands-on tutorial; team roster missing.
+
+BLOCKING: none
+
+DOCUMENTATION:
+- There: README.md opens with the area line. It states the question, the pinned MariaDB 11.8.9 image, the data model, a one-command setup, results tables and charts, and a link to the tutorial. `docs/engine-recommendations.md` gives the actionable recommendation the area asks for. `docs/cache-and-durability.md` explains the mechanisms.
+- To raise: replace the README "Team and further review" placeholder ("Full names, GitHub identities and completed contributions will be added after team confirmation") with the actual team and each member's contribution.
+- To raise: add a short "why the numbers come out this way" summary to README.md. The mechanism explanations are currently spread across about 8 files in `docs/`.
+- To raise: explain why the pilot and full runs used different image IDs.
+
+MARIADB DEPTH:
+- There: the same schema runs on InnoDB, Aria, MyISAM, MEMORY and MyRocks (ROCKSDB). `docker/mariadb/rocksdb.cnf` and the custom image enable the plugin. The project goes well past the area's ask:
+  - SIGKILL against clean-shutdown recovery.
+  - Table-lock and row-lock counters (`Table_locks_waited`, `Innodb_row_lock_waits`) under concurrent writes.
+  - InnoDB cache pressure.
+  - MEMORY HASH against BTREE range scans, 13.52× slower at 100,000 rows. `sql/tutorial/04-index-types.sql` shows the same effect (`type=ALL`, 100,000 rows read).
+- To raise: test ARCHIVE; `sql/openflights/archive.sql` is absent (404).
+- To raise: vary MyRocks compression and Aria options (`docker/mariadb/rocksdb.cnf` holds a single configuration).
+- To raise: run the cache-pressure experiment on engines other than InnoDB.
+- To raise: add a replication or second-host angle for interaction with the rest of the server.
+
+EXECUTION:
+- There: this is a measurement project judged on its method. It uses a seeded dataset with a fingerprint, plus pinned and checksum-verified OpenFlights data. Engine order is balanced, with 25 trials for load/read and 150 for concurrent writes. Results are reported as mean ± sample SD of trial means, and pilots are excluded from the statistics.
+- There: `scripts/setup_project.py` ends in "SETUP PASS". `scripts/init_env.py` generates random credentials, and the SQL is parameterised with whitelisted DDL. About 115 unit tests pass in `tests/`. CI is `.github/workflows/correctness.yml` with two jobs, including `report-tests/` under normal and `-O` Python.
+- To raise: replicate on a second machine, since all results come from one laptop.
+- To raise: separate client and driver overhead from engine time in the timings.
+- To raise: the tutorial's SQL in `sql/tutorial/` is not run in CI. A step is needed, and it must use `docker compose exec -T db rm -rf /tutorial` before the copy.
+- To raise: the five-engine image is amd64-only. State the effect on ARM results.
+
+USABILITY:
+- There: one documented setup command, a rerunnable harness, and data fetched by a verified step. `docs/tutorial.md` plus `sql/tutorial/` (01 to 06 and 99-cleanup) is a self-contained worked example. Path A uses the five-engine lab and Path B uses a stock `mariadb:11.8` image (four engines, for ARM). The tutorial shows engine sizes, MEMORY HASH against BTREE, Aria table-lock waits against InnoDB, and restart persistence. I ran Path A end to end with the results the doc describes. The README links to the tutorial under "Start here".
+- To raise: Path B has not been run. Run it, or mark it untested.
+- To raise: the 15-second concurrency runs in `docs/tutorial.md` can miss the overlap, and 30 seconds worked reliably. Use 30 seconds and say to start both sessions together.
+- To raise: put the tutorial under CI so it stays reusable.
+- To raise: add a short "when to pick which engine" table at the end of the tutorial, so it stands alone.

@@ -7,7 +7,7 @@ are evidence for their stated workloads, not a universal engine ranking.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
-| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster/contributions now linked; full latest evaluation and separate manual tutorial transcript pending |
+| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster and expanded contributions linked; practice feedback archived; evaluated revision/tool context and separate manual tutorial transcript pending |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
 | Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 115 tests and five-engine integration | Independent Windows clean-checkout tutorial reproduction and team review |
@@ -89,8 +89,9 @@ This does not replace independent database reproduction.
 5. The [team roster and completed contributions](team-contributions.md) are now documented.
    Preserve any independent manual tutorial/reproduction transcript separately; automated
    tutorial SQL validation does not establish Windows or native ARM reproduction.
-6. Archive the full latest evaluation and address concrete findings against its tested
-   revision. The team reports 33/40, but the full response and revision are pending.
+6. The [35/40 practice response and follow-up](evaluation-follow-up.md) are now archived.
+   Record its exact evaluated revision and model/tool context when supplied, then
+   reevaluate the improved main revision. No later score is inferred.
    The project was merged on October 15; main CI passed on `84a6ad0`.
    See the [tutorial audit](tutorial-audit.md) for completed checks and remaining gaps.
 
@@ -144,7 +145,8 @@ under concurrent writes; InnoDB row-wait deltas are zero for this workload. Neit
 container recorded local quota throttling. Runner and DB CPU windows differ, so
 these data do not isolate query CPU or a single scaling bottleneck. Full and pilot
 statistics are separate. The team review/contributions are [documented](team-contributions.md); the full latest
-evaluation remains pending. Broader claims still require separate experiments.
+evaluation is now [archived](evaluation-follow-up.md); its run metadata remains
+incomplete. Broader claims still require separate experiments.
 
 ## Team and hands-on tutorial follow-up — October 26, 2026
 
@@ -154,5 +156,18 @@ were merged in PR #4. Follow-up integration corrects unsupported metadata causal
 removes expected missing-MyRocks errors from the common path, hardens the update
 routine and adds automated SQL, concurrency, restart and cleanup checks in CI.
 This correctness work does not add new benchmark measurements or native ARM/Windows
-reproduction. The 33/40 total is team-reported; obtain the full response, evaluated
-commit, model and tool context before interpreting the remaining points.
+reproduction. The supplied [35/40 response](evaluation-follow-up.md) predates these
+changes; evaluated commit, model and tool context are still needed to complete the
+evaluation record.
+
+## Received evaluation and documentation refinement
+
+The full 35/40 practice response is preserved unchanged, with a disposition for every
+suggestion. Documentation (8/10 in that response) is the immediate focus: fuller,
+evidence-linked teammate profiles, an upfront README mechanism explanation, a
+recorded image-identity table, explicit stock-image/ARM validation limits, 30-second
+manual concurrency instructions and a standalone tutorial engine-choice table.
+These are documentation refinements; all original measurements remain unchanged.
+Second-host measurements, client/driver decomposition, ARCHIVE, engine-option
+studies, multi-engine cache pressure and replication remain distinct, unmeasured
+extensions rather than newly claimed results. See [the follow-up](evaluation-follow-up.md).

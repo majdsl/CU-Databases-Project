@@ -61,8 +61,12 @@ docker compose build runner
 docker compose run --rm --no-deps runner python -m unittest discover -s tests -v
 ```
 
-The existing suite has 82 tests. Tests do not require the database to run. No performance
-rerun is needed solely to record this pin; future experiments must record their own metadata.
+That October 9 snapshot had 82 tests; current suite sizes and live/offline coverage
+are recorded in [CI scope](ci.md). No performance rerun is needed solely to record
+this pin; future experiments must record their own metadata.
+
+For the later cache-pressure/write-diagnostic pilot/full image-ID differences,
+see [recorded identities, build selection and historical limits](image-provenance.md).
 For a fresh checkout, fetch the pinned OpenFlights data before building as documented in
 the README.
 

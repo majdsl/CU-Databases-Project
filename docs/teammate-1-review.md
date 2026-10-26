@@ -60,5 +60,9 @@ archives were added to the database image.
 [Submitted test logs and archive provenance](../evidence/reviews/20261024-hassan/README.md)
 preserve the reviewed evidence. The original patch author field was `Codex`; this
 review records Hassan's contribution as confirmed by the project owner, without
-claiming that the original commit was authored through his GitHub account. Full-team
-contribution documentation and reevaluation remain pending the other teammate's work.
+claiming that the original commit was authored through his GitHub account. The
+integration was published in [PR #3](https://github.com/majdsl/CU-Databases-Project/pull/3)
+with confirmed co-author credit. Full-team documentation, outstanding at the original
+October 24 review, is now [completed](team-contributions.md). The later
+[practice-evaluation response and follow-up](evaluation-follow-up.md) are recorded
+separately from this archived-report review.
