@@ -1,0 +1,332 @@
+SQL PASS: 01-create-tables.sql
+SQL PASS: 02-myrocks.sql
+SQL PASS: 03-compare.sql
+SQL PASS: 03b-myrocks-compare.sql
+SQL PASS: 04-index-types.sql
+SQL PASS: 05-lock-demo.sql
+SQL PASS: 06-after-restart.sql
+SQL PASS: 06b-myrocks-after-restart.sql
+SQL PASS: 99-cleanup.sql
+SQL PASS: 01-create-tables.sql
+SQL PASS: 03-compare.sql
+SQL PASS: 04-index-types.sql
+SQL PASS: 05-lock-demo.sql
+SQL PASS: 06-after-restart.sql
+SQL PASS: 99-cleanup.sql
+TUTORIAL_VALIDATION_JSON_BEGIN
+{
+  "experiment": "tutorial_sql_correctness",
+  "commit": "515032dc5b04b1aa61c1e7940e589c42d3778cd8",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "host_python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "server_version": "11.8.9-MariaDB-ubu2404",
+  "source_sha256": {
+    "01-create-tables.sql": "e1a09e3d3a18e3b6ac4dd965bf62c9e7e196ea2f694d1e901f288f318518f6ad",
+    "02-myrocks.sql": "b44327e3da3fbf5ba2826a550d2986d360db460aabca8f76a47975fa58d1aa89",
+    "03-compare.sql": "b739e0db93cb6320cf2ff6c519b0ae7ade31bbbfcddd84e2997fcdc4375e8a21",
+    "03b-myrocks-compare.sql": "e0187673225935e6df79f93182f686898ba6cbe1a6342d847bf319d20d8c9a43",
+    "04-index-types.sql": "f2e8bd61f16111fefc3a886c17bf4dac9159ae26a81967d484d8f52ec35290ce",
+    "05-lock-demo.sql": "4c808f630c84103f0e8c1165c4185408b28df6e7ed4f3846edecf1db656bf8db",
+    "06-after-restart.sql": "47d3607e153bcab559961f1a8d705272d2db44f7bb8fb86711bbaae0503f2f0e",
+    "06b-myrocks-after-restart.sql": "a756ac81d23a27df37ac214b9783db26d80fc87b44cfe07d40bc06c44b92c251",
+    "99-cleanup.sql": "688aaf75124e4b884555b148ea8d7587405148a0e6daef7af50f335118395283"
+  },
+  "sequences": [
+    {
+      "engines": [
+        "innodb",
+        "aria",
+        "myisam",
+        "memory",
+        "rocksdb"
+      ],
+      "rows_per_table": 50000,
+      "indexes": [
+        {
+          "index": "btree",
+          "predicate": "airport_id = 100",
+          "count": 20,
+          "access": "ref",
+          "key": "by_airport"
+        },
+        {
+          "index": "btree",
+          "predicate": "airport_id BETWEEN 100 AND 109",
+          "count": 200,
+          "access": "range",
+          "key": "by_airport"
+        },
+        {
+          "index": "hash",
+          "predicate": "airport_id = 100",
+          "count": 20,
+          "access": "ref",
+          "key": "by_airport"
+        },
+        {
+          "index": "hash",
+          "predicate": "airport_id BETWEEN 100 AND 109",
+          "count": 200,
+          "access": "ALL",
+          "key": "NULL"
+        }
+      ],
+      "rejected_inputs": 6,
+      "single_writers": [
+        {
+          "engine": "innodb",
+          "row_id": 1,
+          "updates": 9347,
+          "elapsed_seconds": 1.0001
+        },
+        {
+          "engine": "aria",
+          "row_id": 1,
+          "updates": 9622,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "engine": "myisam",
+          "row_id": 1,
+          "updates": 63912,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "engine": "memory",
+          "row_id": 1,
+          "updates": 166001,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "engine": "rocksdb",
+          "row_id": 1,
+          "updates": 4336,
+          "elapsed_seconds": 1.0001
+        }
+      ],
+      "concurrent_writers": [
+        {
+          "engine": "aria",
+          "pattern": "disjoint",
+          "writers": [
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 4497,
+              "elapsed_seconds": 1.0001
+            },
+            {
+              "engine": "aria",
+              "row_id": 2,
+              "updates": 4497,
+              "elapsed_seconds": 1.0002
+            }
+          ]
+        },
+        {
+          "engine": "aria",
+          "pattern": "same row",
+          "writers": [
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 4455,
+              "elapsed_seconds": 1.0002
+            },
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 4458,
+              "elapsed_seconds": 1.0002
+            }
+          ]
+        },
+        {
+          "engine": "innodb",
+          "pattern": "disjoint",
+          "writers": [
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 4900,
+              "elapsed_seconds": 1.0
+            },
+            {
+              "engine": "innodb",
+              "row_id": 2,
+              "updates": 4917,
+              "elapsed_seconds": 1.0001
+            }
+          ]
+        },
+        {
+          "engine": "innodb",
+          "pattern": "same row",
+          "writers": [
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 4815,
+              "elapsed_seconds": 1.0002
+            },
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 4803,
+              "elapsed_seconds": 1.0001
+            }
+          ]
+        }
+      ],
+      "global_lock_counters": "Innodb_row_lock_waits\t1\nTable_locks_waited\t17860",
+      "restart": "persistent data preserved; MEMORY emptied",
+      "cleanup": "tutorial objects removed; unrelated table preserved"
+    },
+    {
+      "engines": [
+        "innodb",
+        "aria",
+        "myisam",
+        "memory"
+      ],
+      "rows_per_table": 50000,
+      "indexes": [
+        {
+          "index": "btree",
+          "predicate": "airport_id = 100",
+          "count": 20,
+          "access": "ref",
+          "key": "by_airport"
+        },
+        {
+          "index": "btree",
+          "predicate": "airport_id BETWEEN 100 AND 109",
+          "count": 200,
+          "access": "range",
+          "key": "by_airport"
+        },
+        {
+          "index": "hash",
+          "predicate": "airport_id = 100",
+          "count": 20,
+          "access": "ref",
+          "key": "by_airport"
+        },
+        {
+          "index": "hash",
+          "predicate": "airport_id BETWEEN 100 AND 109",
+          "count": 200,
+          "access": "ALL",
+          "key": "NULL"
+        }
+      ],
+      "rejected_inputs": 6,
+      "single_writers": [
+        {
+          "engine": "innodb",
+          "row_id": 1,
+          "updates": 9480,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "engine": "aria",
+          "row_id": 1,
+          "updates": 9582,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "engine": "myisam",
+          "row_id": 1,
+          "updates": 62178,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "engine": "memory",
+          "row_id": 1,
+          "updates": 166226,
+          "elapsed_seconds": 1.0
+        }
+      ],
+      "concurrent_writers": [
+        {
+          "engine": "aria",
+          "pattern": "disjoint",
+          "writers": [
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 4571,
+              "elapsed_seconds": 1.0
+            },
+            {
+              "engine": "aria",
+              "row_id": 2,
+              "updates": 4571,
+              "elapsed_seconds": 1.0002
+            }
+          ]
+        },
+        {
+          "engine": "aria",
+          "pattern": "same row",
+          "writers": [
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 4398,
+              "elapsed_seconds": 1.0001
+            },
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 4395,
+              "elapsed_seconds": 1.0001
+            }
+          ]
+        },
+        {
+          "engine": "innodb",
+          "pattern": "disjoint",
+          "writers": [
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 4715,
+              "elapsed_seconds": 1.0003
+            },
+            {
+              "engine": "innodb",
+              "row_id": 2,
+              "updates": 4715,
+              "elapsed_seconds": 1.0002
+            }
+          ]
+        },
+        {
+          "engine": "innodb",
+          "pattern": "same row",
+          "writers": [
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 5011,
+              "elapsed_seconds": 1.0001
+            },
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 5012,
+              "elapsed_seconds": 1.0001
+            }
+          ]
+        }
+      ],
+      "global_lock_counters": "Innodb_row_lock_waits\t1\nTable_locks_waited\t17920",
+      "restart": "persistent data preserved; MEMORY emptied",
+      "cleanup": "tutorial objects removed; unrelated table preserved"
+    }
+  ],
+  "scope": "Linux amd64 CI correctness; four-engine SQL tested on amd64, not native ARM; no performance evidence"
+}
+TUTORIAL_VALIDATION_JSON_END
+TUTORIAL SMOKE PASS

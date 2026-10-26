@@ -6,8 +6,7 @@ UNION ALL SELECT 'aria',   COUNT(*) FROM tut_aria
 UNION ALL SELECT 'myisam', COUNT(*) FROM tut_myisam
 UNION ALL SELECT 'memory', COUNT(*) FROM tut_memory;
 
--- ARM path: this statement fails with "doesn't exist" - ignore it.
-SELECT 'rocksdb' AS engine, COUNT(*) AS rows_after_restart FROM tut_rocksdb;
+-- Path A: source /tutorial/06b-myrocks-after-restart.sql for MyRocks.
 
 -- The update counters from step 5 survived on the persistent engines.
 SELECT 'aria' AS engine, id, hits FROM tut_aria WHERE id IN (1, 2)

@@ -1,5 +1,10 @@
 # README and tutorial audit — October 15, 2026
 
+**October 26 follow-up:** [Team identities and contributions](team-contributions.md)
+are now confirmed. The [hands-on tutorial](tutorial.md) has a separate live SQL
+correctness path in CI. Earlier counts and run links below remain historical
+snapshots; full latest evaluation and manual Windows/ARM transcript evidence remain open.
+
 This is a documentation and source-consistency audit, not an evaluator grade or a new
 benchmark run. Reviewed source: main commit `84a6ad04c9777d4fe6ee06758bf4b11c3603eb6d`.
 The [official assignment](https://mariadb.org/bachelor_hackathon_2026-09/) was checked
@@ -53,8 +58,8 @@ usability has a direct setup-to-results path. These are evidence locations, not 
 
 ## Still open
 
-- Confirm full team names/usernames and actual completed contributions with the team.
-  No planned work has been marked complete.
+- Team identities and completed contributions, outstanding in the October 15 review,
+  are now recorded in [the team page](team-contributions.md).
 - Collect the independent reproduction/review findings. Record tested commit, host,
   commands, success/error outputs and fixes. Do not publish credentials.
 - Resolve any concrete issues found by the evaluation on main; preserve the evaluation's
@@ -79,4 +84,16 @@ platform requirements and troubleshooting in [setup](setup.md). The obsolete
 root ZIP-install note was removed. The wrapper checks output permissions before
 starting MariaDB, and CI invokes that same wrapper. Three failure-path tests bring
 the suite to 85 tests. [Recorded cache and durability settings](cache-and-durability.md)
-make the comparison limits explicit. Independent team review remains outstanding.
+make the comparison limits explicit. Independent team review was outstanding at
+that snapshot; the named reviews and confirmed roles are now linked above.
+
+## Hands-on SQL follow-up — October 26, 2026
+
+The new tutorial is reachable directly from README. Its common four-engine scripts
+and optional MyRocks follow-ups are explicit; expected errors are not a navigation
+mechanism. The MyRocks metadata explanation agrees with the existing SST-file
+findings, and locking recommendations retain their workload limits. The routine
+rejects invalid inputs/nonexistent rows, counts actual affected rows and reports
+observed elapsed time. The CI driver checks actual SQL and guarded restart/cleanup;
+see [CI scope](ci.md). This does not substitute for a manual Windows or ARM transcript,
+repeat benchmark measurements or a full evaluator response.

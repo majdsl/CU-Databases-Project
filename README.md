@@ -153,11 +153,20 @@ and [setup details](docs/setup.md) document versions and remaining environment l
 
 ## Team and further review
 
-Constructor University database course, Fall 2026. Full names, GitHub identities and
-completed contributions will be added after team confirmation; ongoing review is not
-presented as finished work. Follow-up changes use branches and pull requests into `main`,
-the branch read by the official evaluator. Remaining evidence gaps are tracked in the
-[evidence plan](docs/evidence-plan.md); this is not a claim of a final grade.
+Constructor University database course, Fall 2026.
+
+| Team member | Role and completed contribution |
+| --- | --- |
+| **Majd Salimoun** ([majdsl](https://github.com/majdsl)) | **Technical Analyst — Benchmark Engineering and Experimental Analysis.** Five-engine integration; benchmark design and implementation; experiment execution; results analysis and visualization; reproducibility tooling; CI automation; technical documentation and project coordination. |
+| **Hassan Kheder** ([Hassan457-123](https://github.com/Hassan457-123)) | **Reproducibility, Validation and Visualization Review.** Seven-report reproduction; numerical/figure review; storage-validation debugging; corrupted-evidence regression tests; MEMORY graph revision. |
+| **Zeineldin Mohamed Hassan** ([zein-935](https://github.com/zein-935)) | **Evaluation, Method Review and Tutorial Development.** Evaluation and documentation review; experiment/design review and data evaluation; authored the hands-on five-engine SQL tutorial. |
+
+See [team contributions and supporting evidence](docs/team-contributions.md) for
+completed work, AI assistance, linked commits/reviews and the limits of each check.
+Follow-up changes use branches and pull requests into `main`, the branch read by
+the official evaluator. The full latest evaluation and any separate manual
+reproduction transcripts remain to be archived; [remaining evidence gaps](docs/evidence-plan.md)
+do not constitute a claimed final grade.
 
 References: [official assignment and rubric](https://mariadb.org/bachelor_hackathon_2026-09/),
 [MariaDB engine documentation](https://mariadb.com/docs/server/server-usage/storage-engines).

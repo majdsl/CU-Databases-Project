@@ -41,6 +41,8 @@ jobs:
           python3 scripts/run_cache_pressure.py --smoke --power-condition CI-correctness-only
       - name: Isolated write-diagnostic lifecycle smoke (not performance evidence)
         run: python3 scripts/run_write_diagnostics.py --smoke --power-condition CI-correctness-only
+      - name: Tutorial SQL, restart and cleanup correctness
+        run: python3 scripts/check_tutorial.py --project "$CI_PROJECT"
       - name: Database diagnostics on failure
         if: failure()
         run: docker compose -p "$CI_PROJECT" logs --no-color --tail=200 db
@@ -49,7 +51,7 @@ jobs:
         run: docker compose -p "$CI_PROJECT" down --volumes --remove-orphans
 
   report-validation:
-    name: Offline storage-report validation (normal and optimized Python)
+    name: Offline report and tutorial guard tests (normal and optimized Python)
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -61,7 +63,7 @@ jobs:
         run: |
           python3 -m venv "$RUNNER_TEMP/report-validation"
           "$RUNNER_TEMP/report-validation/bin/python" -m pip install -r requirements-report.txt
-      - name: Reject corrupt storage evidence with and without optimization
+      - name: Run offline validation and project guards with and without optimization
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" -m unittest discover -s report-tests -v
           "$RUNNER_TEMP/report-validation/bin/python" -O -m unittest discover -s report-tests -v
