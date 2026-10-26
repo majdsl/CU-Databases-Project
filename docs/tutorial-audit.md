@@ -1,11 +1,12 @@
 # README and tutorial audit — October 15, 2026
 
-**October 26 follow-up:** [Team identities and contributions](team-contributions.md)
+**October 27 follow-up:** [Team identities and contributions](team-contributions.md)
 are now confirmed. The [hands-on tutorial](tutorial.md) has a separate live SQL
 correctness path in CI. Earlier counts and run links below remain historical
 snapshots. The [35/40 practice response and follow-up](evaluation-follow-up.md) are
-now archived; its evaluated revision/tool context and manual Windows/ARM transcript
-evidence remain open.
+now archived. The [stock-image tutorial](stock-tutorial-validation.md) now has
+successful native Linux amd64 and ARM64 jobs and permanent command transcripts.
+Evaluated revision/tool context and interactive Windows/macOS reproduction remain open.
 
 This is a documentation and source-consistency audit, not an evaluator grade or a new
 benchmark run. Reviewed source: main commit `84a6ad04c9777d4fe6ee06758bf4b11c3603eb6d`.
@@ -108,6 +109,20 @@ current refinements and optional experimental extensions. The README now summari
 storage mechanisms and the build-selection context for differing image IDs; the
 exact historical cause of the image-byte differences remains unestablished. The
 manual concurrency window is 30 seconds with explicit start-together instructions,
-Path B is labeled unvalidated end to end, and the tutorial ends with its own
+Path B was labeled unvalidated at that documentation snapshot, and the tutorial ends with its own
 requirements/engine/cost table. The nine tutorial SQL files and archived CI
 validation hashes are unchanged by these documentation refinements.
+
+## Stock-image follow-up — October 27, 2026
+
+The automated Path B now uses a digest-pinned official MariaDB 11.8.9 image on
+fresh native Linux amd64 and ARM64 runners. Shared SQL checks cover all six common
+files, actual engines, deterministic rows, MEMORY indexes, writer totals, restart
+and cleanup. The runner verifies image/source identity and ownership, records
+credential-safe command output, and removes its own disposable resources.
+
+The [archived record](../evidence/reviews/20261027-stock-tutorial-ci/README.md) preserves
+tested source/merge revisions and both successful jobs. Five new offline guard tests
+also pass normally and with optimized Python. No benchmark data or tutorial SQL was
+changed. This is native-platform correctness evidence; interactive Windows/macOS
+walkthroughs and second-host performance replication remain outside the record.

@@ -1,16 +1,17 @@
 # Evidence plan
 
-Status reviewed October 26, 2026, including the confirmed team roster, hands-on tutorial,
+Status reviewed October 27, 2026, including the confirmed team roster, hands-on tutorial,
 and verified OpenFlights, storage/recovery,
 MEMORY index, InnoDB cache-pressure and server CPU/lock-wait evidence. Completed measurements
-are evidence for their stated workloads, not a universal engine ranking.
+are evidence for their stated workloads, not a universal engine ranking. The separate
+stock-image tutorial now has archived native Linux amd64 and ARM64 correctness checks.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster and expanded contributions linked; practice feedback archived; evaluated revision/tool context and separate manual tutorial transcript pending |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 115 tests and five-engine integration | Independent Windows clean-checkout tutorial reproduction and team review |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with 115 lightweight tests, seven offline tests, five-engine integration and stock tutorial on native Linux amd64/ARM64 | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
 
 ## Completed measurement scope
 
@@ -70,8 +71,8 @@ This does not replace independent database reproduction.
 
 ## Other unfinished work
 
-1. Team-review the [recommendations](engine-recommendations.md) and explain their
-   requirement-based choices in the final tutorial.
+1. Keep the [recommendations](engine-recommendations.md) and tutorial decision table
+   tied to their measured requirements and costs as new results are added.
 2. Keep claims within the measured scope. Broader transaction/failure, large-scale and
    steady-state claims require separate experiments; these are not existing results.
 3. Keep [correctness CI](ci.md) green. October 9 push and pull-request runs passed
@@ -88,7 +89,8 @@ This does not replace independent database reproduction.
    host settings; preserve old run metadata rather than rewriting its provenance.
 5. The [team roster and completed contributions](team-contributions.md) are now documented.
    Preserve any independent manual tutorial/reproduction transcript separately; automated
-   tutorial SQL validation does not establish Windows or native ARM reproduction.
+   tutorial SQL validation does not establish an interactive Windows walkthrough.
+   Native Linux ARM64 stock-image correctness is now [validated](stock-tutorial-validation.md).
 6. The [35/40 practice response and follow-up](evaluation-follow-up.md) are now archived.
    Record its exact evaluated revision and model/tool context when supplied, then
    reevaluate the improved main revision. No later score is inferred.
@@ -155,8 +157,9 @@ Zeineldin Mohamed Hassan's [tutorial](tutorial.md) and original seven SQL script
 were merged in PR #4. Follow-up integration corrects unsupported metadata causality,
 removes expected missing-MyRocks errors from the common path, hardens the update
 routine and adds automated SQL, concurrency, restart and cleanup checks in CI.
-This correctness work does not add new benchmark measurements or native ARM/Windows
-reproduction. The supplied [35/40 response](evaluation-follow-up.md) predates these
+That October 26 correctness work did not add new benchmark measurements or native
+ARM/Windows reproduction. The October 27 stock-image checks below add native Linux
+ARM64 correctness evidence. The supplied [35/40 response](evaluation-follow-up.md) predates these
 changes; evaluated commit, model and tool context are still needed to complete the
 evaluation record.
 
@@ -171,3 +174,16 @@ These are documentation refinements; all original measurements remain unchanged.
 Second-host measurements, client/driver decomposition, ARCHIVE, engine-option
 studies, multi-engine cache pressure and replication remain distinct, unmeasured
 extensions rather than newly claimed results. See [the follow-up](evaluation-follow-up.md).
+
+## Stock-image tutorial validation — October 27, 2026
+
+The [stock tutorial runner](../scripts/check_stock_tutorial.py) and two native CI
+jobs now exercise official MariaDB 11.8.9 on Linux amd64 and ARM64. Both verify
+source/platform identity, four engines, deterministic data, index access, invalid
+routine calls, affected-row counts, concurrent updates, clean restart and cleanup.
+The [archived records](../evidence/reviews/20261027-stock-tutorial-ci/README.md) preserve
+the actual commands, image IDs, source hashes and tested revision. Five new guard
+tests pass normally and under optimized Python; the offline suite totals seven.
+All original benchmark evidence and tutorial SQL files are unchanged. This resolves
+stock-image/native-ARM correctness validation, while interactive Windows/macOS
+walkthroughs and controlled second-host performance measurements remain separate.

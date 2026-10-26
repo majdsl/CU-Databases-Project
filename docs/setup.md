@@ -1,8 +1,11 @@
 # Setup and troubleshooting
 
 The repository targets MariaDB 11.8.9, Docker Linux containers and linux/amd64.
-Windows PowerShell and Ubuntu amd64 are the primary paths. Native ARM and Apple Silicon
-are not validated: use an amd64 Linux machine or VM for the five-engine build. We do not
+Windows PowerShell and Ubuntu amd64 are the primary paths for the five-engine build.
+The custom MyRocks image is not validated on ARM: use an amd64 Linux machine or VM
+for that build. The separate [stock-image tutorial](stock-tutorial-validation.md)
+passes four-engine checks on native Linux amd64 and ARM64 CI runners. Interactive
+Windows/macOS reproduction remains separate. We do not
 claim that emulation reproduces the benchmark timings. A remote Docker daemon is outside
 this tutorial because the results bind mount must refer to this local checkout.
 
@@ -81,7 +84,7 @@ docker compose run --rm runner
 | Symptom | Next action |
 | --- | --- |
 | Cannot connect to Docker API | Start Docker; verify `docker info` succeeds |
-| Windows engine or unsupported architecture | Use a Linux amd64 Docker engine; do not assume ARM compatibility |
+| Windows engine or unsupported five-engine architecture | Use a Linux amd64 Docker engine for the custom lab, or the separate four-engine stock tutorial on Linux ARM64 |
 | Dataset hash mismatch | Preserve the unexpected file and investigate the pinned download; do not disable verification |
 | Build/package download failure | Inspect the build output; restore network/package availability before retrying |
 | Database unhealthy | Inspect `docker compose logs --tail=80 db` and `docker compose ps` |

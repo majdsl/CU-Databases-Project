@@ -8,7 +8,8 @@ All SQL is in [`sql/tutorial/`](../sql/tutorial/). It creates only tables named 
 The `CREATE OR REPLACE` examples reset any existing objects with these names. Use the
 lab database and reserve this prefix for the tutorial; do not use it on other data.
 
-> Do not run this while a benchmark is running: it shares the lab database, and step 6 restarts the server.
+> Run this separately from performance measurements. Path A uses the lab database
+> and restarts it; Path B creates a separate stock server that still consumes host resources.
 
 ## 0. Start a MariaDB client
 
@@ -27,10 +28,26 @@ The password comes from the container's own environment (generated earlier into 
 
 ### Path B: ARM laptops or a quick try (stock image, four engines)
 
-**Validation status:** the common four-engine SQL was checked on amd64 in the
-project's lab image. The stock-image Path B commands and a native ARM host have
-**not** been independently validated end to end. Treat this as an unverified
-platform/setup alternative, not as ARM benchmark evidence or a five-engine comparison.
+**Validated October 27, 2026:** the automated stock-image path passed on native
+Linux amd64 and ARM64 CI runners, using MariaDB 11.8.9 and all six common SQL files.
+The [validation record](stock-tutorial-validation.md) includes commands, image IDs,
+source hashes, restart results and cleanup. This covers four engines; MyRocks is
+part of Path A. Interactive Windows/macOS shell reproduction remains separate.
+
+For an automated check from a clean checkout, with Python 3.9+ and running Docker
+Linux containers, run from the repository root:
+
+```powershell
+python scripts/check_stock_tutorial.py
+```
+
+On Linux use `python3`. The command generates temporary credentials, creates its
+own unused container and volume, waits for health, runs the tutorial checks and
+removes only those owned resources. It saves `validation.json`, `commands.json`
+and `transcript.txt` under a new `results/` directory and ends with
+`STOCK TUTORIAL PASS`. It does not read or change the lab's `.env`.
+
+To work through the SQL interactively instead, use the following manual setup.
 
 The custom five-engine image is verified only on amd64, so this path skips MyRocks. Generate a throwaway password, then start a disposable server with no published port.
 
@@ -49,11 +66,15 @@ export MARIADB_PASSWORD=$(python3 -c "import secrets; print(secrets.token_hex(16
 Then (either shell):
 
 ```powershell
-docker run -d --name engine-tutorial -e MARIADB_RANDOM_ROOT_PASSWORD=1 -e MARIADB_DATABASE=engine_lab -e MARIADB_USER=tutorial -e MARIADB_PASSWORD -v "${PWD}/sql/tutorial:/tutorial:ro" mariadb:11.8
+docker run -d --name engine-tutorial --network none -e MARIADB_RANDOM_ROOT_PASSWORD=1 -e MARIADB_DATABASE=engine_lab -e MARIADB_USER=tutorial -e MARIADB_PASSWORD -v "${PWD}/sql/tutorial:/tutorial:ro" mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+docker exec engine-tutorial healthcheck.sh --connect --innodb_initialized
 docker exec -it engine-tutorial sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ututorial engine_lab'
 ```
 
-If the client reports that it cannot connect, wait a few seconds for the server to finish initialising and try again. In Path B, skip step 2 and the two MyRocks-only follow-ups (`03b` and `06b`).
+Run these commands separately. If the healthcheck fails while initialization is
+still in progress, wait a few seconds and repeat it; connect only after it succeeds.
+An existing `engine-tutorial` name must be inspected before proceeding; do not reuse
+an unrelated server. In Path B, skip step 2 and the two MyRocks-only follow-ups (`03b` and `06b`).
 The common scripts run without expected errors. Stop and inspect any SQL error; do not continue past it.
 
 ## 1. The same table on four engines
@@ -180,6 +201,7 @@ Path B:
 
 ```powershell
 docker restart engine-tutorial
+docker exec engine-tutorial healthcheck.sh --connect --innodb_initialized
 docker exec -it engine-tutorial sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ututorial engine_lab'
 ```
 
@@ -205,7 +227,9 @@ Every persistent engine still has 50,000 rows, and the `hits` counters from step
 source /tutorial/99-cleanup.sql
 ```
 
-Path B: also remove the disposable server with `docker rm -f engine-tutorial`.
+Path B's manual setup: remove only that disposable tutorial server and its anonymous
+database volume with `docker rm -f -v engine-tutorial`. The automated command already
+removes its own labelled container and named volume.
 
 ## What you just saw, and what to choose
 
@@ -241,12 +265,17 @@ row counts, index answers/access plans, concurrent increment totals, invalid rou
 inputs, clean-restart row survival and cleanup. It exercises the five-engine sequence
 and the common four-engine sequence without creating a MyRocks table.
 
-This is automated **Linux amd64 SQL correctness**, not new performance evidence or
-a claim that the PowerShell walkthrough, native ARM or another person's Windows
-checkout has been independently reproduced. The four-engine SQL path is also checked
-on amd64; that does not validate an ARM host. The custom five-engine image remains
-verified only on amd64. A manual test transcript should record its commit, server
-version, platform, commands and outputs separately. See [CI scope](ci.md) and the
+Path A's automated checks cover **Linux amd64 SQL correctness** in the custom
+five-engine image. Path B's separate `scripts/check_stock_tutorial.py` jobs cover
+**native Linux amd64 and ARM64** using the pinned official image and four engines.
+Both run the shared checks in `scripts/tutorial_checks.py`; Path B also verifies
+image/platform identity, mounted SQL hashes, fresh startup and owned-resource removal.
+
+These are correctness observations. They do not reproduce controlled benchmark
+timings on a second laptop or validate the interactive PowerShell/macOS walkthrough.
+The custom five-engine image remains verified only on amd64. A separate manual
+transcript should record its commit, server version, platform, commands and outputs.
+See [stock-image validation](stock-tutorial-validation.md), [CI scope](ci.md) and the
 [team contributions](team-contributions.md).
 
 The [October 26 automated validation record](../evidence/reviews/20261026-tutorial-ci/README.md)

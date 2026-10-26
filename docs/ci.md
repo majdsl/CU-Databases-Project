@@ -19,7 +19,7 @@ round trips passed. The integration server reported MariaDB 11.8.9-MariaDB-ubu24
 A short [log excerpt](../evidence/environment/20261009-ci-validation.txt) preserves the
 unit-test conclusion and engine output; full build logs remain linked in Actions.
 
-Each job starts from a fresh checkout on Ubuntu 24.04. It prepares a disposable
+The five-engine integration job starts from a fresh checkout on Ubuntu 24.04. It prepares a disposable
 results directory for UID 10001 and runs the README setup wrapper,
 `scripts/setup_project.py`, with a unique CI project name. The wrapper:
 
@@ -84,7 +84,7 @@ volume lifecycle. Its timings are not performance evidence.
 A separate `report-validation` job installs `requirements-report.txt` in a temporary
 virtual environment and runs the offline `report-tests` suite, both normally
 and with optimized Python (`-O`). The suite includes storage-report validation and
-the tutorial driver's project-name guard. Hassan Kheder's regression covers row count,
+the tutorial drivers' project/ownership/credential guards. Hassan Kheder's regression covers row count,
 checksum, exit code, OOM, inventory totals and storage deltas, requiring rejection
 before any output directory is created. The database image continues to run its
 115 lightweight tests without Matplotlib or the archived evidence. The extra offline
@@ -111,16 +111,44 @@ server/host versions and observations are printed between
 `TUTORIAL_VALIDATION_JSON_BEGIN` and `TUTORIAL_VALIDATION_JSON_END`; success ends
 with `TUTORIAL SMOKE PASS`.
 
-This is Linux amd64 correctness. The four-engine SQL path is checked on amd64 too;
-it does not validate a native ARM host or an interactive Windows PowerShell session.
+This lab-image job is Linux amd64 correctness. Its four-engine sequence also runs
+inside that lab image. The separate stock-image jobs below cover native ARM64;
+interactive Windows PowerShell reproduction remains separate.
 Short writer durations and CI counter output are not performance or engine-ranking
 evidence. A tutorial demonstration is separate from the archived repeated benchmarks.
 Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
-The lightweight database suite remains 115 tests. The offline suite now has two
-tests, including the project's restart-target guard; each runs normally and with `-O`.
+The lightweight database suite remains 115 tests. The offline suite now has seven
+tests, including the original restart-target guard and five stock-runner failure
+checks; each runs normally and with `-O`.
 
 **Validated October 26, 2026:** [PR run 40395842648](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395842648)
 and [push run 40395828223](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395828223)
 passed against tutorial source head `1526e565d6aeb177ca177dd4f6e74bfabd92f5d4`.
 The [archived validation record](../evidence/reviews/20261026-tutorial-ci/README.md)
 retains the tested PR merge revision, real SQL observations and source hashes.
+
+## Native stock-image tutorial
+
+The `stock-tutorial` matrix runs on `ubuntu-24.04` (amd64) and `ubuntu-24.04-arm`
+(ARM64). It runs `scripts/check_stock_tutorial.py` against the official MariaDB
+index pinned by digest, using the same six common SQL files and shared assertions
+as the lab tutorial. No MyRocks package or Python plotting dependency is installed
+in that database image.
+
+Each job verifies that host, Docker engine and selected image architectures match.
+The runner refuses existing resource names, creates a uniquely labelled container
+and named volume, uses the official healthcheck, verifies the read-only SQL mount's
+hashes, and checks all four real engines, index access, invalid inputs, single and
+concurrent updates, clean restart and SQL cleanup. It checks ownership before
+restarting or removing resources. No database port is published. Generated passwords
+stay in the child process environment; credential-bearing Docker inspection output
+is omitted from logs.
+
+The runner saves JSON validation/commands and a transcript under `results/` and
+prints the command records plus `STOCK_TUTORIAL_VALIDATION_JSON_BEGIN/END` and
+`STOCK TUTORIAL PASS`. The [October 27 archived record](../evidence/reviews/20261027-stock-tutorial-ci/README.md)
+retains native amd64 and ARM64 output from
+[PR run 40421200797](https://github.com/majdsl/CU-Databases-Project/actions/runs/40421200797).
+Read [the validation guide](stock-tutorial-validation.md) for tested revisions,
+image identities and the scope of the claims. These are correctness checks, with
+short writer calls, separate from the controlled performance experiments.

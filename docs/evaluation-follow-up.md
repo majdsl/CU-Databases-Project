@@ -21,8 +21,8 @@ of newly discovered mandatory submission files.
 | Different pilot/full image IDs unexplained | **Process explained; historical cause remains unknown.** Both orchestrators invoke a build separately for pilot/full. The identity table and captured controls are retained; the records do not establish which image bytes/metadata changed. | [Image provenance](image-provenance.md) |
 | Tutorial SQL not executed in CI | **Resolved in `722684e`.** Actual source files, engine/index behavior, concurrent increments, restart and cleanup passed in CI on five-engine and common four-engine sequences. | [CI scope](ci.md), [archived SQL validation](../evidence/reviews/20261026-tutorial-ci/README.md) |
 | Delete `/tutorial` before copying SQL | **Underlying path concern resolved and tested.** The tutorial/driver create the directory and copy `sql/tutorial/.` into it, avoiding nested copies and preserving unrelated directory contents. A directory deletion is not necessary for this implementation. | [Tutorial setup](tutorial.md#path-a-the-projects-five-engine-lab-linux-amd64-docker), [driver](../scripts/check_tutorial.py) |
-| Explain amd64/ARM effects | **Explicitly scoped.** The five-engine image is verified on amd64. Common four-engine SQL is checked on amd64 in that lab image; stock-image Path B commands and native ARM remain unvalidated end to end. No cross-architecture performance comparison is inferred. | [Tutorial Path B](tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines), [setup limitations](setup.md) |
-| Path B not run | **Marked unvalidated directly in Path B.** Testing the common SQL is not presented as execution of the stock-image/ARM instructions. A separate transcript is still needed to close that gap. | [Tutorial](tutorial.md), [archived validation scope](../evidence/reviews/20261026-tutorial-ci/README.md) |
+| Explain amd64/ARM effects | **Validated for stock-image correctness on both native platforms.** Separate Linux amd64/ARM64 jobs verify host, daemon and image architecture, using the same pinned official index. The custom five-engine image remains amd64-only in the evidence. No cross-architecture timing comparison is inferred. | [Stock validation](stock-tutorial-validation.md), [setup limits](setup.md) |
+| Path B not run | **Automated Path B now validated and archived.** Fresh stock servers passed all six common SQL files, index/writer checks, restart and cleanup on native Linux amd64 and ARM64. Interactive Windows/macOS shell reproduction remains separate. | [Tutorial Path B](tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines), [actual transcripts](../evidence/reviews/20261027-stock-tutorial-ci/README.md) |
 | Fifteen-second manual calls may miss overlap | **Addressed in this follow-up.** Use 30-second calls, have both sessions ready and start them together. The longer window improves the opportunity for overlap; it does not guarantee synchronization. | [Locking demonstration](tutorial.md#5-see-table-level-locking-happen) |
 | Tutorial needs its own engine-choice table | **Addressed explicitly in this follow-up.** The existing observation table is retained, followed by a compact workload/engine/cost table. | [Tutorial decision table](tutorial.md#when-to-pick-which-engine) |
 | Repeat on a second machine | **Open extension.** Offline report reproduction and hosted CI correctness do not replicate laptop performance. A second-host run needs its own versions, settings, power and trial data. | [Environment](benchmark-environment.md), [methods](../README.md#explore-or-reproduce-the-other-experiments) |
@@ -36,9 +36,11 @@ of newly discovered mandatory submission files.
 
 Documentation was the lowest category in the supplied response. The roster, concise
 mechanism explanation, image context and self-contained tutorial decision path are
-therefore the immediate focus. Several execution/usability comments were already
-resolved by the prior tutorial-CI integration; they should be checked against the
-new main revision instead of treated as unchanged deficiencies.
+now addressed in the current documentation. The separate stock-image tutorial also
+passed on native Linux amd64 and ARM64, with archived commands and runtime identities.
+Several execution/usability comments were already resolved by the prior tutorial-CI
+integration. A new evaluation should inspect the improved revision. Second-host
+performance replication and targeted engine-option studies remain distinct extensions.
 
 The [official Area 6 criteria](https://mariadb.org/bachelor_hackathon_2026-09/) ask for
 comparable schemas/workloads across at least three engines, explained trade-offs,
