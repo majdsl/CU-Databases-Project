@@ -34,6 +34,8 @@ The follow-up retains the tutorial's examples while:
 These follow-up checks are maintainer integration work. They do not retroactively
 claim that the original author ran a particular Windows, ARM or fresh Docker session.
 Their automated scope is documented in [CI](ci.md) and the [tutorial](tutorial.md).
+The successful [October 26 CI record](../evidence/reviews/20261026-tutorial-ci/README.md)
+preserves the tested revision and real SQL observations from the maintainer follow-up.
 
 ## Latest evaluation evidence still needed
 

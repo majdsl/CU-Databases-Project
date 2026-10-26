@@ -118,3 +118,9 @@ evidence. A tutorial demonstration is separate from the archived repeated benchm
 Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
 The lightweight database suite remains 115 tests. The offline suite now has two
 tests, including the project's restart-target guard; each runs normally and with `-O`.
+
+**Validated October 26, 2026:** [PR run 40395842648](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395842648)
+and [push run 40395828223](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395828223)
+passed against tutorial source head `1526e565d6aeb177ca177dd4f6e74bfabd92f5d4`.
+The [archived validation record](../evidence/reviews/20261026-tutorial-ci/README.md)
+retains the tested PR merge revision, real SQL observations and source hashes.

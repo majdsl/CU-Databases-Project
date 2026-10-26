@@ -4,7 +4,7 @@ Constructor University database course, Fall 2026. The project combines benchmar
 engineering, experimental execution, independent report checks, technical review
 and a reusable SQL tutorial. The names and completed review activities below were
 confirmed by the team through the repository owner. This page records responsibilities
-and evidence without assigning artificial contribution percentages.
+and supporting evidence.
 
 | Team member | GitHub | Role |
 | --- | --- | --- |

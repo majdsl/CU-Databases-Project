@@ -226,3 +226,7 @@ on amd64; that does not validate an ARM host. The custom five-engine image remai
 verified only on amd64. A manual test transcript should record its commit, server
 version, platform, commands and outputs separately. See [CI scope](ci.md) and the
 [team contributions](team-contributions.md).
+
+The [October 26 automated validation record](../evidence/reviews/20261026-tutorial-ci/README.md)
+archives the successful SQL checks, tested commit and source hashes. Its counts and
+timings are correctness observations, not additional performance measurements.

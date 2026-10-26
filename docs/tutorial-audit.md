@@ -84,7 +84,8 @@ platform requirements and troubleshooting in [setup](setup.md). The obsolete
 root ZIP-install note was removed. The wrapper checks output permissions before
 starting MariaDB, and CI invokes that same wrapper. Three failure-path tests bring
 the suite to 85 tests. [Recorded cache and durability settings](cache-and-durability.md)
-make the comparison limits explicit. Independent team review remains outstanding.
+make the comparison limits explicit. Independent team review was outstanding at
+that snapshot; the named reviews and confirmed roles are now linked above.
 
 ## Hands-on SQL follow-up — October 26, 2026
 
