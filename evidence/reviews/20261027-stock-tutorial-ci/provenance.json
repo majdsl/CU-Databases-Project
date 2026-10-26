@@ -1,0 +1,19 @@
+{
+  "archived_on": "2026-10-27",
+  "archive_timezone": "Europe/Berlin",
+  "repository": "majdsl/CU-Databases-Project",
+  "pull_request": 9,
+  "source_head": "ed7ee7a1f754e085f33d4327a2cd3c1f73741bd6",
+  "tested_merge_revision": "9d8509de9edd8daa76bba80aed34a642c6250260",
+  "workflow_run_id": 40421200797,
+  "jobs": {
+    "amd64": 121915791557,
+    "arm64": 121915791217
+  },
+  "extraction": {
+    "validation": "JSON between STOCK_TUTORIAL_VALIDATION_JSON_BEGIN/END",
+    "commands": "Parsed COMMAND_RECORD entries in job-log output",
+    "transcript": "Driver stdout; GitHub timestamp prefixes removed; LF normalized"
+  },
+  "scope": "Native Linux amd64 and arm64 stock-image SQL/setup/restart correctness; no performance or Windows/macOS manual-reproduction claim"
+}
