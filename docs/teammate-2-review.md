@@ -10,12 +10,34 @@ teammate 2. Preferred full name confirmed by the repository owner on October 26,
 
 ## Completed contributions
 
-| Activity | Recorded contribution | Evidence |
-| --- | --- | --- |
-| Evaluation review | Used the published MariaDB evaluation to review the repository and identify improvement opportunities | Repository-owner confirmation; earlier 32/40 feedback and the [received 35/40 response](../evidence/evaluations/20261026-team-review-35/README.md), with [criterion follow-up](evaluation-follow-up.md) |
-| Documentation checks and revisions | Added a README entry point and a self-contained SQL walkthrough | [PR #4](https://github.com/majdsl/CU-Databases-Project/pull/4) |
-| Experiment/design review and data evaluation | Reviewed experiment choices, findings and their explanation for readers | Repository-owner confirmation; tutorial links each mechanism to the scoped findings and recommendations |
-| Tutorial development | Authored seven SQL files and the initial walkthrough: common schemas, MyRocks, metadata, HASH/BTREE access, concurrent writes, restart and cleanup | [Commit f4c5696](https://github.com/majdsl/CU-Databases-Project/commit/f4c5696667108c0497c09bba572cc1f6d264a5e5), merged into main as `cb5ffbc` |
+- **Evaluation and Rubric Analysis:** used the published MariaDB evaluation to
+  review the repository and identify improvements. The repository owner confirmed
+  this work and supplied the earlier 32/40 feedback and
+  [received 35/40 response](../evidence/evaluations/20261026-team-review-35/README.md),
+  with [criterion follow-up](evaluation-follow-up.md).
+
+- **Experimental Design and Method Review:** reviewed experiment choices,
+  comparable schemas, workloads and the relationship between measurements and
+  conclusions. The repository owner confirmed this completed review activity.
+
+- **Data Evaluation and Mechanism Interpretation:** reviewed the findings and
+  their explanation for readers. The tutorial connects index access, table
+  locking, restart persistence and storage metadata to the scoped findings and
+  engine recommendations.
+
+- **Technical Documentation and Learning Design:** added a README entry point
+  and a self-contained walkthrough that connects setup, SQL and interpretation,
+  published in [PR #4](https://github.com/majdsl/CU-Databases-Project/pull/4).
+
+- **SQL Tutorial Engineering:** authored the initial walkthrough and seven SQL
+  files covering common schemas, MyRocks, metadata, HASH/BTREE access, concurrent
+  writes, restart and cleanup. See
+  [commit f4c5696](https://github.com/majdsl/CU-Databases-Project/commit/f4c5696667108c0497c09bba572cc1f6d264a5e5),
+  merged into main as `cb5ffbc`.
+
+- **Review Synthesis and Project Refinement:** communicated evaluation findings
+  to the team, including the need to evaluate `main`, and connected the feedback
+  to improvements in the documentation and tutorial.
 
 ## Review and follow-up integration
 
