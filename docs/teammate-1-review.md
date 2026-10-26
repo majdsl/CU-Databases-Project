@@ -11,12 +11,35 @@ Review date: October 24, 2026. Source reviewed: `cfd9f26` on main.
 The team supplied this work as an AI-assisted contribution. It records archived-report
 reproduction, code debugging and test/figure review, rather than a fresh database benchmark.
 
-| Task | Completed work |
-| --- | --- |
-| Reproduction | Ran all seven report generators against archived evidence using Python 3.12.14 and Matplotlib 3.10.8. Downloaded the pinned OpenFlights snapshot with the project's checksum-verifying fetcher. Repeated generation; numerical reports were unchanged. |
-| Testing | Original 115 tests passed. Added one test with six corrupted-evidence cases; all 116 tests passed with both normal Python and `python -O`. SHA-256 checks confirmed all 714 archived evidence files remained unchanged. |
-| Debugging | Replaced storage-report `assert` checks with explicit `ValueError` failures. Optimized Python previously removed row-count, checksum, clean-shutdown, inventory and delta validation. Invalid inputs now fail before report output is created. |
-| Graph revision | Clarified the MEMORY allocation legend as “Row data (Data_length)” and “Indexes (Index_length)”; regenerated PNG/SVG and generator provenance. Visually checked the revised graph, OpenFlights warm reads and write-diagnostic CPU panels for readable labels and layout. Measurements and conclusions did not change. |
+## Completed contribution areas
+
+- **Reproducibility Engineering:** ran all seven report generators against archived
+  evidence using Python 3.12.14 and Matplotlib 3.10.8. Downloaded the pinned
+  OpenFlights snapshot with the project's checksum-verifying fetcher and repeated
+  generation; numerical reports were unchanged.
+
+- **Data Analysis and Integrity Assurance:** checked the generated statistics and
+  figures against the archived evidence. SHA-256 checks confirmed all 714 evidence
+  files in the reviewed snapshot remained unchanged.
+
+- **Defect Analysis and Validation Hardening:** replaced storage-report `assert`
+  checks with explicit `ValueError` failures. Optimized Python previously removed
+  row-count, checksum, clean-shutdown, inventory and delta validation. Invalid
+  inputs now fail before report output is created.
+
+- **Regression Test Engineering:** passed the original 115 tests and added one
+  regression test with six corrupted-evidence cases. The submitted 116-test
+  snapshot passed with both normal Python and `python -O`.
+
+- **Visualization Analysis and Refinement:** clarified the MEMORY allocation
+  legend as “Row data (Data_length)” and “Indexes (Index_length)”; regenerated
+  PNG/SVG and generator provenance. Visually checked the revised graph,
+  OpenFlights warm reads and write-diagnostic CPU panels for readable labels and
+  layout. Measurements and conclusions did not change.
+
+- **Technical Reporting and Review Handoff:** supplied the patch, normal/optimized
+  test logs, reproduction commands and review notes. The submitted materials and
+  integration checks are linked below.
 
 ## Reproduce these checks
 

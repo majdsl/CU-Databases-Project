@@ -179,11 +179,78 @@ Constructor University database course, Fall 2026.
 **All three team members have completed the contributions recorded below.**
 Future improvements can be added to this completed record.
 
-| Team member | Role and completed contribution |
-| --- | --- |
-| **Majd Salimoun** ([majdsl](https://github.com/majdsl)) | **Technical Lead and Project Engineer.** Technical direction and project coordination; database platform and five-engine integration; benchmark and data engineering; experimental execution and evidence management; statistical analysis and visualization; reproducibility engineering and CI automation; technical documentation. |
-| **Hassan Kheder** ([Hassan457-123](https://github.com/Hassan457-123)) | **Reproducibility and Quality Assurance Engineer.** Seven-report reproduction; data analysis and integrity assurance; defect analysis and validation hardening; regression test engineering with six corrupted-evidence cases; visualization analysis and MEMORY legend refinement; technical reporting and review handoff. |
-| **Zeineldin Mohamed Hassan** ([zein-935](https://github.com/zein-935)) | **Evaluation Analyst and Tutorial Engineer.** Evaluation and rubric analysis; experimental design and method review; data evaluation and mechanism interpretation; technical documentation and learning design; SQL tutorial engineering; review synthesis and project refinement. |
+### Majd Salimoun
+
+**Technical Lead and Project Engineer** · [majdsl](https://github.com/majdsl)
+
+- **Technical Leadership and Project Engineering:** coordinated implementation,
+  experiments and integration of the team's reviewed changes.
+
+- **Database Platform and Five-Engine Integration:** built the MariaDB/Python
+  environment and integrated InnoDB, Aria, MyISAM, MEMORY and MyRocks.
+
+- **Benchmark and Data Engineering:** implemented seeded workloads, balanced trial
+  ordering and complete row/query verification.
+
+- **Experimental Execution and Evidence Management:** executed pilot/full
+  measurements and preserved the raw results and runtime metadata.
+
+- **Statistical Analysis and Data Visualization:** produced trial-level statistics,
+  comparison charts and evidence-based engine recommendations.
+
+- **Reproducibility Engineering and CI Automation:** automated setup, reporting
+  workflows and correctness checks.
+
+- **Technical Documentation and Research Communication:** wrote methods, findings,
+  setup instructions and the project's evidence guide.
+
+### Hassan Kheder
+
+**Reproducibility and Quality Assurance Engineer** · [Hassan457-123](https://github.com/Hassan457-123)
+
+- **Reproducibility Engineering:** reproduced all seven archived reports and
+  checked that repeated generation preserved the numerical findings.
+
+- **Data Analysis and Integrity Assurance:** reviewed statistics and figures;
+  verified SHA-256 integrity of all 714 evidence files in his reviewed snapshot.
+
+- **Defect Analysis and Validation Hardening:** diagnosed and repaired storage-report
+  validation that disappeared under optimized Python.
+
+- **Regression Test Engineering:** added six corrupted-evidence cases and passed
+  the submitted test suite with normal and optimized Python.
+
+- **Visualization Analysis and Refinement:** reviewed chart readability and
+  clarified the MEMORY allocation legend.
+
+- **Technical Reporting and Review Handoff:** supplied the patch, test logs,
+  reproduction commands and review notes.
+
+[Hassan's completed review and evidence](docs/teammate-1-review.md).
+
+### Zeineldin Mohamed Hassan
+
+**Evaluation Analyst and Tutorial Engineer** · [zein-935](https://github.com/zein-935)
+
+- **Evaluation and Rubric Analysis:** ran the published evaluation prompt and
+  reported criterion-level feedback.
+
+- **Experimental Design and Method Review:** reviewed comparable schemas,
+  workload choices and the connection between evidence and conclusions.
+
+- **Data Evaluation and Mechanism Interpretation:** reviewed engine trade-offs,
+  index access, table locking and restart persistence.
+
+- **Technical Documentation and Learning Design:** revised reader guidance and
+  connected setup, SQL examples and measured findings.
+
+- **SQL Tutorial Engineering:** authored the initial walkthrough and seven SQL
+  scripts demonstrating engine behavior.
+
+- **Review Synthesis and Project Refinement:** communicated evaluation findings,
+  including the need to assess `main`, to guide improvements.
+
+[Zeineldin's completed review and evidence](docs/teammate-2-review.md).
 
 See [team contributions and supporting evidence](docs/team-contributions.md) for
 completed work, AI assistance, linked commits/reviews and the limits of each check.
