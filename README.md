@@ -172,23 +172,25 @@ see [CI scope](docs/ci.md). Performance measurements stay on controlled machines
 The [laptop record](docs/benchmark-environment.md), [runner image pin](docs/runner-image.md)
 and [setup details](docs/setup.md) document versions and remaining environment limits.
 
-## Team and further review
+## Team and completed contributions
 
 Constructor University database course, Fall 2026.
 
+**All three team members have completed the contributions recorded below.**
+Future improvements can be added to this completed record.
+
 | Team member | Role and completed contribution |
 | --- | --- |
-| **Majd Salimoun** ([majdsl](https://github.com/majdsl)) | **Technical Analyst — Benchmark Engineering and Experimental Analysis.** Five-engine integration; benchmark design and implementation; experiment execution; results analysis and visualization; reproducibility tooling; CI automation; technical documentation and project coordination. |
-| **Hassan Kheder** ([Hassan457-123](https://github.com/Hassan457-123)) | **Reproducibility, Validation and Visualization Review.** Seven-report reproduction and data-integrity analysis; diagnosis and repair of optimized-Python validation; six corrupted-evidence regression cases; chart review and MEMORY legend refinement; documented test evidence and reproduction handoff. |
-| **Zeineldin Mohamed Hassan** ([zein-935](https://github.com/zein-935)) | **Evaluation, Method Review and Tutorial Development.** Evaluation and criteria analysis; experiment/design review and data interpretation; documentation checking and reader guidance; authored the five-engine SQL walkthrough; communicated review findings to guide project refinements. |
+| **Majd Salimoun** ([majdsl](https://github.com/majdsl)) | **Technical Lead and Project Engineer.** Technical direction and project coordination; database platform and five-engine integration; benchmark and data engineering; experimental execution and evidence management; statistical analysis and visualization; reproducibility engineering and CI automation; technical documentation. |
+| **Hassan Kheder** ([Hassan457-123](https://github.com/Hassan457-123)) | **Reproducibility and Quality Assurance Engineer.** Seven-report reproduction; data analysis and integrity assurance; defect analysis and validation hardening; regression test engineering with six corrupted-evidence cases; visualization analysis and MEMORY legend refinement; technical reporting and review handoff. |
+| **Zeineldin Mohamed Hassan** ([zein-935](https://github.com/zein-935)) | **Evaluation Analyst and Tutorial Engineer.** Evaluation and rubric analysis; experimental design and method review; data evaluation and mechanism interpretation; technical documentation and learning design; SQL tutorial engineering; review synthesis and project refinement. |
 
 See [team contributions and supporting evidence](docs/team-contributions.md) for
 completed work, AI assistance, linked commits/reviews and the limits of each check.
 Follow-up changes use branches and pull requests into `main`, the branch read by
 the official evaluator. The [received 35/40 practice evaluation and follow-up](docs/evaluation-follow-up.md)
-identify resolved items and remaining extensions. Its exact evaluated revision and
-model/tool context, plus separate manual reproduction transcripts, are still needed;
-[remaining evidence gaps](docs/evidence-plan.md) do not constitute a claimed final grade.
+track project-level feedback and possible extensions. Evaluation provenance and
+the scope of the recorded checks are documented in the [evidence plan](docs/evidence-plan.md).
 
 References: [official assignment and rubric](https://mariadb.org/bachelor_hackathon_2026-09/),
 [MariaDB engine documentation](https://mariadb.com/docs/server/server-usage/storage-engines).

@@ -16,7 +16,7 @@ of newly discovered mandatory submission files.
 
 | Review item | Status / response | Where to inspect |
 | --- | --- | --- |
-| Team roster and member contributions missing | **Resolved before this response arrived.** The README names all three members; this follow-up gives Hassan and Zeineldin fuller, parallel descriptions of completed responsibilities and outputs. | [README team section](../README.md#team-and-further-review), [team contributions](team-contributions.md) |
+| Team roster and member contributions missing | **Resolved before this response arrived.** The README names all three members; the team record gives each member a professional project role and parallel descriptions of completed responsibilities and outputs. | [README team section](../README.md#team-and-completed-contributions), [team contributions](team-contributions.md) |
 | Mechanism explanations scattered across documents | **Addressed in this follow-up.** A compact README table connects each engine's storage/locking/index design to observations and causal limits. | [README mechanisms](../README.md#why-the-results-differ) |
 | Different pilot/full image IDs unexplained | **Process explained; historical cause remains unknown.** Both orchestrators invoke a build separately for pilot/full. The identity table and captured controls are retained; the records do not establish which image bytes/metadata changed. | [Image provenance](image-provenance.md) |
 | Tutorial SQL not executed in CI | **Resolved in `722684e`.** Actual source files, engine/index behavior, concurrent increments, restart and cleanup passed in CI on five-engine and common four-engine sequences. | [CI scope](ci.md), [archived SQL validation](../evidence/reviews/20261026-tutorial-ci/README.md) |
