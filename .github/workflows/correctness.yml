@@ -50,6 +50,32 @@ jobs:
         if: always()
         run: docker compose -p "$CI_PROJECT" down --volumes --remove-orphans
 
+  stock-tutorial:
+    name: Stock tutorial (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            arch: amd64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+    env:
+      STOCK_PROJECT: cu-stock-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.arch }}
+    steps:
+      - name: Check out tested revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate stock-image Path B on the native architecture
+        run: >-
+          python3 scripts/check_stock_tutorial.py
+          --project "$STOCK_PROJECT"
+          --expect-architecture "${{ matrix.arch }}"
+          --output "results/stock-tutorial-${{ matrix.arch }}"
+
   report-validation:
     name: Offline report and tutorial guard tests (normal and optimized Python)
     runs-on: ubuntu-24.04
