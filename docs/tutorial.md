@@ -27,7 +27,12 @@ The password comes from the container's own environment (generated earlier into 
 
 ### Path B: ARM laptops or a quick try (stock image, four engines)
 
-The MyRocks package is only built for amd64, so this path skips MyRocks. Generate a throwaway password, then start a disposable server with no published port.
+**Validation status:** the common four-engine SQL was checked on amd64 in the
+project's lab image. The stock-image Path B commands and a native ARM host have
+**not** been independently validated end to end. Treat this as an unverified
+platform/setup alternative, not as ARM benchmark evidence or a five-engine comparison.
+
+The custom five-engine image is verified only on amd64, so this path skips MyRocks. Generate a throwaway password, then start a disposable server with no published port.
 
 PowerShell:
 
@@ -122,13 +127,16 @@ This creates `tut_hammer(engine, row_id, seconds)`, which updates **one row** as
 and a nonexistent row are rejected; loop iterations that changed no row are not counted
 as successful writes. The last line shows two server counters. Write down `Table_locks_waited`.
 
-**5a. Aria, two sessions, different rows.** Open a second terminal with the same connect command from step 0. Start these within a few seconds of each other:
+**5a. Aria, two sessions, different rows.** Open a second terminal with the same connect command from step 0. Wait until **both sessions are connected and ready**, then start the two calls
+as close together as possible. The 30-second duration gives more opportunity for
+overlap; it does not synchronize or guarantee it. Record the counters before and
+after both calls finish:
 
 ```sql
 -- terminal 1
-CALL tut_hammer('aria', 1, 15);
+CALL tut_hammer('aria', 1, 30);
 -- terminal 2
-CALL tut_hammer('aria', 2, 15);
+CALL tut_hammer('aria', 2, 30);
 ```
 
 When both finish, read the counters again:
@@ -139,13 +147,13 @@ SHOW GLOBAL STATUS WHERE Variable_name IN ('Table_locks_waited', 'Innodb_row_loc
 
 `Table_locks_waited` should have jumped by a large amount. The two sessions touched **different rows**, but Aria locks the whole table for each update, so they queued behind each other.
 
-**5b. InnoDB, same experiment.**
+**5b. InnoDB, same experiment.** Again, ready both sessions and start together.
 
 ```sql
 -- terminal 1
-CALL tut_hammer('innodb', 1, 15);
+CALL tut_hammer('innodb', 1, 30);
 -- terminal 2
-CALL tut_hammer('innodb', 2, 15);
+CALL tut_hammer('innodb', 2, 30);
 ```
 
 `Table_locks_waited` should barely move, and `Innodb_row_lock_waits` should stay near zero. For these primary-key updates, row-level locking permits disjoint writers to proceed.
@@ -210,6 +218,20 @@ Path B: also remove the disposable server with `docker rm -f engine-tutorial`.
 | MEMORY empty after a clean restart | Rows live only in RAM | Use it only for rebuildable caches |
 
 The [engine recommendations](engine-recommendations.md) turn these observations, together with the measured costs, into a decision guide.
+
+## When to pick which engine
+
+| Workload or requirement | Starting choice | Main cost or condition |
+| --- | --- | --- |
+| Authoritative application records, atomic updates or foreign keys | **InnoDB** | Budget for its pages/logs and test the real working set and contention. |
+| A reference cache that fits RAM and can be rebuilt from a durable source | **MEMORY** | Rows disappear at restart; choose BTREE for ranges and plan repopulation. |
+| Persistent reference scans without application transaction requirements | **Evaluate Aria** | Table-level write contention and slower loading can matter. |
+| Rebuildable batch-loaded data where load speed dominates | **Compare MyISAM with Aria** | Accept non-transactional semantics and the recovery/repair implications. |
+| Persistent data where disk allocation is a constraint | **Evaluate MyRocks** | Test sustained ingestion, scan costs, compaction and required isolation before adopting it. |
+
+These are requirements-based starting points supported by the linked project
+measurements and documented features, not a ranking from this one demonstration.
+The [decision guide](engine-recommendations.md) gives the full evidence and limits.
 
 ## Validation and boundaries
 

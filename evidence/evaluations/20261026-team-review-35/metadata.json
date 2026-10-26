@@ -1,0 +1,22 @@
+{
+  "kind": "team-supplied practice evaluation, not an official grade",
+  "received_date": "2026-10-26",
+  "repository": "https://github.com/majdsl/CU-Databases-Project",
+  "reported_branch": "main",
+  "scores": {
+    "documentation": 8,
+    "mariadb_depth": 9,
+    "execution": 9,
+    "usability": 9
+  },
+  "total": 35,
+  "out_of": 40,
+  "evaluated_commit": null,
+  "model_and_version": null,
+  "tool_execution_log": null,
+  "owner_confirmed_before_commit": "722684e651ac44b9587e648f07305f1e763d00e8",
+  "scope_note": "The response claims Path A execution, but no separate execution transcript accompanied it. No score for later revisions is inferred.",
+  "response_lf_sha256": "67224e69e6b350532cbc742380703f01ed12a5de7f536bea155a0be038325487",
+  "hash_encoding": "UTF-8 with LF line endings",
+  "source_form": "Full response pasted by the repository owner; newline formatting normalized"
+}

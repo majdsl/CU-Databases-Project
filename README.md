@@ -24,6 +24,27 @@ restart effects, and is not bytes per route. MEMORY's separate live allocation w
 acknowledged rows in each tested clean/forced restart; this does not prove power-loss
 durability or transactional equivalence.
 
+### Why the results differ
+
+| Engine / mechanism | What our evidence shows | Interpretation boundary |
+| --- | --- | --- |
+| **InnoDB:** clustered B-tree pages, transactional logging and a buffer pool | Largest small-table datadir growth here; tables exceeding the fixed pool generated read activity | Page/log allocation and cache capacity matter; we did not isolate the cost of each durability feature. |
+| **Aria:** table-level writes and crash-safe PAGE/log options | Concurrent writers waited even on different rows, with little gain from two to four clients | Lock counters support observed contention; read timings do not isolate its page-cache design. |
+| **MyISAM:** separate data/index storage, table locks and no transactions | Fast persistent-engine loading here; table waits and forced-restart warnings were recorded | Loading speed does not supply transactional safety or eliminate a recovery/repair burden. |
+| **MEMORY:** RAM-resident rows with HASH or BTREE indexes | Rows vanished on restart; HASH range queries scanned while BTREE used range access | Volatility and index access were demonstrated; all flight-read engines were warm, so fast reads alone do not isolate disk avoidance. |
+| **MyRocks:** LSM organization, compression and compaction | Smallest persistent datadir growth and slowest OpenFlights scan mean here | Those observations do not isolate compression or compaction as their cause; short runs are not steady-state evidence. |
+
+The [index](docs/memory-index-findings.md), [cache-pressure](docs/cache-pressure-findings.md)
+and [lock-counter](docs/write-diagnostics-findings.md) experiments test specific
+mechanisms. The [cache/durability inventory](docs/cache-and-durability.md) explains
+why matching configured cache sizes does not equalize total memory or guarantees.
+
+**Image provenance:** the cache-pressure and write-diagnostic orchestrators rebuild
+at the start of each invocation, so pilot and full runs selected separately built
+images. Their recorded source/settings/runtime matched, but image IDs differed.
+The archived records do not identify which image bytes or metadata changed; pilot
+and full statistics stay separate. See the [recorded identities and limits](docs/image-provenance.md).
+
 See the [decision guide](docs/engine-recommendations.md) for requirements, mechanisms
 and evidence. There is no universal winner. In the [CPU diagnostic](docs/cpu-findings.md),
 changing the load generator's quota substantially changed throughput, demonstrating
@@ -158,15 +179,16 @@ Constructor University database course, Fall 2026.
 | Team member | Role and completed contribution |
 | --- | --- |
 | **Majd Salimoun** ([majdsl](https://github.com/majdsl)) | **Technical Analyst — Benchmark Engineering and Experimental Analysis.** Five-engine integration; benchmark design and implementation; experiment execution; results analysis and visualization; reproducibility tooling; CI automation; technical documentation and project coordination. |
-| **Hassan Kheder** ([Hassan457-123](https://github.com/Hassan457-123)) | **Reproducibility, Validation and Visualization Review.** Seven-report reproduction; numerical/figure review; storage-validation debugging; corrupted-evidence regression tests; MEMORY graph revision. |
-| **Zeineldin Mohamed Hassan** ([zein-935](https://github.com/zein-935)) | **Evaluation, Method Review and Tutorial Development.** Evaluation and documentation review; experiment/design review and data evaluation; authored the hands-on five-engine SQL tutorial. |
+| **Hassan Kheder** ([Hassan457-123](https://github.com/Hassan457-123)) | **Reproducibility, Validation and Visualization Review.** Seven-report reproduction and data-integrity analysis; diagnosis and repair of optimized-Python validation; six corrupted-evidence regression cases; chart review and MEMORY legend refinement; documented test evidence and reproduction handoff. |
+| **Zeineldin Mohamed Hassan** ([zein-935](https://github.com/zein-935)) | **Evaluation, Method Review and Tutorial Development.** Evaluation and criteria analysis; experiment/design review and data interpretation; documentation checking and reader guidance; authored the five-engine SQL walkthrough; communicated review findings to guide project refinements. |
 
 See [team contributions and supporting evidence](docs/team-contributions.md) for
 completed work, AI assistance, linked commits/reviews and the limits of each check.
 Follow-up changes use branches and pull requests into `main`, the branch read by
-the official evaluator. The full latest evaluation and any separate manual
-reproduction transcripts remain to be archived; [remaining evidence gaps](docs/evidence-plan.md)
-do not constitute a claimed final grade.
+the official evaluator. The [received 35/40 practice evaluation and follow-up](docs/evaluation-follow-up.md)
+identify resolved items and remaining extensions. Its exact evaluated revision and
+model/tool context, plus separate manual reproduction transcripts, are still needed;
+[remaining evidence gaps](docs/evidence-plan.md) do not constitute a claimed final grade.
 
 References: [official assignment and rubric](https://mariadb.org/bachelor_hackathon_2026-09/),
 [MariaDB engine documentation](https://mariadb.com/docs/server/server-usage/storage-engines).

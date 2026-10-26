@@ -3,7 +3,9 @@
 **October 26 follow-up:** [Team identities and contributions](team-contributions.md)
 are now confirmed. The [hands-on tutorial](tutorial.md) has a separate live SQL
 correctness path in CI. Earlier counts and run links below remain historical
-snapshots; full latest evaluation and manual Windows/ARM transcript evidence remain open.
+snapshots. The [35/40 practice response and follow-up](evaluation-follow-up.md) are
+now archived; its evaluated revision/tool context and manual Windows/ARM transcript
+evidence remain open.
 
 This is a documentation and source-consistency audit, not an evaluator grade or a new
 benchmark run. Reviewed source: main commit `84a6ad04c9777d4fe6ee06758bf4b11c3603eb6d`.
@@ -97,3 +99,15 @@ rejects invalid inputs/nonexistent rows, counts actual affected rows and reports
 observed elapsed time. The CI driver checks actual SQL and guarded restart/cleanup;
 see [CI scope](ci.md). This does not substitute for a manual Windows or ARM transcript,
 repeat benchmark measurements or a full evaluator response.
+
+## Received practice feedback follow-up
+
+The full 35/40 response predates the completed roster and tutorial-CI changes. The
+[disposition table](evaluation-follow-up.md) distinguishes those resolved items from
+current refinements and optional experimental extensions. The README now summarizes
+storage mechanisms and the build-selection context for differing image IDs; the
+exact historical cause of the image-byte differences remains unestablished. The
+manual concurrency window is 30 seconds with explicit start-together instructions,
+Path B is labeled unvalidated end to end, and the tutorial ends with its own
+requirements/engine/cost table. The nine tutorial SQL files and archived CI
+validation hashes are unchanged by these documentation refinements.
