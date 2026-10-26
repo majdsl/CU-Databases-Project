@@ -82,10 +82,39 @@ volume lifecycle. Its timings are not performance evidence.
 ## Offline storage-report regression
 
 A separate `report-validation` job installs `requirements-report.txt` in a temporary
-virtual environment and runs `report-tests/test_storage_findings.py`, both normally
-and with optimized Python (`-O`). Hassan Kheder's regression covers row count,
+virtual environment and runs the offline `report-tests` suite, both normally
+and with optimized Python (`-O`). The suite includes storage-report validation and
+the tutorial driver's project-name guard. Hassan Kheder's regression covers row count,
 checksum, exit code, OOM, inventory totals and storage deltas, requiring rejection
 before any output directory is created. The database image continues to run its
 115 lightweight tests without Matplotlib or the archived evidence. The extra offline
 test uses archived data; it is not another database experiment. See the
 [contribution review](teammate-1-review.md).
+
+## Live tutorial correctness
+
+The main integration job runs `scripts/check_tutorial.py --project "$CI_PROJECT"`
+after the other lifecycle smoke checks. The driver rejects normal lab project names
+before any Docker call, checks the database's labels and named volume, and refuses
+pre-existing tutorial objects. It uses the restricted benchmark account, copies the
+SQL to the database container and sources the real files with `--abort-source-on-error`.
+No Docker socket, root SQL credentials or new plotting dependencies are added to the
+runner image.
+
+The smoke checks all five actual engines and then the common four-engine sequence
+without creating a MyRocks table. Each uses 50,000 generated rows per engine and
+100,000 rows per MEMORY index variant. It checks deterministic aggregates and row
+notes, index identity/access/query answers, six rejected routine inputs, successful
+single/concurrent increment totals, persistent data across a clean restart, empty
+MEMORY rows and cleanup that preserves an unrelated sentinel table. SQL hashes,
+server/host versions and observations are printed between
+`TUTORIAL_VALIDATION_JSON_BEGIN` and `TUTORIAL_VALIDATION_JSON_END`; success ends
+with `TUTORIAL SMOKE PASS`.
+
+This is Linux amd64 correctness. The four-engine SQL path is checked on amd64 too;
+it does not validate a native ARM host or an interactive Windows PowerShell session.
+Short writer durations and CI counter output are not performance or engine-ranking
+evidence. A tutorial demonstration is separate from the archived repeated benchmarks.
+Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
+The lightweight database suite remains 115 tests. The offline suite now has two
+tests, including the project's restart-target guard; each runs normally and with `-O`.

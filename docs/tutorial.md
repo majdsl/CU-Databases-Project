@@ -5,6 +5,8 @@ This walkthrough lets you *see* the trade-offs our experiments measured, using n
 It is a demonstration, not a benchmark: single runs, one laptop, no controls. For measured results, follow the links at the end of each step.
 
 All SQL is in [`sql/tutorial/`](../sql/tutorial/). It creates only tables named `tut_*` and one procedure, `tut_hammer`, and [`99-cleanup.sql`](../sql/tutorial/99-cleanup.sql) removes them.
+The `CREATE OR REPLACE` examples reset any existing objects with these names. Use the
+lab database and reserve this prefix for the tutorial; do not use it on other data.
 
 > Do not run this while a benchmark is running: it shares the lab database, and step 6 restarts the server.
 
@@ -16,9 +18,9 @@ After `python scripts/setup_project.py` has printed `SETUP PASS`, run this from 
 
 ```powershell
 docker compose up -d --wait db
-docker compose exec db rm -rf /tutorial
-docker compose cp sql/tutorial db:/tutorial
-docker compose exec db sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb -ubenchmark engine_lab'
+docker compose exec db mkdir -p /tutorial
+docker compose cp sql/tutorial/. db:/tutorial/
+docker compose exec db sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ubenchmark engine_lab'
 ```
 
 The password comes from the container's own environment (generated earlier into your `.env`), so nothing is typed or stored in the repository. To open a **second terminal** later, run the last command again.
@@ -43,10 +45,11 @@ Then (either shell):
 
 ```powershell
 docker run -d --name engine-tutorial -e MARIADB_RANDOM_ROOT_PASSWORD=1 -e MARIADB_DATABASE=engine_lab -e MARIADB_USER=tutorial -e MARIADB_PASSWORD -v "${PWD}/sql/tutorial:/tutorial:ro" mariadb:11.8
-docker exec -it engine-tutorial sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb -ututorial engine_lab'
+docker exec -it engine-tutorial sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ututorial engine_lab'
 ```
 
-If the client reports that it cannot connect, wait a few seconds for the server to finish initialising and try again. In Path B, skip step 2. Statements that mention `tut_rocksdb` will fail; ignore them.
+If the client reports that it cannot connect, wait a few seconds for the server to finish initialising and try again. In Path B, skip step 2 and the two MyRocks-only follow-ups (`03b` and `06b`).
+The common scripts run without expected errors. Stop and inspect any SQL error; do not continue past it.
 
 ## 1. The same table on four engines
 
@@ -80,9 +83,15 @@ You will likely see:
 | Aria | `ROW_FORMAT` is `Page`. `SHOW CREATE TABLE` adds options you never wrote, such as `PAGE_CHECKSUM`. These belong to Aria's crash-safe format. |
 | MyISAM | Exact row count, separate data and index files, `Dynamic` rows because of the `VARCHAR`. |
 | MEMORY | `Fixed` rows: every `VARCHAR` occupies its full width in RAM. `data_mib` is RAM allocated, not disk. |
-| ROCKSDB | Sizes may show **0** right after loading, because recent writes can still be in memory and not yet in SST files. Our [storage findings](storage-findings.md) saw exactly this and measured real files instead. |
+| ROCKSDB | `Data_length` and `Index_length` may show **0**. These metadata fields are not a reliable disk-footprint measurement for this setup: our [storage findings](storage-findings.md) recorded zero **despite existing SST files**. Zero does not establish that data has not reached disk; inspect engine/filesystem evidence instead. |
 
-Then the same full scan runs on each engine. Compare the times the client prints.
+The common file scans the four common engines. On **Path A**, complete the fifth scan:
+
+```sql
+source /tutorial/03b-myrocks-compare.sql
+```
+
+Compare the client times as observations from this demonstration, not a ranking.
 
 **Measured version:** [OpenFlights findings](openflights-findings.md) (67,663 real routes, 25 trials).
 
@@ -109,7 +118,9 @@ A hash can find one value, but it cannot be walked in order, so the range query 
 source /tutorial/05-lock-demo.sql
 ```
 
-This creates `tut_hammer(engine, row_id, seconds)`, which updates **one row** as fast as it can for the given number of seconds, then prints how many updates it managed. The last line shows two server counters. Write down `Table_locks_waited`.
+This creates `tut_hammer(engine, row_id, seconds)`, which updates **one row** as fast as it can for the given number of seconds, then prints the number of affected-row updates and the observed elapsed time. Invalid parameters
+and a nonexistent row are rejected; loop iterations that changed no row are not counted
+as successful writes. The last line shows two server counters. Write down `Table_locks_waited`.
 
 **5a. Aria, two sessions, different rows.** Open a second terminal with the same connect command from step 0. Start these within a few seconds of each other:
 
@@ -137,7 +148,9 @@ CALL tut_hammer('innodb', 1, 15);
 CALL tut_hammer('innodb', 2, 15);
 ```
 
-`Table_locks_waited` should barely move, and `Innodb_row_lock_waits` should stay near zero. InnoDB locks rows, so writers on different rows do not block each other.
+`Table_locks_waited` should barely move, and `Innodb_row_lock_waits` should stay near zero. For these primary-key updates, row-level locking permits disjoint writers to proceed.
+Zero observed waits in this demo does not rule out other internal, metadata or
+range-lock contention in different workloads.
 
 **Try it yourself:** run `CALL tut_hammer('aria', 1, 5);` alone and compare its `updates_per_second` with the concurrent runs. Then point both InnoDB sessions at row 1 and see whether `Innodb_row_lock_waits` moves. MyISAM (`'myisam'`) also uses table locks.
 
@@ -152,20 +165,26 @@ Path A:
 ```powershell
 docker compose restart db
 docker compose up -d --wait db
-docker compose exec db sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb -ubenchmark engine_lab'
+docker compose exec db sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ubenchmark engine_lab'
 ```
 
 Path B:
 
 ```powershell
 docker restart engine-tutorial
-docker exec -it engine-tutorial sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb -ututorial engine_lab'
+docker exec -it engine-tutorial sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ututorial engine_lab'
 ```
 
 Then:
 
 ```sql
 source /tutorial/06-after-restart.sql
+```
+
+On **Path A**, also run:
+
+```sql
+source /tutorial/06b-myrocks-after-restart.sql
 ```
 
 Every persistent engine still has 50,000 rows, and the `hits` counters from step 5 are intact. **`tut_memory` has 0 rows**, even though this was a clean restart. Its definition survived; its data never left RAM.
@@ -185,9 +204,25 @@ Path B: also remove the disposable server with `docker rm -f engine-tutorial`.
 | You saw | Because | So |
 | --- | --- | --- |
 | Identical SQL on every engine | Storage is chosen per table with `ENGINE=` | You can choose per table, not per database |
-| Aria writers queue on different rows | Table-level locks | Avoid Aria and MyISAM for concurrent updates |
-| InnoDB writers do not | Row-level locks and transactions | Default for application data |
+| Aria writers can queue on different rows | Table-level locks | Test a row-locking engine for frequent concurrent updates; include durability requirements |
+| Disjoint InnoDB primary-key updates proceed in this example | Row-level locks and transactions | Starting point for transactional application data; measure the actual workload |
 | HASH range reads the whole table | A hash has no order | Use `USING BTREE` on MEMORY when you query ranges |
 | MEMORY empty after a clean restart | Rows live only in RAM | Use it only for rebuildable caches |
 
 The [engine recommendations](engine-recommendations.md) turn these observations, together with the measured costs, into a decision guide.
+
+## Validation and boundaries
+
+The correctness workflow uses `scripts/check_tutorial.py` to run the actual source
+files against its disposable MariaDB server. It checks engine identities, generated
+row counts, index answers/access plans, concurrent increment totals, invalid routine
+inputs, clean-restart row survival and cleanup. It exercises the five-engine sequence
+and the common four-engine sequence without creating a MyRocks table.
+
+This is automated **Linux amd64 SQL correctness**, not new performance evidence or
+a claim that the PowerShell walkthrough, native ARM or another person's Windows
+checkout has been independently reproduced. The four-engine SQL path is also checked
+on amd64; that does not validate an ARM host. The custom five-engine image remains
+verified only on amd64. A manual test transcript should record its commit, server
+version, platform, commands and outputs separately. See [CI scope](ci.md) and the
+[team contributions](team-contributions.md).

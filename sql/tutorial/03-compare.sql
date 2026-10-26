@@ -20,5 +20,4 @@ SELECT COUNT(*), SUM(delay_min) FROM tut_innodb;
 SELECT COUNT(*), SUM(delay_min) FROM tut_aria;
 SELECT COUNT(*), SUM(delay_min) FROM tut_myisam;
 SELECT COUNT(*), SUM(delay_min) FROM tut_memory;
--- ARM path: this last statement fails with "doesn't exist" - ignore it.
-SELECT COUNT(*), SUM(delay_min) FROM tut_rocksdb;
+-- Path A: source /tutorial/03b-myrocks-compare.sql for the fifth scan.

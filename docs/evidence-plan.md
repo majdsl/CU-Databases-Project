@@ -1,12 +1,13 @@
 # Evidence plan
 
-Status reviewed October 18, 2026, including verified OpenFlights, storage/recovery,
+Status reviewed October 26, 2026, including the confirmed team roster, hands-on tutorial,
+and verified OpenFlights, storage/recovery,
 MEMORY index, InnoDB cache-pressure and server CPU/lock-wait evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
-| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Team review, roster/contributions, complete tutorial |
+| Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster/contributions now linked; full latest evaluation and separate manual tutorial transcript pending |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
 | Usability | Runnable harnesses, setup instructions, archived worked examples, committed figures and chart generator; fresh Linux CI builds with 115 tests and five-engine integration | Independent Windows clean-checkout tutorial reproduction and team review |
@@ -85,8 +86,11 @@ This does not replace independent database reproduction.
    The [October 9 laptop snapshot](benchmark-environment.md) records CPU, RAM, Windows,
    Docker-visible resources, Engine and Compose versions. It does not establish historical
    host settings; preserve old run metadata rather than rewriting its provenance.
-5. Add the actual team roster and contributions; review setup, all links and worked examples.
-6. Rerun the published evaluation against `main` and address concrete findings.
+5. The [team roster and completed contributions](team-contributions.md) are now documented.
+   Preserve any independent manual tutorial/reproduction transcript separately; automated
+   tutorial SQL validation does not establish Windows or native ARM reproduction.
+6. Archive the full latest evaluation and address concrete findings against its tested
+   revision. The team reports 33/40, but the full response and revision are pending.
    The project was merged on October 15; main CI passed on `84a6ad0`.
    See the [tutorial audit](tutorial-audit.md) for completed checks and remaining gaps.
 
@@ -128,7 +132,7 @@ show 37.56/293.78 MiB tables against the 128 MiB pool, with zero measured data r
 for the small table and read activity for every large-table phase. Full evidence
 covers 1,769,472 verified rows, 60,000 lookups and 36 scans. OS caching, dirty-page
 history and different table sizes limit causal claims; pilot/full image IDs differ
-and are explicitly preserved. Team contributions remain for final confirmation.
+and are explicitly preserved. Team contributions are now [documented](team-contributions.md).
 
 ## Server CPU and lock diagnostics
 
@@ -139,5 +143,16 @@ generator now accompany the immutable evidence. Global table-lock waits are obse
 under concurrent writes; InnoDB row-wait deltas are zero for this workload. Neither
 container recorded local quota throttling. Runner and DB CPU windows differ, so
 these data do not isolate query CPU or a single scaling bottleneck. Full and pilot
-statistics are separate. Team review/contributions and updated evaluation remain
-pending; broader claims still require separate experiments.
+statistics are separate. The team review/contributions are [documented](team-contributions.md); the full latest
+evaluation remains pending. Broader claims still require separate experiments.
+
+## Team and hands-on tutorial follow-up — October 26, 2026
+
+The README names all three members and links their completed roles and evidence.
+Zeineldin Mohamed Hassan's [tutorial](tutorial.md) and original seven SQL scripts
+were merged in PR #4. Follow-up integration corrects unsupported metadata causality,
+removes expected missing-MyRocks errors from the common path, hardens the update
+routine and adds automated SQL, concurrency, restart and cleanup checks in CI.
+This correctness work does not add new benchmark measurements or native ARM/Windows
+reproduction. The 33/40 total is team-reported; obtain the full response, evaluated
+commit, model and tool context before interpreting the remaining points.
