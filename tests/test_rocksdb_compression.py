@@ -11,7 +11,7 @@ from scripts import run_rocksdb_compression as host
 
 
 def cf(codec):
-    return dict(COMPRESSION_TYPE=b.CODECS[codec], BOTTOMMOST_COMPRESSION=b.CODECS[codec],
+    return dict(COMPRESSION_TYPE=b.CODECS[codec], BOTTOMMOST_COMPRESSION='kDisableCompressionOption',
                 COMPRESSION_PER_LEVEL='NUL', WRITE_BUFFER_SIZE=str(b.WRITE_BUFFER_BYTES),
                 DISABLE_AUTO_COMPACTIONS='true')
 
@@ -74,7 +74,8 @@ class RocksDBCompressionTests(unittest.TestCase):
     def test_option_fallback_and_compaction_overrides_are_rejected(self):
         b.validate_options(cf('zstd'), 'zstd')
         for field, value in [('COMPRESSION_TYPE', 'kSnappyCompression'),
-                             ('BOTTOMMOST_COMPRESSION', 'kDisableCompressionOption'),
+                             ('BOTTOMMOST_COMPRESSION', 'kNoCompression'),
+                             ('COMPRESSION_TYPE', None), ('BOTTOMMOST_COMPRESSION', None),
                              ('COMPRESSION_PER_LEVEL', 'kNoCompression:kZSTD'),
                              ('WRITE_BUFFER_SIZE', '1'), ('DISABLE_AUTO_COMPACTIONS', 'false')]:
             changed = cf('zstd')
@@ -87,6 +88,7 @@ class RocksDBCompressionTests(unittest.TestCase):
         b.validate_ssts(valid, 'zstd', 3)
         for bad in [[], valid * 2, [dict(valid[0], ENTRIES=2)],
                     [dict(valid[0], SST_NAME='../000001.sst')],
+                    [dict(valid[0], COMPRESSION_ALGO=None)],
                     [dict(valid[0], COMPRESSION_ALGO='Snappy')]]:
             with self.assertRaises(ValueError):
                 b.validate_ssts(bad, 'zstd', 3)

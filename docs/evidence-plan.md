@@ -12,7 +12,7 @@ CLI with Docker Desktop/WSL2 correctness checks.
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster and expanded contributions linked; practice feedback archived; evaluated revision/tool context and separate manual tutorial transcript pending |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with 115 lightweight tests, seven offline tests, five-engine integration and stock tutorial on native Linux amd64/ARM64 | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with 132 lightweight tests, seven offline tests, five-engine integration and stock tutorial on native Linux amd64/ARM64 | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
 
 ## Completed measurement scope
 
@@ -192,3 +192,16 @@ also passed on Docker Desktop/WSL2 Linux amd64, with 119 command records and nin
 source hashes checked against recorded commit `e6767a5` after CRLF conversion.
 Interactive Windows/macOS walkthroughs, a fresh Windows setup-wrapper installation
 and controlled second-host performance measurements remain separate.
+
+## MyRocks compression extension — protocol prepared
+
+The [new isolated harness](rocksdb-compression-method.md) crosses no compression
+and ZSTD with compressible and high-entropy synthetic payloads. It checks effective
+CF options and actual SST codecs, verifies every row/answer, fixes built image IDs
+within each invocation and measures table-mapped SST bytes after clean shutdown.
+Its full design has eight rounds/32 fresh trials with balanced position and pair
+order; a four-condition tiny CI smoke checks correctness. Seventeen guard/integrity
+tests bring the lightweight suite to 132 and also pass under optimized Python.
+Larger laptop pilot/full evidence, findings/charts and any recommendation change
+remain pending. Automatic compaction is disabled in both treatments; this does not
+claim steady-state compression or compaction performance.

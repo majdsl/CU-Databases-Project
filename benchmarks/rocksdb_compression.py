@@ -55,7 +55,7 @@ def schedule(mode):
 def cf_configuration(codec):
     if codec not in CODECS:
         raise ValueError('Unsupported codec')
-    return (f'compression={CODECS[codec]};bottommost_compression={CODECS[codec]};'
+    return (f'compression={CODECS[codec]};bottommost_compression=kDisableCompressionOption;'
             f'write_buffer_size={WRITE_BUFFER_BYTES};disable_auto_compactions=true')
 
 
@@ -107,6 +107,8 @@ def verify_stream(cursor, profile, rows, expected):
 
 
 def codec_name(value):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError('Missing compression metadata')
     name = str(value).lower()
     if name.startswith('k'):
         name = name[1:]
@@ -116,9 +118,10 @@ def codec_name(value):
 
 
 def validate_options(options, codec):
-    for key in ('COMPRESSION_TYPE', 'BOTTOMMOST_COMPRESSION'):
-        if codec_name(options.get(key)) != codec:
-            raise ValueError('Actual column-family compression differs: ' + key)
+    if codec_name(options.get('COMPRESSION_TYPE')) != codec:
+        raise ValueError('Actual column-family compression differs')
+    if options.get('BOTTOMMOST_COMPRESSION') != 'kDisableCompressionOption':
+        raise ValueError('Bottommost compression must use the common inherited policy')
     if str(options.get('COMPRESSION_PER_LEVEL')).lower() not in ('', 'nul', 'null', '[]', 'none'):
         raise ValueError('Per-level compression would override the selected codec')
     if int(options.get('WRITE_BUFFER_SIZE', -1)) != WRITE_BUFFER_BYTES:
