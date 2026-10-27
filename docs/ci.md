@@ -25,7 +25,7 @@ results directory for UID 10001 and runs the README setup wrapper,
 
 1. Generates disposable local credentials without printing their values.
 2. Downloads the pinned OpenFlights snapshot and verifies its checksum.
-3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 115 tests).
+3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 132 tests).
 4. Builds the custom MariaDB image, including the pinned MyRocks plugin package.
 5. Starts a fresh database volume and waits for its healthcheck.
 6. Checks all five actual storage engines and verifies parameterized inserts/readback.
@@ -87,7 +87,7 @@ and with optimized Python (`-O`). The suite includes storage-report validation a
 the tutorial drivers' project/ownership/credential guards. Hassan Kheder's regression covers row count,
 checksum, exit code, OOM, inventory totals and storage deltas, requiring rejection
 before any output directory is created. The database image continues to run its
-115 lightweight tests without Matplotlib or the archived evidence. The extra offline
+132 lightweight tests without Matplotlib or the archived evidence. The extra offline
 test uses archived data; it is not another database experiment. See the
 [contribution review](teammate-1-review.md).
 
@@ -117,7 +117,7 @@ interactive Windows PowerShell reproduction remains separate.
 Short writer durations and CI counter output are not performance or engine-ranking
 evidence. A tutorial demonstration is separate from the archived repeated benchmarks.
 Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
-The lightweight database suite remains 115 tests. The offline suite now has seven
+The lightweight database suite now has 132 tests. The offline suite has seven
 tests, including the original restart-target guard and five stock-runner failure
 checks; each runs normally and with `-O`.
 
@@ -152,3 +152,28 @@ retains native amd64 and ARM64 output from
 Read [the validation guide](stock-tutorial-validation.md) for tested revisions,
 image identities and the scope of the claims. These are correctness checks, with
 short writer calls, separate from the controlled performance experiments.
+
+## MyRocks compression correctness
+
+The integration job additionally runs `scripts/run_rocksdb_compression.py --smoke`
+with four fresh disposable databases: no compression/ZSTD crossed with two
+deterministic payload profiles. Each has only 256 rows. The host builds each image
+once and runs by immutable ID. The worker verifies the actual CF options, codec
+properties for table-mapped SSTs, exact rows, point/aggregate answers and stable
+SST layout. A read-only helper inventories the owned volume after a verified clean
+stop; cleanup checks the identities of all three containers and the volume.
+
+The 17 new lightweight tests cover data corruption, ignored compression options,
+SST coverage/inventory, nonfinite/incomplete results, image/source identity, resource
+collisions and foreign ownership, live snapshots, private logs, remote contexts,
+failed-trial preservation and balanced full scheduling. They also pass with `-O`.
+The driver prints a record between `COMPRESSION_VALIDATION_JSON_BEGIN/END` for
+inspection. This smoke validates the configuration and lifecycle on Linux amd64;
+its timings and file sizes are not new laptop performance findings. The
+[measurement protocol](rocksdb-compression-method.md) specifies the separate pilot/full runs.
+
+**Validated October 27, 2026:** [PR run 40577805344](https://github.com/majdsl/CU-Databases-Project/actions/runs/40577805344)
+passed all four jobs for source head `c430b938753e028da05a9ad071779b1b03ddb15e`.
+The [archived compression record](../evidence/reviews/20261027-rocksdb-compression-ci/README.md)
+retains the tested merge revision, effective options, actual SST metadata and
+stopped-volume inventory. Only documentation/evidence was added after this code check.

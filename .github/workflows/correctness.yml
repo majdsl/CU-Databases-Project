@@ -43,6 +43,8 @@ jobs:
         run: python3 scripts/run_write_diagnostics.py --smoke --power-condition CI-correctness-only
       - name: Tutorial SQL, restart and cleanup correctness
         run: python3 scripts/check_tutorial.py --project "$CI_PROJECT"
+      - name: Isolated MyRocks compression correctness (not performance evidence)
+        run: python3 scripts/run_rocksdb_compression.py --smoke --power-condition CI-correctness-only
       - name: Database diagnostics on failure
         if: failure()
         run: docker compose -p "$CI_PROJECT" logs --no-color --tail=200 db

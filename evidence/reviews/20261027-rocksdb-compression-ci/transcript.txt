@@ -1,0 +1,3020 @@
+##[group]Run python3 scripts/run_rocksdb_compression.py --smoke --power-condition CI-correctness-only
+[36;1mpython3 scripts/run_rocksdb_compression.py --smoke --power-condition CI-correctness-only[0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  CI_PROJECT: cu-ci-40577805344-1
+##[endgroup]
+Docker step: docker info --format
+Docker step: docker context show
+Docker step: docker context inspect
+Docker step: git rev-parse HEAD
+Docker step: git diff --quiet
+Docker step: git diff --cached
+Docker step: docker build --tag
+#0 building with "default" instance using docker driver
+Docker step: docker image inspect
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 558B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 33B done
+#5 DONE 0.0s
+
+#6 [2/3] RUN apt-get update     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends        mariadb-plugin-rocksdb=1:11.8.9+maria~ubu2404     && test "$(dpkg-query -W -f='${Version}' mariadb-server-core)" = '1:11.8.9+maria~ubu2404'     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/3] COPY rocksdb.cnf /etc/mysql/mariadb.conf.d/rocksdb.cnf
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 writing image sha256:ab755e1444392b056aecca2cb54fac909b441d1f68f68ce5fe66500f12e6b0a5 done
+#8 naming to docker.io/library/cu-compression-5e0ab4da6fc1433284e818001260399e-db:local done
+#8 DONE 0.0s
+
+Docker step: docker build --tag
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.17kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 693B done
+#3 DONE 0.0s
+
+#4 [ 1/18] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+Docker step: docker image inspect
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 34.16kB done
+#5 DONE 0.0s
+
+#6 [ 6/18] COPY scripts/run_storage.py scripts/run_storage.py
+#6 CACHED
+
+#7 [ 7/18] COPY scripts/run_recovery.py scripts/run_recovery.py
+#7 CACHED
+
+#8 [ 2/18] WORKDIR /app
+#8 CACHED
+
+#9 [ 4/18] RUN pip install --no-cache-dir --require-hashes -r requirements.txt
+#9 CACHED
+
+#10 [13/18] COPY data/openflights data/openflights
+#10 CACHED
+
+#11 [11/18] COPY scripts/run_write_diagnostics.py scripts/run_write_diagnostics.py
+#11 CACHED
+
+#12 [ 3/18] COPY requirements.txt .
+#12 CACHED
+
+#13 [ 5/18] COPY scripts/check_environment.py scripts/check_environment.py
+#13 CACHED
+
+#14 [ 8/18] COPY scripts/fetch_openflights.py scripts/fetch_openflights.py
+#14 CACHED
+
+#15 [10/18] COPY scripts/run_cache_pressure.py scripts/run_cache_pressure.py
+#15 CACHED
+
+#16 [ 9/18] COPY scripts/setup_project.py scripts/setup_project.py
+#16 CACHED
+
+#17 [12/18] COPY scripts/run_rocksdb_compression.py scripts/run_rocksdb_compression.py
+#17 CACHED
+
+#18 [14/18] COPY sql sql
+#18 CACHED
+
+#19 [15/18] COPY benchmarks benchmarks
+#19 DONE 0.0s
+
+#20 [16/18] COPY tests tests
+#20 DONE 0.0s
+
+#21 [17/18] COPY Dockerfile compose.yaml compose.runner-2cpu.yaml ./
+#21 DONE 0.0s
+
+#22 [18/18] COPY docker/mariadb docker/mariadb
+#22 DONE 0.0s
+
+#23 exporting to image
+#23 exporting layers
+#23 exporting layers 0.8s done
+#23 writing image sha256:65737813118b9e19bac89f050acce6e17374a3ecfbe90a8724771a3c6e93831b done
+#23 naming to docker.io/library/cu-compression-5e0ab4da6fc1433284e818001260399e-runner:local done
+#23 DONE 0.8s
+
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker volume ls
+Compression trial: {'round': 1, 'position': 1, 'profile': 'compressible', 'codec': 'none'}
+Docker step: docker volume create
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start 7ed1987aedd1d47966f4f713f44faa5f371efe75513d51de0d8ec69e7b2e7fd6
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker stop --timeout
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm af7ff9c81b1b300c75efca2196703a21d1cbb0470d261c423d173f2246b142df
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm a2b864727f0f17044e7d7cd03b10087338ba74d2038dfb43a2381927747b000f
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm 7ed1987aedd1d47966f4f713f44faa5f371efe75513d51de0d8ec69e7b2e7fd6
+Docker step: docker volume inspect
+Docker step: docker volume rm
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker volume ls
+Compression trial: {'round': 1, 'position': 2, 'profile': 'compressible', 'codec': 'zstd'}
+Docker step: docker volume create
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start 8a1a569e6045c4ba0192476f399100cafb1c50708facd2360b8809117de29c76
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker stop --timeout
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm b0bc4795aa398b8579baf45be93e4f78b038471521aedc32f95abc3b9002a386
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm ad881110914982a4a75133cd7663f86c5cc9f454c22017b97af2a7d7624d2198
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm 8a1a569e6045c4ba0192476f399100cafb1c50708facd2360b8809117de29c76
+Docker step: docker volume inspect
+Docker step: docker volume rm
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker volume ls
+Compression trial: {'round': 1, 'position': 3, 'profile': 'random', 'codec': 'zstd'}
+Docker step: docker volume create
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start 22e4fecf59527610a815de53632c883672f6afec5361270cce744e0ef4074083
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker stop --timeout
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm dfef6ecf7b6dabf532d759f4c84b923dc90422eda7734f30447896547fa67117
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm 063d0c37d44b646e087fc2497344ea149f39280f0fc722eb02802687fc1d8d2c
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm 22e4fecf59527610a815de53632c883672f6afec5361270cce744e0ef4074083
+Docker step: docker volume inspect
+Docker step: docker volume rm
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker container ls
+Docker step: docker volume ls
+Compression trial: {'round': 1, 'position': 4, 'profile': 'random', 'codec': 'none'}
+Docker step: docker volume create
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start 5671f726e460f86191dea7a41f8244022a6c15449bf5d24cc31c5582db4f588e
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker stop --timeout
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container create
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker start --attach
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm 3cd8bd869e380e006fbc09163124db7800502d964966ca33220d5abc6d5c20c6
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm b6d878672ed82b50e4264bfae987e3e8ac18acc99fa17d5c466721ba73ab8522
+Docker step: docker container inspect
+Docker step: docker volume inspect
+Docker step: docker rm 5671f726e460f86191dea7a41f8244022a6c15449bf5d24cc31c5582db4f588e
+Docker step: docker volume inspect
+Docker step: docker volume rm
+COMPRESSION_VALIDATION_JSON_BEGIN
+{
+  "format_version": 1,
+  "experiment": "isolated_rocksdb_compression_v1",
+  "run_id": "20261027T202811Z-rocksdb-compression-5e0ab4da",
+  "mode": "smoke",
+  "power_condition": "CI-correctness-only",
+  "status": "completed",
+  "schedule": [
+    {
+      "round": 1,
+      "position": 1,
+      "profile": "compressible",
+      "codec": "none"
+    },
+    {
+      "round": 1,
+      "position": 2,
+      "profile": "compressible",
+      "codec": "zstd"
+    },
+    {
+      "round": 1,
+      "position": 3,
+      "profile": "random",
+      "codec": "zstd"
+    },
+    {
+      "round": 1,
+      "position": 4,
+      "profile": "random",
+      "codec": "none"
+    }
+  ],
+  "trials": [
+    {
+      "mode": "smoke",
+      "profile": "compressible",
+      "codec": "none",
+      "round": 1,
+      "rows": 256,
+      "payload_bytes": 1024,
+      "seed": 20261027,
+      "runtime": {
+        "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.41",
+        "cpu_count_visible": 4,
+        "pymysql": "1.1.2",
+        "cgroup_memory_max": "536870912",
+        "cgroup_cpu_max": "100000 100000"
+      },
+      "source_sha256": {
+        "Dockerfile": "0bb23f4b0c240ef1b03bc217bf206f248a0776d27c7cf3e8b392ca9bca5f549f",
+        "benchmarks/__init__.py": "72d744e61d71dc5b3159c810d2017497d9497e75ed21edee18a8e0e59af4b96f",
+        "benchmarks/cache_pressure.py": "0f73687113b96519dc76edd3e2d1f18ec73e9640d40e1d70d67714d3a1850fb1",
+        "benchmarks/concurrency.py": "93659bdad9ff4b0583dfa283ffb2d263170469b242136387c51d265ff8264b54",
+        "benchmarks/core.py": "0c1e66874e5119252769eedf8a213323cc599d42f9a12c425e986916705aac8d",
+        "benchmarks/memory_indexes.py": "bb42c8617c01c5d82a17e08fe1e68f5da82496cbfce02ad00169a9ed298563db",
+        "benchmarks/openflights.py": "8b1c5c20b2aaa3169a7e044f4917af788d456c775bc5b761b97e73b57ff976e6",
+        "benchmarks/openflights_data.py": "e71197b94045a08999b98e22006155eea1d06d6a6be63147c0f0a5bc6ef49260",
+        "benchmarks/recovery.py": "171039e71783744224a2f4338439962b28be09992c54af32259296fbba91d8c9",
+        "benchmarks/report.py": "0468c21ad9cb93601c4e0908d3b595df2e6e6ba0bd8062983b583497d18595f7",
+        "benchmarks/rocksdb_compression.py": "77ccb60b7b72d08c71beadbd00c3ccb14f5432bd0bc52c43a05cdcbe39a810ce",
+        "benchmarks/run.py": "99ece4de5a7c03d7558648995bcc89f539ed576e9d1756d27018b07db47e3524",
+        "benchmarks/storage.py": "defec96a7c2ad7087facce0c2a56b4f96342fa2f45a0f334dae76ca7eb3bc18b",
+        "benchmarks/telemetry.py": "89f983c471f8b9b8cb954adcb4cd80e5630de575d8c08984dd5d575ceaca1a6e",
+        "benchmarks/write_diagnostics.py": "cd6b7ad6cf9e09e576adc9a51a613e911b9c66e6f31e826c7fa95cdbce12ae5c",
+        "compose.runner-2cpu.yaml": "18c0dd34334e244549f488638cfa944018344fbb9a6f2581d1fb6a97a8516e5a",
+        "compose.yaml": "a2328113c8aa13014f3515a2d220293e4e5f447442a57563d5964e4b31c3028a",
+        "docker/mariadb/Dockerfile": "fab6db18cb2c129a2d36bb9a5ada8d331b94c78ce2305c6ec6853f02570a7297",
+        "docker/mariadb/rocksdb.cnf": "99966bccc69a50f875957acab0a4ab2687cd4dce4125f97e6e5357e26dfd2f53",
+        "requirements.txt": "d6071e17a47537839ac0949799ffd203d0ad5dfc2494ac6fd8d7ee9d387ec749",
+        "sql/benchmark/aria.sql": "bd0684fa92e05b659b84311b5247e048253eca5a4eb88c46d3211cb75335cd50",
+        "sql/benchmark/innodb.sql": "23730188f1985a4c4a1f4c9af621978e730fc34da906a6a41b2425ed064fd2bf",
+        "sql/benchmark/memory.sql": "9da2ee0f952d6c2341ea9f970cc09a18ee1b92371911dda348cc41cb71d3f431",
+        "sql/benchmark/myisam.sql": "2fbcbcf43c63e5fca47fbb7d835b56f024aec752d295125e7cc08382bc477953",
+        "sql/benchmark/rocksdb.sql": "c40f21a5eeffd1b734b33343d8e6e86106b3b827161248ad78fc694f066bdf40"
+      },
+      "dataset_sha256": "4f466c6916747404b1e5865a9d847a43b5d7e793eedfabae6b226b79b6f9942c",
+      "crc32_sum": 547786488677,
+      "server_version": "11.8.9-MariaDB-ubu2404",
+      "rocksdb_settings": {
+        "rocksdb_access_hint_on_compaction_start": "1",
+        "rocksdb_advise_random_on_open": "ON",
+        "rocksdb_allow_concurrent_memtable_write": "OFF",
+        "rocksdb_allow_mmap_reads": "OFF",
+        "rocksdb_allow_mmap_writes": "OFF",
+        "rocksdb_allow_to_start_after_corruption": "OFF",
+        "rocksdb_blind_delete_primary_key": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_block_restart_interval": "16",
+        "rocksdb_block_size": "4096",
+        "rocksdb_block_size_deviation": "10",
+        "rocksdb_bulk_load": "OFF",
+        "rocksdb_bulk_load_allow_sk": "OFF",
+        "rocksdb_bulk_load_allow_unsorted": "OFF",
+        "rocksdb_bulk_load_size": "1000",
+        "rocksdb_bytes_per_sync": "0",
+        "rocksdb_cache_dump": "ON",
+        "rocksdb_cache_high_pri_pool_ratio": "0.000000",
+        "rocksdb_cache_index_and_filter_blocks": "ON",
+        "rocksdb_cache_index_and_filter_with_high_priority": "ON",
+        "rocksdb_checksums_pct": "100",
+        "rocksdb_collect_sst_properties": "ON",
+        "rocksdb_commit_in_the_middle": "OFF",
+        "rocksdb_commit_time_batch_for_recovery": "ON",
+        "rocksdb_compact_cf": "",
+        "rocksdb_compaction_readahead_size": "0",
+        "rocksdb_compaction_sequential_deletes": "0",
+        "rocksdb_compaction_sequential_deletes_count_sd": "OFF",
+        "rocksdb_compaction_sequential_deletes_file_size": "0",
+        "rocksdb_compaction_sequential_deletes_window": "0",
+        "rocksdb_create_checkpoint": "",
+        "rocksdb_create_if_missing": "ON",
+        "rocksdb_create_missing_column_families": "OFF",
+        "rocksdb_datadir": "./#rocksdb",
+        "rocksdb_db_write_buffer_size": "0",
+        "rocksdb_deadlock_detect": "OFF",
+        "rocksdb_deadlock_detect_depth": "50",
+        "rocksdb_debug_manual_compaction_delay": "0",
+        "rocksdb_debug_optimizer_no_zero_cardinality": "ON",
+        "rocksdb_debug_ttl_ignore_pk": "OFF",
+        "rocksdb_debug_ttl_read_filter_ts": "0",
+        "rocksdb_debug_ttl_rec_ts": "0",
+        "rocksdb_debug_ttl_snapshot_ts": "0",
+        "rocksdb_default_cf_options": "compression=kNoCompression;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_delayed_write_rate": "0",
+        "rocksdb_delete_cf": "",
+        "rocksdb_delete_obsolete_files_period_micros": "21600000000",
+        "rocksdb_enable_2pc": "ON",
+        "rocksdb_enable_bulk_load_api": "ON",
+        "rocksdb_enable_insert_with_update_caching": "ON",
+        "rocksdb_enable_thread_tracking": "ON",
+        "rocksdb_enable_ttl": "ON",
+        "rocksdb_enable_ttl_read_filtering": "ON",
+        "rocksdb_enable_write_thread_adaptive_yield": "OFF",
+        "rocksdb_error_if_exists": "OFF",
+        "rocksdb_error_on_suboptimal_collation": "ON",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_force_compute_memtable_stats": "ON",
+        "rocksdb_force_compute_memtable_stats_cachetime": "60000000",
+        "rocksdb_force_flush_memtable_and_lzero_now": "OFF",
+        "rocksdb_force_flush_memtable_now": "OFF",
+        "rocksdb_force_index_records_in_range": "0",
+        "rocksdb_git_hash": "79f08d7ffa6d34d9ca3357777bcb335884a56cfb",
+        "rocksdb_hash_index_allow_collision": "ON",
+        "rocksdb_ignore_datadic_errors": "0",
+        "rocksdb_ignore_unknown_options": "OFF",
+        "rocksdb_index_type": "kBinarySearch",
+        "rocksdb_info_log_level": "error_level",
+        "rocksdb_io_write_timeout": "0",
+        "rocksdb_is_fd_close_on_exec": "ON",
+        "rocksdb_keep_log_file_num": "1000",
+        "rocksdb_large_prefix": "OFF",
+        "rocksdb_lock_scanned_rows": "OFF",
+        "rocksdb_lock_wait_timeout": "1",
+        "rocksdb_log_dir": "",
+        "rocksdb_log_file_time_to_roll": "0",
+        "rocksdb_manifest_preallocation_size": "4194304",
+        "rocksdb_manual_compaction_threads": "0",
+        "rocksdb_manual_wal_flush": "ON",
+        "rocksdb_master_skip_tx_api": "OFF",
+        "rocksdb_max_background_jobs": "2",
+        "rocksdb_max_latest_deadlocks": "5",
+        "rocksdb_max_log_file_size": "0",
+        "rocksdb_max_manifest_file_size": "1073741824",
+        "rocksdb_max_manual_compactions": "10",
+        "rocksdb_max_open_files": "16093",
+        "rocksdb_max_row_locks": "1048576",
+        "rocksdb_max_subcompactions": "1",
+        "rocksdb_max_total_wal_size": "0",
+        "rocksdb_merge_buf_size": "67108864",
+        "rocksdb_merge_combine_read_size": "1073741824",
+        "rocksdb_merge_tmp_file_removal_delay_ms": "0",
+        "rocksdb_new_table_reader_for_compaction_inputs": "OFF",
+        "rocksdb_no_block_cache": "OFF",
+        "rocksdb_override_cf_options": "",
+        "rocksdb_paranoid_checks": "ON",
+        "rocksdb_pause_background_work": "OFF",
+        "rocksdb_perf_context_level": "0",
+        "rocksdb_persistent_cache_path": "",
+        "rocksdb_persistent_cache_size_mb": "0",
+        "rocksdb_pin_l0_filter_and_index_blocks_in_cache": "ON",
+        "rocksdb_print_snapshot_conflict_queries": "OFF",
+        "rocksdb_rate_limiter_bytes_per_sec": "0",
+        "rocksdb_records_in_range": "0",
+        "rocksdb_remove_mariabackup_checkpoint": "OFF",
+        "rocksdb_reset_stats": "OFF",
+        "rocksdb_rollback_on_timeout": "OFF",
+        "rocksdb_seconds_between_stat_computes": "3600",
+        "rocksdb_signal_drop_index_thread": "OFF",
+        "rocksdb_sim_cache_size": "0",
+        "rocksdb_skip_bloom_filter_on_read": "OFF",
+        "rocksdb_skip_fill_cache": "OFF",
+        "rocksdb_skip_unique_check_tables": ".*",
+        "rocksdb_sst_mgr_rate_bytes_per_sec": "0",
+        "rocksdb_stats_dump_period_sec": "600",
+        "rocksdb_stats_level": "1",
+        "rocksdb_stats_recalc_rate": "0",
+        "rocksdb_store_row_debug_checksums": "OFF",
+        "rocksdb_strict_collation_check": "ON",
+        "rocksdb_strict_collation_exceptions": "",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "rocksdb_table_cache_numshardbits": "6",
+        "rocksdb_table_stats_sampling_pct": "10",
+        "rocksdb_tmpdir": "",
+        "rocksdb_trace_sst_api": "OFF",
+        "rocksdb_two_write_queues": "ON",
+        "rocksdb_unsafe_for_binlog": "OFF",
+        "rocksdb_update_cf_options": "",
+        "rocksdb_use_adaptive_mutex": "OFF",
+        "rocksdb_use_clock_cache": "OFF",
+        "rocksdb_use_direct_io_for_flush_and_compaction": "OFF",
+        "rocksdb_use_direct_reads": "OFF",
+        "rocksdb_use_fsync": "OFF",
+        "rocksdb_validate_tables": "1",
+        "rocksdb_verify_row_debug_checksums": "OFF",
+        "rocksdb_wal_bytes_per_sync": "0",
+        "rocksdb_wal_dir": "",
+        "rocksdb_wal_recovery_mode": "1",
+        "rocksdb_wal_size_limit_mb": "0",
+        "rocksdb_wal_ttl_seconds": "0",
+        "rocksdb_whole_key_filtering": "ON",
+        "rocksdb_write_batch_max_bytes": "0",
+        "rocksdb_write_disable_wal": "OFF",
+        "rocksdb_write_ignore_missing_column_families": "OFF",
+        "rocksdb_write_policy": "write_committed"
+      },
+      "block_cache_bytes": 134217728,
+      "cf_options_before": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kNoCompression",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x556c24bafc90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x556c24bbe610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "global_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kNoCompression;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "session_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kNoCompression;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "actual_engine": "ROCKSDB",
+      "actual_ddl": "CREATE TABLE `compression_rows` (\n  `id` int(11) NOT NULL,\n  `payload` varbinary(1024) NOT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=ROCKSDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "load_execute_seconds": 0.005792993000000024,
+      "load_with_generation_seconds": 0.00610277000001247,
+      "forced_flush_seconds": 0.0035121140000171636,
+      "sst_before_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 267265,
+          "INDEX_BLOCK_SIZE": 1796,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "NoCompression",
+          "CREATION_TIME": 1793132899,
+          "FILE_CREATION_TIME": 1793132899,
+          "OLDEST_KEY_TIME": 1793132899,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "verified_rows": 256,
+      "warmup_ids": [
+        2,
+        145,
+        185,
+        166
+      ],
+      "lookup_ids": [
+        131,
+        196,
+        225,
+        139,
+        229,
+        127,
+        201,
+        43,
+        29,
+        237,
+        32,
+        210
+      ],
+      "lookup_ms": [
+        0.186999,
+        0.227233,
+        0.201325,
+        0.199051,
+        0.199832,
+        0.197959,
+        0.206916,
+        0.197828,
+        0.199562,
+        0.195915,
+        0.196376,
+        0.213317
+      ],
+      "scan_ms": [
+        0.393994
+      ],
+      "plans": {
+        "lookup": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "const",
+            "possible_keys": "PRIMARY",
+            "key": "PRIMARY",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": ""
+          }
+        ],
+        "scan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "ALL",
+            "possible_keys": null,
+            "key": null,
+            "key_len": null,
+            "ref": null,
+            "rows": "256",
+            "Extra": ""
+          }
+        ]
+      },
+      "cf_options_after": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kNoCompression",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x556c24bafc90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x556c24bbe610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "sst_after_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 267265,
+          "INDEX_BLOCK_SIZE": 1796,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "NoCompression",
+          "CREATION_TIME": 1793132899,
+          "FILE_CREATION_TIME": 1793132899,
+          "OLDEST_KEY_TIME": 1793132899,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "position": 1,
+      "project": "cu-compression-5e0ab4da6fc1433284e818001260399e-1",
+      "images": {
+        "db": {
+          "id": "sha256:ab755e1444392b056aecca2cb54fac909b441d1f68f68ce5fe66500f12e6b0a5",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "runner": {
+          "id": "sha256:65737813118b9e19bac89f050acce6e17374a3ecfbe90a8724771a3c6e93831b",
+          "os": "linux",
+          "architecture": "amd64"
+        }
+      },
+      "clean_stop": {
+        "Status": "exited",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "FinishedAt": "2026-10-27T20:28:19.192824413Z"
+      },
+      "sst_inventory": [
+        {
+          "name": "000011.sst",
+          "bytes": 1152,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000020.sst",
+          "bytes": 1152,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000029.sst",
+          "bytes": 270125,
+          "allocated_bytes": 270336
+        },
+        {
+          "name": "000030.sst",
+          "bytes": 1667,
+          "allocated_bytes": 4096
+        }
+      ],
+      "table_sst": {
+        "files": [
+          {
+            "name": "000029.sst",
+            "bytes": 270125,
+            "allocated_bytes": 270336
+          }
+        ],
+        "bytes": 270125,
+        "allocated_bytes": 270336
+      },
+      "resource_cleanup": {
+        "inventory_removed": true,
+        "worker_removed": true,
+        "db_removed": true,
+        "volume_removed": true
+      }
+    },
+    {
+      "mode": "smoke",
+      "profile": "compressible",
+      "codec": "zstd",
+      "round": 1,
+      "rows": 256,
+      "payload_bytes": 1024,
+      "seed": 20261027,
+      "runtime": {
+        "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.41",
+        "cpu_count_visible": 4,
+        "pymysql": "1.1.2",
+        "cgroup_memory_max": "536870912",
+        "cgroup_cpu_max": "100000 100000"
+      },
+      "source_sha256": {
+        "Dockerfile": "0bb23f4b0c240ef1b03bc217bf206f248a0776d27c7cf3e8b392ca9bca5f549f",
+        "benchmarks/__init__.py": "72d744e61d71dc5b3159c810d2017497d9497e75ed21edee18a8e0e59af4b96f",
+        "benchmarks/cache_pressure.py": "0f73687113b96519dc76edd3e2d1f18ec73e9640d40e1d70d67714d3a1850fb1",
+        "benchmarks/concurrency.py": "93659bdad9ff4b0583dfa283ffb2d263170469b242136387c51d265ff8264b54",
+        "benchmarks/core.py": "0c1e66874e5119252769eedf8a213323cc599d42f9a12c425e986916705aac8d",
+        "benchmarks/memory_indexes.py": "bb42c8617c01c5d82a17e08fe1e68f5da82496cbfce02ad00169a9ed298563db",
+        "benchmarks/openflights.py": "8b1c5c20b2aaa3169a7e044f4917af788d456c775bc5b761b97e73b57ff976e6",
+        "benchmarks/openflights_data.py": "e71197b94045a08999b98e22006155eea1d06d6a6be63147c0f0a5bc6ef49260",
+        "benchmarks/recovery.py": "171039e71783744224a2f4338439962b28be09992c54af32259296fbba91d8c9",
+        "benchmarks/report.py": "0468c21ad9cb93601c4e0908d3b595df2e6e6ba0bd8062983b583497d18595f7",
+        "benchmarks/rocksdb_compression.py": "77ccb60b7b72d08c71beadbd00c3ccb14f5432bd0bc52c43a05cdcbe39a810ce",
+        "benchmarks/run.py": "99ece4de5a7c03d7558648995bcc89f539ed576e9d1756d27018b07db47e3524",
+        "benchmarks/storage.py": "defec96a7c2ad7087facce0c2a56b4f96342fa2f45a0f334dae76ca7eb3bc18b",
+        "benchmarks/telemetry.py": "89f983c471f8b9b8cb954adcb4cd80e5630de575d8c08984dd5d575ceaca1a6e",
+        "benchmarks/write_diagnostics.py": "cd6b7ad6cf9e09e576adc9a51a613e911b9c66e6f31e826c7fa95cdbce12ae5c",
+        "compose.runner-2cpu.yaml": "18c0dd34334e244549f488638cfa944018344fbb9a6f2581d1fb6a97a8516e5a",
+        "compose.yaml": "a2328113c8aa13014f3515a2d220293e4e5f447442a57563d5964e4b31c3028a",
+        "docker/mariadb/Dockerfile": "fab6db18cb2c129a2d36bb9a5ada8d331b94c78ce2305c6ec6853f02570a7297",
+        "docker/mariadb/rocksdb.cnf": "99966bccc69a50f875957acab0a4ab2687cd4dce4125f97e6e5357e26dfd2f53",
+        "requirements.txt": "d6071e17a47537839ac0949799ffd203d0ad5dfc2494ac6fd8d7ee9d387ec749",
+        "sql/benchmark/aria.sql": "bd0684fa92e05b659b84311b5247e048253eca5a4eb88c46d3211cb75335cd50",
+        "sql/benchmark/innodb.sql": "23730188f1985a4c4a1f4c9af621978e730fc34da906a6a41b2425ed064fd2bf",
+        "sql/benchmark/memory.sql": "9da2ee0f952d6c2341ea9f970cc09a18ee1b92371911dda348cc41cb71d3f431",
+        "sql/benchmark/myisam.sql": "2fbcbcf43c63e5fca47fbb7d835b56f024aec752d295125e7cc08382bc477953",
+        "sql/benchmark/rocksdb.sql": "c40f21a5eeffd1b734b33343d8e6e86106b3b827161248ad78fc694f066bdf40"
+      },
+      "dataset_sha256": "4f466c6916747404b1e5865a9d847a43b5d7e793eedfabae6b226b79b6f9942c",
+      "crc32_sum": 547786488677,
+      "server_version": "11.8.9-MariaDB-ubu2404",
+      "rocksdb_settings": {
+        "rocksdb_access_hint_on_compaction_start": "1",
+        "rocksdb_advise_random_on_open": "ON",
+        "rocksdb_allow_concurrent_memtable_write": "OFF",
+        "rocksdb_allow_mmap_reads": "OFF",
+        "rocksdb_allow_mmap_writes": "OFF",
+        "rocksdb_allow_to_start_after_corruption": "OFF",
+        "rocksdb_blind_delete_primary_key": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_block_restart_interval": "16",
+        "rocksdb_block_size": "4096",
+        "rocksdb_block_size_deviation": "10",
+        "rocksdb_bulk_load": "OFF",
+        "rocksdb_bulk_load_allow_sk": "OFF",
+        "rocksdb_bulk_load_allow_unsorted": "OFF",
+        "rocksdb_bulk_load_size": "1000",
+        "rocksdb_bytes_per_sync": "0",
+        "rocksdb_cache_dump": "ON",
+        "rocksdb_cache_high_pri_pool_ratio": "0.000000",
+        "rocksdb_cache_index_and_filter_blocks": "ON",
+        "rocksdb_cache_index_and_filter_with_high_priority": "ON",
+        "rocksdb_checksums_pct": "100",
+        "rocksdb_collect_sst_properties": "ON",
+        "rocksdb_commit_in_the_middle": "OFF",
+        "rocksdb_commit_time_batch_for_recovery": "ON",
+        "rocksdb_compact_cf": "",
+        "rocksdb_compaction_readahead_size": "0",
+        "rocksdb_compaction_sequential_deletes": "0",
+        "rocksdb_compaction_sequential_deletes_count_sd": "OFF",
+        "rocksdb_compaction_sequential_deletes_file_size": "0",
+        "rocksdb_compaction_sequential_deletes_window": "0",
+        "rocksdb_create_checkpoint": "",
+        "rocksdb_create_if_missing": "ON",
+        "rocksdb_create_missing_column_families": "OFF",
+        "rocksdb_datadir": "./#rocksdb",
+        "rocksdb_db_write_buffer_size": "0",
+        "rocksdb_deadlock_detect": "OFF",
+        "rocksdb_deadlock_detect_depth": "50",
+        "rocksdb_debug_manual_compaction_delay": "0",
+        "rocksdb_debug_optimizer_no_zero_cardinality": "ON",
+        "rocksdb_debug_ttl_ignore_pk": "OFF",
+        "rocksdb_debug_ttl_read_filter_ts": "0",
+        "rocksdb_debug_ttl_rec_ts": "0",
+        "rocksdb_debug_ttl_snapshot_ts": "0",
+        "rocksdb_default_cf_options": "compression=kZSTD;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_delayed_write_rate": "0",
+        "rocksdb_delete_cf": "",
+        "rocksdb_delete_obsolete_files_period_micros": "21600000000",
+        "rocksdb_enable_2pc": "ON",
+        "rocksdb_enable_bulk_load_api": "ON",
+        "rocksdb_enable_insert_with_update_caching": "ON",
+        "rocksdb_enable_thread_tracking": "ON",
+        "rocksdb_enable_ttl": "ON",
+        "rocksdb_enable_ttl_read_filtering": "ON",
+        "rocksdb_enable_write_thread_adaptive_yield": "OFF",
+        "rocksdb_error_if_exists": "OFF",
+        "rocksdb_error_on_suboptimal_collation": "ON",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_force_compute_memtable_stats": "ON",
+        "rocksdb_force_compute_memtable_stats_cachetime": "60000000",
+        "rocksdb_force_flush_memtable_and_lzero_now": "OFF",
+        "rocksdb_force_flush_memtable_now": "OFF",
+        "rocksdb_force_index_records_in_range": "0",
+        "rocksdb_git_hash": "79f08d7ffa6d34d9ca3357777bcb335884a56cfb",
+        "rocksdb_hash_index_allow_collision": "ON",
+        "rocksdb_ignore_datadic_errors": "0",
+        "rocksdb_ignore_unknown_options": "OFF",
+        "rocksdb_index_type": "kBinarySearch",
+        "rocksdb_info_log_level": "error_level",
+        "rocksdb_io_write_timeout": "0",
+        "rocksdb_is_fd_close_on_exec": "ON",
+        "rocksdb_keep_log_file_num": "1000",
+        "rocksdb_large_prefix": "OFF",
+        "rocksdb_lock_scanned_rows": "OFF",
+        "rocksdb_lock_wait_timeout": "1",
+        "rocksdb_log_dir": "",
+        "rocksdb_log_file_time_to_roll": "0",
+        "rocksdb_manifest_preallocation_size": "4194304",
+        "rocksdb_manual_compaction_threads": "0",
+        "rocksdb_manual_wal_flush": "ON",
+        "rocksdb_master_skip_tx_api": "OFF",
+        "rocksdb_max_background_jobs": "2",
+        "rocksdb_max_latest_deadlocks": "5",
+        "rocksdb_max_log_file_size": "0",
+        "rocksdb_max_manifest_file_size": "1073741824",
+        "rocksdb_max_manual_compactions": "10",
+        "rocksdb_max_open_files": "16093",
+        "rocksdb_max_row_locks": "1048576",
+        "rocksdb_max_subcompactions": "1",
+        "rocksdb_max_total_wal_size": "0",
+        "rocksdb_merge_buf_size": "67108864",
+        "rocksdb_merge_combine_read_size": "1073741824",
+        "rocksdb_merge_tmp_file_removal_delay_ms": "0",
+        "rocksdb_new_table_reader_for_compaction_inputs": "OFF",
+        "rocksdb_no_block_cache": "OFF",
+        "rocksdb_override_cf_options": "",
+        "rocksdb_paranoid_checks": "ON",
+        "rocksdb_pause_background_work": "OFF",
+        "rocksdb_perf_context_level": "0",
+        "rocksdb_persistent_cache_path": "",
+        "rocksdb_persistent_cache_size_mb": "0",
+        "rocksdb_pin_l0_filter_and_index_blocks_in_cache": "ON",
+        "rocksdb_print_snapshot_conflict_queries": "OFF",
+        "rocksdb_rate_limiter_bytes_per_sec": "0",
+        "rocksdb_records_in_range": "0",
+        "rocksdb_remove_mariabackup_checkpoint": "OFF",
+        "rocksdb_reset_stats": "OFF",
+        "rocksdb_rollback_on_timeout": "OFF",
+        "rocksdb_seconds_between_stat_computes": "3600",
+        "rocksdb_signal_drop_index_thread": "OFF",
+        "rocksdb_sim_cache_size": "0",
+        "rocksdb_skip_bloom_filter_on_read": "OFF",
+        "rocksdb_skip_fill_cache": "OFF",
+        "rocksdb_skip_unique_check_tables": ".*",
+        "rocksdb_sst_mgr_rate_bytes_per_sec": "0",
+        "rocksdb_stats_dump_period_sec": "600",
+        "rocksdb_stats_level": "1",
+        "rocksdb_stats_recalc_rate": "0",
+        "rocksdb_store_row_debug_checksums": "OFF",
+        "rocksdb_strict_collation_check": "ON",
+        "rocksdb_strict_collation_exceptions": "",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "rocksdb_table_cache_numshardbits": "6",
+        "rocksdb_table_stats_sampling_pct": "10",
+        "rocksdb_tmpdir": "",
+        "rocksdb_trace_sst_api": "OFF",
+        "rocksdb_two_write_queues": "ON",
+        "rocksdb_unsafe_for_binlog": "OFF",
+        "rocksdb_update_cf_options": "",
+        "rocksdb_use_adaptive_mutex": "OFF",
+        "rocksdb_use_clock_cache": "OFF",
+        "rocksdb_use_direct_io_for_flush_and_compaction": "OFF",
+        "rocksdb_use_direct_reads": "OFF",
+        "rocksdb_use_fsync": "OFF",
+        "rocksdb_validate_tables": "1",
+        "rocksdb_verify_row_debug_checksums": "OFF",
+        "rocksdb_wal_bytes_per_sync": "0",
+        "rocksdb_wal_dir": "",
+        "rocksdb_wal_recovery_mode": "1",
+        "rocksdb_wal_size_limit_mb": "0",
+        "rocksdb_wal_ttl_seconds": "0",
+        "rocksdb_whole_key_filtering": "ON",
+        "rocksdb_write_batch_max_bytes": "0",
+        "rocksdb_write_disable_wal": "OFF",
+        "rocksdb_write_ignore_missing_column_families": "OFF",
+        "rocksdb_write_policy": "write_committed"
+      },
+      "block_cache_bytes": 134217728,
+      "cf_options_before": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kZSTD",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x55f164687c90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x55f164696610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "global_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kZSTD;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "session_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kZSTD;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "actual_engine": "ROCKSDB",
+      "actual_ddl": "CREATE TABLE `compression_rows` (\n  `id` int(11) NOT NULL,\n  `payload` varbinary(1024) NOT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=ROCKSDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "load_execute_seconds": 0.00585998600001858,
+      "load_with_generation_seconds": 0.006189828999993097,
+      "forced_flush_seconds": 0.003562404000007291,
+      "sst_before_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 12057,
+          "INDEX_BLOCK_SIZE": 1736,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "ZSTD",
+          "CREATION_TIME": 1793132905,
+          "FILE_CREATION_TIME": 1793132905,
+          "OLDEST_KEY_TIME": 1793132905,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "verified_rows": 256,
+      "warmup_ids": [
+        2,
+        145,
+        185,
+        166
+      ],
+      "lookup_ids": [
+        131,
+        196,
+        225,
+        139,
+        229,
+        127,
+        201,
+        43,
+        29,
+        237,
+        32,
+        210
+      ],
+      "lookup_ms": [
+        0.153376,
+        0.144749,
+        0.141363,
+        0.143577,
+        0.143907,
+        0.141063,
+        0.18823,
+        0.148426,
+        0.141403,
+        0.141303,
+        0.141784,
+        0.140602
+      ],
+      "scan_ms": [
+        0.347867
+      ],
+      "plans": {
+        "lookup": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "const",
+            "possible_keys": "PRIMARY",
+            "key": "PRIMARY",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": ""
+          }
+        ],
+        "scan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "ALL",
+            "possible_keys": null,
+            "key": null,
+            "key_len": null,
+            "ref": null,
+            "rows": "256",
+            "Extra": ""
+          }
+        ]
+      },
+      "cf_options_after": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kZSTD",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x55f164687c90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x55f164696610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "sst_after_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 12057,
+          "INDEX_BLOCK_SIZE": 1736,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "ZSTD",
+          "CREATION_TIME": 1793132905,
+          "FILE_CREATION_TIME": 1793132905,
+          "OLDEST_KEY_TIME": 1793132905,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "position": 2,
+      "project": "cu-compression-5e0ab4da6fc1433284e818001260399e-2",
+      "images": {
+        "db": {
+          "id": "sha256:ab755e1444392b056aecca2cb54fac909b441d1f68f68ce5fe66500f12e6b0a5",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "runner": {
+          "id": "sha256:65737813118b9e19bac89f050acce6e17374a3ecfbe90a8724771a3c6e93831b",
+          "os": "linux",
+          "architecture": "amd64"
+        }
+      },
+      "clean_stop": {
+        "Status": "exited",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "FinishedAt": "2026-10-27T20:28:26.157413114Z"
+      },
+      "sst_inventory": [
+        {
+          "name": "000011.sst",
+          "bytes": 1143,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000020.sst",
+          "bytes": 1143,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000029.sst",
+          "bytes": 13762,
+          "allocated_bytes": 16384
+        },
+        {
+          "name": "000030.sst",
+          "bytes": 1576,
+          "allocated_bytes": 4096
+        }
+      ],
+      "table_sst": {
+        "files": [
+          {
+            "name": "000029.sst",
+            "bytes": 13762,
+            "allocated_bytes": 16384
+          }
+        ],
+        "bytes": 13762,
+        "allocated_bytes": 16384
+      },
+      "resource_cleanup": {
+        "inventory_removed": true,
+        "worker_removed": true,
+        "db_removed": true,
+        "volume_removed": true
+      }
+    },
+    {
+      "mode": "smoke",
+      "profile": "random",
+      "codec": "zstd",
+      "round": 1,
+      "rows": 256,
+      "payload_bytes": 1024,
+      "seed": 20261027,
+      "runtime": {
+        "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.41",
+        "cpu_count_visible": 4,
+        "pymysql": "1.1.2",
+        "cgroup_memory_max": "536870912",
+        "cgroup_cpu_max": "100000 100000"
+      },
+      "source_sha256": {
+        "Dockerfile": "0bb23f4b0c240ef1b03bc217bf206f248a0776d27c7cf3e8b392ca9bca5f549f",
+        "benchmarks/__init__.py": "72d744e61d71dc5b3159c810d2017497d9497e75ed21edee18a8e0e59af4b96f",
+        "benchmarks/cache_pressure.py": "0f73687113b96519dc76edd3e2d1f18ec73e9640d40e1d70d67714d3a1850fb1",
+        "benchmarks/concurrency.py": "93659bdad9ff4b0583dfa283ffb2d263170469b242136387c51d265ff8264b54",
+        "benchmarks/core.py": "0c1e66874e5119252769eedf8a213323cc599d42f9a12c425e986916705aac8d",
+        "benchmarks/memory_indexes.py": "bb42c8617c01c5d82a17e08fe1e68f5da82496cbfce02ad00169a9ed298563db",
+        "benchmarks/openflights.py": "8b1c5c20b2aaa3169a7e044f4917af788d456c775bc5b761b97e73b57ff976e6",
+        "benchmarks/openflights_data.py": "e71197b94045a08999b98e22006155eea1d06d6a6be63147c0f0a5bc6ef49260",
+        "benchmarks/recovery.py": "171039e71783744224a2f4338439962b28be09992c54af32259296fbba91d8c9",
+        "benchmarks/report.py": "0468c21ad9cb93601c4e0908d3b595df2e6e6ba0bd8062983b583497d18595f7",
+        "benchmarks/rocksdb_compression.py": "77ccb60b7b72d08c71beadbd00c3ccb14f5432bd0bc52c43a05cdcbe39a810ce",
+        "benchmarks/run.py": "99ece4de5a7c03d7558648995bcc89f539ed576e9d1756d27018b07db47e3524",
+        "benchmarks/storage.py": "defec96a7c2ad7087facce0c2a56b4f96342fa2f45a0f334dae76ca7eb3bc18b",
+        "benchmarks/telemetry.py": "89f983c471f8b9b8cb954adcb4cd80e5630de575d8c08984dd5d575ceaca1a6e",
+        "benchmarks/write_diagnostics.py": "cd6b7ad6cf9e09e576adc9a51a613e911b9c66e6f31e826c7fa95cdbce12ae5c",
+        "compose.runner-2cpu.yaml": "18c0dd34334e244549f488638cfa944018344fbb9a6f2581d1fb6a97a8516e5a",
+        "compose.yaml": "a2328113c8aa13014f3515a2d220293e4e5f447442a57563d5964e4b31c3028a",
+        "docker/mariadb/Dockerfile": "fab6db18cb2c129a2d36bb9a5ada8d331b94c78ce2305c6ec6853f02570a7297",
+        "docker/mariadb/rocksdb.cnf": "99966bccc69a50f875957acab0a4ab2687cd4dce4125f97e6e5357e26dfd2f53",
+        "requirements.txt": "d6071e17a47537839ac0949799ffd203d0ad5dfc2494ac6fd8d7ee9d387ec749",
+        "sql/benchmark/aria.sql": "bd0684fa92e05b659b84311b5247e048253eca5a4eb88c46d3211cb75335cd50",
+        "sql/benchmark/innodb.sql": "23730188f1985a4c4a1f4c9af621978e730fc34da906a6a41b2425ed064fd2bf",
+        "sql/benchmark/memory.sql": "9da2ee0f952d6c2341ea9f970cc09a18ee1b92371911dda348cc41cb71d3f431",
+        "sql/benchmark/myisam.sql": "2fbcbcf43c63e5fca47fbb7d835b56f024aec752d295125e7cc08382bc477953",
+        "sql/benchmark/rocksdb.sql": "c40f21a5eeffd1b734b33343d8e6e86106b3b827161248ad78fc694f066bdf40"
+      },
+      "dataset_sha256": "656bde5443d0a2649107bbea1ddb94960b5fbed53592a4f772f73c5c8705df0a",
+      "crc32_sum": 528458485389,
+      "server_version": "11.8.9-MariaDB-ubu2404",
+      "rocksdb_settings": {
+        "rocksdb_access_hint_on_compaction_start": "1",
+        "rocksdb_advise_random_on_open": "ON",
+        "rocksdb_allow_concurrent_memtable_write": "OFF",
+        "rocksdb_allow_mmap_reads": "OFF",
+        "rocksdb_allow_mmap_writes": "OFF",
+        "rocksdb_allow_to_start_after_corruption": "OFF",
+        "rocksdb_blind_delete_primary_key": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_block_restart_interval": "16",
+        "rocksdb_block_size": "4096",
+        "rocksdb_block_size_deviation": "10",
+        "rocksdb_bulk_load": "OFF",
+        "rocksdb_bulk_load_allow_sk": "OFF",
+        "rocksdb_bulk_load_allow_unsorted": "OFF",
+        "rocksdb_bulk_load_size": "1000",
+        "rocksdb_bytes_per_sync": "0",
+        "rocksdb_cache_dump": "ON",
+        "rocksdb_cache_high_pri_pool_ratio": "0.000000",
+        "rocksdb_cache_index_and_filter_blocks": "ON",
+        "rocksdb_cache_index_and_filter_with_high_priority": "ON",
+        "rocksdb_checksums_pct": "100",
+        "rocksdb_collect_sst_properties": "ON",
+        "rocksdb_commit_in_the_middle": "OFF",
+        "rocksdb_commit_time_batch_for_recovery": "ON",
+        "rocksdb_compact_cf": "",
+        "rocksdb_compaction_readahead_size": "0",
+        "rocksdb_compaction_sequential_deletes": "0",
+        "rocksdb_compaction_sequential_deletes_count_sd": "OFF",
+        "rocksdb_compaction_sequential_deletes_file_size": "0",
+        "rocksdb_compaction_sequential_deletes_window": "0",
+        "rocksdb_create_checkpoint": "",
+        "rocksdb_create_if_missing": "ON",
+        "rocksdb_create_missing_column_families": "OFF",
+        "rocksdb_datadir": "./#rocksdb",
+        "rocksdb_db_write_buffer_size": "0",
+        "rocksdb_deadlock_detect": "OFF",
+        "rocksdb_deadlock_detect_depth": "50",
+        "rocksdb_debug_manual_compaction_delay": "0",
+        "rocksdb_debug_optimizer_no_zero_cardinality": "ON",
+        "rocksdb_debug_ttl_ignore_pk": "OFF",
+        "rocksdb_debug_ttl_read_filter_ts": "0",
+        "rocksdb_debug_ttl_rec_ts": "0",
+        "rocksdb_debug_ttl_snapshot_ts": "0",
+        "rocksdb_default_cf_options": "compression=kZSTD;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_delayed_write_rate": "0",
+        "rocksdb_delete_cf": "",
+        "rocksdb_delete_obsolete_files_period_micros": "21600000000",
+        "rocksdb_enable_2pc": "ON",
+        "rocksdb_enable_bulk_load_api": "ON",
+        "rocksdb_enable_insert_with_update_caching": "ON",
+        "rocksdb_enable_thread_tracking": "ON",
+        "rocksdb_enable_ttl": "ON",
+        "rocksdb_enable_ttl_read_filtering": "ON",
+        "rocksdb_enable_write_thread_adaptive_yield": "OFF",
+        "rocksdb_error_if_exists": "OFF",
+        "rocksdb_error_on_suboptimal_collation": "ON",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_force_compute_memtable_stats": "ON",
+        "rocksdb_force_compute_memtable_stats_cachetime": "60000000",
+        "rocksdb_force_flush_memtable_and_lzero_now": "OFF",
+        "rocksdb_force_flush_memtable_now": "OFF",
+        "rocksdb_force_index_records_in_range": "0",
+        "rocksdb_git_hash": "79f08d7ffa6d34d9ca3357777bcb335884a56cfb",
+        "rocksdb_hash_index_allow_collision": "ON",
+        "rocksdb_ignore_datadic_errors": "0",
+        "rocksdb_ignore_unknown_options": "OFF",
+        "rocksdb_index_type": "kBinarySearch",
+        "rocksdb_info_log_level": "error_level",
+        "rocksdb_io_write_timeout": "0",
+        "rocksdb_is_fd_close_on_exec": "ON",
+        "rocksdb_keep_log_file_num": "1000",
+        "rocksdb_large_prefix": "OFF",
+        "rocksdb_lock_scanned_rows": "OFF",
+        "rocksdb_lock_wait_timeout": "1",
+        "rocksdb_log_dir": "",
+        "rocksdb_log_file_time_to_roll": "0",
+        "rocksdb_manifest_preallocation_size": "4194304",
+        "rocksdb_manual_compaction_threads": "0",
+        "rocksdb_manual_wal_flush": "ON",
+        "rocksdb_master_skip_tx_api": "OFF",
+        "rocksdb_max_background_jobs": "2",
+        "rocksdb_max_latest_deadlocks": "5",
+        "rocksdb_max_log_file_size": "0",
+        "rocksdb_max_manifest_file_size": "1073741824",
+        "rocksdb_max_manual_compactions": "10",
+        "rocksdb_max_open_files": "16093",
+        "rocksdb_max_row_locks": "1048576",
+        "rocksdb_max_subcompactions": "1",
+        "rocksdb_max_total_wal_size": "0",
+        "rocksdb_merge_buf_size": "67108864",
+        "rocksdb_merge_combine_read_size": "1073741824",
+        "rocksdb_merge_tmp_file_removal_delay_ms": "0",
+        "rocksdb_new_table_reader_for_compaction_inputs": "OFF",
+        "rocksdb_no_block_cache": "OFF",
+        "rocksdb_override_cf_options": "",
+        "rocksdb_paranoid_checks": "ON",
+        "rocksdb_pause_background_work": "OFF",
+        "rocksdb_perf_context_level": "0",
+        "rocksdb_persistent_cache_path": "",
+        "rocksdb_persistent_cache_size_mb": "0",
+        "rocksdb_pin_l0_filter_and_index_blocks_in_cache": "ON",
+        "rocksdb_print_snapshot_conflict_queries": "OFF",
+        "rocksdb_rate_limiter_bytes_per_sec": "0",
+        "rocksdb_records_in_range": "0",
+        "rocksdb_remove_mariabackup_checkpoint": "OFF",
+        "rocksdb_reset_stats": "OFF",
+        "rocksdb_rollback_on_timeout": "OFF",
+        "rocksdb_seconds_between_stat_computes": "3600",
+        "rocksdb_signal_drop_index_thread": "OFF",
+        "rocksdb_sim_cache_size": "0",
+        "rocksdb_skip_bloom_filter_on_read": "OFF",
+        "rocksdb_skip_fill_cache": "OFF",
+        "rocksdb_skip_unique_check_tables": ".*",
+        "rocksdb_sst_mgr_rate_bytes_per_sec": "0",
+        "rocksdb_stats_dump_period_sec": "600",
+        "rocksdb_stats_level": "1",
+        "rocksdb_stats_recalc_rate": "0",
+        "rocksdb_store_row_debug_checksums": "OFF",
+        "rocksdb_strict_collation_check": "ON",
+        "rocksdb_strict_collation_exceptions": "",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "rocksdb_table_cache_numshardbits": "6",
+        "rocksdb_table_stats_sampling_pct": "10",
+        "rocksdb_tmpdir": "",
+        "rocksdb_trace_sst_api": "OFF",
+        "rocksdb_two_write_queues": "ON",
+        "rocksdb_unsafe_for_binlog": "OFF",
+        "rocksdb_update_cf_options": "",
+        "rocksdb_use_adaptive_mutex": "OFF",
+        "rocksdb_use_clock_cache": "OFF",
+        "rocksdb_use_direct_io_for_flush_and_compaction": "OFF",
+        "rocksdb_use_direct_reads": "OFF",
+        "rocksdb_use_fsync": "OFF",
+        "rocksdb_validate_tables": "1",
+        "rocksdb_verify_row_debug_checksums": "OFF",
+        "rocksdb_wal_bytes_per_sync": "0",
+        "rocksdb_wal_dir": "",
+        "rocksdb_wal_recovery_mode": "1",
+        "rocksdb_wal_size_limit_mb": "0",
+        "rocksdb_wal_ttl_seconds": "0",
+        "rocksdb_whole_key_filtering": "ON",
+        "rocksdb_write_batch_max_bytes": "0",
+        "rocksdb_write_disable_wal": "OFF",
+        "rocksdb_write_ignore_missing_column_families": "OFF",
+        "rocksdb_write_policy": "write_committed"
+      },
+      "block_cache_bytes": 134217728,
+      "cf_options_before": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kZSTD",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x55c208f58c90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x55c208f67610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "global_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kZSTD;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "session_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kZSTD;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "actual_engine": "ROCKSDB",
+      "actual_ddl": "CREATE TABLE `compression_rows` (\n  `id` int(11) NOT NULL,\n  `payload` varbinary(1024) NOT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=ROCKSDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "load_execute_seconds": 0.03634037800003398,
+      "load_with_generation_seconds": 0.03728676099996164,
+      "forced_flush_seconds": 0.004589000000009946,
+      "sst_before_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 267265,
+          "INDEX_BLOCK_SIZE": 1796,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "ZSTD",
+          "CREATION_TIME": 1793132918,
+          "FILE_CREATION_TIME": 1793132918,
+          "OLDEST_KEY_TIME": 1793132918,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "verified_rows": 256,
+      "warmup_ids": [
+        2,
+        145,
+        185,
+        166
+      ],
+      "lookup_ids": [
+        131,
+        196,
+        225,
+        139,
+        229,
+        127,
+        201,
+        43,
+        29,
+        237,
+        32,
+        210
+      ],
+      "lookup_ms": [
+        0.183723,
+        0.193571,
+        0.163715,
+        0.164016,
+        0.165919,
+        0.163264,
+        0.162022,
+        0.163494,
+        0.162423,
+        0.164567,
+        0.164717,
+        0.162022
+      ],
+      "scan_ms": [
+        0.352236
+      ],
+      "plans": {
+        "lookup": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "const",
+            "possible_keys": "PRIMARY",
+            "key": "PRIMARY",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": ""
+          }
+        ],
+        "scan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "ALL",
+            "possible_keys": null,
+            "key": null,
+            "key_len": null,
+            "ref": null,
+            "rows": "256",
+            "Extra": ""
+          }
+        ]
+      },
+      "cf_options_after": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kZSTD",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x55c208f58c90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x55c208f67610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "sst_after_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 267265,
+          "INDEX_BLOCK_SIZE": 1796,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "ZSTD",
+          "CREATION_TIME": 1793132918,
+          "FILE_CREATION_TIME": 1793132918,
+          "OLDEST_KEY_TIME": 1793132918,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "position": 3,
+      "project": "cu-compression-5e0ab4da6fc1433284e818001260399e-3",
+      "images": {
+        "db": {
+          "id": "sha256:ab755e1444392b056aecca2cb54fac909b441d1f68f68ce5fe66500f12e6b0a5",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "runner": {
+          "id": "sha256:65737813118b9e19bac89f050acce6e17374a3ecfbe90a8724771a3c6e93831b",
+          "os": "linux",
+          "architecture": "amd64"
+        }
+      },
+      "clean_stop": {
+        "Status": "exited",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "FinishedAt": "2026-10-27T20:28:38.336623825Z"
+      },
+      "sst_inventory": [
+        {
+          "name": "000011.sst",
+          "bytes": 1143,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000020.sst",
+          "bytes": 1143,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000029.sst",
+          "bytes": 268927,
+          "allocated_bytes": 270336
+        },
+        {
+          "name": "000030.sst",
+          "bytes": 1576,
+          "allocated_bytes": 4096
+        }
+      ],
+      "table_sst": {
+        "files": [
+          {
+            "name": "000029.sst",
+            "bytes": 268927,
+            "allocated_bytes": 270336
+          }
+        ],
+        "bytes": 268927,
+        "allocated_bytes": 270336
+      },
+      "resource_cleanup": {
+        "inventory_removed": true,
+        "worker_removed": true,
+        "db_removed": true,
+        "volume_removed": true
+      }
+    },
+    {
+      "mode": "smoke",
+      "profile": "random",
+      "codec": "none",
+      "round": 1,
+      "rows": 256,
+      "payload_bytes": 1024,
+      "seed": 20261027,
+      "runtime": {
+        "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.41",
+        "cpu_count_visible": 4,
+        "pymysql": "1.1.2",
+        "cgroup_memory_max": "536870912",
+        "cgroup_cpu_max": "100000 100000"
+      },
+      "source_sha256": {
+        "Dockerfile": "0bb23f4b0c240ef1b03bc217bf206f248a0776d27c7cf3e8b392ca9bca5f549f",
+        "benchmarks/__init__.py": "72d744e61d71dc5b3159c810d2017497d9497e75ed21edee18a8e0e59af4b96f",
+        "benchmarks/cache_pressure.py": "0f73687113b96519dc76edd3e2d1f18ec73e9640d40e1d70d67714d3a1850fb1",
+        "benchmarks/concurrency.py": "93659bdad9ff4b0583dfa283ffb2d263170469b242136387c51d265ff8264b54",
+        "benchmarks/core.py": "0c1e66874e5119252769eedf8a213323cc599d42f9a12c425e986916705aac8d",
+        "benchmarks/memory_indexes.py": "bb42c8617c01c5d82a17e08fe1e68f5da82496cbfce02ad00169a9ed298563db",
+        "benchmarks/openflights.py": "8b1c5c20b2aaa3169a7e044f4917af788d456c775bc5b761b97e73b57ff976e6",
+        "benchmarks/openflights_data.py": "e71197b94045a08999b98e22006155eea1d06d6a6be63147c0f0a5bc6ef49260",
+        "benchmarks/recovery.py": "171039e71783744224a2f4338439962b28be09992c54af32259296fbba91d8c9",
+        "benchmarks/report.py": "0468c21ad9cb93601c4e0908d3b595df2e6e6ba0bd8062983b583497d18595f7",
+        "benchmarks/rocksdb_compression.py": "77ccb60b7b72d08c71beadbd00c3ccb14f5432bd0bc52c43a05cdcbe39a810ce",
+        "benchmarks/run.py": "99ece4de5a7c03d7558648995bcc89f539ed576e9d1756d27018b07db47e3524",
+        "benchmarks/storage.py": "defec96a7c2ad7087facce0c2a56b4f96342fa2f45a0f334dae76ca7eb3bc18b",
+        "benchmarks/telemetry.py": "89f983c471f8b9b8cb954adcb4cd80e5630de575d8c08984dd5d575ceaca1a6e",
+        "benchmarks/write_diagnostics.py": "cd6b7ad6cf9e09e576adc9a51a613e911b9c66e6f31e826c7fa95cdbce12ae5c",
+        "compose.runner-2cpu.yaml": "18c0dd34334e244549f488638cfa944018344fbb9a6f2581d1fb6a97a8516e5a",
+        "compose.yaml": "a2328113c8aa13014f3515a2d220293e4e5f447442a57563d5964e4b31c3028a",
+        "docker/mariadb/Dockerfile": "fab6db18cb2c129a2d36bb9a5ada8d331b94c78ce2305c6ec6853f02570a7297",
+        "docker/mariadb/rocksdb.cnf": "99966bccc69a50f875957acab0a4ab2687cd4dce4125f97e6e5357e26dfd2f53",
+        "requirements.txt": "d6071e17a47537839ac0949799ffd203d0ad5dfc2494ac6fd8d7ee9d387ec749",
+        "sql/benchmark/aria.sql": "bd0684fa92e05b659b84311b5247e048253eca5a4eb88c46d3211cb75335cd50",
+        "sql/benchmark/innodb.sql": "23730188f1985a4c4a1f4c9af621978e730fc34da906a6a41b2425ed064fd2bf",
+        "sql/benchmark/memory.sql": "9da2ee0f952d6c2341ea9f970cc09a18ee1b92371911dda348cc41cb71d3f431",
+        "sql/benchmark/myisam.sql": "2fbcbcf43c63e5fca47fbb7d835b56f024aec752d295125e7cc08382bc477953",
+        "sql/benchmark/rocksdb.sql": "c40f21a5eeffd1b734b33343d8e6e86106b3b827161248ad78fc694f066bdf40"
+      },
+      "dataset_sha256": "656bde5443d0a2649107bbea1ddb94960b5fbed53592a4f772f73c5c8705df0a",
+      "crc32_sum": 528458485389,
+      "server_version": "11.8.9-MariaDB-ubu2404",
+      "rocksdb_settings": {
+        "rocksdb_access_hint_on_compaction_start": "1",
+        "rocksdb_advise_random_on_open": "ON",
+        "rocksdb_allow_concurrent_memtable_write": "OFF",
+        "rocksdb_allow_mmap_reads": "OFF",
+        "rocksdb_allow_mmap_writes": "OFF",
+        "rocksdb_allow_to_start_after_corruption": "OFF",
+        "rocksdb_blind_delete_primary_key": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_block_restart_interval": "16",
+        "rocksdb_block_size": "4096",
+        "rocksdb_block_size_deviation": "10",
+        "rocksdb_bulk_load": "OFF",
+        "rocksdb_bulk_load_allow_sk": "OFF",
+        "rocksdb_bulk_load_allow_unsorted": "OFF",
+        "rocksdb_bulk_load_size": "1000",
+        "rocksdb_bytes_per_sync": "0",
+        "rocksdb_cache_dump": "ON",
+        "rocksdb_cache_high_pri_pool_ratio": "0.000000",
+        "rocksdb_cache_index_and_filter_blocks": "ON",
+        "rocksdb_cache_index_and_filter_with_high_priority": "ON",
+        "rocksdb_checksums_pct": "100",
+        "rocksdb_collect_sst_properties": "ON",
+        "rocksdb_commit_in_the_middle": "OFF",
+        "rocksdb_commit_time_batch_for_recovery": "ON",
+        "rocksdb_compact_cf": "",
+        "rocksdb_compaction_readahead_size": "0",
+        "rocksdb_compaction_sequential_deletes": "0",
+        "rocksdb_compaction_sequential_deletes_count_sd": "OFF",
+        "rocksdb_compaction_sequential_deletes_file_size": "0",
+        "rocksdb_compaction_sequential_deletes_window": "0",
+        "rocksdb_create_checkpoint": "",
+        "rocksdb_create_if_missing": "ON",
+        "rocksdb_create_missing_column_families": "OFF",
+        "rocksdb_datadir": "./#rocksdb",
+        "rocksdb_db_write_buffer_size": "0",
+        "rocksdb_deadlock_detect": "OFF",
+        "rocksdb_deadlock_detect_depth": "50",
+        "rocksdb_debug_manual_compaction_delay": "0",
+        "rocksdb_debug_optimizer_no_zero_cardinality": "ON",
+        "rocksdb_debug_ttl_ignore_pk": "OFF",
+        "rocksdb_debug_ttl_read_filter_ts": "0",
+        "rocksdb_debug_ttl_rec_ts": "0",
+        "rocksdb_debug_ttl_snapshot_ts": "0",
+        "rocksdb_default_cf_options": "compression=kNoCompression;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_delayed_write_rate": "0",
+        "rocksdb_delete_cf": "",
+        "rocksdb_delete_obsolete_files_period_micros": "21600000000",
+        "rocksdb_enable_2pc": "ON",
+        "rocksdb_enable_bulk_load_api": "ON",
+        "rocksdb_enable_insert_with_update_caching": "ON",
+        "rocksdb_enable_thread_tracking": "ON",
+        "rocksdb_enable_ttl": "ON",
+        "rocksdb_enable_ttl_read_filtering": "ON",
+        "rocksdb_enable_write_thread_adaptive_yield": "OFF",
+        "rocksdb_error_if_exists": "OFF",
+        "rocksdb_error_on_suboptimal_collation": "ON",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_force_compute_memtable_stats": "ON",
+        "rocksdb_force_compute_memtable_stats_cachetime": "60000000",
+        "rocksdb_force_flush_memtable_and_lzero_now": "OFF",
+        "rocksdb_force_flush_memtable_now": "OFF",
+        "rocksdb_force_index_records_in_range": "0",
+        "rocksdb_git_hash": "79f08d7ffa6d34d9ca3357777bcb335884a56cfb",
+        "rocksdb_hash_index_allow_collision": "ON",
+        "rocksdb_ignore_datadic_errors": "0",
+        "rocksdb_ignore_unknown_options": "OFF",
+        "rocksdb_index_type": "kBinarySearch",
+        "rocksdb_info_log_level": "error_level",
+        "rocksdb_io_write_timeout": "0",
+        "rocksdb_is_fd_close_on_exec": "ON",
+        "rocksdb_keep_log_file_num": "1000",
+        "rocksdb_large_prefix": "OFF",
+        "rocksdb_lock_scanned_rows": "OFF",
+        "rocksdb_lock_wait_timeout": "1",
+        "rocksdb_log_dir": "",
+        "rocksdb_log_file_time_to_roll": "0",
+        "rocksdb_manifest_preallocation_size": "4194304",
+        "rocksdb_manual_compaction_threads": "0",
+        "rocksdb_manual_wal_flush": "ON",
+        "rocksdb_master_skip_tx_api": "OFF",
+        "rocksdb_max_background_jobs": "2",
+        "rocksdb_max_latest_deadlocks": "5",
+        "rocksdb_max_log_file_size": "0",
+        "rocksdb_max_manifest_file_size": "1073741824",
+        "rocksdb_max_manual_compactions": "10",
+        "rocksdb_max_open_files": "16093",
+        "rocksdb_max_row_locks": "1048576",
+        "rocksdb_max_subcompactions": "1",
+        "rocksdb_max_total_wal_size": "0",
+        "rocksdb_merge_buf_size": "67108864",
+        "rocksdb_merge_combine_read_size": "1073741824",
+        "rocksdb_merge_tmp_file_removal_delay_ms": "0",
+        "rocksdb_new_table_reader_for_compaction_inputs": "OFF",
+        "rocksdb_no_block_cache": "OFF",
+        "rocksdb_override_cf_options": "",
+        "rocksdb_paranoid_checks": "ON",
+        "rocksdb_pause_background_work": "OFF",
+        "rocksdb_perf_context_level": "0",
+        "rocksdb_persistent_cache_path": "",
+        "rocksdb_persistent_cache_size_mb": "0",
+        "rocksdb_pin_l0_filter_and_index_blocks_in_cache": "ON",
+        "rocksdb_print_snapshot_conflict_queries": "OFF",
+        "rocksdb_rate_limiter_bytes_per_sec": "0",
+        "rocksdb_records_in_range": "0",
+        "rocksdb_remove_mariabackup_checkpoint": "OFF",
+        "rocksdb_reset_stats": "OFF",
+        "rocksdb_rollback_on_timeout": "OFF",
+        "rocksdb_seconds_between_stat_computes": "3600",
+        "rocksdb_signal_drop_index_thread": "OFF",
+        "rocksdb_sim_cache_size": "0",
+        "rocksdb_skip_bloom_filter_on_read": "OFF",
+        "rocksdb_skip_fill_cache": "OFF",
+        "rocksdb_skip_unique_check_tables": ".*",
+        "rocksdb_sst_mgr_rate_bytes_per_sec": "0",
+        "rocksdb_stats_dump_period_sec": "600",
+        "rocksdb_stats_level": "1",
+        "rocksdb_stats_recalc_rate": "0",
+        "rocksdb_store_row_debug_checksums": "OFF",
+        "rocksdb_strict_collation_check": "ON",
+        "rocksdb_strict_collation_exceptions": "",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "rocksdb_table_cache_numshardbits": "6",
+        "rocksdb_table_stats_sampling_pct": "10",
+        "rocksdb_tmpdir": "",
+        "rocksdb_trace_sst_api": "OFF",
+        "rocksdb_two_write_queues": "ON",
+        "rocksdb_unsafe_for_binlog": "OFF",
+        "rocksdb_update_cf_options": "",
+        "rocksdb_use_adaptive_mutex": "OFF",
+        "rocksdb_use_clock_cache": "OFF",
+        "rocksdb_use_direct_io_for_flush_and_compaction": "OFF",
+        "rocksdb_use_direct_reads": "OFF",
+        "rocksdb_use_fsync": "OFF",
+        "rocksdb_validate_tables": "1",
+        "rocksdb_verify_row_debug_checksums": "OFF",
+        "rocksdb_wal_bytes_per_sync": "0",
+        "rocksdb_wal_dir": "",
+        "rocksdb_wal_recovery_mode": "1",
+        "rocksdb_wal_size_limit_mb": "0",
+        "rocksdb_wal_ttl_seconds": "0",
+        "rocksdb_whole_key_filtering": "ON",
+        "rocksdb_write_batch_max_bytes": "0",
+        "rocksdb_write_disable_wal": "OFF",
+        "rocksdb_write_ignore_missing_column_families": "OFF",
+        "rocksdb_write_policy": "write_committed"
+      },
+      "block_cache_bytes": 134217728,
+      "cf_options_before": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kNoCompression",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x5613338eac90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x5613338f9610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "global_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kNoCompression;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "session_variables": {
+        "aria_pagecache_buffer_size": "134217728",
+        "aria_recover_options": "BACKUP,QUICK",
+        "aria_used_for_temp_tables": "ON",
+        "autocommit": "ON",
+        "binlog_format": "ROW",
+        "innodb_buffer_pool_size": "134217728",
+        "innodb_file_per_table": "ON",
+        "innodb_flush_log_at_trx_commit": "1",
+        "key_buffer_size": "134217728",
+        "log_bin": "OFF",
+        "max_heap_table_size": "16777216",
+        "query_cache_size": "0",
+        "query_cache_type": "OFF",
+        "rocksdb_block_cache_size": "134217728",
+        "rocksdb_default_cf_options": "compression=kNoCompression;bottommost_compression=kDisableCompressionOption;write_buffer_size=16777216;disable_auto_compactions=true",
+        "rocksdb_flush_log_at_trx_commit": "1",
+        "rocksdb_supported_compression_types": "Snappy,Zlib,LZ4,LZ4HC,ZSTDNotFinal",
+        "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION",
+        "sync_binlog": "0",
+        "tmp_table_size": "16777216",
+        "tx_isolation": "REPEATABLE-READ",
+        "version": "11.8.9-MariaDB-ubu2404",
+        "version_comment": "mariadb.org binary distribution",
+        "version_compile_machine": "x86_64",
+        "version_compile_os": "debian-linux-gnu"
+      },
+      "actual_engine": "ROCKSDB",
+      "actual_ddl": "CREATE TABLE `compression_rows` (\n  `id` int(11) NOT NULL,\n  `payload` varbinary(1024) NOT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=ROCKSDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci",
+      "load_execute_seconds": 0.04167556500004821,
+      "load_with_generation_seconds": 0.04310570799998459,
+      "forced_flush_seconds": 0.004843521999987388,
+      "sst_before_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 267265,
+          "INDEX_BLOCK_SIZE": 1796,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "NoCompression",
+          "CREATION_TIME": 1793132930,
+          "FILE_CREATION_TIME": 1793132930,
+          "OLDEST_KEY_TIME": 1793132930,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "verified_rows": 256,
+      "warmup_ids": [
+        2,
+        145,
+        185,
+        166
+      ],
+      "lookup_ids": [
+        131,
+        196,
+        225,
+        139,
+        229,
+        127,
+        201,
+        43,
+        29,
+        237,
+        32,
+        210
+      ],
+      "lookup_ms": [
+        0.199371,
+        0.195224,
+        0.193521,
+        0.193591,
+        0.222785,
+        0.195815,
+        0.195745,
+        0.206003,
+        0.193531,
+        0.204531,
+        0.210221,
+        0.224478
+      ],
+      "scan_ms": [
+        0.398873
+      ],
+      "plans": {
+        "lookup": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "const",
+            "possible_keys": "PRIMARY",
+            "key": "PRIMARY",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": ""
+          }
+        ],
+        "scan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "compression_rows",
+            "type": "ALL",
+            "possible_keys": null,
+            "key": null,
+            "key_len": null,
+            "ref": null,
+            "rows": "256",
+            "Extra": ""
+          }
+        ]
+      },
+      "cf_options_after": {
+        "ARENA_BLOCK_SIZE": "0",
+        "BLOOM_LOCALITY": "0",
+        "BOTTOMMOST_COMPRESSION": "kDisableCompressionOption",
+        "COMPACTION_FILTER": "NULL",
+        "COMPACTION_FILTER_FACTORY": "Rdb_compact_filter_factory",
+        "COMPACTION_OPTIONS_UNIVERSAL": "{SIZE_RATIO=1; MIN_MERGE_WIDTH=2; MAX_MERGE_WIDTH=4294967295; MAX_SIZE_AMPLIFICATION_PERCENT=200; COMPRESSION_SIZE_PERCENT=-1; STOP_STYLE=kCompactionStopStyleTotalSize}",
+        "COMPACTION_OPTION_FIFO::MAX_TABLE_FILES_SIZE": "1073741824",
+        "COMPACTION_STYLE": "kCompactionStyleLevel",
+        "COMPARATOR": "RocksDB_SE_v3.10",
+        "COMPRESSION_OPTS": "-14:32767:0",
+        "COMPRESSION_PER_LEVEL": "NUL",
+        "COMPRESSION_TYPE": "kNoCompression",
+        "DISABLE_AUTO_COMPACTIONS": "ON",
+        "HARD_RATE_LIMIT": "0.000000",
+        "INPLACE_UPDATE_NUM_LOCKS": "ON",
+        "INPLACE_UPDATE_SUPPORT": "OFF",
+        "LEVEL0_FILE_NUM_COMPACTION_TRIGGER": "4",
+        "LEVEL0_SLOWDOWN_WRITES_TRIGGER": "20",
+        "LEVEL0_STOP_WRITES_TRIGGER": "36",
+        "LEVEL_COMPACTION_DYNAMIC_LEVEL_BYTES": "OFF",
+        "MAX_BYTES_FOR_LEVEL_BASE": "268435456",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER": "10.000000",
+        "MAX_BYTES_FOR_LEVEL_MULTIPLIER_ADDITIONAL": "1:1:1:1:1:1:1",
+        "MAX_MEM_COMPACTION_LEVEL": "0",
+        "MAX_SEQUENTIAL_SKIP_IN_ITERATIONS": "8",
+        "MAX_SUCCESSIVE_MERGES": "0",
+        "MAX_WRITE_BUFFER_NUMBER": "2",
+        "MEMTABLE_FACTORY": "SkipListFactory",
+        "MEMTABLE_PREFIX_BLOOM_BITS_RATIO": "0.000000",
+        "MEMTABLE_PREFIX_BLOOM_HUGE_PAGE_TLB_SIZE": "0",
+        "MERGE_OPERATOR": "NULL",
+        "MIN_WRITE_BUFFER_NUMBER_TO_MERGE": "1",
+        "NUM_LEVELS": "7",
+        "OPTIMIZE_FILTERS_FOR_HITS": "OFF",
+        "PREFIX_EXTRACTOR": "NULL",
+        "PURGE_REDUNDANT_KVS_WHILE_FLUSH": "ON",
+        "RATE_LIMIT_DELAY_MAX_MILLISECONDS": "100",
+        "SOFT_RATE_LIMIT": "0.000000",
+        "TABLE_FACTORY::BLOCK_ALIGN": "0",
+        "TABLE_FACTORY::BLOCK_CACHE": "0x5613338eac90",
+        "TABLE_FACTORY::BLOCK_CACHE_COMPRESSED": "(nil)",
+        "TABLE_FACTORY::BLOCK_CACHE_NAME": "LRUCache",
+        "TABLE_FACTORY::BLOCK_CACHE_OPTIONS": "",
+        "TABLE_FACTORY::BLOCK_RESTART_INTERVAL": "16",
+        "TABLE_FACTORY::BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::BLOCK_SIZE_DEVIATION": "10",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS": "1",
+        "TABLE_FACTORY::CACHE_INDEX_AND_FILTER_BLOCKS_WITH_HIGH_PRIORITY": "1",
+        "TABLE_FACTORY::CAPACITY": "134217728",
+        "TABLE_FACTORY::CHECKSUM": "1",
+        "TABLE_FACTORY::DATA_BLOCK_HASH_TABLE_UTIL_RATIO": "0.750000",
+        "TABLE_FACTORY::DATA_BLOCK_INDEX_TYPE": "0",
+        "TABLE_FACTORY::ENABLE_INDEX_COMPRESSION": "1",
+        "TABLE_FACTORY::FILTER_POLICY": "nullptr",
+        "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY": "FlushBlockBySizePolicyFactory(0x5613338f9610)",
+        "TABLE_FACTORY::FORMAT_VERSION": "2",
+        "TABLE_FACTORY::HASH_INDEX_ALLOW_COLLISION": "1",
+        "TABLE_FACTORY::HIGH_PRI_POOL_RATIO": "0.000",
+        "TABLE_FACTORY::INDEX_BLOCK_RESTART_INTERVAL": "1",
+        "TABLE_FACTORY::INDEX_SHORTENING": "1",
+        "TABLE_FACTORY::INDEX_TYPE": "0",
+        "TABLE_FACTORY::MAX_AUTO_READAHEAD_SIZE": "262144",
+        "TABLE_FACTORY::MEMORY_ALLOCATOR": "None",
+        "TABLE_FACTORY::METADATA_BLOCK_SIZE": "4096",
+        "TABLE_FACTORY::NO_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::NUM_SHARD_BITS": "6",
+        "TABLE_FACTORY::PARTITION_FILTERS": "0",
+        "TABLE_FACTORY::PERSISTENT_CACHE": "(nil)",
+        "TABLE_FACTORY::PIN_L0_FILTER_AND_INDEX_BLOCKS_IN_CACHE": "1",
+        "TABLE_FACTORY::PIN_TOP_LEVEL_INDEX_AND_FILTER": "1",
+        "TABLE_FACTORY::PREPOPULATE_BLOCK_CACHE": "0",
+        "TABLE_FACTORY::READ_AMP_BYTES_PER_BIT": "0",
+        "TABLE_FACTORY::STRICT_CAPACITY_LIMIT": "0",
+        "TABLE_FACTORY::USE_DELTA_ENCODING": "1",
+        "TABLE_FACTORY::VERIFY_COMPRESSION": "0",
+        "TABLE_FACTORY::WHOLE_KEY_FILTERING": "1",
+        "TARGET_FILE_SIZE_BASE": "67108864",
+        "TARGET_FILE_SIZE_MULTIPLIER": "1",
+        "WRITE_BUFFER_SIZE": "16777216"
+      },
+      "sst_after_reads": [
+        {
+          "SST_NAME": "000029.sst",
+          "COLUMN_FAMILY": 0,
+          "DATA_BLOCKS": 64,
+          "ENTRIES": 256,
+          "RAW_KEY_SIZE": 4096,
+          "RAW_VALUE_SIZE": 262656,
+          "DATA_BLOCK_SIZE": 267265,
+          "INDEX_BLOCK_SIZE": 1796,
+          "INDEX_PARTITIONS": 0,
+          "TOP_LEVEL_INDEX_SIZE": 0,
+          "FILTER_BLOCK_SIZE": 0,
+          "COMPRESSION_ALGO": "NoCompression",
+          "CREATION_TIME": 1793132930,
+          "FILE_CREATION_TIME": 1793132930,
+          "OLDEST_KEY_TIME": 1793132930,
+          "FILTER_POLICY": "",
+          "COMPRESSION_OPTIONS": "window_bits=-14; level=32767; strategy=0; max_dict_bytes=0; zstd_max_train_bytes=0; enabled=0; max_dict_buffer_bytes=0; "
+        }
+      ],
+      "position": 4,
+      "project": "cu-compression-5e0ab4da6fc1433284e818001260399e-4",
+      "images": {
+        "db": {
+          "id": "sha256:ab755e1444392b056aecca2cb54fac909b441d1f68f68ce5fe66500f12e6b0a5",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "runner": {
+          "id": "sha256:65737813118b9e19bac89f050acce6e17374a3ecfbe90a8724771a3c6e93831b",
+          "os": "linux",
+          "architecture": "amd64"
+        }
+      },
+      "clean_stop": {
+        "Status": "exited",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "FinishedAt": "2026-10-27T20:28:50.571159994Z"
+      },
+      "sst_inventory": [
+        {
+          "name": "000011.sst",
+          "bytes": 1152,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000020.sst",
+          "bytes": 1152,
+          "allocated_bytes": 4096
+        },
+        {
+          "name": "000029.sst",
+          "bytes": 270125,
+          "allocated_bytes": 270336
+        },
+        {
+          "name": "000030.sst",
+          "bytes": 1667,
+          "allocated_bytes": 4096
+        }
+      ],
+      "table_sst": {
+        "files": [
+          {
+            "name": "000029.sst",
+            "bytes": 270125,
+            "allocated_bytes": 270336
+          }
+        ],
+        "bytes": 270125,
+        "allocated_bytes": 270336
+      },
+      "resource_cleanup": {
+        "inventory_removed": true,
+        "worker_removed": true,
+        "db_removed": true,
+        "volume_removed": true
+      }
+    }
+  ],
+  "host_platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "host_machine": "x86_64",
+  "host_python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "docker": {
+    "os": "linux",
+    "architecture": "x86_64",
+    "version": "28.0.4",
+    "kernel": "6.17.0-1022-azure",
+    "cpus": 4,
+    "memory_bytes": 16766414848
+  },
+  "docker_endpoint_kind": "unix",
+  "git_commit": "4224b8e90bbec6fb846e5ad9b71e4eacff14a834",
+  "git_tracked_changes": false,
+  "source_sha256": {
+    "scripts/run_rocksdb_compression.py": "1752ead5158c1ad5e6a442d27b77db62a359c2056e249aed6d12f2f972de9c08",
+    "benchmarks/rocksdb_compression.py": "77ccb60b7b72d08c71beadbd00c3ccb14f5432bd0bc52c43a05cdcbe39a810ce",
+    "benchmarks/core.py": "0c1e66874e5119252769eedf8a213323cc599d42f9a12c425e986916705aac8d",
+    "benchmarks/run.py": "99ece4de5a7c03d7558648995bcc89f539ed576e9d1756d27018b07db47e3524",
+    "Dockerfile": "0bb23f4b0c240ef1b03bc217bf206f248a0776d27c7cf3e8b392ca9bca5f549f",
+    "requirements.txt": "d6071e17a47537839ac0949799ffd203d0ad5dfc2494ac6fd8d7ee9d387ec749",
+    "docker/mariadb/Dockerfile": "fab6db18cb2c129a2d36bb9a5ada8d331b94c78ce2305c6ec6853f02570a7297",
+    "docker/mariadb/rocksdb.cnf": "99966bccc69a50f875957acab0a4ab2687cd4dce4125f97e6e5357e26dfd2f53"
+  },
+  "expected_data": {
+    "compressible": {
+      "dataset_sha256": "4f466c6916747404b1e5865a9d847a43b5d7e793eedfabae6b226b79b6f9942c",
+      "crc32_sum": 547786488677
+    },
+    "random": {
+      "dataset_sha256": "656bde5443d0a2649107bbea1ddb94960b5fbed53592a4f772f73c5c8705df0a",
+      "crc32_sum": 528458485389
+    }
+  },
+  "images": {
+    "db": {
+      "id": "sha256:ab755e1444392b056aecca2cb54fac909b441d1f68f68ce5fe66500f12e6b0a5",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    "runner": {
+      "id": "sha256:65737813118b9e19bac89f050acce6e17374a3ecfbe90a8724771a3c6e93831b",
+      "os": "linux",
+      "architecture": "amd64"
+    }
+  },
+  "statistics": {
+    "compressible": {
+      "none": {
+        "sst_bytes": {
+          "n": 1,
+          "mean": 270125,
+          "median": 270125,
+          "sample_sd": null,
+          "min": 270125,
+          "max": 270125,
+          "p95_nearest_rank": 270125
+        },
+        "load_execute_seconds": {
+          "n": 1,
+          "mean": 0.005792993000000024,
+          "median": 0.005792993000000024,
+          "sample_sd": null,
+          "min": 0.005792993000000024,
+          "max": 0.005792993000000024,
+          "p95_nearest_rank": 0.005792993000000024
+        },
+        "forced_flush_seconds": {
+          "n": 1,
+          "mean": 0.0035121140000171636,
+          "median": 0.0035121140000171636,
+          "sample_sd": null,
+          "min": 0.0035121140000171636,
+          "max": 0.0035121140000171636,
+          "p95_nearest_rank": 0.0035121140000171636
+        },
+        "lookup_ms": {
+          "n": 1,
+          "mean": 0.20185941666666668,
+          "median": 0.20185941666666668,
+          "sample_sd": null,
+          "min": 0.20185941666666668,
+          "max": 0.20185941666666668,
+          "p95_nearest_rank": 0.20185941666666668
+        },
+        "scan_ms": {
+          "n": 1,
+          "mean": 0.393994,
+          "median": 0.393994,
+          "sample_sd": null,
+          "min": 0.393994,
+          "max": 0.393994,
+          "p95_nearest_rank": 0.393994
+        }
+      },
+      "zstd": {
+        "sst_bytes": {
+          "n": 1,
+          "mean": 13762,
+          "median": 13762,
+          "sample_sd": null,
+          "min": 13762,
+          "max": 13762,
+          "p95_nearest_rank": 13762
+        },
+        "load_execute_seconds": {
+          "n": 1,
+          "mean": 0.00585998600001858,
+          "median": 0.00585998600001858,
+          "sample_sd": null,
+          "min": 0.00585998600001858,
+          "max": 0.00585998600001858,
+          "p95_nearest_rank": 0.00585998600001858
+        },
+        "forced_flush_seconds": {
+          "n": 1,
+          "mean": 0.003562404000007291,
+          "median": 0.003562404000007291,
+          "sample_sd": null,
+          "min": 0.003562404000007291,
+          "max": 0.003562404000007291,
+          "p95_nearest_rank": 0.003562404000007291
+        },
+        "lookup_ms": {
+          "n": 1,
+          "mean": 0.14748191666666666,
+          "median": 0.14748191666666666,
+          "sample_sd": null,
+          "min": 0.14748191666666666,
+          "max": 0.14748191666666666,
+          "p95_nearest_rank": 0.14748191666666666
+        },
+        "scan_ms": {
+          "n": 1,
+          "mean": 0.347867,
+          "median": 0.347867,
+          "sample_sd": null,
+          "min": 0.347867,
+          "max": 0.347867,
+          "p95_nearest_rank": 0.347867
+        }
+      }
+    },
+    "random": {
+      "none": {
+        "sst_bytes": {
+          "n": 1,
+          "mean": 270125,
+          "median": 270125,
+          "sample_sd": null,
+          "min": 270125,
+          "max": 270125,
+          "p95_nearest_rank": 270125
+        },
+        "load_execute_seconds": {
+          "n": 1,
+          "mean": 0.04167556500004821,
+          "median": 0.04167556500004821,
+          "sample_sd": null,
+          "min": 0.04167556500004821,
+          "max": 0.04167556500004821,
+          "p95_nearest_rank": 0.04167556500004821
+        },
+        "forced_flush_seconds": {
+          "n": 1,
+          "mean": 0.004843521999987388,
+          "median": 0.004843521999987388,
+          "sample_sd": null,
+          "min": 0.004843521999987388,
+          "max": 0.004843521999987388,
+          "p95_nearest_rank": 0.004843521999987388
+        },
+        "lookup_ms": {
+          "n": 1,
+          "mean": 0.20290133333333332,
+          "median": 0.20290133333333332,
+          "sample_sd": null,
+          "min": 0.20290133333333332,
+          "max": 0.20290133333333332,
+          "p95_nearest_rank": 0.20290133333333332
+        },
+        "scan_ms": {
+          "n": 1,
+          "mean": 0.398873,
+          "median": 0.398873,
+          "sample_sd": null,
+          "min": 0.398873,
+          "max": 0.398873,
+          "p95_nearest_rank": 0.398873
+        }
+      },
+      "zstd": {
+        "sst_bytes": {
+          "n": 1,
+          "mean": 268927,
+          "median": 268927,
+          "sample_sd": null,
+          "min": 268927,
+          "max": 268927,
+          "p95_nearest_rank": 268927
+        },
+        "load_execute_seconds": {
+          "n": 1,
+          "mean": 0.03634037800003398,
+          "median": 0.03634037800003398,
+          "sample_sd": null,
+          "min": 0.03634037800003398,
+          "max": 0.03634037800003398,
+          "p95_nearest_rank": 0.03634037800003398
+        },
+        "forced_flush_seconds": {
+          "n": 1,
+          "mean": 0.004589000000009946,
+          "median": 0.004589000000009946,
+          "sample_sd": null,
+          "min": 0.004589000000009946,
+          "max": 0.004589000000009946,
+          "p95_nearest_rank": 0.004589000000009946
+        },
+        "lookup_ms": {
+          "n": 1,
+          "mean": 0.16778775,
+          "median": 0.16778775,
+          "sample_sd": null,
+          "min": 0.16778775,
+          "max": 0.16778775,
+          "p95_nearest_rank": 0.16778775
+        },
+        "scan_ms": {
+          "n": 1,
+          "mean": 0.352236,
+          "median": 0.352236,
+          "sample_sd": null,
+          "min": 0.352236,
+          "max": 0.352236,
+          "p95_nearest_rank": 0.352236
+        }
+      }
+    }
+  },
+  "commands_sha256": "dae533926a920b439463ac3bdebe7b7d04260fa2ae7b421c6ae59b7358237415"
+}
+COMPRESSION_VALIDATION_JSON_END
+# MyRocks compression: smoke
+
+Run: 20261027T202811Z-rocksdb-compression-5e0ab4da
+Mean ± sample SD across trial/round means; pilot/smoke supports no ranking.
+
+| Data | Codec | SST MiB | Insert execute s | Forced flush s | Lookup ms | CRC32 scan ms |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| compressible | none | 0.2576 ± n/a | 0.0058 ± n/a | 0.0035 ± n/a | 0.2019 ± n/a | 0.3940 ± n/a |
+| compressible | zstd | 0.0131 ± n/a | 0.0059 ± n/a | 0.0036 ± n/a | 0.1475 ± n/a | 0.3479 ± n/a |
+| random | none | 0.2576 ± n/a | 0.0417 ± n/a | 0.0048 ± n/a | 0.2029 ± n/a | 0.3989 ± n/a |
+| random | zstd | 0.2565 ± n/a | 0.0363 ± n/a | 0.0046 ± n/a | 0.1678 ± n/a | 0.3522 ± n/a |
+
+Fresh database volume per trial; actual column-family and SST codec checked.
+SST bytes are table-mapped file lengths from a read-only mount after a verified clean stop.
+Automatic compaction is disabled in both treatments: this is a bounded flush-only study.
+Reads follow full row verification and warmups; timings include client/network and CRC32 work.
+Synthetic data, one engine and a 64 MiB full-run payload: no cold-cache, physical-SSD,
+steady-state compaction, server-CPU isolation or five-engine ranking claim.
+See docs/rocksdb-compression-method.md.
+
+Saved: /home/runner/work/CU-Databases-Project/CU-Databases-Project/results/20261027T202811Z-rocksdb-compression-5e0ab4da
+##[group]Run docker compose -p "$CI_PROJECT" down --volumes --remove-orphans
+[36;1mdocker compose -p "$CI_PROJECT" down --volumes --remove-orphans[0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  CI_PROJECT: cu-ci-40577805344-1
+##[endgroup]
+ Container cu-ci-40577805344-1-db-1  Stopping
+ Container cu-ci-40577805344-1-db-1  Stopped
+ Container cu-ci-40577805344-1-db-1  Removing
+ Container cu-ci-40577805344-1-db-1  Removed
+ Volume cu-ci-40577805344-1_db_data  Removing
+ Network cu-ci-40577805344-1_default  Removing
+ Volume cu-ci-40577805344-1_db_data  Removed
+ Network cu-ci-40577805344-1_default  Removed
