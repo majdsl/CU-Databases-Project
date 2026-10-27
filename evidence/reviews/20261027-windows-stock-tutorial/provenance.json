@@ -1,0 +1,142 @@
+{
+  "review_date": "2026-10-27",
+  "source": "Owner-uploaded stock-tutorial-windows.zip from a Windows PowerShell invocation",
+  "run_directory": "20261027T145000Z-cu-stock-66441a85eb19",
+  "source_commit_recorded_after_run": "e6767a5c14c862d686bcd9adda0945103db2d556",
+  "validation_commit_field": null,
+  "uploaded_zip_sha256": "9dcd1c65d42f19db4f15115f69cb13fd91b9c4f9e6721b8e147e9951c8b42fcf",
+  "archive_policy": "Published commands.json and transcript.txt replace the absolute Windows host project mount path with <PROJECT_DIR>/sql/tutorial. Their other bytes, including CRLF, are preserved. validation.json and source-commit.txt are unchanged. The uploaded ZIP and unredacted command/transcript recordings are excluded from publication. The owner recorded source-commit.txt after the run; no Git working-tree status was supplied.",
+  "files": [
+    {
+      "zip_member": "20261027T145000Z-cu-stock-66441a85eb19\\commands.json",
+      "file": "commands.json",
+      "original_bytes": 62793,
+      "original_sha256": "c8890afce45474d8f2ba60495048949b13cbec0776eaf05eace2b0c764eda9e6",
+      "published_bytes": 62766,
+      "published_sha256": "2e4d0e025d88483c28f943b60a148e6af2895902ca7191b196bf30a343687842",
+      "path_redactions": 1
+    },
+    {
+      "zip_member": "20261027T145000Z-cu-stock-66441a85eb19\\source-commit.txt",
+      "file": "source-commit.txt",
+      "original_bytes": 42,
+      "original_sha256": "fa79080e7082d62f3e161fb641a88545b144a62aafef200049efded0a8fa3043",
+      "published_bytes": 42,
+      "published_sha256": "fa79080e7082d62f3e161fb641a88545b144a62aafef200049efded0a8fa3043",
+      "path_redactions": 0
+    },
+    {
+      "zip_member": "20261027T145000Z-cu-stock-66441a85eb19\\transcript.txt",
+      "file": "transcript.txt",
+      "original_bytes": 59359,
+      "original_sha256": "0c3f0200bd9ac4fd1dc8a4bf28ef75aa0134e76648d22192e2245ef9dd79c389",
+      "published_bytes": 59332,
+      "published_sha256": "e02a9771e8127218d8d253d6644e33e4cca4a0c3572c21c8db1fbf402ab4f861",
+      "path_redactions": 1
+    },
+    {
+      "zip_member": "20261027T145000Z-cu-stock-66441a85eb19\\validation.json",
+      "file": "validation.json",
+      "original_bytes": 5982,
+      "original_sha256": "98096a838bb5b98a21c5b9730bc1e67c1b9e61d462305e960451e9a02dc83cd3",
+      "published_bytes": 5982,
+      "published_sha256": "98096a838bb5b98a21c5b9730bc1e67c1b9e61d462305e960451e9a02dc83cd3",
+      "path_redactions": 0
+    }
+  ],
+  "source_identity": [
+    {
+      "path": "scripts/check_stock_tutorial.py",
+      "git_blob_sha": "f3989b6d13b00fd93c089a61f0499494bcc4e803",
+      "git_lf_sha256": "19ed2f24688d4b25d5a753953eb46b49dfe9707967185cdb66a8472a2bed45e3",
+      "windows_crlf_sha256": "0a52d402d1a09afb91e0801a5b369f4e7f802e22bd64f8844c3d325b637f6a31",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": "scripts/tutorial_checks.py",
+      "git_blob_sha": "772b97c83ffc652e923537529c1f99108c73448c",
+      "git_lf_sha256": "1f43308cb7ad4eae1bca6144ac90720c530fa8e47d3221ab8b56c0884cc27e93",
+      "windows_crlf_sha256": "1201f857a34e9e68f9e15ee65dc1dd478586748254eec694796090ef99e7b14c",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": ".github/workflows/correctness.yml",
+      "git_blob_sha": "ef57ff6539aa10e6bcf581134620d3ea1e541c41",
+      "git_lf_sha256": "60cc3b8b75e31c299b6fc7732c9da2c01e252147c35f938b6907b8efbaec665f",
+      "windows_crlf_sha256": "0854d66d8cb5bb0d17512dcad0a586357c7103ff2b185ef1bdcd4e3633bd3671",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": "sql/tutorial/01-create-tables.sql",
+      "git_blob_sha": "36f265b925f8a8b936a7a2cada4fd04814e49f3e",
+      "git_lf_sha256": "e1a09e3d3a18e3b6ac4dd965bf62c9e7e196ea2f694d1e901f288f318518f6ad",
+      "windows_crlf_sha256": "ee79c37ef78f764e8852c2ccf224e6cbb32cdcac8b6923259cd4f1117bfa6f5e",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": "sql/tutorial/03-compare.sql",
+      "git_blob_sha": "a583b1b56c9f886a3e47b122490b2e94cbb5a712",
+      "git_lf_sha256": "b739e0db93cb6320cf2ff6c519b0ae7ade31bbbfcddd84e2997fcdc4375e8a21",
+      "windows_crlf_sha256": "71a93554fb75e49990f77cfc952460c850eb28a661c71d7105213867a415446b",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": "sql/tutorial/04-index-types.sql",
+      "git_blob_sha": "81d41fb566f465a5c7de345de797283868570efc",
+      "git_lf_sha256": "f2e8bd61f16111fefc3a886c17bf4dac9159ae26a81967d484d8f52ec35290ce",
+      "windows_crlf_sha256": "cffa20867e732a066ea2dbd9ce0380c0275ce34ac157d28acb6e73bc86dfac88",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": "sql/tutorial/05-lock-demo.sql",
+      "git_blob_sha": "f6d0b88138ed87260403b56a7ad9065d30eee9c0",
+      "git_lf_sha256": "4c808f630c84103f0e8c1165c4185408b28df6e7ed4f3846edecf1db656bf8db",
+      "windows_crlf_sha256": "e17541b04e340d13772f8433ed5b82022f26e5200bf9b4e0b8b3a45638144fd2",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": "sql/tutorial/06-after-restart.sql",
+      "git_blob_sha": "4d042bc27f106a03f781374379e3a8d4dbfaf233",
+      "git_lf_sha256": "47d3607e153bcab559961f1a8d705272d2db44f7bb8fb86711bbaae0503f2f0e",
+      "windows_crlf_sha256": "64c73e3a40aa5f21a7ea3d4beb545cc05e0f1ec15b43f0e7bbb728eb70fe487a",
+      "matches_git_after_lf_to_crlf": true
+    },
+    {
+      "path": "sql/tutorial/99-cleanup.sql",
+      "git_blob_sha": "fc5dc692bd53001267d8e70c44de863164bfc4d8",
+      "git_lf_sha256": "688aaf75124e4b884555b148ea8d7587405148a0e6daef7af50f335118395283",
+      "windows_crlf_sha256": "45d53a4523e08b8864bf94f2c02d30f1b7c94ada2c4f62dc3e158dca4ba0b797",
+      "matches_git_after_lf_to_crlf": true
+    }
+  ],
+  "verification": {
+    "command_records": 119,
+    "transcript_matches_commands": true,
+    "transcript_validation_matches_json": true,
+    "expected_rejected_sql_inputs": 6,
+    "unexpected_command_failures": 0,
+    "all_recorded_sources_match_commit_with_crlf": true,
+    "cleanup": {
+      "container_removed": true,
+      "volume_removed": true
+    },
+    "published_transcript_matches_published_commands": true,
+    "published_validation_unchanged": true
+  },
+  "scope": "Windows Python 3.10.11 CLI with Docker Desktop/WSL2 Linux amd64, stock four-engine tutorial correctness; not a manual interactive SQL walkthrough or second-machine performance reproduction.",
+  "privacy_redaction": {
+    "owner_approved": true,
+    "date": "2026-10-27",
+    "hidden_information": [
+      "Windows username",
+      "absolute host project path"
+    ],
+    "placeholder": "<PROJECT_DIR>/sql/tutorial",
+    "replacements": {
+      "commands.json": 1,
+      "transcript.txt": 1
+    },
+    "original_upload_published": false,
+    "results_and_source_fingerprints_preserved": true
+  }
+}

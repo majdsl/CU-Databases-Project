@@ -1,13 +1,15 @@
-# Stock-MariaDB tutorial: native platform validation
+# Stock-MariaDB tutorial: platform validation
 
 **Validated October 27, 2026:** the four-engine stock-image tutorial passed on
-native Linux amd64 and ARM64 GitHub runners. It uses the official MariaDB 11.8.9
+native Linux amd64 and ARM64 GitHub runners, and from Windows PowerShell with
+Docker Desktop's WSL2 Linux amd64 engine. It uses the official MariaDB 11.8.9
 image, independently of the custom MyRocks lab build.
 
 | Platform | Host machine | Server version | Result |
 | --- | --- | --- | --- |
 | Linux amd64 | `x86_64` | `11.8.9-MariaDB-ubu2404` | All checks passed; owned container/volume removed |
 | Linux ARM64 | `aarch64` | `11.8.9-MariaDB-ubu2404` | All checks passed; owned container/volume removed |
+| Windows PowerShell / Docker Desktop WSL2 | `AMD64` host; Linux amd64 engine | `11.8.9-MariaDB-ubu2404` | All checks passed; owned container/volume removed |
 
 The [archived commands, validation JSON and transcripts](../evidence/reviews/20261027-stock-tutorial-ci/README.md)
 come from [PR run 40421200797](https://github.com/majdsl/CU-Databases-Project/actions/runs/40421200797),
@@ -15,6 +17,16 @@ source head `ed7ee7a1f754e085f33d4327a2cd3c1f73741bd6`, tested merge revision
 `9d8509de9edd8daa76bba80aed34a642c6250260`. Both jobs verified native host/Docker/image
 architecture agreement. The workflow continues checking both platforms on pushes,
 pull requests and manual dispatch.
+
+The [Windows archive](../evidence/reviews/20261027-windows-stock-tutorial/README.md)
+comes from the owner's existing checkout at recorded commit
+`e6767a5c14c862d686bcd9adda0945103db2d556`, using Python 3.10.11 and Docker 29.8.0.
+All 119 command records, validation JSON and the saved transcript agree. The nine
+recorded source hashes match that commit with Windows CRLF line endings; provenance
+preserves both source hash forms and records original/published file hashes.
+The public command/transcript copies mask the Windows username and absolute project
+path; observations and validation are unchanged. The commit was recorded after
+the run; the original local validation's `commit` field remains null.
 
 ## Reproduce from a clean checkout
 
@@ -60,17 +72,19 @@ Both jobs selected the same official multi-platform index:
 mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
 ```
 
-Its amd64 image ID was `sha256:cc7f5fdd7c8fff6867e8ac4df3e7e0faf6c56aebe621a13565479a9a94e4bf13`;
+The Linux CI amd64 image ID was `sha256:cc7f5fdd7c8fff6867e8ac4df3e7e0faf6c56aebe621a13565479a9a94e4bf13`;
 the ARM64 ID was `sha256:3853ff4da2eb76058a3a112ae8026e5a094990c5341f1aedd76a903fd171176e`.
 Different platform images are expected under one index. The full selected metadata
-and common SQL hashes are preserved in each platform's JSON record.
+and common SQL hashes are preserved in each platform's JSON record, including the
+metadata returned by Docker Desktop in the Windows run.
 
 The database runs with a two-CPU/1-GiB cap and no network or published port. This
 is a repeatable correctness demonstration. Its one-second writer calls and timings
 are not a comparison of CPU architectures, an engine ranking or a second-laptop
-performance replication. Windows Docker Desktop and interactive PowerShell/macOS
-steps have not been independently reproduced by these Linux jobs. The custom
-five-engine build remains verified only on amd64; Path B deliberately uses four engines.
+performance replication. The Windows record validates the Python CLI with Docker
+Desktop's Linux containers in an existing checkout. Interactive SQL walkthroughs,
+fresh Windows setup-wrapper installation and macOS remain separate from this check.
+The custom five-engine build remains verified only on amd64; Path B deliberately uses four engines.
 
 References: [GitHub standard runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners),
 [MariaDB image healthcheck](https://mariadb.com/docs/server/server-management/automated-mariadb-deployment-and-administration/docker-and-mariadb/using-healthcheck-sh),

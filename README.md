@@ -61,10 +61,10 @@ were similar. This is a scoped mechanism result, not a new five-engine ranking.
 
 **Hands-on tutorial:** Follow the [storage-engine tutorial](docs/tutorial.md) to create tables on five engines, compare their behavior, and test locking and restart persistence.
 
-For a separate four-engine stock-image check on Linux amd64 or ARM64, run
+For a separate four-engine stock-image check, run
 `python scripts/check_stock_tutorial.py` after cloning (use `python3` on Linux).
 It creates and removes its own temporary database and saves a validation transcript.
-See [Path B and the native-platform validation](docs/stock-tutorial-validation.md).
+See [Path B validation on native Linux amd64/ARM64 and Windows Docker Desktop](docs/stock-tutorial-validation.md).
 
 To explore without installing anything, read the [full OpenFlights summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
 and [findings](docs/openflights-findings.md), then the [decision guide](docs/engine-recommendations.md).

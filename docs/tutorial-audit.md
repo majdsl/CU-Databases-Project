@@ -6,6 +6,8 @@ correctness path in CI. Earlier counts and run links below remain historical
 snapshots. The [35/40 practice response and follow-up](evaluation-follow-up.md) are
 now archived. The [stock-image tutorial](stock-tutorial-validation.md) now has
 successful native Linux amd64 and ARM64 jobs and permanent command transcripts.
+The [Windows Python CLI record](../evidence/reviews/20261027-windows-stock-tutorial/README.md)
+also passed with Docker Desktop/WSL2 Linux amd64 in the owner's existing checkout.
 Evaluated revision/tool context and interactive Windows/macOS reproduction remain open.
 
 This is a documentation and source-consistency audit, not an evaluator grade or a new
@@ -126,3 +128,10 @@ tested source/merge revisions and both successful jobs. Five new offline guard t
 also pass normally and with optimized Python. No benchmark data or tutorial SQL was
 changed. This is native-platform correctness evidence; interactive Windows/macOS
 walkthroughs and second-host performance replication remain outside the record.
+
+The owner then ran the same stock driver from Windows PowerShell with Python
+3.10.11 and Docker Desktop/WSL2 Linux amd64. The [uploaded evidence](../evidence/reviews/20261027-windows-stock-tutorial/README.md)
+preserves all 119 command records, validation, transcript and the separately recorded
+`e6767a5` commit. Nine source hashes match that revision with CRLF line endings.
+This validates the Windows Python CLI in the existing checkout; the manual SQL
+walkthrough and fresh Windows setup-wrapper installation remain separate.
