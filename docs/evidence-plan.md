@@ -4,7 +4,8 @@ Status reviewed October 27, 2026, including the confirmed team roster, hands-on 
 and verified OpenFlights, storage/recovery,
 MEMORY index, InnoDB cache-pressure and server CPU/lock-wait evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking. The separate
-stock-image tutorial now has archived native Linux amd64 and ARM64 correctness checks.
+stock-image tutorial now has archived native Linux amd64/ARM64 and Windows Python
+CLI with Docker Desktop/WSL2 correctness checks.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
@@ -185,5 +186,9 @@ The [archived records](../evidence/reviews/20261027-stock-tutorial-ci/README.md)
 the actual commands, image IDs, source hashes and tested revision. Five new guard
 tests pass normally and under optimized Python; the offline suite totals seven.
 All original benchmark evidence and tutorial SQL files are unchanged. This resolves
-stock-image/native-ARM correctness validation, while interactive Windows/macOS
-walkthroughs and controlled second-host performance measurements remain separate.
+stock-image/native-ARM correctness validation. The owner's subsequent
+[Windows Python CLI run](../evidence/reviews/20261027-windows-stock-tutorial/README.md)
+also passed on Docker Desktop/WSL2 Linux amd64, with 119 command records and nine
+source hashes checked against recorded commit `e6767a5` after CRLF conversion.
+Interactive Windows/macOS walkthroughs, a fresh Windows setup-wrapper installation
+and controlled second-host performance measurements remain separate.

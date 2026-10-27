@@ -1,0 +1,1956 @@
+[
+  {
+    "number": 1,
+    "argv": [
+      "docker",
+      "info",
+      "--format",
+      "{\"os\":\"{{.OSType}}\",\"architecture\":\"{{.Architecture}}\",\"version\":\"{{.ServerVersion}}\",\"kernel\":\"{{.KernelVersion}}\",\"cpus\":{{.NCPU}},\"memory_bytes\":{{.MemTotal}}}"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "{\"os\":\"linux\",\"architecture\":\"x86_64\",\"version\":\"29.8.0\",\"kernel\":\"6.18.54.1-microsoft-standard-WSL2\",\"cpus\":12,\"memory_bytes\":7999373312}\n",
+    "stderr": "",
+    "elapsed_seconds": 0.656
+  },
+  {
+    "number": 2,
+    "argv": [
+      "docker",
+      "container",
+      "ls",
+      "-a",
+      "--filter",
+      "name=^/cu-stock-66441a85eb19-db$",
+      "--format",
+      "{{.ID}}"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "elapsed_seconds": 7.141
+  },
+  {
+    "number": 3,
+    "argv": [
+      "docker",
+      "volume",
+      "ls",
+      "--format",
+      "{{.Name}}"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "9b4c3a5bc543e40e180887a0835d0173a90382fe28c2a70ee9e2aee8a037b0b6\ncu-engine-lab_db_data\n",
+    "stderr": "",
+    "elapsed_seconds": 0.109
+  },
+  {
+    "number": 4,
+    "argv": [
+      "docker",
+      "pull",
+      "mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112: Pulling from library/mariadb\nDigest: sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112\nStatus: Image is up to date for mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112\ndocker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112\n",
+    "stderr": "",
+    "elapsed_seconds": 1.516
+  },
+  {
+    "number": 5,
+    "argv": [
+      "docker",
+      "image",
+      "inspect",
+      "mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.234
+  },
+  {
+    "number": 6,
+    "argv": [
+      "docker",
+      "volume",
+      "create",
+      "--label",
+      "cu.tutorial.project=cu-stock-66441a85eb19",
+      "--label",
+      "cu.tutorial.owner=76f296d1056cac3911d81abfe47d3900",
+      "cu-stock-66441a85eb19-data"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "cu-stock-66441a85eb19-data\n",
+    "stderr": "",
+    "elapsed_seconds": 0.125
+  },
+  {
+    "number": 7,
+    "argv": [
+      "docker",
+      "volume",
+      "inspect",
+      "cu-stock-66441a85eb19-data"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.109
+  },
+  {
+    "number": 8,
+    "argv": [
+      "docker",
+      "container",
+      "create",
+      "--name",
+      "cu-stock-66441a85eb19-db",
+      "--label",
+      "cu.tutorial.project=cu-stock-66441a85eb19",
+      "--label",
+      "cu.tutorial.owner=76f296d1056cac3911d81abfe47d3900",
+      "--network",
+      "none",
+      "--cpus",
+      "2",
+      "--memory",
+      "1g",
+      "--env",
+      "MARIADB_ROOT_PASSWORD",
+      "--env",
+      "MARIADB_PASSWORD",
+      "--env",
+      "MARIADB_DATABASE=engine_lab",
+      "--env",
+      "MARIADB_USER=tutorial",
+      "--mount",
+      "type=volume,src=cu-stock-66441a85eb19-data,dst=/var/lib/mysql",
+      "--mount",
+      "type=bind,src=<PROJECT_DIR>/sql/tutorial,dst=/tutorial,readonly",
+      "--health-cmd",
+      "healthcheck.sh --connect --innodb_initialized",
+      "--health-interval",
+      "2s",
+      "--health-timeout",
+      "5s",
+      "--health-start-period",
+      "30s",
+      "--health-retries",
+      "60",
+      "mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18\n",
+    "stderr": "",
+    "elapsed_seconds": 0.282
+  },
+  {
+    "number": 9,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.094
+  },
+  {
+    "number": 10,
+    "argv": [
+      "docker",
+      "start",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18\n",
+    "stderr": "",
+    "elapsed_seconds": 0.344
+  },
+  {
+    "number": 11,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.093
+  },
+  {
+    "number": 12,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.109
+  },
+  {
+    "number": 13,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.11
+  },
+  {
+    "number": 14,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.094
+  },
+  {
+    "number": 15,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.125
+  },
+  {
+    "number": 16,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.141
+  },
+  {
+    "number": 17,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.14
+  },
+  {
+    "number": 18,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.11
+  },
+  {
+    "number": 19,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.094
+  },
+  {
+    "number": 20,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.328
+  },
+  {
+    "number": 21,
+    "argv": [
+      "docker",
+      "exec",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sha256sum",
+      "/tutorial/01-create-tables.sql"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "ee79c37ef78f764e8852c2ccf224e6cbb32cdcac8b6923259cd4f1117bfa6f5e  /tutorial/01-create-tables.sql\n",
+    "stderr": "",
+    "elapsed_seconds": 0.281
+  },
+  {
+    "number": 22,
+    "argv": [
+      "docker",
+      "exec",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sha256sum",
+      "/tutorial/03-compare.sql"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "71a93554fb75e49990f77cfc952460c850eb28a661c71d7105213867a415446b  /tutorial/03-compare.sql\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 23,
+    "argv": [
+      "docker",
+      "exec",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sha256sum",
+      "/tutorial/04-index-types.sql"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "cffa20867e732a066ea2dbd9ce0380c0275ce34ac157d28acb6e73bc86dfac88  /tutorial/04-index-types.sql\n",
+    "stderr": "",
+    "elapsed_seconds": 0.188
+  },
+  {
+    "number": 24,
+    "argv": [
+      "docker",
+      "exec",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sha256sum",
+      "/tutorial/05-lock-demo.sql"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "e17541b04e340d13772f8433ed5b82022f26e5200bf9b4e0b8b3a45638144fd2  /tutorial/05-lock-demo.sql\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 25,
+    "argv": [
+      "docker",
+      "exec",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sha256sum",
+      "/tutorial/06-after-restart.sql"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "64c73e3a40aa5f21a7ea3d4beb545cc05e0f1ec15b43f0e7bbb728eb70fe487a  /tutorial/06-after-restart.sql\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 26,
+    "argv": [
+      "docker",
+      "exec",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sha256sum",
+      "/tutorial/99-cleanup.sql"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "45d53a4523e08b8864bf94f2c02d30f1b7c94ada2c4f62dc3e158dca4ba0b797  /tutorial/99-cleanup.sql\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 27,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT VERSION();\n",
+    "exit_code": 0,
+    "stdout": "11.8.9-MariaDB-ubu2404\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 28,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE();\n",
+    "exit_code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 29,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CREATE TABLE ci_tutorial_sentinel (id INT PRIMARY KEY, note VARCHAR(32)); INSERT INTO ci_tutorial_sentinel VALUES (1,'preserve');\n",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "elapsed_seconds": 0.266
+  },
+  {
+    "number": 30,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "source /tutorial/01-create-tables.sql\n",
+    "exit_code": 0,
+    "stdout": "innodb\t50000\naria\t50000\nmyisam\t50000\nmemory\t50000\n",
+    "stderr": "",
+    "elapsed_seconds": 1.266
+  },
+  {
+    "number": 31,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='tut_rocksdb';\n",
+    "exit_code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 32,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_innodb;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.234
+  },
+  {
+    "number": 33,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='tut_innodb';\n",
+    "exit_code": 0,
+    "stdout": "InnoDB\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 34,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_aria;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.266
+  },
+  {
+    "number": 35,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='tut_aria';\n",
+    "exit_code": 0,
+    "stdout": "Aria\n",
+    "stderr": "",
+    "elapsed_seconds": 0.234
+  },
+  {
+    "number": 36,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_myisam;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 37,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='tut_myisam';\n",
+    "exit_code": 0,
+    "stdout": "MyISAM\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 38,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_memory;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.344
+  },
+  {
+    "number": 39,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='tut_memory';\n",
+    "exit_code": 0,
+    "stdout": "MEMORY\n",
+    "stderr": "",
+    "elapsed_seconds": 0.234
+  },
+  {
+    "number": 40,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "source /tutorial/03-compare.sql\n",
+    "exit_code": 0,
+    "stdout": "tut_aria\tAria\tPage\t50000\t2.02\t0.90\ntut_innodb\tInnoDB\tDynamic\t50000\t0.02\t0.02\ntut_memory\tMEMORY\tFixed\t50000\t8.00\t3.43\ntut_myisam\tMyISAM\tDynamic\t50000\t1.14\t0.98\n*************************** 1. row ***************************\ntut_aria\nCREATE TABLE `tut_aria` (\n  `id` int(11) NOT NULL,\n  `airport_id` int(11) NOT NULL,\n  `delay_min` smallint(6) NOT NULL,\n  `hits` bigint(20) NOT NULL DEFAULT 0,\n  `note` varchar(32) NOT NULL,\n  PRIMARY KEY (`id`) USING BTREE,\n  KEY `by_airport` (`airport_id`) USING BTREE\n) ENGINE=Aria DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin PAGE_CHECKSUM=1\n50000\t4123260\n50000\t4123260\n50000\t4123260\n50000\t4123260\n",
+    "stderr": "",
+    "elapsed_seconds": 0.282
+  },
+  {
+    "number": 41,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "source /tutorial/04-index-types.sql\n",
+    "exit_code": 0,
+    "stdout": "1\tSIMPLE\ttut_idx_btree\tref\tby_airport\tby_airport\t4\tconst\t70\t20.00\t100.00\t100.00\t\n1\tSIMPLE\ttut_idx_hash\tref\tby_airport\tby_airport\t4\tconst\t20\t20.00\t100.00\t100.00\t\n1\tSIMPLE\ttut_idx_btree\trange\tby_airport\tby_airport\t4\tNULL\t488\t200.00\t100.00\t100.00\tUsing where\n1\tSIMPLE\ttut_idx_hash\tALL\tby_airport\tNULL\tNULL\tNULL\t100000\t100000.00\t100.00\t0.20\tUsing where\n",
+    "stderr": "",
+    "elapsed_seconds": 0.531
+  },
+  {
+    "number": 42,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT INDEX_TYPE FROM information_schema.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='tut_idx_btree' AND INDEX_NAME='by_airport';\n",
+    "exit_code": 0,
+    "stdout": "BTREE\n",
+    "stderr": "",
+    "elapsed_seconds": 0.234
+  },
+  {
+    "number": 43,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM tut_idx_btree WHERE airport_id = 100;\n",
+    "exit_code": 0,
+    "stdout": "20\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 44,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "EXPLAIN SELECT COUNT(*) FROM tut_idx_btree WHERE airport_id = 100;\n",
+    "exit_code": 0,
+    "stdout": "1\tSIMPLE\ttut_idx_btree\tref\tby_airport\tby_airport\t4\tconst\t70\t\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 45,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM tut_idx_btree WHERE airport_id BETWEEN 100 AND 109;\n",
+    "exit_code": 0,
+    "stdout": "200\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 46,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "EXPLAIN SELECT COUNT(*) FROM tut_idx_btree WHERE airport_id BETWEEN 100 AND 109;\n",
+    "exit_code": 0,
+    "stdout": "1\tSIMPLE\ttut_idx_btree\trange\tby_airport\tby_airport\t4\tNULL\t488\tUsing where\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 47,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT INDEX_TYPE FROM information_schema.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='tut_idx_hash' AND INDEX_NAME='by_airport';\n",
+    "exit_code": 0,
+    "stdout": "HASH\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 48,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM tut_idx_hash WHERE airport_id = 100;\n",
+    "exit_code": 0,
+    "stdout": "20\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 49,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "EXPLAIN SELECT COUNT(*) FROM tut_idx_hash WHERE airport_id = 100;\n",
+    "exit_code": 0,
+    "stdout": "1\tSIMPLE\ttut_idx_hash\tref\tby_airport\tby_airport\t4\tconst\t20\t\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 50,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM tut_idx_hash WHERE airport_id BETWEEN 100 AND 109;\n",
+    "exit_code": 0,
+    "stdout": "200\n",
+    "stderr": "",
+    "elapsed_seconds": 0.204
+  },
+  {
+    "number": 51,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "EXPLAIN SELECT COUNT(*) FROM tut_idx_hash WHERE airport_id BETWEEN 100 AND 109;\n",
+    "exit_code": 0,
+    "stdout": "1\tSIMPLE\ttut_idx_hash\tALL\tby_airport\tNULL\tNULL\tNULL\t100000\tUsing where\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 52,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "source /tutorial/05-lock-demo.sql\n",
+    "exit_code": 0,
+    "stdout": "Innodb_row_lock_waits\t0\nTable_locks_waited\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.218
+  },
+  {
+    "number": 53,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 1, NULL);\n",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "--------------\nCALL tut_hammer('innodb', 1, NULL)\n--------------\n\nERROR 1644 (45000) at line 1: run_seconds must be between 1 and 60\n",
+    "elapsed_seconds": 0.235
+  },
+  {
+    "number": 54,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 1, 0);\n",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "--------------\nCALL tut_hammer('innodb', 1, 0)\n--------------\n\nERROR 1644 (45000) at line 1: run_seconds must be between 1 and 60\n",
+    "elapsed_seconds": 0.188
+  },
+  {
+    "number": 55,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer(NULL, 1, 1);\n",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "--------------\nCALL tut_hammer(NULL, 1, 1)\n--------------\n\nERROR 1644 (45000) at line 1: engine_name must be innodb, aria, myisam, memory or rocksdb\n",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 56,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('unknown', 1, 1);\n",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "--------------\nCALL tut_hammer('unknown', 1, 1)\n--------------\n\nERROR 1644 (45000) at line 1: engine_name must be innodb, aria, myisam, memory or rocksdb\n",
+    "elapsed_seconds": 0.218
+  },
+  {
+    "number": 57,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', NULL, 1);\n",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "--------------\nCALL tut_hammer('innodb', NULL, 1)\n--------------\n\nERROR 1644 (45000) at line 1: row_id must be positive and identify an existing tutorial row\n",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 58,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 999999, 1);\n",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "--------------\nCALL tut_hammer('innodb', 999999, 1)\n--------------\n\nERROR 1644 (45000) at line 1: row_id must identify exactly one existing tutorial row\n",
+    "elapsed_seconds": 0.188
+  },
+  {
+    "number": 59,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_innodb;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.266
+  },
+  {
+    "number": 60,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_innodb;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 61,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "innodb\t1\t567\t1.0006\t567\n",
+    "stderr": "",
+    "elapsed_seconds": 1.187
+  },
+  {
+    "number": 62,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_innodb;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t567\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 63,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_aria;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 64,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('aria', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "aria\t1\t574\t1.0008\t574\n",
+    "stderr": "",
+    "elapsed_seconds": 1.203
+  },
+  {
+    "number": 65,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_aria;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t574\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 66,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_myisam;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 67,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('myisam', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "myisam\t1\t20451\t1.0000\t20451\n",
+    "stderr": "",
+    "elapsed_seconds": 1.218
+  },
+  {
+    "number": 68,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_myisam;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t20451\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 69,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_memory;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t0\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 70,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('memory', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "memory\t1\t46075\t1.0000\t46074\n",
+    "stderr": "",
+    "elapsed_seconds": 1.203
+  },
+  {
+    "number": 71,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_memory;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t46075\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 72,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_aria WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "574\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 73,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_aria WHERE id=2;\n",
+    "exit_code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 75,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('aria', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "aria\t1\t317\t1.0012\t317\n",
+    "stderr": "",
+    "elapsed_seconds": 1.235
+  },
+  {
+    "number": 74,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('aria', 2, 1);\n",
+    "exit_code": 0,
+    "stdout": "aria\t2\t318\t1.0011\t318\n",
+    "stderr": "",
+    "elapsed_seconds": 1.25
+  },
+  {
+    "number": 76,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_aria WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "891\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 77,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_aria WHERE id=2;\n",
+    "exit_code": 0,
+    "stdout": "318\n",
+    "stderr": "",
+    "elapsed_seconds": 0.188
+  },
+  {
+    "number": 78,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_aria WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "891\n",
+    "stderr": "",
+    "elapsed_seconds": 0.187
+  },
+  {
+    "number": 79,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('aria', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "aria\t1\t302\t1.0028\t301\n",
+    "stderr": "",
+    "elapsed_seconds": 1.219
+  },
+  {
+    "number": 80,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('aria', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "aria\t1\t305\t1.0027\t304\n",
+    "stderr": "",
+    "elapsed_seconds": 1.234
+  },
+  {
+    "number": 81,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_aria WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "1498\n",
+    "stderr": "",
+    "elapsed_seconds": 0.204
+  },
+  {
+    "number": 82,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_innodb WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "567\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 83,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_innodb WHERE id=2;\n",
+    "exit_code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.187
+  },
+  {
+    "number": 84,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 2, 1);\n",
+    "exit_code": 0,
+    "stdout": "innodb\t2\t344\t1.0002\t344\n",
+    "stderr": "",
+    "elapsed_seconds": 1.203
+  },
+  {
+    "number": 85,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "innodb\t1\t311\t1.0009\t311\n",
+    "stderr": "",
+    "elapsed_seconds": 1.219
+  },
+  {
+    "number": 86,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_innodb WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "878\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 87,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_innodb WHERE id=2;\n",
+    "exit_code": 0,
+    "stdout": "344\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 88,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_innodb WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "878\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 90,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "innodb\t1\t311\t1.0005\t311\n",
+    "stderr": "",
+    "elapsed_seconds": 1.219
+  },
+  {
+    "number": 89,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "CALL tut_hammer('innodb', 1, 1);\n",
+    "exit_code": 0,
+    "stdout": "innodb\t1\t390\t1.0023\t389\n",
+    "stderr": "",
+    "elapsed_seconds": 1.219
+  },
+  {
+    "number": 91,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT hits FROM tut_innodb WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "1579\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 92,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SHOW GLOBAL STATUS WHERE Variable_name IN ('Table_locks_waited','Innodb_row_lock_waits');\n",
+    "exit_code": 0,
+    "stdout": "Innodb_row_lock_waits\t0\nTable_locks_waited\t1230\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 93,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_innodb;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t1923\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 94,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_aria;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t1816\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.218
+  },
+  {
+    "number": 95,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_myisam;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t20451\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 96,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_memory;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t46075\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 97,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.078
+  },
+  {
+    "number": 98,
+    "argv": [
+      "docker",
+      "restart",
+      "--time",
+      "30",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "Flag --time has been deprecated, use --timeout instead\nd5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18\n",
+    "stderr": "",
+    "elapsed_seconds": 0.593
+  },
+  {
+    "number": 99,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.094
+  },
+  {
+    "number": 100,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.14
+  },
+  {
+    "number": 101,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.11
+  },
+  {
+    "number": 102,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.094
+  },
+  {
+    "number": 103,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.14
+  },
+  {
+    "number": 104,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.156
+  },
+  {
+    "number": 105,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.11
+  },
+  {
+    "number": 106,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "source /tutorial/06-after-restart.sql\n",
+    "exit_code": 0,
+    "stdout": "innodb\t50000\naria\t50000\nmyisam\t50000\nmemory\t0\naria\t1\t1498\naria\t2\t318\ninnodb\t1\t1579\ninnodb\t2\t344\n*************************** 1. row ***************************\ntut_memory\nCREATE TABLE `tut_memory` (\n  `id` int(11) NOT NULL,\n  `airport_id` int(11) NOT NULL,\n  `delay_min` smallint(6) NOT NULL,\n  `hits` bigint(20) NOT NULL DEFAULT 0,\n  `note` varchar(32) NOT NULL,\n  PRIMARY KEY (`id`) USING BTREE,\n  KEY `by_airport` (`airport_id`) USING BTREE\n) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 107,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_innodb;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t1923\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 108,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_aria;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t1816\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.25
+  },
+  {
+    "number": 109,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*), SUM(id), SUM(airport_id), SUM(delay_min), SUM(hits), SUM(id NOT BETWEEN 1 AND 50000 OR airport_id <> 1 + MOD(id,500) OR delay_min <> MOD(id,196)-15 OR note <> CONCAT('row-', id)) FROM tut_myisam;\n",
+    "exit_code": 0,
+    "stdout": "50000\t1250025000\t12525000\t4123260\t20451\t0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.234
+  },
+  {
+    "number": 110,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM tut_memory;\n",
+    "exit_code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.219
+  },
+  {
+    "number": 111,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "source /tutorial/99-cleanup.sql\n",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "elapsed_seconds": 0.328
+  },
+  {
+    "number": 112,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND LEFT(TABLE_NAME,4)='tut_';\n",
+    "exit_code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.187
+  },
+  {
+    "number": 113,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT COUNT(*) FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA=DATABASE() AND ROUTINE_NAME='tut_hammer';\n",
+    "exit_code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "elapsed_seconds": 0.204
+  },
+  {
+    "number": 114,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "SELECT note FROM ci_tutorial_sentinel WHERE id=1;\n",
+    "exit_code": 0,
+    "stdout": "preserve\n",
+    "stderr": "",
+    "elapsed_seconds": 0.203
+  },
+  {
+    "number": 115,
+    "argv": [
+      "docker",
+      "exec",
+      "-i",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+      "sh",
+      "-c",
+      "export MYSQL_PWD=\"$MARIADB_PASSWORD\"; exec mariadb --abort-source-on-error --batch --raw --skip-column-names -ututorial engine_lab"
+    ],
+    "input": "DROP TABLE ci_tutorial_sentinel;\n",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "elapsed_seconds": 0.234
+  },
+  {
+    "number": 116,
+    "argv": [
+      "docker",
+      "container",
+      "inspect",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.094
+  },
+  {
+    "number": 117,
+    "argv": [
+      "docker",
+      "rm",
+      "-f",
+      "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18\n",
+    "stderr": "",
+    "elapsed_seconds": 0.344
+  },
+  {
+    "number": 118,
+    "argv": [
+      "docker",
+      "volume",
+      "inspect",
+      "cu-stock-66441a85eb19-data"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "[private inspect output omitted]",
+    "stderr": "",
+    "elapsed_seconds": 0.109
+  },
+  {
+    "number": 119,
+    "argv": [
+      "docker",
+      "volume",
+      "rm",
+      "cu-stock-66441a85eb19-data"
+    ],
+    "input": null,
+    "exit_code": 0,
+    "stdout": "cu-stock-66441a85eb19-data\n",
+    "stderr": "",
+    "elapsed_seconds": 0.094
+  }
+]

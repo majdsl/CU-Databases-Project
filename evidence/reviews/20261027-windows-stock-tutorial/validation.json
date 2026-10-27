@@ -1,0 +1,200 @@
+{
+  "experiment": "stock_tutorial_correctness",
+  "status": "passed",
+  "image_reference": "mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112",
+  "project": "cu-stock-66441a85eb19",
+  "host_platform": "Windows-10-10.0.26200-SP0",
+  "host_machine": "AMD64",
+  "host_python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "commit": null,
+  "source_sha256": {
+    "scripts/check_stock_tutorial.py": "0a52d402d1a09afb91e0801a5b369f4e7f802e22bd64f8844c3d325b637f6a31",
+    "scripts/tutorial_checks.py": "1201f857a34e9e68f9e15ee65dc1dd478586748254eec694796090ef99e7b14c",
+    ".github/workflows/correctness.yml": "0854d66d8cb5bb0d17512dcad0a586357c7103ff2b185ef1bdcd4e3633bd3671"
+  },
+  "scope": "Four-engine SQL correctness; no performance ranking",
+  "docker": {
+    "os": "linux",
+    "architecture": "x86_64",
+    "version": "29.8.0",
+    "kernel": "6.18.54.1-microsoft-standard-WSL2",
+    "cpus": 12,
+    "memory_bytes": 7999373312
+  },
+  "architecture": "amd64",
+  "image": {
+    "Id": "sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112",
+    "Os": "linux",
+    "Architecture": "amd64",
+    "RepoDigests": [
+      "mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112"
+    ]
+  },
+  "mounted_sql_sha256": {
+    "01-create-tables.sql": "ee79c37ef78f764e8852c2ccf224e6cbb32cdcac8b6923259cd4f1117bfa6f5e",
+    "03-compare.sql": "71a93554fb75e49990f77cfc952460c850eb28a661c71d7105213867a415446b",
+    "04-index-types.sql": "cffa20867e732a066ea2dbd9ce0380c0275ce34ac157d28acb6e73bc86dfac88",
+    "05-lock-demo.sql": "e17541b04e340d13772f8433ed5b82022f26e5200bf9b4e0b8b3a45638144fd2",
+    "06-after-restart.sql": "64c73e3a40aa5f21a7ea3d4beb545cc05e0f1ec15b43f0e7bbb728eb70fe487a",
+    "99-cleanup.sql": "45d53a4523e08b8864bf94f2c02d30f1b7c94ada2c4f62dc3e158dca4ba0b797"
+  },
+  "container_id": "d5393de66dff6e466b8bb99e81d23e8b2944d2112b3df95b46da45ba9da32b18",
+  "server_version": "11.8.9-MariaDB-ubu2404",
+  "sequences": [
+    {
+      "engines": [
+        "innodb",
+        "aria",
+        "myisam",
+        "memory"
+      ],
+      "rows_per_table": 50000,
+      "indexes": [
+        {
+          "index": "btree",
+          "predicate": "airport_id = 100",
+          "count": 20,
+          "access": "ref",
+          "key": "by_airport"
+        },
+        {
+          "index": "btree",
+          "predicate": "airport_id BETWEEN 100 AND 109",
+          "count": 200,
+          "access": "range",
+          "key": "by_airport"
+        },
+        {
+          "index": "hash",
+          "predicate": "airport_id = 100",
+          "count": 20,
+          "access": "ref",
+          "key": "by_airport"
+        },
+        {
+          "index": "hash",
+          "predicate": "airport_id BETWEEN 100 AND 109",
+          "count": 200,
+          "access": "ALL",
+          "key": "NULL"
+        }
+      ],
+      "rejected_inputs": 6,
+      "single_writers": [
+        {
+          "engine": "innodb",
+          "row_id": 1,
+          "updates": 567,
+          "elapsed_seconds": 1.0006
+        },
+        {
+          "engine": "aria",
+          "row_id": 1,
+          "updates": 574,
+          "elapsed_seconds": 1.0008
+        },
+        {
+          "engine": "myisam",
+          "row_id": 1,
+          "updates": 20451,
+          "elapsed_seconds": 1.0
+        },
+        {
+          "engine": "memory",
+          "row_id": 1,
+          "updates": 46075,
+          "elapsed_seconds": 1.0
+        }
+      ],
+      "concurrent_writers": [
+        {
+          "engine": "aria",
+          "pattern": "disjoint",
+          "writers": [
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 317,
+              "elapsed_seconds": 1.0012
+            },
+            {
+              "engine": "aria",
+              "row_id": 2,
+              "updates": 318,
+              "elapsed_seconds": 1.0011
+            }
+          ]
+        },
+        {
+          "engine": "aria",
+          "pattern": "same row",
+          "writers": [
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 305,
+              "elapsed_seconds": 1.0027
+            },
+            {
+              "engine": "aria",
+              "row_id": 1,
+              "updates": 302,
+              "elapsed_seconds": 1.0028
+            }
+          ]
+        },
+        {
+          "engine": "innodb",
+          "pattern": "disjoint",
+          "writers": [
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 311,
+              "elapsed_seconds": 1.0009
+            },
+            {
+              "engine": "innodb",
+              "row_id": 2,
+              "updates": 344,
+              "elapsed_seconds": 1.0002
+            }
+          ]
+        },
+        {
+          "engine": "innodb",
+          "pattern": "same row",
+          "writers": [
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 311,
+              "elapsed_seconds": 1.0005
+            },
+            {
+              "engine": "innodb",
+              "row_id": 1,
+              "updates": 390,
+              "elapsed_seconds": 1.0023
+            }
+          ]
+        }
+      ],
+      "global_lock_counters": "Innodb_row_lock_waits\t0\nTable_locks_waited\t1230",
+      "restart": "persistent data preserved; MEMORY emptied",
+      "cleanup": "tutorial objects removed; unrelated table preserved"
+    }
+  ],
+  "sourced_files": [
+    "01-create-tables.sql",
+    "03-compare.sql",
+    "04-index-types.sql",
+    "05-lock-demo.sql",
+    "06-after-restart.sql",
+    "99-cleanup.sql"
+  ],
+  "resource_cleanup": {
+    "container_removed": true,
+    "volume_removed": true
+  }
+}

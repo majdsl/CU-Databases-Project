@@ -29,10 +29,12 @@ The password comes from the container's own environment (generated earlier into 
 ### Path B: ARM laptops or a quick try (stock image, four engines)
 
 **Validated October 27, 2026:** the automated stock-image path passed on native
-Linux amd64 and ARM64 CI runners, using MariaDB 11.8.9 and all six common SQL files.
+Linux amd64 and ARM64 CI runners and from Windows PowerShell with Docker Desktop's
+WSL2 Linux amd64 engine, using MariaDB 11.8.9 and all six common SQL files.
 The [validation record](stock-tutorial-validation.md) includes commands, image IDs,
 source hashes, restart results and cleanup. This covers four engines; MyRocks is
-part of Path A. Interactive Windows/macOS shell reproduction remains separate.
+part of Path A. The Windows record covers the Python CLI; interactive SQL walkthroughs
+and macOS shell reproduction remain separate.
 
 For an automated check from a clean checkout, with Python 3.9+ and running Docker
 Linux containers, run from the repository root:
@@ -268,6 +270,8 @@ and the common four-engine sequence without creating a MyRocks table.
 Path A's automated checks cover **Linux amd64 SQL correctness** in the custom
 five-engine image. Path B's separate `scripts/check_stock_tutorial.py` jobs cover
 **native Linux amd64 and ARM64** using the pinned official image and four engines.
+An [archived Windows run](../evidence/reviews/20261027-windows-stock-tutorial/README.md)
+also validates the Python CLI with Docker Desktop/WSL2 Linux amd64 in the owner's checkout.
 Both run the shared checks in `scripts/tutorial_checks.py`; Path B also verifies
 image/platform identity, mounted SQL hashes, fresh startup and owned-resource removal.
 
