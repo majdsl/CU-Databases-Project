@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-27",
+  "purpose": "Linux amd64 correctness only; no laptop performance conclusion",
+  "repository": "majdsl/CU-Databases-Project",
+  "source_head": "c430b938753e028da05a9ad071779b1b03ddb15e",
+  "tested_pr_merge_revision": "4224b8e90bbec6fb846e5ad9b71e4eacff14a834",
+  "run_id": 40577805344,
+  "job_id": 122448796167,
+  "run_url": "https://github.com/majdsl/CU-Databases-Project/actions/runs/40577805344",
+  "extraction": "Validation JSON extracted from labelled block and transcript from compression step through that block; GitHub timestamp prefixes removed, LF normalized. Not a byte-identical copy of the runner output directory. commands.json was not transferred; its digest is recorded by the runner.",
+  "status": "completed",
+  "mode": "smoke",
+  "trials": 4,
+  "verified_rows_per_trial": 256,
+  "images": {
+    "db": {
+      "id": "sha256:ab755e1444392b056aecca2cb54fac909b441d1f68f68ce5fe66500f12e6b0a5",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    "runner": {
+      "id": "sha256:65737813118b9e19bac89f050acce6e17374a3ecfbe90a8724771a3c6e93831b",
+      "os": "linux",
+      "architecture": "amd64"
+    }
+  },
+  "ci_unit_test_count": 132,
+  "new_test_count": 17,
+  "local_optimized_test_command": "python -O -m unittest discover -s tests -p test_rocksdb_compression.py -q",
+  "local_optimized_test_count": 17,
+  "all_recorded_source_hashes_verified": true,
+  "noncodec_cf_values_equal_after_normalizing_process_pointer_fields": true,
+  "process_pointer_fields": [
+    "TABLE_FACTORY::BLOCK_CACHE",
+    "TABLE_FACTORY::FLUSH_BLOCK_POLICY_FACTORY"
+  ],
+  "pointer_note": "These two metadata values contain per-process object addresses. Normalize only those addresses when comparing; the factory name and all other non-codec option values agree. Global block-cache capacity is verified separately. Original metadata values remain in validation.json.",
+  "archive_sha256": {
+    "validation.json": "2bbac692d9e6d7be7b0822336455068f700084b615fd3937d57f382bc37aa212",
+    "transcript.txt": "80d78dc0d9b6f252614d937d28aa56f27dd4fa8852c4f0ee9bd7837cdc5bd2a7"
+  }
+}

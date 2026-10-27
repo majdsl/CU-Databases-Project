@@ -202,6 +202,8 @@ within each invocation and measures table-mapped SST bytes after clean shutdown.
 Its full design has eight rounds/32 fresh trials with balanced position and pair
 order; a four-condition tiny CI smoke checks correctness. Seventeen guard/integrity
 tests bring the lightweight suite to 132 and also pass under optimized Python.
+The [actual four-condition CI record](../evidence/reviews/20261027-rocksdb-compression-ci/README.md)
+now verifies the Linux amd64 configuration, source/image identity and lifecycle.
 Larger laptop pilot/full evidence, findings/charts and any recommendation change
 remain pending. Automatic compaction is disabled in both treatments; this does not
 claim steady-state compression or compaction performance.

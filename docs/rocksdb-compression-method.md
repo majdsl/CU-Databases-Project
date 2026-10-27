@@ -1,7 +1,8 @@
 # MyRocks compression: a controlled flush-only experiment
 
-**Status:** harness implemented; laptop pilot/full measurements and findings are
-pending. The CI smoke is a small correctness check, not performance evidence.
+**Status:** the four-condition Linux amd64 [CI smoke passed](../evidence/reviews/20261027-rocksdb-compression-ci/README.md).
+Laptop pilot/full measurements and findings are pending. The CI smoke is a small
+correctness check, not performance evidence.
 This protocol investigates an engine option separately from the existing five-engine
 comparison. It does not revise the historical OpenFlights or storage measurements.
 
@@ -53,7 +54,7 @@ Every trial gets a new database container and named volume, with:
 - MyRocks block cache 128 MiB; column-family write buffer 16 MiB.
 - `compression` set to the selected codec; `bottommost_compression` fixed to
   `kDisableCompressionOption` (inherit) for both treatments. The primary codec is
-  the only varying column-family option.
+  the only varying column-family option supplied by the harness.
 - Automatic column-family compaction disabled in both treatments; no per-level
   compression override. This isolates a bounded post-flush layout rather than a
   production compaction policy.

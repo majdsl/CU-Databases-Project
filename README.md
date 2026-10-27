@@ -163,7 +163,7 @@ transactions or steady-state MyRocks compaction.
 | InnoDB table size versus buffer pool | [Isolated cache-pressure protocol](docs/cache-pressure-method.md) | [Cache-pressure findings and charts](docs/cache-pressure-findings.md) |
 | MEMORY index access paths | [HASH versus BTREE protocol](docs/memory-index-method.md) | [Index findings and charts](docs/memory-index-findings.md) |
 | Real route data and secondary-index queries | [OpenFlights](docs/openflights-method.md) | [Route findings](docs/openflights-findings.md) |
-| MyRocks compression on two controlled data profiles | [Isolated no-compression/ZSTD protocol](docs/rocksdb-compression-method.md) | Harness/CI correctness path; laptop pilot/full findings pending |
+| MyRocks compression on two controlled data profiles | [Isolated no-compression/ZSTD protocol](docs/rocksdb-compression-method.md) | [CI correctness passed](evidence/reviews/20261027-rocksdb-compression-ci/README.md); laptop pilot/full findings pending |
 
 Read reports without rerunning experiments. The storage/recovery harnesses use isolated
 temporary projects; never manually crash the normal lab database. Failed trials preserve

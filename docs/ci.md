@@ -171,3 +171,9 @@ The driver prints a record between `COMPRESSION_VALIDATION_JSON_BEGIN/END` for
 inspection. This smoke validates the configuration and lifecycle on Linux amd64;
 its timings and file sizes are not new laptop performance findings. The
 [measurement protocol](rocksdb-compression-method.md) specifies the separate pilot/full runs.
+
+**Validated October 27, 2026:** [PR run 40577805344](https://github.com/majdsl/CU-Databases-Project/actions/runs/40577805344)
+passed all four jobs for source head `c430b938753e028da05a9ad071779b1b03ddb15e`.
+The [archived compression record](../evidence/reviews/20261027-rocksdb-compression-ci/README.md)
+retains the tested merge revision, effective options, actual SST metadata and
+stopped-volume inventory. Only documentation/evidence was added after this code check.
