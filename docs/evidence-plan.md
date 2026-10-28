@@ -1,8 +1,8 @@
 # Evidence plan
 
-Status reviewed October 27, 2026, including the confirmed team roster, hands-on tutorial,
+Status reviewed October 28, 2026, including the confirmed team roster, hands-on tutorial,
 and verified OpenFlights, storage/recovery,
-MEMORY index, InnoDB cache-pressure and server CPU/lock-wait evidence. Completed measurements
+MEMORY index, InnoDB cache-pressure, server CPU/lock-wait and MyRocks codec evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking. The separate
 stock-image tutorial now has archived native Linux amd64/ARM64 and Windows Python
 CLI with Docker Desktop/WSL2 correctness checks.
@@ -12,7 +12,7 @@ CLI with Docker Desktop/WSL2 correctness checks.
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster and expanded contributions linked; practice feedback archived; evaluated revision/tool context and separate manual tutorial transcript pending |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with 132 lightweight tests, seven offline tests, five-engine integration and stock tutorial on native Linux amd64/ARM64 | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with 132 lightweight tests, 13 offline tests, five-engine integration and stock tutorial on native Linux amd64/ARM64 | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
 
 ## Completed measurement scope
 
@@ -172,9 +172,10 @@ evidence-linked teammate profiles, an upfront README mechanism explanation, a
 recorded image-identity table, explicit stock-image/ARM validation limits, 30-second
 manual concurrency instructions and a standalone tutorial engine-choice table.
 These are documentation refinements; all original measurements remain unchanged.
-Second-host measurements, client/driver decomposition, ARCHIVE, engine-option
+Second-host measurements, client/driver decomposition, ARCHIVE, additional engine-option
 studies, multi-engine cache pressure and replication remain distinct, unmeasured
-extensions rather than newly claimed results. See [the follow-up](evaluation-follow-up.md).
+extensions. The MyRocks codec study below now adds a scoped measured result.
+See [the follow-up](evaluation-follow-up.md).
 
 ## Stock-image tutorial validation — October 27, 2026
 
@@ -193,9 +194,9 @@ source hashes checked against recorded commit `e6767a5` after CRLF conversion.
 Interactive Windows/macOS walkthroughs, a fresh Windows setup-wrapper installation
 and controlled second-host performance measurements remain separate.
 
-## MyRocks compression extension — protocol prepared
+## MyRocks compression extension — verified October 28, 2026
 
-The [new isolated harness](rocksdb-compression-method.md) crosses no compression
+The [isolated harness](rocksdb-compression-method.md) crosses no compression
 and ZSTD with compressible and high-entropy synthetic payloads. It checks effective
 CF options and actual SST codecs, verifies every row/answer, fixes built image IDs
 within each invocation and measures table-mapped SST bytes after clean shutdown.
@@ -204,6 +205,18 @@ order; a four-condition tiny CI smoke checks correctness. Seventeen guard/integr
 tests bring the lightweight suite to 132 and also pass under optimized Python.
 The [actual four-condition CI record](../evidence/reviews/20261027-rocksdb-compression-ci/README.md)
 now verifies the Linux amd64 configuration, source/image identity and lifecycle.
-Larger laptop pilot/full evidence, findings/charts and any recommendation change
-remain pending. Automatic compaction is disabled in both treatments; this does not
-claim steady-state compression or compaction performance.
+The [four-trial pilot and 32-trial full run](../evidence/rocksdb-compression/README.md)
+are now archived. The full run has eight repetitions per condition, 2,097,152
+verified row loads, 32,000 lookups and 160 CRC32 scans. All raw worker/inventory
+files, command-log hashes, 1,964 successful command records, source hashes,
+clean stops, table-mapped SST sums and owned cleanup sequences were reviewed.
+[Findings and charts](rocksdb-compression-findings.md) show 95.15% fewer repetitive
+SST bytes with ZSTD, against 0.44% for the high-entropy control.
+
+An eighth offline generator produces the 32-row CSV, statistics/provenance,
+findings and two charts in PNG/SVG. Six report checks bring the offline suite to
+13 and exercise normal/optimized Python, raw corruption, controls, statistics and
+deterministic regeneration without changing evidence. Automatic compaction is
+disabled in both treatments; no steady-state or compression-CPU claim is made.
+Pilot/full images differ and remain separately recorded; all images are fixed
+within each invocation, and pilot observations are excluded from full statistics.

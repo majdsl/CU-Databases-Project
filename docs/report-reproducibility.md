@@ -59,6 +59,8 @@ python -m venv .venv-report
 .\.venv-report\Scripts\python.exe scripts/report_openflights_findings.py
 .\.venv-report\Scripts\python.exe scripts/report_memory_findings.py
 .\.venv-report\Scripts\python.exe scripts/report_cache_pressure_findings.py
+.\.venv-report\Scripts\python.exe scripts/report_write_diagnostics_findings.py
+.\.venv-report\Scripts\python.exe scripts/report_rocksdb_compression_findings.py
 git diff --stat
 ```
 
@@ -132,3 +134,35 @@ update counts, changed final hashes and incorrect source identities were rejecte
 All 115 unit tests passed locally, the new local documentation links resolved, and
 all three figures were visually inspected. This validates reporting, not new
 measurements or independent-machine performance reproduction.
+
+## MyRocks compression report — October 28, 2026
+
+The eighth generator, `scripts/report_rocksdb_compression_findings.py`, validates
+the four-trial pilot and 32-trial full run archived in `7dd87e4`. It regenerates the
+SHA-256/CRC32 oracles and verifies all raw worker/inventory files, exact query streams,
+CF/SST codecs and controls, source hashes, command-log checksums/lifecycle, clean
+stops, owned cleanup, original summaries and statistics. All 76 archived JSON files
+matched the reviewed upload bytes; their local `-text` rule preserves the command
+hashes. Pilot and full image IDs differ and are retained separately; images are
+fixed within each run and pilot data are excluded from all full statistics.
+
+The seven outputs are a 32-row observation CSV, statistics/provenance JSON,
+findings and two charts in PNG/SVG. Full statistics use eight trial observations
+per condition, averaging read samples within each trial first. Paired descriptive
+codec ratios are retained by round. Source hashes accept LF or CRLF source files;
+raw JSON hashes, canonical-JSON hashes and normalized-summary hashes are explicit.
+The validator allows only `1e-12` relative/absolute floating-point roundoff, including
+a roughly `1.1e-16` SD difference between the measured host and reporting Python.
+It does not edit the archived statistics to force byte equality.
+
+All 823 pre-existing evidence files retained their Git blob hashes throughout this
+addition. The 79-file raw compression archive remains unchanged; an index README
+is added beside it. Team contribution sections are also preserved exactly.
+
+Six new offline tests cover wrong settings/runtime/source, incomplete runs, corrupt
+raw files, altered command bytes/network namespace and changed statistics. They
+also generate the report twice, require all seven output files to match, and
+check that the evidence retains its bytes. The complete 13-test offline suite
+runs normally and under `-O` through the existing CI discovery command. Both figures
+were visually inspected with Matplotlib 3.10.8. This verifies the reporting path,
+not an additional database run or second-host performance reproduction.

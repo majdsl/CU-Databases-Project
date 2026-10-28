@@ -79,7 +79,7 @@ The write-diagnostics smoke exercises all five engines, both write patterns and
 real SQL status snapshots, host-read database cgroup CPU counters and isolated
 volume lifecycle. Its timings are not performance evidence.
 
-## Offline storage-report regression
+## Offline report and tutorial guards
 
 A separate `report-validation` job installs `requirements-report.txt` in a temporary
 virtual environment and runs the offline `report-tests` suite, both normally
@@ -90,6 +90,14 @@ before any output directory is created. The database image continues to run its
 132 lightweight tests without Matplotlib or the archived evidence. The extra offline
 test uses archived data; it is not another database experiment. See the
 [contribution review](teammate-1-review.md).
+
+Six compression-report tests validate the real archived pilot/full files and
+trial-level statistics, reject changed settings/source identities, incomplete runs,
+altered raw workers/inventories/command bytes and a wrong network namespace, and
+require rejection before output creation. They distinguish tiny floating-point
+roundoff from material statistic changes. Two generations must produce the same
+seven files and leave raw evidence untouched. These tests use the reporting
+environment; the lightweight runner remains at 132 tests without Matplotlib.
 
 ## Live tutorial correctness
 
@@ -117,9 +125,9 @@ interactive Windows PowerShell reproduction remains separate.
 Short writer durations and CI counter output are not performance or engine-ranking
 evidence. A tutorial demonstration is separate from the archived repeated benchmarks.
 Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
-The lightweight database suite now has 132 tests. The offline suite has seven
-tests, including the original restart-target guard and five stock-runner failure
-checks; each runs normally and with `-O`.
+The lightweight database suite now has 132 tests. The offline suite has 13 tests:
+seven storage/tutorial guards and six compression-report checks. Each runs normally
+and with `-O`.
 
 **Validated October 26, 2026:** [PR run 40395842648](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395842648)
 and [push run 40395828223](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395828223)

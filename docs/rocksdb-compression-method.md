@@ -1,8 +1,10 @@
 # MyRocks compression: a controlled flush-only experiment
 
-**Status:** the four-condition Linux amd64 [CI smoke passed](../evidence/reviews/20261027-rocksdb-compression-ci/README.md).
-Laptop pilot/full measurements and findings are pending. The CI smoke is a small
-correctness check, not performance evidence.
+**Status:** the four-condition laptop pilot and eight-round/32-trial full run are
+[verified and archived](../evidence/rocksdb-compression/README.md), with
+[findings and charts](rocksdb-compression-findings.md). The separate Linux amd64
+[CI smoke passed](../evidence/reviews/20261027-rocksdb-compression-ci/README.md);
+it is a small correctness check, not performance evidence.
 This protocol investigates an engine option separately from the existing five-engine
 comparison. It does not revise the historical OpenFlights or storage measurements.
 
@@ -89,7 +91,8 @@ Insertion uses autocommit and batches of 500 rows. `load_execute_seconds` sums
 driver execute/completion intervals, excluding payload generation. The separate
 `load_with_generation_seconds` is whole-loop wall time. `forced_flush_seconds`
 measures the administrative flush statement; SST coverage is verified afterward.
-Neither measure isolates server compression CPU.
+Memtable flushes can already occur during insertion; the final request does not
+time all compression work. None of these measures isolates server compression CPU.
 
 The runner then streams and verifies the entire table, warming data, and performs
 50 untimed point lookups. Each pilot trial measures 200 point lookups and three
@@ -147,8 +150,9 @@ python scripts/run_rocksdb_compression.py --full --power-condition "plugged in; 
 ```
 
 Archive the raw result directory after review. Do not combine pilot and full
-statistics. Runtime evidence is needed before adding findings or changing engine
-recommendations; the harness alone does not supply them.
+statistics. The October 27 runs are [archived](../evidence/rocksdb-compression/README.md);
+their [offline generator](../scripts/report_rocksdb_compression_findings.py) validates
+the raw files and reproduces the scoped findings without Docker.
 
 ## Resource ownership, failure and scope
 
