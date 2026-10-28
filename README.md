@@ -32,14 +32,14 @@ durability or transactional equivalence.
 | **Aria:** table-level writes and crash-safe PAGE/log options | Concurrent writers waited even on different rows, with little gain from two to four clients | Lock counters support observed contention; read timings do not isolate its page-cache design. |
 | **MyISAM:** separate data/index storage, table locks and no transactions | Fast persistent-engine loading here; table waits and forced-restart warnings were recorded | Loading speed does not supply transactional safety or eliminate a recovery/repair burden. |
 | **MEMORY:** RAM-resident rows with HASH or BTREE indexes | Rows vanished on restart; HASH range queries scanned while BTREE used range access | Volatility and index access were demonstrated; all flight-read engines were warm, so fast reads alone do not isolate disk avoidance. |
-| **MyRocks:** LSM organization, compression and compaction | Smallest persistent datadir growth and slowest OpenFlights scan mean here | Those observations do not isolate compression or compaction as their cause; short runs are not steady-state evidence. |
+| **MyRocks:** LSM organization, compression and compaction | Separate codec trials reduced repetitive table SST bytes by 95.15% with ZSTD, but high-entropy bytes by only 0.44% | Payload compressibility matters. This flush-only result does not isolate the cause of the earlier flight timings or measure steady-state compaction. |
 
-The [index](docs/memory-index-findings.md), [cache-pressure](docs/cache-pressure-findings.md)
-and [lock-counter](docs/write-diagnostics-findings.md) experiments test specific
+The [index](docs/memory-index-findings.md), [cache-pressure](docs/cache-pressure-findings.md),
+[compression](docs/rocksdb-compression-findings.md) and [lock-counter](docs/write-diagnostics-findings.md) experiments test specific
 mechanisms. The [cache/durability inventory](docs/cache-and-durability.md) explains
 why matching configured cache sizes does not equalize total memory or guarantees.
 
-**Image provenance:** the cache-pressure and write-diagnostic orchestrators rebuild
+**Image provenance:** the cache-pressure, write-diagnostic and compression orchestrators rebuild
 at the start of each invocation, so pilot and full runs selected separately built
 images. Their recorded source/settings/runtime matched, but image IDs differed.
 The archived records do not identify which image bytes or metadata changed; pilot
@@ -163,7 +163,7 @@ transactions or steady-state MyRocks compaction.
 | InnoDB table size versus buffer pool | [Isolated cache-pressure protocol](docs/cache-pressure-method.md) | [Cache-pressure findings and charts](docs/cache-pressure-findings.md) |
 | MEMORY index access paths | [HASH versus BTREE protocol](docs/memory-index-method.md) | [Index findings and charts](docs/memory-index-findings.md) |
 | Real route data and secondary-index queries | [OpenFlights](docs/openflights-method.md) | [Route findings](docs/openflights-findings.md) |
-| MyRocks compression on two controlled data profiles | [Isolated no-compression/ZSTD protocol](docs/rocksdb-compression-method.md) | [CI correctness passed](evidence/reviews/20261027-rocksdb-compression-ci/README.md); laptop pilot/full findings pending |
+| MyRocks compression on two controlled data profiles | [Isolated no-compression/ZSTD protocol](docs/rocksdb-compression-method.md) | [32-trial findings and charts](docs/rocksdb-compression-findings.md); [separate CI correctness](evidence/reviews/20261027-rocksdb-compression-ci/README.md) |
 
 Read reports without rerunning experiments. The storage/recovery harnesses use isolated
 temporary projects; never manually crash the normal lab database. Failed trials preserve
@@ -171,7 +171,7 @@ diagnostic evidence. The historical route snapshot is OpenFlights data, via Mari
 under [ODbL 1.0](data/openflights/LICENSE); its [download manifest](data/openflights/manifest.json)
 pins the source and checksum. Synthetic events are complementary generated data, not real flights.
 
-Seven report generators cover 28 chart files, including index, buffer-pool and lock-wait evidence. See
+Eight report generators cover 32 chart files, including index, buffer-pool, compression and lock-wait evidence. See
 [report reproduction commands and checks](docs/report-reproducibility.md).
 CI uses fresh containers and runs unit tests, real five-engine checks and a
 stock-image tutorial on native Linux amd64 and ARM64;

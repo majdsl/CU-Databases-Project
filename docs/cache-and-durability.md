@@ -56,6 +56,13 @@ show the observed plans, counters and timing differences. Larger working sets an
 writes need additional cache and compaction observations. These are proposed
 extensions, not completed evidence.
 
+The [MyRocks compression study](rocksdb-compression-findings.md) now supplies
+eight fresh-volume repeats for each codec/profile condition, with a fixed 128 MiB
+block cache and 16 MiB write buffer. It verifies CF/SST codecs and reports
+stopped-volume table SST lengths. Reads are warm and automatic compaction is
+disabled, so this adds a bounded compression result without equalizing the
+five engines' total memory or durability budgets.
+
 References: [InnoDB buffer pool](https://mariadb.com/docs/server/server-usage/storage-engines/innodb/innodb-buffer-pool),
 [MyISAM key buffer](https://mariadb.com/docs/server/ha-and-performance/optimization-and-tuning/system-variables/optimizing-key_buffer_size),
 [Aria](https://mariadb.com/docs/server/server-usage/storage-engines/aria/aria-storage-engine),

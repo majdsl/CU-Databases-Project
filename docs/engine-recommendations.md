@@ -96,6 +96,15 @@ MyRocks supports READ COMMITTED and REPEATABLE READ, but not SERIALIZABLE or gap
 as described in MariaDB's isolation documentation [6]. Those are compatibility checks,
 not features proved by our autocommit benchmark.
 
+The separate [compression experiment](rocksdb-compression-findings.md) now changes
+one MyRocks codec option within each of two controlled payload profiles. Eight
+fresh-volume repeats per condition reduced repetitive table SST lengths from
+65.7062 to 3.1850 MiB with ZSTD (95.15% fewer bytes); high-entropy data changed by
+only 0.44%. Effective CF policy and actual SST codecs were verified. This directly
+tests a storage option, while the earlier datadir and flight comparisons retain
+their original scope. Automatic compaction was disabled; sustained writes,
+compaction costs and cold decompression remain unmeasured.
+
 ## Why concurrent-write results do not give a simple engine ranking
 
 The [CPU diagnostic](cpu-findings.md) found that changing runner quota from one to two
@@ -146,6 +155,13 @@ cache penalty. Size queries and memory budgets against the intended working set.
 These counters do not establish physical SSD reads, and this InnoDB-only experiment
 does not rank the five engines at larger scale. See the report for dirty-page,
 OS-cache, image-provenance and fixed-order limitations.
+
+## Choosing MyRocks compression
+
+Use representative values in a codec trial: the repetitive payload benefited
+strongly from ZSTD here, while the high-entropy control saved little. Include CPU,
+latency and steady-state compaction in a production trial; the warm, flush-only
+measurements do not establish a general speed benefit.
 
 ## Applying the recommendation
 
