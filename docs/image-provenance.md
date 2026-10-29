@@ -72,6 +72,15 @@ same meaning across objects or tools.
 
 ## Stronger control for a future paired experiment
 
+The current cache-pressure and write-diagnostics orchestrators now also build with
+unique per-run tags and freeze the selected DB/runner IDs before starting containers.
+They inspect the actual images and validate source/runtime/settings during execution.
+Build/runtime overrides are retained with new results. This closes the mutable-tag
+selection risk for new runs; it does not reconstruct missing historical image layers
+or make separately built pilot/full images identical. The original archived identities
+in the table above remain unchanged. See the current [cache-pressure](cache-pressure-method.md)
+and [write-diagnostics](write-diagnostics-method.md) procedures for probe overhead and scope.
+
 Build and select the images once, preserve their complete identities and selected
 platform, and reuse that immutable selection for both pilot and full. Record build
 logs, base/output manifests, image configuration/layer identities and package

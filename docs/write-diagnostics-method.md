@@ -119,6 +119,26 @@ verification. This is warm, reused-server work, not cold-cache or sustained satu
 Both privilege scopes remain unchanged: the benchmark account owns only `engine_lab`;
 SQL counters do not require granting administrative database privileges.
 
+New invocations build under unique per-run tags, resolve the actual DB/runner image
+IDs, and use an immutable runtime Compose override for every container. Automatic
+builds/pulls are disabled during execution. Before running a worker, the host verifies
+its actual image, project and service identity; successful owned workers are removed
+only after their exit status and output have been checked. Tag changes cannot switch
+the runner halfway through prepare/write/verify stages.
+
+Read-only source/runtime/server/settings probes bracket each worker in the same
+pinned container. They must agree before/after and with the run's established
+controls. Inconsistent source or settings aborts the run before a successful summary.
+The existing worker throughput/latency timers are unchanged, but the probes add work
+inside the wider Docker-launch/database-CPU window. New results record this scope;
+do not pool that wider-window cost with the historical diagnostics.
+
+The run retains build/runtime image overrides and worker command/output records in
+its results directory. Optional `--build-override <path>` applies a local build adapter
+only during image construction and records its path/hash. The normal runtime settings
+and frozen image IDs remain selected independently of that build adapter. Keep
+credential values out of shared adapters and never publish the lab's `.env`.
+
 The host checkpoints each stage under a unique `results/*-write-diagnostics-*`
 directory and saves three raw stage outputs per trial. It independently regenerates
 initial/final hashes, checks counts and telemetry arithmetic, then validates the

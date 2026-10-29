@@ -1,6 +1,6 @@
 # Evidence plan
 
-Status reviewed October 28, 2026, including the confirmed team roster, hands-on tutorial,
+Status reviewed October 29, 2026, including the confirmed team roster, hands-on tutorial,
 and verified OpenFlights, storage/recovery,
 MEMORY index, InnoDB cache-pressure, server CPU/lock-wait and MyRocks codec evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking. The separate
@@ -10,9 +10,9 @@ CLI with Docker Desktop/WSL2 correctness checks.
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster and expanded contributions linked; practice feedback archived; evaluated revision/tool context and separate manual tutorial transcript pending |
-| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments | Documented transaction/locking mechanisms and suitability synthesized in engine recommendations; broader failure claims need separate experiments |
+| MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments; exact tutorial commit/rollback outcomes | Isolation-level, interrupted-transaction and broader failure claims need separate experiments |
 | Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with 132 lightweight tests, 13 offline tests, five-engine integration and stock tutorial on native Linux amd64/ARM64 | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with lightweight and offline tests in normal/optimized Python, five-engine integration and stock tutorial on native Linux amd64/ARM64; [current CI scope](ci.md) | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
 
 ## Completed measurement scope
 
@@ -61,14 +61,21 @@ The [engine recommendations](engine-recommendations.md) combine measured load/re
 CPU/concurrency, storage and recovery trade-offs with cited MariaDB feature documentation.
 They distinguish observations, documented capabilities and application-design inferences.
 The decision table covers all five engines without pooling datasets or claiming a universal
-winner. Multi-statement transaction behavior is documented, not experimentally validated.
+winner. The separate [transaction tutorial](tutorial.md#5c-commit-and-rollback-depend-on-the-engine)
+now checks exact two-row balances before, during and after rollback/commit on all five
+engines. InnoDB/MyRocks restore the original balances on rollback; Aria/MyISAM/MEMORY
+retain their writes. This is SQL correctness evidence. The archived timing workloads
+remain autocommit experiments and do not test isolation levels or interrupted commits.
 
 ## Offline reporting verified
 
 The [October 15 report check](report-reproducibility.md) regenerated CPU, storage, recovery
 and OpenFlights reports from a fresh source archive. Numerical results matched; line-ending
 provenance and storage SVG determinism were corrected without changing raw evidence.
-This does not replace independent database reproduction.
+The October 29 [maintenance validation](maintenance-validation.md) additionally covers
+all eight reports, generated twice in temporary copies in both normal and optimized
+Python. Original measurements and source fingerprints remain unchanged. This does not
+replace an independent human database installation or reproduce the laptop timings.
 
 ## Other unfinished work
 
@@ -76,8 +83,12 @@ This does not replace independent database reproduction.
    tied to their measured requirements and costs as new results are added.
 2. Keep claims within the measured scope. Broader transaction/failure, large-scale and
    steady-state claims require separate experiments; these are not existing results.
-3. Keep [correctness CI](ci.md) green. October 9 push and pull-request runs passed
-   fresh builds, all 82 unit tests and real five-engine integration. Windows clean-checkout
+3. Keep [correctness CI](ci.md) green. The October 29
+   [main run 40883972632](https://github.com/majdsl/CU-Databases-Project/actions/runs/40883972632)
+   passed all four jobs for `8fd722cbd0b429b1f28e8b4c02b378d17d486e56`, including
+   132 lightweight tests, 40 offline tests, real five-engine integration and the stock
+   tutorial on native Linux amd64/ARM64. Earlier dated records retain their original counts.
+   Windows clean-checkout
    tutorial reproduction remains separate. Keep performance measurement on a controlled machine.
 4. Complete remaining environment details and stronger database package locking. The
    October 10 laptop [database image ID](../evidence/environment/20261010-db-image-id.txt)

@@ -1,4 +1,5 @@
 """Reproduce cache-pressure findings from immutable pilot/full evidence, without Docker."""
+import argparse
 import csv
 import hashlib
 import json
@@ -7,6 +8,9 @@ import statistics
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]
+SOURCE_SNAPSHOT=ROOT/'provenance/cache-pressure'
+MEASURED_SOURCE_REVISION='db0639c0194092e8c338a68f2f9f24ed024d7a5f'
+SOURCE_MANIFEST_SHA256_LF='4a6da277642b62298d2da9fe182d376f072dcd7abce9f390be9bbee59fd19c7b'
 sys.path.insert(0,str(ROOT))
 from benchmarks import cache_pressure as benchmark
 from benchmarks.core import describe
@@ -25,6 +29,38 @@ def canonical_hash(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()).hexdigest()
 
 
+def source_manifest():
+    """Historical source verification does not depend on the live working tree."""
+    raw=(SOURCE_SNAPSHOT/'manifest.json').read_bytes().replace(b'\r\n',b'\n')
+    require(hashlib.sha256(raw).hexdigest()==SOURCE_MANIFEST_SHA256_LF,
+            'Measured source snapshot manifest changed')
+    manifest=json.loads(raw)
+    require(manifest['format_version']==1 and manifest['revision']==MEASURED_SOURCE_REVISION,
+            'Unexpected measured source snapshot')
+    require(set(manifest['files'])==set(manifest['host_paths'])|set(manifest['worker_paths'])
+            and len(manifest['host_paths'])==3 and len(manifest['worker_paths'])==23,
+            'Incomplete measured source snapshot')
+    return manifest
+
+
+def check_source(recorded,role):
+    manifest=source_manifest()
+    require(set(recorded)==set(manifest[role+'_paths']),
+            'Missing or unexpected '+role+' source provenance')
+    source_root=SOURCE_SNAPSHOT/'source'
+    for name,recorded_hash in recorded.items():
+        path=source_root/name
+        require(path.resolve().is_relative_to(source_root.resolve()),'Unexpected source path')
+        raw=path.read_bytes().replace(b'\r\n',b'\n')
+        hashes={ending:hashlib.sha256(content).hexdigest() for ending,content in
+                (('lf',raw),('crlf',raw.replace(b'\n',b'\r\n')))}
+        entry=manifest['files'][name]
+        require(all(entry['sha256_'+ending]==value for ending,value in hashes.items())
+                and entry['git_blob_sha1']==hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest(),
+                'Measured source snapshot changed: '+name)
+        require(recorded_hash in hashes.values(),'Measured source differs: '+name)
+
+
 def validate(result,run_id,mode):
     require(result['run_id']==run_id and result['mode']==mode and result['experiment']=='isolated_innodb_cache_pressure_v1','Wrong run identity')
     require('active_project' not in result and 'active_trial' not in result,'Active/unfinished trial')
@@ -32,13 +68,10 @@ def validate(result,run_id,mode):
     require(stats==result['statistics'],'Statistics differ from recalculation')
     expected={n:expected_data(n) for n in SIZES}
     for n in SIZES:require(expected[n]==result['expected_data'][str(n)],'Host oracle differs')
-    for path,recorded in result['source_sha256'].items():
-        require(path in ('scripts/run_cache_pressure.py','compose.cache-pressure.yaml','benchmarks/cache_pressure.py'),'Unexpected provenance path')
-        raw=(ROOT/path).read_bytes().replace(b'\r\n',b'\n')
-        require(recorded in (hashlib.sha256(raw).hexdigest(),hashlib.sha256(raw.replace(b'\n',b'\r\n')).hexdigest()),'Measured source differs; review validator version')
-    require(len(result['source_sha256'])==3,'Missing source provenance')
+    check_source(result['source_sha256'],'host')
     projects=set();schemas=set()
     for t in result['trials']:
+        check_source(t['source_sha256'],'worker')
         n=t['rows'];require(all(t[k]==v for k,v in expected[n].items()),'Trial data oracle differs')
         require(t['project'] not in projects,'Reused trial project');projects.add(t['project'])
         require('ENGINE=InnoDB' in t['actual_ddl'] and t['engine_reported_table_status']['Engine']=='InnoDB','Wrong engine')
@@ -277,11 +310,19 @@ query streams, plans, counter deltas, clean stops, saved statistics and original
 summaries. It compares every archived worker JSON with its host record and refuses
 changes that invalidate the narrative. Canonical JSON hashes tolerate Git line-ending
 conversion; original evidence and its captured source hashes are not rewritten.
-See [report reproduction](report-reproducibility.md) for rendering limits.
+Historical host and worker source fingerprints are verified against the immutable
+[measured source snapshot](../provenance/cache-pressure/README.md), including LF/CRLF
+representations and pinned Git blob identities. The derived statistics distinguish
+that measured source from the current report generator; the current orchestrator
+need not be the code that produced these archived timings. Raw evidence is unchanged.
+Use `--output-root <dir>` for a separate derived `docs/` tree; no Git history or
+network access is required. See [report reproduction](report-reproducibility.md)
+for rendering limits.
 '''
 
 
-def main():
+def build(output_root=None):
+    output_root=ROOT if output_root is None else Path(output_root)
     pilot,ps,pw=load(PILOT,'pilot');full,stats,fw=load(FULL,'full')
     require(pilot['source_sha256']==full['source_sha256'] and pilot['power_condition']==full['power_condition'],'Pilot/full controls differ')
     trials=pilot['trials']+full['trials']
@@ -295,17 +336,30 @@ def main():
         require(all(r['table_mib']==v for r in rows if r['rows']==n),'Footprint labels require review')
     for field in ('lookup_ms','scan_ms'):
         require(stats['262144'][field]['mean']>stats['32768'][field]['mean'],'Timing direction changed')
-    data=ROOT/'docs/data';figures=ROOT/'docs/figures';data.mkdir(exist_ok=True);figures.mkdir(exist_ok=True)
+    data=output_root/'docs/data';figures=output_root/'docs/figures';data.mkdir(parents=True,exist_ok=True);figures.mkdir(parents=True,exist_ok=True)
     with (data/'cache-pressure-observations.csv').open('w',encoding='utf-8',newline='') as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
     provenance=dict(full_run=FULL,excluded_pilot=PILOT,statistical_unit='trial mean; six per size',full_statistics=stats,pilot_statistics=ps,
         canonical_results_sha256={FULL:canonical_hash(full),PILOT:canonical_hash(pilot)},worker_canonical_sha256={FULL:fw,PILOT:pw},
         phase_observations=rows,source_sha256=full['source_sha256'],runtime=trials[0]['runtime'],server_version=trials[0]['server_version'],
-        image_identities={r['run_id']:{k:r['trials'][0][k] for k in ('db_image_id','runner_image_id')} for r in (pilot,full)},power_condition=full['power_condition'])
+        image_identities={r['run_id']:{k:r['trials'][0][k] for k in ('db_image_id','runner_image_id')} for r in (pilot,full)},power_condition=full['power_condition'],
+        measured_source_snapshot=dict(revision=MEASURED_SOURCE_REVISION,directory='provenance/cache-pressure',
+            manifest_sha256_lf=hashlib.sha256((SOURCE_SNAPSHOT/'manifest.json').read_bytes().replace(b'\r\n',b'\n')).hexdigest()),
+        report_generator=dict(path='scripts/report_cache_pressure_findings.py',
+            sha256_lf=hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n',b'\n')).hexdigest()))
     (data/'cache-pressure-statistics.json').write_text(json.dumps(provenance,indent=2)+'\n',encoding='utf-8')
     charts(rows,stats,figures)
-    (ROOT/'docs/cache-pressure-findings.md').write_text(report(full,stats,rows),encoding='utf-8')
+    (output_root/'docs/cache-pressure-findings.md').write_text(report(full,stats,rows),encoding='utf-8')
     print('Validated 14 trials and 14 worker files; reported 12 full trials and 24 trial/phase observations.')
+    return provenance
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-root',type=Path,default=ROOT,
+                        help='Write a separate derived docs tree without changing source/evidence.')
+    args=parser.parse_args()
+    build(args.output_root)
 
 
 if __name__=='__main__':main()

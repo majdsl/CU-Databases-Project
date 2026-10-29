@@ -108,9 +108,12 @@ class WriteDiagnosticTests(unittest.TestCase):
                 calls.append(args);return ''
             with patch.object(host,'ROOT',root),patch.object(host,'execute',return_value='linux/amd64'),\
                  patch.object(host,'ensure_new'),patch.object(host,'compose',side_effect=compose),\
-                 patch.object(host,'identity',return_value={'Image':'image','Id':'db','State':{'StartedAt':'start'}}),\
+                 patch.object(host,'build_images',return_value=({'db':'sha256:'+'a'*64,'runner':'sha256:'+'b'*64},root/'runtime.json')),\
+                 patch.object(host,'validate_controls',return_value={}),\
+                 patch.object(host,'identity',return_value={'Image':'sha256:'+'a'*64,'Id':'db','State':{'StartedAt':'start'}}),\
                  patch.object(host,'cpu_sample',side_effect=list(samples())),\
-                 patch.object(host,'stage',side_effect=[{'status':'completed'},{'status':'failed'}]):
+                 patch.object(host,'worker_source',return_value={'source':'digest'}),\
+                 patch.object(host,'stage',side_effect=[dict(status='completed',execution_controls={},source_sha256={'source':'digest'},runtime={},server_version='v',global_variables={},session_variables={},config={},actual_ddl='CREATE TABLE x ENGINE=INNODB'),{'status':'failed'}]):
                 with self.assertRaises(RuntimeError):host.run('smoke','test')
             self.assertFalse(any('down' in args for args in calls))
             self.assertTrue(any('stop' in args for args in calls))

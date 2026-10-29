@@ -117,4 +117,11 @@ query streams, plans, counter deltas, clean stops, saved statistics and original
 summaries. It compares every archived worker JSON with its host record and refuses
 changes that invalidate the narrative. Canonical JSON hashes tolerate Git line-ending
 conversion; original evidence and its captured source hashes are not rewritten.
-See [report reproduction](report-reproducibility.md) for rendering limits.
+Historical host and worker source fingerprints are verified against the immutable
+[measured source snapshot](../provenance/cache-pressure/README.md), including LF/CRLF
+representations and pinned Git blob identities. The derived statistics distinguish
+that measured source from the current report generator; the current orchestrator
+need not be the code that produced these archived timings. Raw evidence is unchanged.
+Use `--output-root <dir>` for a separate derived `docs/` tree; no Git history or
+network access is required. See [report reproduction](report-reproducibility.md)
+for rendering limits.

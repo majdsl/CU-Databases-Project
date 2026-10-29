@@ -53,6 +53,20 @@ for **each** trial. The normal lab database is not resized, stopped or deleted.
 There is no exposed database port. The benchmark account remains scoped to engine_lab;
 credentials come from the existing private .env. Do not upload that file.
 
+For new runs, the host builds once under unique per-run image tags, resolves the DB
+and runner to immutable image IDs, and writes the selected IDs into its runtime
+Compose override. Fresh trials use those IDs with automatic builds and pulls
+disabled. Container image, project, service and volume identities are checked;
+worker containers are inspected before executing their code. Retagging an image
+after selection cannot change the bytes used by a later trial.
+
+Before and after each worker, read-only probes capture source hashes, runtime,
+server version and selected SQL settings. The host checks them against its source
+and the run's established controls; drift aborts the run and preserves diagnostic
+evidence. These probes are outside the existing read/load timers. They add container
+work, so new launch-window observations should retain their recorded probe scope.
+The existing full InnoDB settings are also compared across trials.
+
 Pilot: two trials, one per size. Full: six rounds per size (12 trials), alternating
 small/large order so each size runs first three times. Fresh volumes remove prior
 trial database state, but do not clear OS or virtualization caches.
@@ -67,6 +81,19 @@ trial database state, but do not clear OS or virtualization caches.
    host-checked row count and CRC oracle. Record every scan time and counter window.
 6. Record EXPLAIN, table status, settings, runtime and image/source identities. Stop
    cleanly and remove only the successfully validated isolated project's resources.
+
+Build tags, the frozen runtime override, per-worker command overrides and raw outputs
+are retained under the new run's results directory. `--build-override <path>` accepts
+an optional local Compose build adapter, such as a verified proxy-CA mount; its path
+and hash are recorded. The adapter applies only while building. Runtime uses the
+standard experiment settings and selected image IDs. Do not put credential values
+in an adapter or publish private local configuration.
+
+These controls apply to new invocations. Historical pilot/full observations keep
+their original source and image records; the [report generator](report-reproducibility.md)
+checks the [measured-source snapshot](../provenance/cache-pressure/README.md) rather
+than treating the current orchestrator as historical evidence. Pilot and full still
+build separately unless a future experiment explicitly shares its image selection.
 
 Random lookups follow full verification and explicit warmup. Scans follow random
 lookups, with no separate scan warmup. This is a fixed phase order, not a cold-cache

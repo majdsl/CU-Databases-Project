@@ -1,0 +1,2 @@
+# Retain historical Git blobs on all checkout platforms.
+source/** -text

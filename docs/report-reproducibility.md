@@ -91,11 +91,13 @@ Compare parsed statistics and CSV records before interpreting a graphics-only di
 The generators validate their documented input scope; failures must be investigated rather
 than resolved by editing raw measurements to fit expected results.
 
-The write-diagnostics report validates its original host/worker hashes against the
-reviewed [measured-source snapshot](../provenance/write-diagnostics/README.md), rather
-than assuming today's Dockerfile is the one used for the archived experiment.
-The derived statistics identify that measured source separately from the current
-report generator. Historical measurements and their fingerprints remain unchanged.
+The write-diagnostics and cache-pressure reports validate their original host/worker
+hashes against reviewed [write-diagnostics](../provenance/write-diagnostics/README.md)
+and [cache-pressure](../provenance/cache-pressure/README.md) measured-source snapshots,
+rather than assuming today's Dockerfile or orchestrator produced the archived experiment.
+Their derived statistics identify measured source separately from the current report
+generator. Historical measurements and their fingerprints remain unchanged. Both
+generators accept `--output-root <dir>` for a separate derived `docs/` tree.
 
 ## Remaining boundaries
 

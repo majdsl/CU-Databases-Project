@@ -592,5 +592,14 @@
       "runner_image_id": "sha256:f06351f5d5b9ecd4aacbce3f6b7a9ff031fc6ba99b5582572e395a0d14ec0a8a"
     }
   },
-  "power_condition": "plugged in; battery saver off"
+  "power_condition": "plugged in; battery saver off",
+  "measured_source_snapshot": {
+    "revision": "db0639c0194092e8c338a68f2f9f24ed024d7a5f",
+    "directory": "provenance/cache-pressure",
+    "manifest_sha256_lf": "4a6da277642b62298d2da9fe182d376f072dcd7abce9f390be9bbee59fd19c7b"
+  },
+  "report_generator": {
+    "path": "scripts/report_cache_pressure_findings.py",
+    "sha256_lf": "96b2628f399bca8dee0f5c9997d072e3db63638720ae2e25dd0edc6d5550b016"
+  }
 }

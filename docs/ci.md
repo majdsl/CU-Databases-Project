@@ -1,5 +1,14 @@
 # Correctness CI
 
+**Main validation, October 29, 2026:**
+[run 40883972632](https://github.com/majdsl/CU-Databases-Project/actions/runs/40883972632)
+passed all four jobs for `8fd722cbd0b429b1f28e8b4c02b378d17d486e56`: fresh five-engine
+setup/integration, the expanded offline suite in normal/optimized Python, and stock
+tutorials on native Linux amd64 and ARM64. That revision passed 132 lightweight and
+40 offline tests, including all eight report generators with repeated output checks,
+per-case tutorial lock observations and exact transaction outcomes. These are
+correctness/reproduction checks, separate from the archived laptop performance runs.
+
 **Setup-wrapper validation, October 15, 2026:** [run 38824387276](https://github.com/majdsl/CU-Databases-Project/actions/runs/38824387276)
 passed on `ead6f10b1d9ac486898d112d0569926fcf20375a`. The fresh Ubuntu job
 ran the documented wrapper, verified writable output, passed all 85 unit tests,
@@ -25,7 +34,7 @@ results directory for UID 10001 and runs the README setup wrapper,
 
 1. Generates disposable local credentials without printing their values.
 2. Downloads the pinned OpenFlights snapshot and verifies its checksum.
-3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 132 tests).
+3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 140 tests).
 4. Builds the custom MariaDB image, including the pinned MyRocks plugin package.
 5. Starts a fresh database volume and waits for its healthcheck.
 6. Checks all five actual storage engines and verifies parameterized inserts/readback.
@@ -97,7 +106,7 @@ altered raw workers/inventories/command bytes and a wrong network namespace, and
 require rejection before output creation. They distinguish tiny floating-point
 roundoff from material statistic changes. Two generations must produce the same
 seven files and leave raw evidence untouched. These tests use the reporting
-environment; the lightweight runner remains at 132 tests without Matplotlib.
+environment; the lightweight runner remains at 140 tests without Matplotlib.
 
 ## Live tutorial correctness
 
@@ -126,8 +135,10 @@ interactive Windows PowerShell reproduction remains separate.
 Short writer durations and CI counter output are not performance or engine-ranking
 evidence. A tutorial demonstration is separate from the archived repeated benchmarks.
 Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
-The lightweight database suite has 132 tests. The offline suite has 40 tests covering
-storage/compression reports, immutable write-diagnostic source provenance, private
+The lightweight database suite has 140 tests, including immutable image selection,
+retagging/collision checks and worker-control drift rejection. The offline suite has
+47 tests covering storage/compression reports, immutable write-diagnostic and
+cache-pressure source provenance, private
 credential creation, tutorial guards/counters/transaction outcomes, Windows output-path
 normalization, and complete report regeneration. Each runs normally and with `-O`.
 The all-report regression generates all eight reports twice in a temporary copy and
@@ -190,4 +201,5 @@ its timings and file sizes are not new laptop performance findings. The
 passed all four jobs for source head `c430b938753e028da05a9ad071779b1b03ddb15e`.
 The [archived compression record](../evidence/reviews/20261027-rocksdb-compression-ci/README.md)
 retains the tested merge revision, effective options, actual SST metadata and
-stopped-volume inventory. Only documentation/evidence was added after this code check.
+stopped-volume inventory. This entry records the October 27 compression check;
+later code and report-validation changes have separate validation records above.

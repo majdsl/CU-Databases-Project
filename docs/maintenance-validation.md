@@ -90,3 +90,31 @@ pilot/full image differences remain documented in [image provenance](image-prove
 Native Windows/ARM64 execution of these new changes was not performed here; Windows
 path behavior is covered by an offline regression, and the existing CI matrix will
 exercise supported platforms when the changes are submitted.
+
+## Image selection and status follow-up — October 29, 2026
+
+The subsequent change based on `8fd722cbd0b429b1f28e8b4c02b378d17d486e56`
+updates the current evidence index and pins actual cache-pressure/write-diagnostic
+execution to per-run image IDs. Build tags are unique; runtime pulls, builds and
+recreation are disabled. Container ownership and actual image are verified before
+starting workers. Read-only source/runtime/settings probes reject within-worker and
+cross-worker drift, with their added launch-window cost recorded explicitly.
+
+The expanded lightweight suite passes **140 tests** normally and with `-O`; the
+offline suite passes **47 tests** in each mode, including all eight reports generated
+twice in temporary copies. New regressions cover unique-tag collisions, retagging,
+wrong images, pre-existing workers, abnormal exits with retained output, control
+drift, and Windows host-path normalization.
+
+The archived cache-pressure report now checks its original 25-file measured-source
+snapshot, independently of the changed host scripts. All original cache statistics,
+CSV cells/bytes, four chart files and the 824 pre-existing evidence files are retained.
+This changes future execution controls rather than the recorded laptop findings.
+
+Both final native-amd64 smoke checks passed with the build-only cloud adapter:
+two fresh cache-pressure trials and 30 write-diagnostic trials. During the latter,
+the owned unique runner tag was deliberately pointed at the DB image after the
+16th trial checkpoint. Remaining stages continued through the frozen runner ID;
+the run completed all 30 trials and its clean shutdown/owned cleanup checks. The
+test tag was restored afterward. This is a real retagging correctness check,
+separate from benchmark timing evidence. The normal lab database was preserved.

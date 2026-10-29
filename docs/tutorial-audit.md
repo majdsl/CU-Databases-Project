@@ -1,5 +1,14 @@
 # README and tutorial audit — October 15, 2026
 
+**October 29 follow-up:** main revision `8fd722cbd0b429b1f28e8b4c02b378d17d486e56`
+passed [all four CI jobs](https://github.com/majdsl/CU-Databases-Project/actions/runs/40883972632).
+The current tutorial adds per-case lock-counter deltas, SQL procedure-interval
+observations and exact five-engine commit/rollback checks. The offline suite at that
+revision has 40 tests, including repeated safe regeneration of all eight reports.
+See [maintenance validation](maintenance-validation.md). Counts and claims in the
+dated records below describe their original revisions; fresh human Windows setup
+and interactive Windows/macOS reproduction remain separate work.
+
 **October 27 follow-up:** [Team identities and contributions](team-contributions.md)
 are now confirmed. The [hands-on tutorial](tutorial.md) has a separate live SQL
 correctness path in CI. Earlier counts and run links below remain historical
