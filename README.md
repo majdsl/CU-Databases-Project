@@ -60,6 +60,8 @@ were similar. This is a scoped mechanism result, not a new five-engine ranking.
 ## Start here
 
 **Hands-on tutorial:** Follow the [storage-engine tutorial](docs/tutorial.md) to create tables on five engines, compare their behavior, and test locking and restart persistence.
+It also demonstrates why the same two-row transfer rolls back on InnoDB/MyRocks
+and remains applied on Aria/MyISAM/MEMORY, with exact SQL outcomes checked automatically.
 
 For a separate four-engine stock-image check, run
 `python scripts/check_stock_tutorial.py` after cloning (use `python3` on Linux).

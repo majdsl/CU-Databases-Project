@@ -158,3 +158,9 @@ arithmetic, controls, source identities, raw stage files, summaries and clean st
 It rejects evidence changes that invalidate the narrative rather than silently
 retaining old conclusions. Canonical hashes tolerate Git line-ending conversion;
 raw evidence is not rewritten. Plotting libraries and fonts can affect rendering.
+
+Historical source fingerprints are checked against the immutable
+[measured source snapshot](../provenance/write-diagnostics/README.md), not against
+today's evolving Dockerfile. The statistics record measured-source and current
+report-generator provenance separately. No Git history or network is required.
+Use `--output-root <dir>` to generate a separate derived `docs/` tree.

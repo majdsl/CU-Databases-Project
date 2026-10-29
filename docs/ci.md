@@ -113,8 +113,9 @@ The smoke checks all five actual engines and then the common four-engine sequenc
 without creating a MyRocks table. Each uses 50,000 generated rows per engine and
 100,000 rows per MEMORY index variant. It checks deterministic aggregates and row
 notes, index identity/access/query answers, six rejected routine inputs, successful
-single/concurrent increment totals, persistent data across a clean restart, empty
-MEMORY rows and cleanup that preserves an unrelated sentinel table. SQL hashes,
+single/concurrent increment totals, per-case lock-counter deltas and server-side
+procedure interval overlap, exact commit/rollback outcomes, persistent data across
+a clean restart, empty MEMORY rows and cleanup that preserves an unrelated sentinel table. SQL hashes,
 server/host versions and observations are printed between
 `TUTORIAL_VALIDATION_JSON_BEGIN` and `TUTORIAL_VALIDATION_JSON_END`; success ends
 with `TUTORIAL SMOKE PASS`.
@@ -125,9 +126,14 @@ interactive Windows PowerShell reproduction remains separate.
 Short writer durations and CI counter output are not performance or engine-ranking
 evidence. A tutorial demonstration is separate from the archived repeated benchmarks.
 Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
-The lightweight database suite now has 132 tests. The offline suite has 13 tests:
-seven storage/tutorial guards and six compression-report checks. Each runs normally
-and with `-O`.
+The lightweight database suite has 132 tests. The offline suite has 40 tests covering
+storage/compression reports, immutable write-diagnostic source provenance, private
+credential creation, tutorial guards/counters/transaction outcomes, Windows output-path
+normalization, and complete report regeneration. Each runs normally and with `-O`.
+The all-report regression generates all eight reports twice in a temporary copy and
+checks that source/evidence inputs retain their hashes. The CI job first fetches the
+checksum-pinned OpenFlights data; reporting itself is offline. It exercises the current
+working files rather than accidentally testing an older Git archive.
 
 **Validated October 26, 2026:** [PR run 40395842648](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395842648)
 and [push run 40395828223](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395828223)
@@ -139,7 +145,7 @@ retains the tested PR merge revision, real SQL observations and source hashes.
 
 The `stock-tutorial` matrix runs on `ubuntu-24.04` (amd64) and `ubuntu-24.04-arm`
 (ARM64). It runs `scripts/check_stock_tutorial.py` against the official MariaDB
-index pinned by digest, using the same six common SQL files and shared assertions
+index pinned by digest, using the current common SQL files and shared assertions
 as the lab tutorial. No MyRocks package or Python plotting dependency is installed
 in that database image.
 

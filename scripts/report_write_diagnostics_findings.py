@@ -1,4 +1,5 @@
 """Validate archived concurrent-write evidence and reproduce its report and figures."""
+import argparse
 import csv
 import hashlib
 import json
@@ -6,6 +7,9 @@ from pathlib import Path
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]
+SOURCE_SNAPSHOT=ROOT/'provenance/write-diagnostics'
+MEASURED_SOURCE_REVISION='c000a91c410dba7e19f6e00be01da1e1b7b55300'
+SOURCE_MANIFEST_SHA256_LF='a9db6c5fcd72aba8bd7f162cf9cd98b2b3f40b7acbbc06ec66133a74368988f3'
 sys.path.insert(0,str(ROOT))
 from benchmarks import write_diagnostics as benchmark
 from benchmarks.core import ENGINES, describe
@@ -25,13 +29,35 @@ def canonical_hash(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()).hexdigest()
 
 
-def check_source(recorded):
+def source_manifest():
+    """Read the measured sources without requiring Git or today's source tree."""
+    raw=(SOURCE_SNAPSHOT/'manifest.json').read_bytes().replace(b'\r\n',b'\n')
+    require(hashlib.sha256(raw).hexdigest()==SOURCE_MANIFEST_SHA256_LF,
+            'Measured source snapshot manifest changed')
+    manifest=json.loads(raw)
+    require(manifest['format_version']==1 and manifest['revision']==MEASURED_SOURCE_REVISION,
+            'Unexpected measured source snapshot')
+    require(set(manifest['files'])==set(manifest['host_paths'])|set(manifest['worker_paths'])
+            and len(manifest['host_paths'])==3 and len(manifest['worker_paths'])==24,
+            'Incomplete measured source snapshot')
+    return manifest
+
+
+def check_source(recorded,role):
+    manifest=source_manifest()
+    require(set(recorded)==set(manifest[role+'_paths']),'Missing or unexpected '+role+' source provenance')
+    source_root=SOURCE_SNAPSHOT/'source'
     for path,digest in recorded.items():
-        p=ROOT/path
-        require(p.resolve().is_relative_to(ROOT.resolve()),'Unexpected source path')
+        p=source_root/path
+        require(p.resolve().is_relative_to(source_root.resolve()),'Unexpected source path')
         raw=p.read_bytes().replace(b'\r\n',b'\n')
-        require(digest in (hashlib.sha256(raw).hexdigest(),hashlib.sha256(raw.replace(b'\n',b'\r\n')).hexdigest()),
-                'Measured source differs: '+path)
+        hashes={ending:hashlib.sha256(content).hexdigest() for ending,content in
+                (('lf',raw),('crlf',raw.replace(b'\n',b'\r\n')))}
+        entry=manifest['files'][path]
+        require(all(entry['sha256_'+ending]==value for ending,value in hashes.items())
+                and entry['git_blob_sha1']==hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest(),
+                'Measured source snapshot changed: '+path)
+        require(digest in hashes.values(),'Measured source differs: '+path)
 
 
 def validate(result,run_id,mode):
@@ -42,14 +68,14 @@ def validate(result,run_id,mode):
     stop=result['clean_stop']
     require(stop['Status']=='exited' and stop['ExitCode']==0 and not stop['OOMKilled'] and result['cleanup']=='completed','Unclean lifecycle')
     require(result['power_condition']=='plugged in; battery saver off','Power conditions changed')
-    check_source(result['source_sha256'])
+    check_source(result['source_sha256'],'host')
     require(len(result['source_sha256'])==3,'Missing host source provenance')
     first=result['trials'][0]
     globals_=first['prepare']['global_variables']
     require(all(int(globals_[k])==134217728 for k in ('innodb_buffer_pool_size','aria_pagecache_buffer_size','key_buffer_size','rocksdb_block_cache_size')),'Recorded cache configuration changed')
     require(globals_['innodb_flush_log_at_trx_commit']=='1' and globals_['rocksdb_flush_log_at_trx_commit']=='1' and globals_['log_bin']=='OFF','Recorded durability configuration changed')
     require(first['prepare']['server_version'].startswith('11.8.9-MariaDB'),'Recorded server version changed')
-    check_source(first['prepare']['source_sha256'])
+    check_source(first['prepare']['source_sha256'],'worker')
     for trial in result['trials']:
         require(trial['db_cpu_before']==trial['db_cpu']['before'] and trial['db_cpu_after']==trial['db_cpu']['after'],'CPU snapshots disagree')
         for stage in ('prepare','writes','verify'):
@@ -335,28 +361,48 @@ arithmetic, controls, source identities, raw stage files, summaries and clean st
 It rejects evidence changes that invalidate the narrative rather than silently
 retaining old conclusions. Canonical hashes tolerate Git line-ending conversion;
 raw evidence is not rewritten. Plotting libraries and fonts can affect rendering.
+
+Historical source fingerprints are checked against the immutable
+[measured source snapshot](../provenance/write-diagnostics/README.md), not against
+today's evolving Dockerfile. The statistics record measured-source and current
+report-generator provenance separately. No Git history or network is required.
+Use `--output-root <dir>` to generate a separate derived `docs/` tree.
 '''
 
 
-def main():
+def build(output_root=None):
+    output_root=ROOT if output_root is None else Path(output_root)
     pilot,pw=load(PILOT,'pilot');full,fw=load(FULL,'full')
     for field in ('source_sha256','power_condition'):
         require(pilot[field]==full[field],'Pilot/full controls differ: '+field)
     for field in ('source_sha256','global_variables','session_variables','runtime','server_version'):
         require(pilot['trials'][0]['prepare'][field]==full['trials'][0]['prepare'][field],'Pilot/full conditions differ: '+field)
     records=observations(full);groups=statistics(records);narrative=report(full,groups,records)
-    data=ROOT/'docs/data';figures=ROOT/'docs/figures';data.mkdir(exist_ok=True);figures.mkdir(exist_ok=True)
+    data=output_root/'docs/data';figures=output_root/'docs/figures';data.mkdir(parents=True,exist_ok=True);figures.mkdir(parents=True,exist_ok=True)
     with (data/'write-diagnostics-observations.csv').open('w',encoding='utf-8',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=list(records[0]));writer.writeheader();writer.writerows(records)
     provenance=dict(full_run=FULL,excluded_pilot=PILOT,statistical_unit='one trial; five per condition',groups=groups,
         canonical_results_sha256={FULL:canonical_hash(full),PILOT:canonical_hash(pilot)},
         stage_canonical_sha256={FULL:fw,PILOT:pw},source_sha256=full['source_sha256'],
         image_ids={r['run_id']:{key:r[key] for key in ('db_image_id','runner_image_id')} for r in (pilot,full)},
-        runtime=full['trials'][0]['prepare']['runtime'],power_condition=full['power_condition'])
+        runtime=full['trials'][0]['prepare']['runtime'],power_condition=full['power_condition'],
+        measured_source_snapshot=dict(revision=MEASURED_SOURCE_REVISION,directory='provenance/write-diagnostics',
+            manifest_sha256_lf=hashlib.sha256((SOURCE_SNAPSHOT/'manifest.json').read_bytes().replace(b'\r\n',b'\n')).hexdigest()),
+        report_generator=dict(path='scripts/report_write_diagnostics_findings.py',
+            sha256_lf=hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n',b'\n')).hexdigest()))
     (data/'write-diagnostics-statistics.json').write_text(json.dumps(provenance,indent=2)+'\n',encoding='utf-8')
     charts(groups,figures)
-    (ROOT/'docs/write-diagnostics-findings.md').write_text(narrative,encoding='utf-8')
+    (output_root/'docs/write-diagnostics-findings.md').write_text(narrative,encoding='utf-8')
     print('Validated 180 trials and 540 stage files; reported 150 full trials in 30 groups.')
+    return provenance
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-root',type=Path,default=ROOT,
+                        help='Write a separate derived docs tree without changing source/evidence.')
+    args=parser.parse_args()
+    build(args.output_root)
 
 
 if __name__=='__main__':main()

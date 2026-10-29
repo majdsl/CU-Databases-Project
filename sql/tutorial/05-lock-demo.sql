@@ -10,6 +10,7 @@ BEGIN
   DECLARE updates BIGINT DEFAULT 0;
   DECLARE stop_at DATETIME(6);
   DECLARE started_at DATETIME(6);
+  DECLARE finished_at DATETIME(6);
   DECLARE affected_rows INT DEFAULT 0;
   DECLARE elapsed_us BIGINT;
   IF run_seconds IS NULL OR run_seconds NOT BETWEEN 1 AND 60 THEN
@@ -41,10 +42,13 @@ BEGIN
     END IF;
     SET updates = updates + 1;
   END WHILE;
-  SET elapsed_us = TIMESTAMPDIFF(MICROSECOND, started_at, SYSDATE(6));
+  SET finished_at = SYSDATE(6);
+  SET elapsed_us = TIMESTAMPDIFF(MICROSECOND, started_at, finished_at);
   SELECT engine_name AS engine, row_id AS row_updated, updates,
-         elapsed_us / 1000000 AS elapsed_seconds,
-         ROUND(updates * 1000000 / NULLIF(elapsed_us, 0)) AS updates_per_second;
+         elapsed_us * 0.000001 AS elapsed_seconds,
+         ROUND(updates * 1000000 / NULLIF(elapsed_us, 0)) AS updates_per_second,
+         DATE_FORMAT(started_at, '%Y-%m-%d %H:%i:%s.%f') AS server_started_at,
+         DATE_FORMAT(finished_at, '%Y-%m-%d %H:%i:%s.%f') AS server_finished_at;
 END //
 DELIMITER ;
 

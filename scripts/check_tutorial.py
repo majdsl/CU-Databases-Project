@@ -73,6 +73,9 @@ def run(project):
     evidence = dict(experiment='tutorial_sql_correctness', commit=os.environ.get('GITHUB_SHA','local'),
                     platform=platform.platform(), host_python=sys.version, server_version=version,
                     source_sha256={name:hashlib.sha256((ROOT/'sql/tutorial'/name).read_bytes()).hexdigest() for name in FILES},
+                    helper_source_sha256={name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+                        for name in ('scripts/check_tutorial.py', 'scripts/tutorial_checks.py',
+                                     'scripts/tutorial_transactions.py')},
                     sequences=results, scope='Linux amd64 CI correctness; four-engine SQL tested on amd64, not native ARM; no performance evidence')
     print('TUTORIAL_VALIDATION_JSON_BEGIN', flush=True)
     print(json.dumps(evidence, indent=2), flush=True)

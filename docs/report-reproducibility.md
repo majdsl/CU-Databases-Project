@@ -45,14 +45,34 @@ or platforms can still change rendering; identical images are not promised unive
 
 ## Reproduce on Windows PowerShell
 
-From the repository root, run each command separately. Use a clean checkout or preserve
-your report edits first: these scripts regenerate tracked derived reports and figures.
-They do not modify the raw evidence or start Docker.
+Reporting requires **Python 3.10 or newer** for Matplotlib 3.10.8; Python 3.12 is the
+tested reporting version. The Python 3.9+ minimum for the standard-library setup
+wrapper and stock tutorial is separate from this optional reporting environment.
+
+For a safe check of all eight reports, run these commands separately from the repository root:
 
 ```powershell
 python -m venv .venv-report
 .\.venv-report\Scripts\python.exe -m pip install -r requirements-report.txt
 .\.venv-report\Scripts\python.exe scripts/fetch_openflights.py
+.\.venv-report\Scripts\python.exe scripts/check_reports.py --repeat
+```
+
+The checker snapshots
+the current source/evidence into a temporary directory, regenerates and validates
+every report there, and leaves tracked reports and raw evidence in place. The check
+runs without Docker and includes a second generation to detect nondeterministic output.
+It uses current files, including uncommitted edits, and needs no Git history. It verifies
+statistics, CSV values and report text against the checked-in results, validates image
+formats, and requires identical outputs between repeated runs in the same environment.
+Different plotting libraries/fonts can change graphics across environments; they are
+not required to match committed image bytes. Success ends with `REPORT CHECK PASS`.
+
+To intentionally refresh the tracked reports and figures instead, use the individual
+commands below after setting up that same environment. Preserve your report edits first.
+These scripts do not modify raw evidence or start Docker.
+
+```powershell
 .\.venv-report\Scripts\python.exe scripts/report_cpu.py
 .\.venv-report\Scripts\python.exe scripts/report_storage_findings.py
 .\.venv-report\Scripts\python.exe scripts/report_recovery_findings.py
@@ -70,6 +90,12 @@ is pinned; transitive packages and font/platform rendering are not completely lo
 Compare parsed statistics and CSV records before interpreting a graphics-only diff.
 The generators validate their documented input scope; failures must be investigated rather
 than resolved by editing raw measurements to fit expected results.
+
+The write-diagnostics report validates its original host/worker hashes against the
+reviewed [measured-source snapshot](../provenance/write-diagnostics/README.md), rather
+than assuming today's Dockerfile is the one used for the archived experiment.
+The derived statistics identify that measured source separately from the current
+report generator. Historical measurements and their fingerprints remain unchanged.
 
 ## Remaining boundaries
 

@@ -1,0 +1,168 @@
+{
+  "format_version": 1,
+  "revision": "c000a91c410dba7e19f6e00be01da1e1b7b55300",
+  "origin": "https://github.com/majdsl/CU-Databases-Project",
+  "host_paths": [
+    "benchmarks/write_diagnostics.py",
+    "compose.write-diagnostics.yaml",
+    "scripts/run_write_diagnostics.py"
+  ],
+  "worker_paths": [
+    "Dockerfile",
+    "benchmarks/__init__.py",
+    "benchmarks/cache_pressure.py",
+    "benchmarks/concurrency.py",
+    "benchmarks/core.py",
+    "benchmarks/memory_indexes.py",
+    "benchmarks/openflights.py",
+    "benchmarks/openflights_data.py",
+    "benchmarks/recovery.py",
+    "benchmarks/report.py",
+    "benchmarks/run.py",
+    "benchmarks/storage.py",
+    "benchmarks/telemetry.py",
+    "benchmarks/write_diagnostics.py",
+    "compose.runner-2cpu.yaml",
+    "compose.yaml",
+    "docker/mariadb/Dockerfile",
+    "docker/mariadb/rocksdb.cnf",
+    "requirements.txt",
+    "sql/benchmark/aria.sql",
+    "sql/benchmark/innodb.sql",
+    "sql/benchmark/memory.sql",
+    "sql/benchmark/myisam.sql",
+    "sql/benchmark/rocksdb.sql"
+  ],
+  "files": {
+    "Dockerfile": {
+      "git_blob_sha1": "c02e7c84bab5cc3f11e86cf55193588aeba356fb",
+      "sha256_lf": "a004fb6a35ce8d6c4318fdb4b0ebf2987319b486ca7ad1b7b6abd07eaa2eaab3",
+      "sha256_crlf": "cc427a818528cb67498ebe5fc939d846807cb86d0d5baa44e309278fc1229c59"
+    },
+    "benchmarks/__init__.py": {
+      "git_blob_sha1": "84c0cae04523df763526c78f3f90320d75af2b84",
+      "sha256_lf": "72d744e61d71dc5b3159c810d2017497d9497e75ed21edee18a8e0e59af4b96f",
+      "sha256_crlf": "9302d9cd9e93114268ef96c7455e43cacf31f46d1d189cc49e9f78c1b06e8aa2"
+    },
+    "benchmarks/cache_pressure.py": {
+      "git_blob_sha1": "53a46acfc3f3b507ea1161d6de383f8b6d182c6b",
+      "sha256_lf": "0f73687113b96519dc76edd3e2d1f18ec73e9640d40e1d70d67714d3a1850fb1",
+      "sha256_crlf": "f5c02ff0b7bbcea2dc7685511a4807af5069bbf6102c77459402e57ad9e3434b"
+    },
+    "benchmarks/concurrency.py": {
+      "git_blob_sha1": "11d180ace2caab0ff238c4580b04d303de9236d8",
+      "sha256_lf": "93659bdad9ff4b0583dfa283ffb2d263170469b242136387c51d265ff8264b54",
+      "sha256_crlf": "615836674bed9dcdc210616d00dc6b58888d5c33bea2d9b7f1a6f58a908c76ff"
+    },
+    "benchmarks/core.py": {
+      "git_blob_sha1": "c0e0beaa92b59fb39e1253f5343b0aa4db1e2869",
+      "sha256_lf": "0c1e66874e5119252769eedf8a213323cc599d42f9a12c425e986916705aac8d",
+      "sha256_crlf": "254801569f623ec6ea5b32abc2677e7152da559dd4184f75f5dfeb31a6ea8f16"
+    },
+    "benchmarks/memory_indexes.py": {
+      "git_blob_sha1": "aef5d4e96f39ac30da1af494510c534990b69577",
+      "sha256_lf": "bb42c8617c01c5d82a17e08fe1e68f5da82496cbfce02ad00169a9ed298563db",
+      "sha256_crlf": "b76d9e85cd6458d09c0dd9b147427181a6c4571c42bff2d895e379526c801b5f"
+    },
+    "benchmarks/openflights.py": {
+      "git_blob_sha1": "3af7b5576fef12d3349e70b108b90cbef0ab10e4",
+      "sha256_lf": "8b1c5c20b2aaa3169a7e044f4917af788d456c775bc5b761b97e73b57ff976e6",
+      "sha256_crlf": "0dee23afa6197e50161c9105690badb414027a0384b4867b9d6181c10d91a5d2"
+    },
+    "benchmarks/openflights_data.py": {
+      "git_blob_sha1": "c605933638ff999589f11c4b1ad5d219260bafcf",
+      "sha256_lf": "e71197b94045a08999b98e22006155eea1d06d6a6be63147c0f0a5bc6ef49260",
+      "sha256_crlf": "aa97d704328304f108346183290723f7b68b9d6a64f3ca940adaa3b5802aec35"
+    },
+    "benchmarks/recovery.py": {
+      "git_blob_sha1": "bc19c29b7ec7c462531cdc3b0c6cf17de8caeb50",
+      "sha256_lf": "171039e71783744224a2f4338439962b28be09992c54af32259296fbba91d8c9",
+      "sha256_crlf": "ff22109310a89c4473b93efb34b3daf4367bfd6243d282aef6b9f6e076b0e60d"
+    },
+    "benchmarks/report.py": {
+      "git_blob_sha1": "2a1295657ab5c0f82980c4318f1a63136add6fb9",
+      "sha256_lf": "0468c21ad9cb93601c4e0908d3b595df2e6e6ba0bd8062983b583497d18595f7",
+      "sha256_crlf": "4f00133096fbaede623324b8e1937925a40f2ee512f210c21c272fc71953cc49"
+    },
+    "benchmarks/run.py": {
+      "git_blob_sha1": "413d9248749724b8e1f7f11375d8bb43b81f74f9",
+      "sha256_lf": "99ece4de5a7c03d7558648995bcc89f539ed576e9d1756d27018b07db47e3524",
+      "sha256_crlf": "ecc546294a53e1bbeb3deccbb72b7905c3d4707df60aa2d69848d21ce618864f"
+    },
+    "benchmarks/storage.py": {
+      "git_blob_sha1": "f8bc1937d7252513bae85e912d893c5d996bc3ed",
+      "sha256_lf": "defec96a7c2ad7087facce0c2a56b4f96342fa2f45a0f334dae76ca7eb3bc18b",
+      "sha256_crlf": "13d5e723de4e6a1cb13c3c2c7ba4e8f831656a91c83ea34f5b40355cad753637"
+    },
+    "benchmarks/telemetry.py": {
+      "git_blob_sha1": "6a07c655cd18abd96e63ce942f28e493f0fb05c7",
+      "sha256_lf": "89f983c471f8b9b8cb954adcb4cd80e5630de575d8c08984dd5d575ceaca1a6e",
+      "sha256_crlf": "fab4a2f5548f4c42dda50a313288dec3a74f3757d88246c418555d4d3b4c29ad"
+    },
+    "benchmarks/write_diagnostics.py": {
+      "git_blob_sha1": "3b0d006110500cfcd25672c148987acc1ad1dd1c",
+      "sha256_lf": "cd6b7ad6cf9e09e576adc9a51a613e911b9c66e6f31e826c7fa95cdbce12ae5c",
+      "sha256_crlf": "00898b5fdc65824fc4334a828b54c60437f1e0913d2fafb1a796440b099e5175"
+    },
+    "compose.runner-2cpu.yaml": {
+      "git_blob_sha1": "b79b1ce97b0326fac7e57ccc3537707c147e6d82",
+      "sha256_lf": "18c0dd34334e244549f488638cfa944018344fbb9a6f2581d1fb6a97a8516e5a",
+      "sha256_crlf": "72b06796ce524dd1da5094c7d5fea70d8b1e2751345c6e4b3e6da934b6020ea5"
+    },
+    "compose.write-diagnostics.yaml": {
+      "git_blob_sha1": "1de2ae1b4a1600cd9b2001aaa63711c2d24d0846",
+      "sha256_lf": "e3e0034ed121d87afda47a383075d2c9638abaf446c009e802bd352e6d9bbf18",
+      "sha256_crlf": "b00b37cf5b806c4d80ba31d3ea52e37e5f470a8114db9aeeeffaef576c01a9d8"
+    },
+    "compose.yaml": {
+      "git_blob_sha1": "24cf2191a4f16db38c15385a44fe41ef8e6eee37",
+      "sha256_lf": "a2328113c8aa13014f3515a2d220293e4e5f447442a57563d5964e4b31c3028a",
+      "sha256_crlf": "6877567197ec5acfd834a2996923baff52f81ca742215353a04b583bcc5c7531"
+    },
+    "docker/mariadb/Dockerfile": {
+      "git_blob_sha1": "85aa8068beaa16a26f4568d223325561d78853d3",
+      "sha256_lf": "fab6db18cb2c129a2d36bb9a5ada8d331b94c78ce2305c6ec6853f02570a7297",
+      "sha256_crlf": "a81eb730f89c4c5a44d8480cba51ed9f213a827875cfb51197582fadb82bc92b"
+    },
+    "docker/mariadb/rocksdb.cnf": {
+      "git_blob_sha1": "0cd54f9256ae82f723304f48b50151d0c61b0049",
+      "sha256_lf": "99966bccc69a50f875957acab0a4ab2687cd4dce4125f97e6e5357e26dfd2f53",
+      "sha256_crlf": "b01c06374d627bb863dcc83b2278918d0d61334766a36972c629e7629e353edb"
+    },
+    "requirements.txt": {
+      "git_blob_sha1": "10b66547940d0cd1c6d576ea5948acceafb3cb8e",
+      "sha256_lf": "d6071e17a47537839ac0949799ffd203d0ad5dfc2494ac6fd8d7ee9d387ec749",
+      "sha256_crlf": "8476629b5f3e1c887347b763a6462e48b3f327d5a1a8d6b6b4964e21b1a83075"
+    },
+    "scripts/run_write_diagnostics.py": {
+      "git_blob_sha1": "399440b72d742b8c837a3abae50543705dadf95c",
+      "sha256_lf": "cd006b29451c2db1603b6945c01dc5b91d80a990dbbcca9acfe4416fb5882c5a",
+      "sha256_crlf": "c01381e91156387c166607c4a5ced3769c4662be9e2971b7f643f470f5207432"
+    },
+    "sql/benchmark/aria.sql": {
+      "git_blob_sha1": "c0ca45d2f80af0e7e741eff844d755fa6230d8d0",
+      "sha256_lf": "bd0684fa92e05b659b84311b5247e048253eca5a4eb88c46d3211cb75335cd50",
+      "sha256_crlf": "aefbd9abd5cde2186669e412874ad2349f1c1f6297f7d5b6407036ff0c569084"
+    },
+    "sql/benchmark/innodb.sql": {
+      "git_blob_sha1": "5ac47bb466fb068d2913a9179341129aee11249f",
+      "sha256_lf": "23730188f1985a4c4a1f4c9af621978e730fc34da906a6a41b2425ed064fd2bf",
+      "sha256_crlf": "18857b82c169928d1cf68abfc3c197fc382c328f800819e4bedfa3426f967b7c"
+    },
+    "sql/benchmark/memory.sql": {
+      "git_blob_sha1": "bc12cd16ce96d91e8799b29eb22244afb206195e",
+      "sha256_lf": "9da2ee0f952d6c2341ea9f970cc09a18ee1b92371911dda348cc41cb71d3f431",
+      "sha256_crlf": "f9b457a4c1e4d8d18694e30643e62156602fb8053f5d39448772f17c6f2b2e69"
+    },
+    "sql/benchmark/myisam.sql": {
+      "git_blob_sha1": "930ec362a48e52812a5c0c0b1b89f72e8df48cc1",
+      "sha256_lf": "2fbcbcf43c63e5fca47fbb7d835b56f024aec752d295125e7cc08382bc477953",
+      "sha256_crlf": "e23a19430947801da592d62cf43c8609995efa7bd7e954597e9df36470dbc32b"
+    },
+    "sql/benchmark/rocksdb.sql": {
+      "git_blob_sha1": "a2158fc0fc90d122e7aa853b66bb11ea8f7bcd3a",
+      "sha256_lf": "c40f21a5eeffd1b734b33343d8e6e86106b3b827161248ad78fc694f066bdf40",
+      "sha256_crlf": "2504f94265055ba19291f431763c45703ab85c1f656bfd118a59a25c2dbf0abc"
+    }
+  }
+}

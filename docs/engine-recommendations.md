@@ -65,8 +65,11 @@ All pilot runs remain outside full-run statistics.
 **InnoDB:** documented transactions, row-level locking, and redo/undo logging support its
 role for persistent application state [1]. Row locking allows concurrency on different
 records, but conflicting writes can still wait [7]. We verified row contents and restart
-survival in the stated protocol. We did not test rollback, deadlock handling, foreign-key
-enforcement, or interrupted commits. Its larger small-table allocation is observed;
+survival in the stated protocol. The separate [transaction tutorial](tutorial.md#5c-commit-and-rollback-depend-on-the-engine)
+checks exact commit/rollback outcomes with the same two-row transfer on all five
+engines. The archived performance experiments did not test transactions, and neither
+the tutorial nor those experiments test deadlock handling, foreign-key enforcement,
+or interrupted commits. Its larger small-table allocation is observed;
 we did not isolate the cost of individual durability features.
 
 **Aria:** its PAGE format and crash-safe option use logging; the option called
@@ -95,6 +98,13 @@ a steady-state result. Our slow scan does not isolate LSM or compaction as its c
 MyRocks supports READ COMMITTED and REPEATABLE READ, but not SERIALIZABLE or gap locking
 as described in MariaDB's isolation documentation [6]. Those are compatibility checks,
 not features proved by our autocommit benchmark.
+
+The transaction tutorial directly checks that InnoDB and MyRocks restore the original
+two balances on `ROLLBACK`, while Aria, MyISAM and MEMORY retain their writes. All five
+retain a completed transfer on `COMMIT`. Aria's crash-safe `TRANSACTIONAL` table option
+does not change this into application-level rollback support. These are deterministic
+SQL correctness checks, separate from isolation-level compatibility, transaction
+failure recovery and performance measurements.
 
 The separate [compression experiment](rocksdb-compression-findings.md) now changes
 one MyRocks codec option within each of two controlled payload profiles. Eight

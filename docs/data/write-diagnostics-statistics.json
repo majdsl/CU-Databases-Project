@@ -3313,5 +3313,14 @@
     "cgroup_memory_max": "536870912",
     "cgroup_cpu_max": "200000 100000"
   },
-  "power_condition": "plugged in; battery saver off"
+  "power_condition": "plugged in; battery saver off",
+  "measured_source_snapshot": {
+    "revision": "c000a91c410dba7e19f6e00be01da1e1b7b55300",
+    "directory": "provenance/write-diagnostics",
+    "manifest_sha256_lf": "a9db6c5fcd72aba8bd7f162cf9cd98b2b3f40b7acbbc06ec66133a74368988f3"
+  },
+  "report_generator": {
+    "path": "scripts/report_write_diagnostics_findings.py",
+    "sha256_lf": "6cd7f089713408cdb91bc1160783acef29e35c7a2cd52ff81db528efe3424dfb"
+  }
 }

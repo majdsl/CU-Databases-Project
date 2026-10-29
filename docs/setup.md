@@ -92,8 +92,12 @@ docker compose run --rm runner
 | `setup_probe` already exists | Inspect it; only remove `engine_lab.setup_probe` if confirmed to be this lab's interrupted setup probe |
 | Benchmark fails or reports partial results | Inspect its results/table before retrying; do not treat partial output as a complete comparison |
 
-`.env` contains secrets, is ignored by Git, and must not be shared. Its generator keeps
-an existing file. No database port is exposed on the host; the benchmark account is
+`.env` contains secrets, is ignored by Git, and must not be shared. The generator
+creates a new file with POSIX mode `0600` before writing credentials, regardless of
+a permissive shell umask. It preserves an existing file and its permissions; on an
+existing POSIX checkout, inspect access and use `chmod 600 .env` if needed. On Windows,
+restrict the containing directory/file ACL to your account; POSIX mode bits do not
+establish a Windows ACL. No database port is exposed on the host; the benchmark account is
 restricted to `engine_lab`. Queries use parameters and engine substitution is disabled.
 
 Use `docker compose stop` to stop the lab while preserving data. Normal setup never

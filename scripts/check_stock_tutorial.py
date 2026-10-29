@@ -237,6 +237,7 @@ class StockTutorial:
         if error:
             self.evidence['error'] = error
         for relative in ('scripts/check_stock_tutorial.py', 'scripts/tutorial_checks.py',
+                         'scripts/tutorial_transactions.py',
                          '.github/workflows/correctness.yml'):
             self.evidence['source_sha256'][relative] = hashlib.sha256((ROOT/relative).read_bytes()).hexdigest()
         body = json.dumps(self.evidence, indent=2) + '\n'

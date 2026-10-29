@@ -1,6 +1,6 @@
 # Hands-on: one table, five storage engines (about 15 minutes)
 
-This walkthrough lets you *see* the trade-offs our experiments measured, using nothing but SQL. You will create the same table on InnoDB, Aria, MyISAM, MEMORY and MyRocks, inspect what each engine reports, watch a HASH index fall back to a full scan, make Aria's table lock show up in a server counter, and restart the server to empty a MEMORY table.
+This walkthrough lets you *see* the trade-offs our experiments measured, using nothing but SQL. You will create the same table on InnoDB, Aria, MyISAM, MEMORY and MyRocks, inspect what each engine reports, watch a HASH index fall back to a full scan, inspect per-case lock counters, compare COMMIT/ROLLBACK guarantees, and restart the server to empty a MEMORY table.
 
 It is a demonstration, not a benchmark: single runs, one laptop, no controls. For measured results, follow the links at the end of each step.
 
@@ -30,7 +30,7 @@ The password comes from the container's own environment (generated earlier into 
 
 **Validated October 27, 2026:** the automated stock-image path passed on native
 Linux amd64 and ARM64 CI runners and from Windows PowerShell with Docker Desktop's
-WSL2 Linux amd64 engine, using MariaDB 11.8.9 and all six common SQL files.
+WSL2 Linux amd64 engine, using MariaDB 11.8.9 and the six common SQL files present in that historical revision. The transaction lesson below extends the current file sequence.
 The [validation record](stock-tutorial-validation.md) includes commands, image IDs,
 source hashes, restart results and cleanup. This covers four engines; MyRocks is
 part of Path A. The Windows record covers the Python CLI; interactive SQL walkthroughs
@@ -76,7 +76,7 @@ docker exec -it engine-tutorial sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec 
 Run these commands separately. If the healthcheck fails while initialization is
 still in progress, wait a few seconds and repeat it; connect only after it succeeds.
 An existing `engine-tutorial` name must be inspected before proceeding; do not reuse
-an unrelated server. In Path B, skip step 2 and the two MyRocks-only follow-ups (`03b` and `06b`).
+an unrelated server. In Path B, skip step 2 and the MyRocks-only follow-ups (`03b`, `05c` and `06b`).
 The common scripts run without expected errors. Stop and inspect any SQL error; do not continue past it.
 
 ## 1. The same table on four engines
@@ -146,7 +146,7 @@ A hash can find one value, but it cannot be walked in order, so the range query 
 source /tutorial/05-lock-demo.sql
 ```
 
-This creates `tut_hammer(engine, row_id, seconds)`, which updates **one row** as fast as it can for the given number of seconds, then prints the number of affected-row updates and the observed elapsed time. Invalid parameters
+This creates `tut_hammer(engine, row_id, seconds)`, which updates **one row** as fast as it can for the given number of seconds, then prints the number of affected-row updates, elapsed time, and server-side procedure start/finish timestamps with microsecond precision. Invalid parameters
 and a nonexistent row are rejected; loop iterations that changed no row are not counted
 as successful writes. The last line shows two server counters. Write down `Table_locks_waited`.
 
@@ -168,7 +168,7 @@ When both finish, read the counters again:
 SHOW GLOBAL STATUS WHERE Variable_name IN ('Table_locks_waited', 'Innodb_row_lock_waits');
 ```
 
-`Table_locks_waited` should have jumped by a large amount. The two sessions touched **different rows**, but Aria locks the whole table for each update, so they queued behind each other.
+`Table_locks_waited` may increase when the SQL execution windows overlap. The two sessions touched **different rows**, but Aria locks the whole table for each update, so they queued behind each other.
 
 **5b. InnoDB, same experiment.** Again, ready both sessions and start together.
 
@@ -179,13 +179,53 @@ CALL tut_hammer('innodb', 1, 30);
 CALL tut_hammer('innodb', 2, 30);
 ```
 
-`Table_locks_waited` should barely move, and `Innodb_row_lock_waits` should stay near zero. For these primary-key updates, row-level locking permits disjoint writers to proceed.
+Compare the counter deltas with Aria rather than treating a particular wait count as a required result. Disjoint InnoDB writers can finish with no recorded row-lock waits. For these primary-key updates, row-level locking permits disjoint writers to proceed.
 Zero observed waits in this demo does not rule out other internal, metadata or
 range-lock contention in different workloads.
 
 **Try it yourself:** run `CALL tut_hammer('aria', 1, 5);` alone and compare its `updates_per_second` with the concurrent runs. Then point both InnoDB sessions at row 1 and see whether `Innodb_row_lock_waits` moves. MyISAM (`'myisam'`) also uses table locks.
 
 **Measured version:** [write-diagnostics findings](write-diagnostics-findings.md). Across 150 controlled trials, Aria recorded almost one table-lock wait per update with two or four clients, even on disjoint rows, while InnoDB recorded none.
+
+### 5c. COMMIT and ROLLBACK depend on the engine
+
+In the same client, run:
+
+```sql
+source /tutorial/05b-transactions.sql
+```
+
+On **Path A**, also run:
+
+```sql
+source /tutorial/05c-myrocks-transactions.sql
+```
+
+The scripts create separate two-row `tut_tx_*` tables with balances 100/100. Each
+engine receives the same statements: begin, add 25 to one row, subtract 25 from
+the other, and roll back. A second transfer starts from a reset baseline and commits.
+The scripts refuse an existing transaction-demo table and remove their own tables
+when finished. Step7's cleanup also removes these reserved names after an interrupted run.
+
+| Observation | InnoDB / MyRocks | Aria / MyISAM / MEMORY |
+| --- | --- | --- |
+| Before the transfer | `1:100,2:100` | `1:100,2:100` |
+| Inside the transaction | `1:125,2:75` | `1:125,2:75` |
+| After `ROLLBACK` | `1:100,2:100` | `1:125,2:75` |
+| After the separate `COMMIT` example | `1:125,2:75` | `1:125,2:75` |
+
+Nontransactional engines can produce warning1196 on `ROLLBACK`: their writes cannot
+be rolled back. This is the behavior being demonstrated, not an expected SQL error.
+Aria's crash-safe `TRANSACTIONAL` option does not provide multi-statement transactions.
+The automated tutorial verifies actual engine identities and every row-pair outcome
+from these exact source files. An invariant such as total balance200 alone would miss
+the difference; the individual balances are checked.
+
+This lesson demonstrates rollback/commit semantics in a live server. It does not
+test interrupted transactions, isolation levels, foreign keys or power-loss durability,
+and its client timings do not rank engines. Use a transactional engine when related
+updates must roll back together; consider nontransactional data only when that
+requirement is deliberately absent.
 
 ## 6. Restart the server
 
@@ -242,6 +282,7 @@ removes its own labelled container and named volume.
 | Disjoint InnoDB primary-key updates proceed in this example | Row-level locks and transactions | Starting point for transactional application data; measure the actual workload |
 | HASH range reads the whole table | A hash has no order | Use `USING BTREE` on MEMORY when you query ranges |
 | MEMORY empty after a clean restart | Rows live only in RAM | Use it only for rebuildable caches |
+| A transfer rolls back on InnoDB/MyRocks, but remains on Aria/MyISAM/MEMORY | Transaction guarantees come from the engine | Require transactional tables for related updates that must roll back together |
 
 The [engine recommendations](engine-recommendations.md) turn these observations, together with the measured costs, into a decision guide.
 
@@ -264,7 +305,13 @@ The [decision guide](engine-recommendations.md) gives the full evidence and limi
 The correctness workflow uses `scripts/check_tutorial.py` to run the actual source
 files against its disposable MariaDB server. It checks engine identities, generated
 row counts, index answers/access plans, concurrent increment totals, invalid routine
-inputs, clean-restart row survival and cleanup. It exercises the five-engine sequence
+inputs, exact commit/rollback outcomes, clean-restart row survival and cleanup.
+Each concurrent case records parsed before/after lock counters, their nonnegative
+deltas, and overlap of the two server-side procedure execution intervals. An overlap
+shows both procedure calls were executing during a shared interval; it does not prove
+their individual UPDATE statements held locks simultaneously. Counter magnitudes are
+observations, not fixed pass thresholds or per-statement attribution. Missing/reset
+counters and inconsistent timestamps fail the check. It exercises the five-engine sequence
 and the common four-engine sequence without creating a MyRocks table.
 
 Path A's automated checks cover **Linux amd64 SQL correctness** in the custom
