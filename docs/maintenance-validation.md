@@ -1,5 +1,21 @@
 # Reproducibility and tutorial maintenance validation
 
+## Execution and usability follow-up — October 30, 2026
+
+The [development validation record](../evidence/reviews/20261030-execution-usability/)
+documents portable sealed-cloud checks/corruption guards, a frozen-image OpenFlights
+launcher, Linux output-access guidance and status corrections. Existing raw data and
+measured-source snapshots remain unchanged. The launcher correctness smoke passed
+while its unique runner build tag was deliberately redirected to the DB image;
+actual container inspection still matched the immutable runner selection.
+
+The final lightweight suite has 146 tests and the offline suite has 77. Local validation
+ran the full 146/74 suites normally and with `-O`, then all 21 final launcher guards
+in each mode after three readback cases were added. The current CI workflow runs
+the complete final suites, cloud checker and separate launcher correctness smoke.
+No timed benchmark was run or score increase inferred from these checks. Existing
+database volumes were preserved and the new smoke database was stopped cleanly.
+
 Validated locally on October 29, 2026 against the working changes based on
 `f90e813d4ce8fc2de76c611a98986f29820a9325`. This is a development check, not a new
 controlled benchmark or a claim that GitHub Actions has run the changed revision.

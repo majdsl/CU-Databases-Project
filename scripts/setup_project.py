@@ -2,10 +2,31 @@
 import argparse
 from pathlib import Path
 import re
+import shlex
+import shutil
 import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def output_access_guidance():
+    """Explain host access without assuming mode bits describe Docker UID mapping."""
+    if sys.platform != "linux":
+        return ("For results-directory permissions and Docker Desktop file sharing, see docs/setup.md. "
+                "Setup does not change ownership or permissions or delete existing data.")
+    directory = shlex.quote(str(ROOT / "results"))
+    lines = ["The runner uses UID/GID 10001 and must be able to create files in the results directory.",
+             "On an ordinary rootful Docker host, grant this directory access if it is not already configured:"]
+    if shutil.which("setfacl") is None:
+        lines += ["setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:",
+                  "  sudo apt-get update", "  sudo apt-get install acl"]
+    lines += [f"  mkdir -p -- {directory}",
+              f"  setfacl -m u:10001:rwx -- {directory}",
+              "The container write probe is authoritative; existing ACLs may already grant access.",
+              "Rootless/user-remapped Docker and SELinux can need different host configuration; see docs/setup.md.",
+              "Setup does not change ownership or permissions or delete existing data."]
+    return "\n".join(lines)
 
 
 def command(label, argv, capture=False):
@@ -29,6 +50,9 @@ def setup(project=None):
         raise RuntimeError(f"Docker reports {platform!r}; this five-engine build requires a Linux amd64 engine. "
                            "Other architectures are not validated; see docs/setup.md.")
     command("Check Compose", compose + ["version"])
+    if sys.platform == "linux":
+        print("\n== Native Linux output prerequisite ==", flush=True)
+        print(output_access_guidance(), flush=True)
     command("Preserve or create local credentials", [sys.executable, "scripts/init_env.py"])
     command("Fetch and verify route data", [sys.executable, "scripts/fetch_openflights.py"])
     (ROOT / "results").mkdir(exist_ok=True)
@@ -39,8 +63,7 @@ def setup(project=None):
             "d=tempfile.TemporaryDirectory(prefix='.setup-probe-', dir='/results'); "
             "d.cleanup(); print('PASS: runner can write /results')"])
     except RuntimeError as exc:
-        raise RuntimeError(str(exc) + "\nFor native Linux results-directory permissions, see docs/setup.md. "
-                           "Setup does not change ownership or delete existing data.") from exc
+        raise RuntimeError(str(exc) + "\n" + output_access_guidance()) from exc
     command("Run unit tests", compose + ["run", "--rm", "--no-deps", "runner", "python",
             "-m", "unittest", "discover", "-s", "tests", "-v"])
     command("Build five-engine MariaDB", compose + ["build", "db"])

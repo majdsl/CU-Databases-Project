@@ -14,6 +14,12 @@ original laptop are archived. The Debian-userspace/nested-Docker environment is
 distinct from a physical Ubuntu installation and from Zane's pending independent
 Windows/laptop package. Historical laptop measurements and charts remain unchanged.
 
+Current [execution and setup improvements](openflights-reproduction.md) add a
+build-once OpenFlights session with actual container image/control capture, explicit
+Linux output prerequisites, and [portable cloud-archive CI checks](report-reproducibility.md).
+These strengthen future reproduction and regression coverage; they do not replace
+historical metadata or count as new controlled performance measurements.
+
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster and expanded contributions linked; practice feedback archived; evaluated revision/tool context and separate manual tutorial transcript pending |

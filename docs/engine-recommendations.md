@@ -188,8 +188,11 @@ compaction and required isolation before adopting it.
 
 Further experiments are needed only to support broader claims: transaction failures,
 cold reads, joins, larger-than-memory data, sustained writes, device power loss and
-independent hosts are outside this evidence. Five repeats on one laptop, unequal
-engine cache/durability budgets and reused-server effects remain limits.
+steady-state compaction are outside these original comparisons. The original findings
+above use laptop repeats; the [separate cloud OpenFlights reproduction](openflights-linux-reproduction.md)
+now adds a second computing environment with its own full-run means and variability.
+It is not a controlled operating-system comparison or an independent physical-laptop
+walkthrough. Unequal engine cache/durability budgets and reused-server effects remain limits.
 [Correctness CI](ci.md) validates builds and basic engine operation; it is not a
 performance or durability benchmark.
 

@@ -27,20 +27,21 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Prepare disposable CI output directory
+      - name: Prepare disposable CI output for host and runner
         run: |
           mkdir -p results
-          sudo chown 10001:10001 results
+          sudo chgrp 10001 results
+          chmod g+rwx results
       - name: Run documented setup wrapper
         run: python3 scripts/setup_project.py --project-name "$CI_PROJECT"
       - name: MEMORY index correctness smoke (not benchmark evidence)
         run: docker compose -p "$CI_PROJECT" run --rm runner python -m benchmarks.memory_indexes --smoke --power-condition CI-correctness-only
       - name: Isolated cache-pressure lifecycle smoke (not performance evidence)
-        run: |
-          sudo chown "$(id -u):$(id -g)" results
-          python3 scripts/run_cache_pressure.py --smoke --power-condition CI-correctness-only
+        run: python3 scripts/run_cache_pressure.py --smoke --power-condition CI-correctness-only
       - name: Isolated write-diagnostic lifecycle smoke (not performance evidence)
         run: python3 scripts/run_write_diagnostics.py --smoke --power-condition CI-correctness-only
+      - name: Frozen-image OpenFlights lifecycle smoke (not performance evidence)
+        run: python3 scripts/run_openflights.py --smoke --power-condition CI-correctness-only
       - name: Tutorial SQL, restart and cleanup correctness
         run: python3 scripts/check_tutorial.py --project "$CI_PROJECT"
       - name: Isolated MyRocks compression correctness (not performance evidence)
@@ -94,6 +95,10 @@ jobs:
       - name: Fetch checksum-pinned report dataset
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" scripts/fetch_openflights.py
+      - name: Validate cloud OpenFlights archive and laptop comparison
+        run: |
+          "$RUNNER_TEMP/report-validation/bin/python" scripts/check_cloud_openflights.py
+          "$RUNNER_TEMP/report-validation/bin/python" -O scripts/check_cloud_openflights.py
       - name: Regenerate all reports and run offline guards with and without optimization
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" -m unittest discover -s report-tests -v

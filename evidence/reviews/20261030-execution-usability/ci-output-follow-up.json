@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "directory_owner_uid": 1000,
+  "directory_group_gid": 10001,
+  "mode": "0o775",
+  "host_write": true,
+  "runner_uid_gid": "10001:10001",
+  "runner_write": true,
+  "world_write": false,
+  "existing_directory_or_volume_modified": false,
+  "base_commit": "8d769b587e8f85b21c63144f880fc7daa3d12e4f",
+  "failed_ci_run": 41139237258,
+  "failed_step": "Frozen-image OpenFlights lifecycle smoke",
+  "cause": "The older cache-pressure CI step reset results ownership/group to the host, removing runner write access before the new smoke.",
+  "fix": "Keep host ownership; grant group10001 write on the fresh disposable CI directory; remove the later ownership flip.",
+  "workflow_sha256": "20b089ddd1ce7c21e8e525672e76e8416d9c512bdc526c66db0d8c423645e786",
+  "scope": "Local permission-control regression plus CI workflow correction; no timed experiment or existing-directory changes."
+}

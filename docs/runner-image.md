@@ -83,4 +83,8 @@ the README.
   later runs; do not rewrite historical hashes to match it.
 
 Treat future pin updates as deliberate changes: inspect the replacement, rebuild and test,
-then record the new identity. Clean-checkout reproduction and correctness CI are still pending.
+then record the new identity. Later [correctness CI](ci.md) and the
+[October 30 fresh cloud reproduction](openflights-linux-reproduction.md) now provide
+separate build/setup evidence beyond the historical October 9 check. The cloud executor
+uses Debian userspace and nested Docker; a cache-free build or independent physical-laptop
+walkthrough is not inferred. Zane's new laptop package remains pending.

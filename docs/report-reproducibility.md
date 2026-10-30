@@ -102,10 +102,25 @@ generators accept `--output-root <dir>` for a separate derived `docs/` tree.
 ## Remaining boundaries
 
 This check does not replace the teammates' independent setup, benchmark and evaluation
-reviews. Native Linux bind-mount write permissions for benchmark output and the remaining
-host/build details listed in the [tutorial audit](tutorial-audit.md) still need validation.
+reviews. The [October 30 cloud reproduction](openflights-linux-reproduction.md) now validates
+fresh setup/output writes on that Debian-userspace/nested-Docker executor. Ordinary native
+Linux users should follow the [output-access prerequisite](setup.md#native-linux-output-prerequisite);
+the container write probe remains authoritative. Independent physical-host walkthroughs
+and unrecorded historical host/build details remain separate gaps.
 No new claim about power loss, transaction rollback or larger-scale performance follows
 from successful report regeneration.
+
+The separately archived cloud pilot/full comparison has its own current portable guard:
+
+```powershell
+python scripts/check_cloud_openflights.py
+python -O scripts/check_cloud_openflights.py
+```
+
+The guard uses the pinned dataset and preserves archived bytes. It validates all four
+laptop/cloud runs, full-run comparisons, measured-source fingerprints and archive checksums.
+It is also run in offline CI. The original archived validator remains unchanged; the
+current entry point handles Windows/POSIX checksum paths and creates no files in the archive.
 
 ## MEMORY report follow-up — October 16, 2026
 
