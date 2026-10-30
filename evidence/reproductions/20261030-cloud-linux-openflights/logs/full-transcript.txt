@@ -1,0 +1,52 @@
+ Container cu-repro-20261030-db-1  Running
+OpenFlights round 1/5: MyISAM
+OpenFlights round 1/5: ROCKSDB
+OpenFlights round 1/5: InnoDB
+OpenFlights round 1/5: MEMORY
+OpenFlights round 1/5: Aria
+OpenFlights round 2/5: ROCKSDB
+OpenFlights round 2/5: InnoDB
+OpenFlights round 2/5: MEMORY
+OpenFlights round 2/5: Aria
+OpenFlights round 2/5: MyISAM
+OpenFlights round 3/5: InnoDB
+OpenFlights round 3/5: MEMORY
+OpenFlights round 3/5: Aria
+OpenFlights round 3/5: MyISAM
+OpenFlights round 3/5: ROCKSDB
+OpenFlights round 4/5: MEMORY
+OpenFlights round 4/5: Aria
+OpenFlights round 4/5: MyISAM
+OpenFlights round 4/5: ROCKSDB
+OpenFlights round 4/5: InnoDB
+OpenFlights round 5/5: Aria
+OpenFlights round 5/5: MyISAM
+OpenFlights round 5/5: ROCKSDB
+OpenFlights round 5/5: InnoDB
+OpenFlights round 5/5: MEMORY
+# OpenFlights route comparison
+
+Run: 20261030T184936Z-openflights-85032cd6
+
+**FULL: five balanced engine-order rounds; statistical unit = one trial/round.**
+
+Rows per trial: 67663. Power condition: Managed cloud Linux host; physical power and governor unavailable; no other benchmark containers running.
+Read statistics summarize round means, not pooled individual queries. Values are mean ± sample SD.
+
+| Engine | Load (s) | Point lookup (ms) | Full scan (ms) | Source aggregate (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| InnoDB | 1.2853 ± 0.1643 | 0.2211 ± 0.0525 | 16.6714 ± 3.5732 | 0.2258 ± 0.0494 |
+| Aria | 2.4686 ± 0.3139 | 0.3466 ± 0.1783 | 13.4014 ± 1.4453 | 0.2616 ± 0.0441 |
+| MyISAM | 1.0404 ± 0.0770 | 0.2943 ± 0.0271 | 15.5765 ± 2.7931 | 0.3036 ± 0.0492 |
+| MEMORY | 0.8276 ± 0.0864 | 0.2325 ± 0.0485 | 8.0415 ± 0.8136 | 0.1777 ± 0.0476 |
+| ROCKSDB | 1.3527 ± 0.1675 | 0.2673 ± 0.0474 | 26.6262 ± 1.1715 | 0.2534 ± 0.0208 |
+
+Every row and query answer was checked. Raw samples, query streams, plans, actual DDL,
+dataset/source hashes and runtime/settings metadata are in results.json.
+These are warm reads on a reused server. Timings include driver/network work; durability and
+cache budgets are not equalized. No physical-disk, cold-cache or steady-state claim is made.
+The routes snapshot is historical reference data, not observed flights or current schedules.
+Keep these results separate from synthetic events and the pilot separate from full statistics.
+Data: OpenFlights, via MariaDB/openflights; ODbL 1.0. See docs/openflights-method.md.
+
+Saved: /results/20261030T184936Z-openflights-85032cd6

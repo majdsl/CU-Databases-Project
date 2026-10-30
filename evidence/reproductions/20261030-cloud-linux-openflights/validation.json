@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "normal_python": {
+    "status": "passed",
+    "validated_runs": 4,
+    "validated_trials": 60,
+    "cloud_trials": 30,
+    "full_trials_compared": 50,
+    "comparison_records": 20,
+    "common_sources_validated": 27,
+    "checksum_files": null,
+    "pilots_excluded_from_comparison": true,
+    "percent_difference_ranges": {
+      "load_seconds": [
+        8.55833596484672,
+        31.169347291154857
+      ],
+      "scan_ms": [
+        37.177166155480144,
+        50.48708161997275
+      ]
+    }
+  },
+  "optimized_python": {
+    "status": "passed",
+    "validated_runs": 4,
+    "validated_trials": 60,
+    "cloud_trials": 30,
+    "full_trials_compared": 50,
+    "comparison_records": 20,
+    "common_sources_validated": 27,
+    "checksum_files": null,
+    "pilots_excluded_from_comparison": true,
+    "percent_difference_ranges": {
+      "load_seconds": [
+        8.55833596484672,
+        31.169347291154857
+      ],
+      "scan_ms": [
+        37.177166155480144,
+        50.48708161997275
+      ]
+    }
+  },
+  "corruption_checks_in_disposable_copies": [
+    {
+      "case": "changed measured source",
+      "status": "rejected",
+      "exit_code": 1
+    },
+    {
+      "case": "changed comparison",
+      "status": "rejected",
+      "exit_code": 1
+    }
+  ],
+  "secret_value_scan": {
+    "status": "passed",
+    "public_files_scanned": 63,
+    "credential_files_included": false
+  },
+  "raw_copies_identical": true,
+  "checksum_note": "sha256.json is sealed after this record; final normal/optimized checksum checks are recorded in the publication session.",
+  "historical_inputs_unchanged": 881
+}

@@ -1,0 +1,9 @@
+{
+  "baseline_commit": "5afc5f03f697c3ad1ed92feafade0d49e3261cd0",
+  "historical_tracked_evidence_files_unchanged": 824,
+  "historical_tracked_provenance_files_unchanged": 57,
+  "original_checkout_snapshot_files_unchanged": 881,
+  "baseline_evidence_tree": "d57ada9fe5b1127ae1fc68a41a191372a735eb33",
+  "baseline_provenance_tree": "efaf22c2cbf61a78386021ea12d0885bd264b01e",
+  "policy": "All pre-existing tracked evidence/provenance bytes match tested commit; new files only under new archive paths. Original database volume never mounted/started by this reproduction. Retained volume metadata matched original snapshot."
+}

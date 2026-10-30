@@ -1,0 +1,12 @@
+services:
+  runner:
+    build:
+      dockerfile: /workspace/work/reproduction-20261030/runner.Dockerfile
+      secrets: [cloud_ca]
+  db:
+    build:
+      dockerfile: /workspace/work/reproduction-20261030/db.Dockerfile
+      secrets: [cloud_ca]
+secrets:
+  cloud_ca:
+    file: /etc/ssl/certs/ca-certificates.crt

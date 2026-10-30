@@ -1,0 +1,24 @@
+# OpenFlights route comparison
+
+Run: 20261030T184911Z-openflights-329f0869
+
+**PILOT: one round per engine; no variability estimate or ranking.**
+
+Rows per trial: 67663. Power condition: Managed cloud Linux host; physical power and governor unavailable; no other benchmark containers running.
+Read statistics summarize round means, not pooled individual queries. Values are mean ± sample SD.
+
+| Engine | Load (s) | Point lookup (ms) | Full scan (ms) | Source aggregate (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| InnoDB | 1.4315 ± n/a | 0.1750 ± n/a | 15.6430 ± n/a | 0.1498 ± n/a |
+| Aria | 2.1947 ± n/a | 0.2963 ± n/a | 12.0702 ± n/a | 0.2533 ± n/a |
+| MyISAM | 1.1829 ± n/a | 0.2317 ± n/a | 14.4652 ± n/a | 0.2103 ± n/a |
+| MEMORY | 0.8162 ± n/a | 0.2078 ± n/a | 9.4549 ± n/a | 0.1214 ± n/a |
+| ROCKSDB | 1.3668 ± n/a | 0.1873 ± n/a | 27.6174 ± n/a | 0.4021 ± n/a |
+
+Every row and query answer was checked. Raw samples, query streams, plans, actual DDL,
+dataset/source hashes and runtime/settings metadata are in results.json.
+These are warm reads on a reused server. Timings include driver/network work; durability and
+cache budgets are not equalized. No physical-disk, cold-cache or steady-state claim is made.
+The routes snapshot is historical reference data, not observed flights or current schedules.
+Keep these results separate from synthetic events and the pilot separate from full statistics.
+Data: OpenFlights, via MariaDB/openflights; ODbL 1.0. See docs/openflights-method.md.

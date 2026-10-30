@@ -1,18 +1,25 @@
 # Evidence plan
 
-Status reviewed October 29, 2026, including the confirmed team roster, hands-on tutorial,
+Status reviewed October 30, 2026, including the confirmed team roster, hands-on tutorial,
 and verified OpenFlights, storage/recovery,
 MEMORY index, InnoDB cache-pressure, server CPU/lock-wait and MyRocks codec evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking. The separate
 stock-image tutorial now has archived native Linux amd64/ARM64 and Windows Python
 CLI with Docker Desktop/WSL2 correctness checks.
 
+The [October 30 managed cloud Linux reproduction](openflights-linux-reproduction.md)
+adds fresh isolated five-engine setup and separate OpenFlights pilot/full measurements
+at `5afc5f0`. Raw results, metadata, commands, validation and a comparison with the
+original laptop are archived. The Debian-userspace/nested-Docker environment is
+distinct from a physical Ubuntu installation and from Zane's pending independent
+Windows/laptop package. Historical laptop measurements and charts remain unchanged.
+
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |
 | Documentation | Setup, baseline schema rationale, archived baseline, CPU, storage, recovery and OpenFlights findings/charts, explicit limits and workload recommendations | Confirmed roster and expanded contributions linked; practice feedback archived; evaluated revision/tool context and separate manual tutorial transcript pending |
 | MariaDB depth | Five actual-engine checks; repeated load/read, concurrent-write, storage, between-statement process-crash and real OpenFlights route experiments; exact tutorial commit/rollback outcomes | Isolation-level, interrupted-transaction and broader failure claims need separate experiments |
-| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 full OpenFlights trials, each with a separate pilot | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
-| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with lightweight and offline tests in normal/optimized Python, five-engine integration and stock tutorial on native Linux amd64/ARM64; [current CI scope](ci.md) | Independent Windows/macOS interactive tutorial reproduction; optional second-host performance measurements |
+| Execution | Seeded identical data, full row verification, repeated trials, raw measurements; four CPU runs with power conditions separated; 25 full storage trials, 50 full recovery trials and 25 original laptop OpenFlights trials; 25 additional cloud OpenFlights trials, with separate pilots and host statistics | Remaining environment details and stronger environment pinning; review scope-aware recommendations |
+| Usability | Runnable harnesses, setup instructions, archived worked examples, charts; fresh CI with lightweight and offline tests in normal/optimized Python, five-engine integration and stock tutorial on native Linux amd64/ARM64; fresh cloud setup/OpenFlights reproduction; [current CI scope](ci.md) | Zane's independent physical-laptop setup/tutorial/report/pilot/full package; Windows/macOS interactive tutorial reproduction |
 
 ## Completed measurement scope
 
@@ -42,6 +49,26 @@ were checked. The five-trial pilot is archived separately. All 82 unit tests pas
 The route dataset adds real reference distributions; synthetic data retains its role in
 controlled update and failure experiments. No real-time traffic, joins, cold-cache or
 large-scale steady-state claims are established by this addition.
+
+### Managed cloud Linux reproduction — October 30, 2026
+
+The [new reproduction record](openflights-linux-reproduction.md) documents tested
+commit `5afc5f03f697c3ad1ed92feafade0d49e3261cd0`, a fresh checkout/credentials/volume,
+140 passing setup tests, all five actual engines and separate five-trial pilot and
+25-trial full run. [Raw results and provenance](../evidence/reproductions/20261030-cloud-linux-openflights/)
+include build adapters, image IDs, packages, controls, commands, summaries and an offline
+validator. Full-run comparisons use means and sample SD across five trial means per
+engine, without pooling pilots or hosts. Cloud loads took 8.56–31.17% longer and scans
+37.18–50.49% longer; short-query changes were mixed and cloud variability was larger.
+Broad load/scan patterns agreed. Shared hardware, virtualization/storage and build
+differences prevent attributing the difference to the operating system.
+
+The executor has Debian 13 userspace with nested Docker and an Ubuntu-based database
+image. Its physical power/governor is unknown. This is separate from independent
+physical Ubuntu or Windows-laptop reproduction. Zane's pending package will be
+validated and credited under its own fixed revision when received; it is not claimed
+as completed here. Existing evidence and database volumes were preserved; the new
+database was stopped cleanly with its volume retained.
 
 ## Verified process-crash scope
 

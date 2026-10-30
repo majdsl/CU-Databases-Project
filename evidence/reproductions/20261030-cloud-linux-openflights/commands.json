@@ -1,0 +1,57 @@
+[
+  {
+    "step": "checkout",
+    "command": "git clone --branch main --single-branch https://github.com/majdsl/CU-Databases-Project.git /workspace/work/reproduction-20261030/source",
+    "outcome": "clean main at 5afc5f03f697c3ad1ed92feafade0d49e3261cd0"
+  },
+  {
+    "step": "prepare",
+    "command": "Create external build adapters from checked-in Dockerfiles: CA-secret trust plus COPY --chmod=0755; mkdir results and chmod 0777 only on this fresh disposable directory",
+    "outcome": "no tracked source files changed; adapters preserved in build/"
+  },
+  {
+    "step": "setup",
+    "command": "COMPOSE_FILE=compose.yaml:/workspace/work/reproduction-20261030/compose.cloud.yaml python3 scripts/setup_project.py --project-name cu-repro-20261030",
+    "outcome": "exit 0; SETUP PASS; logs/setup-transcript.txt"
+  },
+  {
+    "step": "record_images",
+    "command": "docker image inspect cu-repro-20261030-db cu-repro-20261030-runner (selected non-secret fields only)",
+    "outcome": "runtime-provenance.json recorded before pilot; not full inspection output"
+  },
+  {
+    "step": "pilot",
+    "command": "COMPOSE_FILE=compose.yaml:/workspace/work/reproduction-20261030/compose.cloud.yaml docker compose -p cu-repro-20261030 run --rm runner python -m benchmarks.openflights --pilot --power-condition \"Managed cloud Linux host; physical power and governor unavailable; no other benchmark containers running\"",
+    "outcome": "exit 0; five completed/verified trials; pilot reviewed before full"
+  },
+  {
+    "step": "full",
+    "command": "COMPOSE_FILE=compose.yaml:/workspace/work/reproduction-20261030/compose.cloud.yaml docker compose -p cu-repro-20261030 run --rm runner python -m benchmarks.openflights --full --power-condition \"Managed cloud Linux host; physical power and governor unavailable; no other benchmark containers running\"",
+    "outcome": "exit 0; 25 completed/verified trials"
+  },
+  {
+    "step": "db_controls",
+    "command": "docker inspect cu-repro-20261030-db-1 (memory, CPU, actual image and mount fields only); docker compose exec -T db dpkg-query -W",
+    "outcome": "db-controls.txt; db-packages.txt; no credentials collected"
+  },
+  {
+    "step": "validate",
+    "command": "PYTHONPATH=. python3 /workspace/work/reproduction-20261030/validate.py",
+    "outcome": "both new summaries/statistics, schedule, row counts/digests and original file/volume metadata preservation passed"
+  },
+  {
+    "step": "stop",
+    "command": "COMPOSE_FILE=compose.yaml:/workspace/work/reproduction-20261030/compose.cloud.yaml docker compose -p cu-repro-20261030 stop db",
+    "outcome": "clean stop, exit 0; all database volumes retained"
+  },
+  {
+    "step": "supplemental_snapshot",
+    "command": "Read /etc/os-release; lscpu --json; selected docker info/inspect fields; docker compose version",
+    "outcome": "post-run-host.json; explicitly after measurements"
+  },
+  {
+    "step": "archive_time_report_check",
+    "command": "/workspace/CU-Databases-Project/.venv/bin/python scripts/check_reports.py --repeat",
+    "outcome": "exit 0; REPORT CHECK PASS: 8 reports, 55 outputs; two generations, inputs preserved. Performed after measurements during archival, not part of initial setup."
+  }
+]

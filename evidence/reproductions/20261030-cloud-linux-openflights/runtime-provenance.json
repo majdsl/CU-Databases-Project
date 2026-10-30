@@ -1,0 +1,99 @@
+{
+  "commit": "5afc5f03f697c3ad1ed92feafade0d49e3261cd0",
+  "branch": "main",
+  "host": {
+    "system": "Linux",
+    "node": "bafe69cf3600",
+    "release": "6.18.57",
+    "version": "#1 SMP Tue Oct 20 21:56:04 UTC 2026",
+    "machine": "x86_64",
+    "processor": ""
+  },
+  "docker": {
+    "Client": {
+      "Version": "28.4.0",
+      "ApiVersion": "1.51",
+      "DefaultAPIVersion": "1.51",
+      "GitCommit": "d8eb465",
+      "GoVersion": "go1.24.7",
+      "Os": "linux",
+      "Arch": "amd64",
+      "BuildTime": "Wed Sep  3 20:56:28 2025",
+      "Context": "default"
+    },
+    "Server": {
+      "Platform": {
+        "Name": "Docker Engine - Community"
+      },
+      "Components": [
+        {
+          "Name": "Engine",
+          "Version": "28.4.0",
+          "Details": {
+            "ApiVersion": "1.51",
+            "Arch": "amd64",
+            "BuildTime": "Wed Sep  3 20:58:50 2025",
+            "Experimental": "false",
+            "GitCommit": "249d679",
+            "GoVersion": "go1.24.7",
+            "KernelVersion": "6.18.57",
+            "MinAPIVersion": "1.24",
+            "Os": "linux"
+          }
+        },
+        {
+          "Name": "containerd",
+          "Version": "v1.7.28",
+          "Details": {
+            "GitCommit": "b98a3aace656320842a23f4a392a33f46af97866"
+          }
+        },
+        {
+          "Name": "runc",
+          "Version": "1.3.0",
+          "Details": {
+            "GitCommit": "v1.3.0-0-g4ca628d"
+          }
+        },
+        {
+          "Name": "docker-init",
+          "Version": "0.19.0",
+          "Details": {
+            "GitCommit": "de40ad0"
+          }
+        }
+      ],
+      "Version": "28.4.0",
+      "ApiVersion": "1.51",
+      "MinAPIVersion": "1.24",
+      "GitCommit": "249d679",
+      "GoVersion": "go1.24.7",
+      "Os": "linux",
+      "Arch": "amd64",
+      "KernelVersion": "6.18.57",
+      "BuildTime": "2025-09-03T20:58:50.000000000+00:00"
+    }
+  },
+  "images": [
+    {
+      "Id": "sha256:773c1c3f993470230c89b7d8752ea1d4a5b2bd561fd7084094a8b0d0fffe7839",
+      "RepoTags": [
+        "cu-repro-20261030-db:latest"
+      ],
+      "RepoDigests": [],
+      "Created": "2026-10-30T18:48:40.304502668Z",
+      "Architecture": "amd64",
+      "Os": "linux"
+    },
+    {
+      "Id": "sha256:ab7bb291c1122c3ef48c033fb6e0b6c8cceaffdd04136fa78613f01b3a88b40d",
+      "RepoTags": [
+        "cu-repro-20261030-runner:latest"
+      ],
+      "RepoDigests": [],
+      "Created": "2026-10-30T18:48:03.461619513Z",
+      "Architecture": "amd64",
+      "Os": "linux"
+    }
+  ]
+}

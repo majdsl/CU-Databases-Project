@@ -50,6 +50,12 @@ and evidence. There is no universal winner. In the [CPU diagnostic](docs/cpu-fin
 changing the load generator's quota substantially changed throughput, demonstrating
 why client limits must be checked before judging engine scaling.
 
+The [October 30 cloud Linux reproduction](docs/openflights-linux-reproduction.md)
+passed fresh five-engine setup and OpenFlights pilot/full runs. Its raw evidence and
+per-engine comparison are archived separately from the laptop measurements above;
+shared cloud timings do not establish a Linux-versus-Windows effect. Zane's independent
+physical-laptop reproduction remains pending.
+
 A separate [MEMORY index experiment](docs/memory-index-findings.md) changes only HASH
 versus BTREE: at 100,000 rows, the 10-row range took 13.52 times as long with HASH.
 Plans and counters showed a table scan versus index-range access; equality means

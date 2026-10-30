@@ -1,0 +1,551 @@
+
+== Check Docker engine ==
+
+== Check Compose ==
+Docker Compose version v2.40.3
+
+== Preserve or create local credentials ==
+Created .env with random local credentials. Do not commit or share it.
+
+== Fetch and verify route data ==
+OpenFlights: downloaded and verified: /workspace/work/reproduction-20261030/source/data/openflights/routes.dat
+
+== Build Python runner ==
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.56kB done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from runner.Dockerfile
+#2 transferring dockerfile: 1.45kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 693B done
+#4 DONE 0.0s
+
+#5 [stage-0  1/18] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 2.68MB 0.0s done
+#6 DONE 0.1s
+
+#7 [stage-0  7/18] COPY --chmod=0755 scripts/run_recovery.py scripts/run_recovery.py
+#7 CACHED
+
+#8 [stage-0  3/18] COPY --chmod=0755 requirements.txt .
+#8 CACHED
+
+#9 [stage-0  8/18] COPY --chmod=0755 scripts/fetch_openflights.py scripts/fetch_openflights.py
+#9 CACHED
+
+#10 [stage-0  6/18] COPY --chmod=0755 scripts/run_storage.py scripts/run_storage.py
+#10 CACHED
+
+#11 [stage-0  4/18] RUN --mount=type=secret,id=cloud_ca,required=true PIP_CERT=/run/secrets/cloud_ca pip install --no-cache-dir --require-hashes -r requirements.txt
+#11 CACHED
+
+#12 [stage-0  2/18] WORKDIR /app
+#12 CACHED
+
+#13 [stage-0  5/18] COPY --chmod=0755 scripts/check_environment.py scripts/check_environment.py
+#13 CACHED
+
+#14 [stage-0  9/18] COPY --chmod=0755 scripts/setup_project.py scripts/setup_project.py
+#14 CACHED
+
+#15 [stage-0 10/18] COPY --chmod=0755 scripts/run_cache_pressure.py scripts/run_cache_pressure.py
+#15 DONE 0.7s
+
+#16 [stage-0 11/18] COPY --chmod=0755 scripts/run_write_diagnostics.py scripts/run_write_diagnostics.py
+#16 DONE 0.3s
+
+#17 [stage-0 12/18] COPY --chmod=0755 scripts/run_rocksdb_compression.py scripts/run_rocksdb_compression.py
+#17 DONE 0.3s
+
+#18 [stage-0 13/18] COPY --chmod=0755 data/openflights data/openflights
+#18 DONE 0.3s
+
+#19 [stage-0 14/18] COPY --chmod=0755 sql sql
+#19 DONE 0.3s
+
+#20 [stage-0 15/18] COPY --chmod=0755 benchmarks benchmarks
+#20 DONE 0.3s
+
+#21 [stage-0 16/18] COPY --chmod=0755 tests tests
+#21 DONE 0.5s
+
+#22 [stage-0 17/18] COPY --chmod=0755 Dockerfile compose.yaml compose.runner-2cpu.yaml ./
+#22 DONE 0.3s
+
+#23 [stage-0 18/18] COPY --chmod=0755 docker/mariadb docker/mariadb
+#23 DONE 0.4s
+
+#24 exporting to image
+#24 exporting layers
+#24 exporting layers 0.8s done
+#24 writing image sha256:ab7bb291c1122c3ef48c033fb6e0b6c8cceaffdd04136fa78613f01b3a88b40d done
+#24 naming to docker.io/library/cu-repro-20261030-runner done
+#24 DONE 0.8s
+
+#25 resolving provenance for metadata file
+#25 DONE 0.0s
+ cu-repro-20261030-runner  Built
+
+== Check benchmark output permissions ==
+ Network cu-repro-20261030_default  Creating
+ Network cu-repro-20261030_default  Created
+ Volume cu-repro-20261030_db_data  Creating
+ Volume cu-repro-20261030_db_data  Created
+PASS: runner can write /results
+
+== Run unit tests ==
+test_all_engine_schemas_have_same_columns_and_indexes (test_baseline.BaselineTests.test_all_engine_schemas_have_same_columns_and_indexes) ... ok
+test_complete_report_labels_statistical_unit (test_baseline.BaselineTests.test_complete_report_labels_statistical_unit) ... ok
+test_deterministic_dataset_and_fingerprint (test_baseline.BaselineTests.test_deterministic_dataset_and_fingerprint) ... ok
+test_existing_table_is_never_dropped (test_baseline.BaselineTests.test_existing_table_is_never_dropped) ... ok
+test_invalid_workload_rejected (test_baseline.BaselineTests.test_invalid_workload_rejected) ... ok
+test_json_checkpoint_replaces_previous_valid_file (test_baseline.BaselineTests.test_json_checkpoint_replaces_previous_valid_file) ... ok
+test_lookup_stream_is_reproducible_and_in_range (test_baseline.BaselineTests.test_lookup_stream_is_reproducible_and_in_range) ... ok
+test_partial_runs_cannot_be_reported_as_complete (test_baseline.BaselineTests.test_partial_runs_cannot_be_reported_as_complete) ... ok
+test_row_validation_detects_corruption_missing_and_extra_rows (test_baseline.BaselineTests.test_row_validation_detects_corruption_missing_and_extra_rows) ... ok
+test_scan_oracle_has_known_answer (test_baseline.BaselineTests.test_scan_oracle_has_known_answer) ... ok
+test_schedule_balances_every_position (test_baseline.BaselineTests.test_schedule_balances_every_position) ... ok
+test_silent_engine_substitution_fails_and_cleans_up_owned_table (test_baseline.BaselineTests.test_silent_engine_substitution_fails_and_cleans_up_owned_table) ... ok
+test_statistics_known_values (test_baseline.BaselineTests.test_statistics_known_values) ... ok
+test_summary_weights_rounds_equally (test_baseline.BaselineTests.test_summary_weights_rounds_equally) ... ok
+test_wrong_database_is_rejected_before_connection (test_baseline.BaselineTests.test_wrong_database_is_rejected_before_connection) ... ok
+test_actual_footprint_required (test_cache_pressure.CachePressureTests.test_actual_footprint_required) ... ok
+test_counter_resets_rejected_but_gauges_can_decrease (test_cache_pressure.CachePressureTests.test_counter_resets_rejected_but_gauges_can_decrease) ... ok
+test_failed_start_preserves_project_and_checkpoint (test_cache_pressure.CachePressureTests.test_failed_start_preserves_project_and_checkpoint) ... Cache pressure: {'round': 1, 'rows': 128, 'position': 1}
+Partial results: /tmp/tmpyy9_wvm_/results/20261030T184809Z-cache-pressure-30a5b97b
+Failed isolated project retained: cu-pressure-30a5b97bd2c74adb95debc00b6b7b165-1
+ok
+test_full_schedule_balances_size_order (test_cache_pressure.CachePressureTests.test_full_schedule_balances_size_order) ... ok
+test_host_refuses_normal_or_preexisting_project (test_cache_pressure.CachePressureTests.test_host_refuses_normal_or_preexisting_project) ... ok
+test_incomplete_runs_cannot_be_summarized (test_cache_pressure.CachePressureTests.test_incomplete_runs_cannot_be_summarized) ... ok
+test_missing_counters_not_zero (test_cache_pressure.CachePressureTests.test_missing_counters_not_zero) ... ok
+test_payload_and_host_oracle_are_reproducible (test_cache_pressure.CachePressureTests.test_payload_and_host_oracle_are_reproducible) ... ok
+test_queries_verify_payload_and_crc (test_cache_pressure.CachePressureTests.test_queries_verify_payload_and_crc) ... ok
+test_stream_verification_rejects_corruption_missing_extra (test_cache_pressure.CachePressureTests.test_stream_verification_rejects_corruption_missing_extra) ... ok
+test_unclean_shutdown_prevents_successful_cleanup (test_cache_pressure.CachePressureTests.test_unclean_shutdown_prevents_successful_cleanup) ... ok
+test_worker_requires_isolation_before_connection (test_cache_pressure.CachePressureTests.test_worker_requires_isolation_before_connection) ... ok
+test_abnormal_worker_exit_retains_stdout_and_container (test_cache_pressure.ImmutableImageBindingTests.test_abnormal_worker_exit_retains_stdout_and_container) ... ok
+test_build_tag_collision_prevents_build (test_cache_pressure.ImmutableImageBindingTests.test_build_tag_collision_prevents_build) ... ok
+test_build_uses_unique_tags_then_freezes_resolved_ids (test_cache_pressure.ImmutableImageBindingTests.test_build_uses_unique_tags_then_freezes_resolved_ids) ... ok
+test_control_changes_and_wrong_resource_limits_are_rejected (test_cache_pressure.ImmutableImageBindingTests.test_control_changes_and_wrong_resource_limits_are_rejected) ... ok
+test_mismatched_image_is_refused_before_start_and_removal (test_cache_pressure.ImmutableImageBindingTests.test_mismatched_image_is_refused_before_start_and_removal) ... ok
+test_preexisting_worker_is_not_recreated (test_cache_pressure.ImmutableImageBindingTests.test_preexisting_worker_is_not_recreated) ... ok
+test_retagging_cannot_change_created_or_started_worker (test_cache_pressure.ImmutableImageBindingTests.test_retagging_cannot_change_created_or_started_worker) ... ok
+test_windows_host_source_paths_match_linux_copy (test_cache_pressure.ImmutableImageBindingTests.test_windows_host_source_paths_match_linux_copy) ... ok
+test_connection_failure_aborts_barrier_without_success_report (test_concurrency.ConcurrencyTests.test_connection_failure_aborts_barrier_without_success_report) ... ok
+test_engine_substitution_refused_and_owned_table_cleaned (test_concurrency.ConcurrencyTests.test_engine_substitution_refused_and_owned_table_cleaned) ... ok
+test_existing_table_never_dropped (test_concurrency.ConcurrencyTests.test_existing_table_never_dropped) ... ok
+test_failed_or_incomplete_runs_cannot_be_summarized (test_concurrency.ConcurrencyTests.test_failed_or_incomplete_runs_cannot_be_summarized) ... ok
+test_invalid_workload_rejected (test_concurrency.ConcurrencyTests.test_invalid_workload_rejected) ... ok
+test_same_total_work_and_key_frequencies_at_all_client_counts (test_concurrency.ConcurrencyTests.test_same_total_work_and_key_frequencies_at_all_client_counts) ... ok
+test_update_failure_is_not_retried (test_concurrency.ConcurrencyTests.test_update_failure_is_not_retried) ... ok
+test_update_oracle_changes_only_expected_column (test_concurrency.ConcurrencyTests.test_update_oracle_changes_only_expected_column) ... ok
+test_workers_preserve_all_successful_operations (test_concurrency.ConcurrencyTests.test_workers_preserve_all_successful_operations) ... ok
+test_wrong_database_rejected_before_connecting (test_concurrency.ConcurrencyTests.test_wrong_database_rejected_before_connecting) ... ok
+test_balanced_pairs_and_identical_streams (test_memory_indexes.MemoryIndexTests.test_balanced_pairs_and_identical_streams) ... ok
+test_corrupt_and_missing_loaded_rows_rejected (test_memory_indexes.MemoryIndexTests.test_corrupt_and_missing_loaded_rows_rejected) ... ok
+test_counter_reset_not_reported_as_work (test_memory_indexes.MemoryIndexTests.test_counter_reset_not_reported_as_work) ... ok
+test_existing_table_never_changed (test_memory_indexes.MemoryIndexTests.test_existing_table_never_changed) ... ok
+test_index_substitution_rejected (test_memory_indexes.MemoryIndexTests.test_index_substitution_rejected) ... ok
+test_known_answers_and_endpoints (test_memory_indexes.MemoryIndexTests.test_known_answers_and_endpoints) ... ok
+test_schema_changes_only_secondary_index (test_memory_indexes.MemoryIndexTests.test_schema_changes_only_secondary_index) ... ok
+test_statistics_use_trials_and_reject_incomplete_evidence (test_memory_indexes.MemoryIndexTests.test_statistics_use_trials_and_reject_incomplete_evidence) ... ok
+test_wrong_database_rejected_before_connect (test_memory_indexes.MemoryIndexTests.test_wrong_database_rejected_before_connect) ... ok
+test_bad_network_payload_never_becomes_dataset (test_openflights.OpenFlightsTests.test_bad_network_payload_never_becomes_dataset) ... ok
+test_checksum_and_row_count_are_required (test_openflights.OpenFlightsTests.test_checksum_and_row_count_are_required) ... ok
+test_complete_pilot_checkpoint_and_summary (test_openflights.OpenFlightsTests.test_complete_pilot_checkpoint_and_summary) ... OpenFlights round 1/1: MyISAM
+OpenFlights round 1/1: ROCKSDB
+OpenFlights round 1/1: InnoDB
+OpenFlights round 1/1: MEMORY
+OpenFlights round 1/1: Aria
+# OpenFlights route comparison
+
+Run: 20261030T184809Z-openflights-9cfe561b
+
+**PILOT: one round per engine; no variability estimate or ranking.**
+
+Rows per trial: 3. Power condition: test.
+Read statistics summarize round means, not pooled individual queries. Values are mean ± sample SD.
+
+| Engine | Load (s) | Point lookup (ms) | Full scan (ms) | Source aggregate (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| InnoDB | 0.0000 ± n/a | 0.0009 ± n/a | 0.0030 ± n/a | 0.0028 ± n/a |
+| Aria | 0.0000 ± n/a | 0.0009 ± n/a | 0.0032 ± n/a | 0.0028 ± n/a |
+| MyISAM | 0.0000 ± n/a | 0.0009 ± n/a | 0.0034 ± n/a | 0.0117 ± n/a |
+| MEMORY | 0.0000 ± n/a | 0.0009 ± n/a | 0.0032 ± n/a | 0.0029 ± n/a |
+| ROCKSDB | 0.0000 ± n/a | 0.0009 ± n/a | 0.0030 ± n/a | 0.0027 ± n/a |
+
+Every row and query answer was checked. Raw samples, query streams, plans, actual DDL,
+dataset/source hashes and runtime/settings metadata are in results.json.
+These are warm reads on a reused server. Timings include driver/network work; durability and
+cache budgets are not equalized. No physical-disk, cold-cache or steady-state claim is made.
+The routes snapshot is historical reference data, not observed flights or current schedules.
+Keep these results separate from synthetic events and the pilot separate from full statistics.
+Data: OpenFlights, via MariaDB/openflights; ODbL 1.0. See docs/openflights-method.md.
+
+Saved: /tmp/tmpd4w1w1ma/20261030T184809Z-openflights-9cfe561b
+ok
+test_connection_failure_leaves_failed_checkpoint_without_summary (test_openflights.OpenFlightsTests.test_connection_failure_leaves_failed_checkpoint_without_summary) ... Partial results: /tmp/tmpsjsz32fc/20261030T184809Z-openflights-eb52c6fa
+An owned failed-trial table may remain; inspect it before any retry.
+ok
+test_existing_bad_download_is_never_replaced (test_openflights.OpenFlightsTests.test_existing_bad_download_is_never_replaced) ... ok
+test_existing_table_is_not_changed (test_openflights.OpenFlightsTests.test_existing_table_is_not_changed) ... ok
+test_incomplete_invalid_or_unverified_runs_cannot_be_summarized (test_openflights.OpenFlightsTests.test_incomplete_invalid_or_unverified_runs_cannot_be_summarized) ... ok
+test_invalid_config_and_database_rejected_before_loading (test_openflights.OpenFlightsTests.test_invalid_config_and_database_rejected_before_loading) ... ok
+test_oracles_include_nulls_and_nonindexed_row_values (test_openflights.OpenFlightsTests.test_oracles_include_nulls_and_nonindexed_row_values) ... ok
+test_parser_preserves_nulls_empty_strings_and_repeated_route_keys (test_openflights.OpenFlightsTests.test_parser_preserves_nulls_empty_strings_and_repeated_route_keys) ... ok
+test_parser_rejects_malformed_rows_and_truncation (test_openflights.OpenFlightsTests.test_parser_rejects_malformed_rows_and_truncation) ... ok
+test_schema_is_identical_except_engine_and_uses_btree (test_openflights.OpenFlightsTests.test_schema_is_identical_except_engine_and_uses_btree) ... ok
+test_statistics_use_five_round_means (test_openflights.OpenFlightsTests.test_statistics_use_five_round_means) ... ok
+test_substitution_and_failed_writes_preserve_trial_table (test_openflights.OpenFlightsTests.test_substitution_and_failed_writes_preserve_trial_table) ... ok
+test_successful_trial_checks_data_and_cleans_only_owned_table (test_openflights.OpenFlightsTests.test_successful_trial_checks_data_and_cleans_only_owned_table) ... ok
+test_verification_detects_changed_missing_extra_and_reordered_rows (test_openflights.OpenFlightsTests.test_verification_detects_changed_missing_extra_and_reordered_rows) ... ok
+test_verified_download_and_offline_reuse (test_openflights.OpenFlightsTests.test_verified_download_and_offline_reuse) ... ok
+test_atomic_receipt_refuses_overwrite (test_recovery.RecoveryTests.test_atomic_receipt_refuses_overwrite) ... ok
+test_authentication_failure_is_not_retried_or_called_data_loss (test_recovery.RecoveryTests.test_authentication_failure_is_not_retried_or_called_data_loss) ... ok
+test_check_table_errors_retain_even_matching_data (test_recovery.RecoveryTests.test_check_table_errors_retain_even_matching_data) ... ok
+test_clean_control_rejects_forced_shutdown (test_recovery.RecoveryTests.test_clean_control_rejects_forced_shutdown) ... ok
+test_compare_intact_missing_changed_unexpected_and_duplicates (test_recovery.RecoveryTests.test_compare_intact_missing_changed_unexpected_and_duplicates) ... ok
+test_complete_pilot_records_both_conditions_and_retains_unreadable_trials (test_recovery.RecoveryTests.test_complete_pilot_records_both_conditions_and_retains_unreadable_trials) ... Recovery round 1/1: MyISAM clean
+Recovery round 1/1: MyISAM sigkill
+Recovery round 1/1: MEMORY sigkill
+Recovery round 1/1: MEMORY clean
+Recovery round 1/1: ROCKSDB clean
+Recovery round 1/1: ROCKSDB sigkill
+Recovery round 1/1: InnoDB sigkill
+Recovery round 1/1: InnoDB clean
+Recovery round 1/1: Aria clean
+Recovery round 1/1: Aria sigkill
+# Recovery pilot
+
+Run: 20261030T184809Z-recovery-3e05b220
+
+100 acknowledged single-row autocommit inserts per trial; 1 round(s).
+Each trial uses a fresh volume. No write is in flight at the planned stop.
+SIGKILL tests a database-process crash with host/kernel still running, not power loss.
+
+| Engine | Round | Stop | Observation | Intact rows | Missing | Changed | Restart through verification (s) |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: |
+| MyISAM | 1 | clean | unreadable | n/a | n/a | n/a | 0.001 |
+| MyISAM | 1 | sigkill | unreadable | n/a | n/a | n/a | 0.001 |
+| MEMORY | 1 | sigkill | readable | 0 | 100 | 0 | 0.001 |
+| MEMORY | 1 | clean | readable | 0 | 100 | 0 | 0.001 |
+| ROCKSDB | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| ROCKSDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.002 |
+| InnoDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.002 |
+| InnoDB | 1 | clean | readable | 100 | 0 | 0 | 0.002 |
+| Aria | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| Aria | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+
+Timing includes Docker startup, observer-container launch, connection polling, full data read and CHECK TABLE.
+It is not engine-only recovery latency. Unavailable/unreadable tables have unknown survival, not zero rows.
+MEMORY rows are volatile even for clean restarts. Data survival in this test is not a durability guarantee.
+The writer holds its connection open until the stop; receipt transfer and host orchestration introduce delay.
+Automatic engine recovery may occur; the harness never issues REPAIR TABLE or forces compaction.
+Completed means the protocol finished, not that every engine preserved every row.
+Raw receipts, observations, source hashes, settings, timings and server logs are saved beside this report.
+Retained projects needing review: 2
+See docs/recovery-method.md for protocol and limitations.
+
+Saved: /tmp/tmpifl5yole/results/20261030T184809Z-recovery-3e05b220
+ok
+test_compose_cannot_target_normal_project (test_recovery.RecoveryTests.test_compose_cannot_target_normal_project) ... ok
+test_each_ack_follows_a_single_row_success (test_recovery.RecoveryTests.test_each_ack_follows_a_single_row_success) ... ok
+test_empty_is_readable_loss_not_unavailable (test_recovery.RecoveryTests.test_empty_is_readable_loss_not_unavailable) ... ok
+test_existing_project_refused (test_recovery.RecoveryTests.test_existing_project_refused) ... ok
+test_guard_rejects_normal_database (test_recovery.RecoveryTests.test_guard_rejects_normal_database) ... ok
+test_inserts_not_retried_after_ambiguous_failure (test_recovery.RecoveryTests.test_inserts_not_retried_after_ambiguous_failure) ... ok
+test_partial_reports_rejected (test_recovery.RecoveryTests.test_partial_reports_rejected) ... ok
+test_prepare_holds_connection_after_receipt_without_postload_queries (test_recovery.RecoveryTests.test_prepare_holds_connection_after_receipt_without_postload_queries) ... ok
+test_prepare_refuses_preexisting_tables_before_ddl (test_recovery.RecoveryTests.test_prepare_refuses_preexisting_tables_before_ddl) ... ok
+test_receipt_needs_complete_ordered_acknowledgments (test_recovery.RecoveryTests.test_receipt_needs_complete_ordered_acknowledgments) ... ok
+test_row_limits (test_recovery.RecoveryTests.test_row_limits) ... ok
+test_sigkill_requires_137_and_not_oom (test_recovery.RecoveryTests.test_sigkill_requires_137_and_not_oom) ... ok
+test_startup_failure_retains_evidence_and_never_kills_or_deletes (test_recovery.RecoveryTests.test_startup_failure_retains_evidence_and_never_kills_or_deletes) ... Recovery round 1/1: MyISAM clean
+Partial results: /tmp/tmph1bsj8yp/results/20261030T184809Z-recovery-3dbfdb50
+ok
+test_unlabelled_existing_volume_refused (test_recovery.RecoveryTests.test_unlabelled_existing_volume_refused) ... ok
+test_unreadable_table_does_not_become_zero_survival (test_recovery.RecoveryTests.test_unreadable_table_does_not_become_zero_survival) ... ok
+test_wrong_container_or_mount_blocks_crash (test_recovery.RecoveryTests.test_wrong_container_or_mount_blocks_crash) ... ok
+test_completed_run_requires_clean_stop_inventory_and_exact_images (test_rocksdb_compression.RocksDBCompressionTests.test_completed_run_requires_clean_stop_inventory_and_exact_images) ... ok
+test_existing_resources_and_invalid_names_are_never_reused (test_rocksdb_compression.RocksDBCompressionTests.test_existing_resources_and_invalid_names_are_never_reused) ... ok
+test_failed_start_retains_resources_and_failed_checkpoint (test_rocksdb_compression.RocksDBCompressionTests.test_failed_start_retains_resources_and_failed_checkpoint) ... Compression trial: {'round': 1, 'position': 1, 'profile': 'compressible', 'codec': 'none'}
+Partial results: /tmp/tmpg3qdujaw/run
+Owned isolated resources retained: cu-compression-14e04415ef774b629aded8767d70ce8d-1
+ok
+test_foreign_image_labels_mounts_and_quotas_refused_before_mutation (test_rocksdb_compression.RocksDBCompressionTests.test_foreign_image_labels_mounts_and_quotas_refused_before_mutation) ... ok
+test_full_design_balances_position_and_every_pair_order (test_rocksdb_compression.RocksDBCompressionTests.test_full_design_balances_position_and_every_pair_order) ... ok
+test_inventory_rejects_symlinks (test_rocksdb_compression.RocksDBCompressionTests.test_inventory_rejects_symlinks) ... ok
+test_inventory_requires_each_mapped_file_once_and_nonzero (test_rocksdb_compression.RocksDBCompressionTests.test_inventory_requires_each_mapped_file_once_and_nonzero) ... ok
+test_live_database_cannot_be_inventoried_or_deleted (test_rocksdb_compression.RocksDBCompressionTests.test_live_database_cannot_be_inventoried_or_deleted) ... ok
+test_missing_wrong_duplicate_and_incomplete_sst_properties_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_missing_wrong_duplicate_and_incomplete_sst_properties_rejected) ... ok
+test_nonfinite_and_incomplete_query_samples_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_nonfinite_and_incomplete_query_samples_rejected) ... ok
+test_option_fallback_and_compaction_overrides_are_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_option_fallback_and_compaction_overrides_are_rejected) ... ok
+test_partial_runs_cannot_be_summarized (test_rocksdb_compression.RocksDBCompressionTests.test_partial_runs_cannot_be_summarized) ... ok
+test_private_inspection_credentials_and_local_paths_not_logged (test_rocksdb_compression.RocksDBCompressionTests.test_private_inspection_credentials_and_local_paths_not_logged) ... Docker step: docker container inspect
+ok
+test_remote_context_rejected_before_any_creation (test_rocksdb_compression.RocksDBCompressionTests.test_remote_context_rejected_before_any_creation) ... ok
+test_stale_or_missing_worker_fingerprint_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_stale_or_missing_worker_fingerprint_rejected) ... ok
+test_stream_rejects_corruption_missing_extra_and_reordered_rows (test_rocksdb_compression.RocksDBCompressionTests.test_stream_rejects_corruption_missing_extra_and_reordered_rows) ... ok
+test_worker_refuses_nonisolated_environment_before_connection (test_rocksdb_compression.RocksDBCompressionTests.test_worker_refuses_nonisolated_environment_before_connection) ... ok
+test_invalid_dataset_stops_before_build_or_database (test_setup.SetupTests.test_invalid_dataset_stops_before_build_or_database) ... 
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+ok
+test_unwritable_output_stops_before_database_start (test_setup.SetupTests.test_unwritable_output_stops_before_database_start) ... 
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+
+== Build Python runner ==
+
+== Check benchmark output permissions ==
+ok
+test_wrong_platform_stops_before_credentials_or_build (test_setup.SetupTests.test_wrong_platform_stops_before_credentials_or_build) ... 
+== Check Docker engine ==
+ok
+test_existing_project_rejected (test_storage.StorageTests.test_existing_project_rejected) ... ok
+test_existing_tables_not_changed (test_storage.StorageTests.test_existing_tables_not_changed) ... ok
+test_failed_trial_preserves_evidence_and_volume (test_storage.StorageTests.test_failed_trial_preserves_evidence_and_volume) ... Storage round 1/1: MyISAM
+Partial results: /tmp/tmp0xi52ry9/results/20261030T184809Z-storage-0669acc2
+ok
+test_incomplete_report_rejected (test_storage.StorageTests.test_incomplete_report_rejected) ... ok
+test_inventory_sparse_hardlinks_symlinks (test_storage.StorageTests.test_inventory_sparse_hardlinks_symlinks) ... ok
+test_loader_requires_isolation (test_storage.StorageTests.test_loader_requires_isolation) ... ok
+test_memory_and_disk_are_distinguished (test_storage.StorageTests.test_memory_and_disk_are_distinguished) ... ok
+test_negative_delta_retained (test_storage.StorageTests.test_negative_delta_retained) ... ok
+test_no_snapshot_of_live_database (test_storage.StorageTests.test_no_snapshot_of_live_database) ... ok
+test_normal_project_rejected_before_command (test_storage.StorageTests.test_normal_project_rejected_before_command) ... ok
+test_unclean_shutdown_blocks_measurement (test_storage.StorageTests.test_unclean_shutdown_blocks_measurement) ... ok
+test_counter_units_and_deltas (test_telemetry.TelemetryTests.test_counter_units_and_deltas) ... ok
+test_cpu_report_marks_unavailable_observations (test_telemetry.TelemetryTests.test_cpu_report_marks_unavailable_observations) ... ok
+test_missing_data_is_not_zero_throttling (test_telemetry.TelemetryTests.test_missing_data_is_not_zero_throttling) ... ok
+test_parsing_and_invalid_counters (test_telemetry.TelemetryTests.test_parsing_and_invalid_counters) ... ok
+test_reset_and_quota_change_not_reported_as_valid (test_telemetry.TelemetryTests.test_reset_and_quota_change_not_reported_as_valid) ... ok
+test_snapshot_handles_missing_cgroup_files (test_telemetry.TelemetryTests.test_snapshot_handles_missing_cgroup_files) ... ok
+test_wrong_quota_rejected_before_database_connection (test_telemetry.TelemetryTests.test_wrong_quota_rejected_before_database_connection) ... ok
+test_cpu_rejects_reset_restart_quota_and_missing (test_write_diagnostics.WriteDiagnosticTests.test_cpu_rejects_reset_restart_quota_and_missing) ... ok
+test_cpu_units_and_window_bounds (test_write_diagnostics.WriteDiagnosticTests.test_cpu_units_and_window_bounds) ... ok
+test_failed_worker_retains_volume_and_partial_evidence (test_write_diagnostics.WriteDiagnosticTests.test_failed_worker_retains_volume_and_partial_evidence) ... Write diagnostics: {'round': 1, 'engine': 'InnoDB', 'pattern': 'disjoint', 'clients': 1}
+Partial results: /tmp/tmp8es95rn8/results/20261030T184809Z-write-diagnostics-5781db64
+Failed isolated project retained: cu-writes-5781db64265b454fb2eb6d6302365b36-1
+ok
+test_full_schedule_balances_engine_position_and_fixed_work (test_write_diagnostics.WriteDiagnosticTests.test_full_schedule_balances_engine_position_and_fixed_work) ... ok
+test_host_validation_detects_wrong_data_workers_and_cpu (test_write_diagnostics.WriteDiagnosticTests.test_host_validation_detects_wrong_data_workers_and_cpu) ... ok
+test_missing_lock_is_not_zero_and_gauge_can_fall (test_write_diagnostics.WriteDiagnosticTests.test_missing_lock_is_not_zero_and_gauge_can_fall) ... ok
+test_normal_project_and_existing_resources_rejected (test_write_diagnostics.WriteDiagnosticTests.test_normal_project_and_existing_resources_rejected) ... ok
+test_report_rejects_partial_and_duplicates (test_write_diagnostics.WriteDiagnosticTests.test_report_rejects_partial_and_duplicates) ... ok
+test_worker_requires_isolation_before_connecting (test_write_diagnostics.WriteDiagnosticTests.test_worker_requires_isolation_before_connecting) ... ok
+
+----------------------------------------------------------------------
+Ran 140 tests in 0.909s
+
+OK
+
+== Build five-engine MariaDB ==
+#1 [internal] load local bake definitions
+#1 reading from stdin 826B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from db.Dockerfile
+#2 transferring dockerfile: 716B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [stage-0 1/3] FROM docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#5 CACHED
+
+#6 [internal] load build context
+#6 transferring context: 210B done
+#6 DONE 0.0s
+
+#7 [stage-0 2/3] RUN --mount=type=secret,id=cloud_ca,required=true apt-get -o Acquire::https::CaInfo=/run/secrets/cloud_ca update     && DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::https::CaInfo=/run/secrets/cloud_ca install -y --no-install-recommends        mariadb-plugin-rocksdb=1:11.8.9+maria~ubu2404     && test "$(dpkg-query -W -f='${Version}' mariadb-server-core)" = '1:11.8.9+maria~ubu2404'     && rm -rf /var/lib/apt/lists/*
+#7 3.424 Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+#7 3.620 Get:2 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+#7 3.714 Get:3 http://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble InRelease [27.9 kB]
+#7 3.937 Get:4 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [55.6 kB]
+#7 4.121 Get:5 http://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble/main amd64 Packages [14.5 kB]
+#7 4.495 Get:6 http://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble/main/debug amd64 Packages [9731 B]
+#7 4.578 Get:7 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+#7 4.597 Get:8 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1550 kB]
+#7 5.132 Get:9 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+#7 5.595 Get:10 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+#7 5.743 Get:11 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1412 kB]
+#7 6.585 Get:12 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+#7 6.824 Get:13 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [2122 kB]
+#7 7.042 Get:14 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+#7 8.113 Get:15 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]
+#7 8.901 Get:16 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [2240 kB]
+#7 9.967 Get:17 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2172 kB]
+#7 10.92 Get:18 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [61.7 kB]
+#7 11.25 Get:19 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1741 kB]
+#7 11.60 Get:20 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.0 kB]
+#7 12.05 Get:21 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [669 B]
+#7 12.32 Get:22 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.0 kB]
+#7 12.39 Fetched 33.7 MB in 9s (3696 kB/s)
+#7 12.39 Reading package lists...
+#7 13.42 Reading package lists...
+#7 14.44 Building dependency tree...
+#7 14.65 Reading state information...
+#7 14.87 The following additional packages will be installed:
+#7 14.87   libexpat1 libgflags2.2 libpython3-stdlib libpython3.12-minimal
+#7 14.87   libpython3.12-stdlib librocksdb8.9 libsnappy1v5 media-types netbase python3
+#7 14.87   python3-minimal python3.12 python3.12-minimal rocksdb-tools
+#7 14.87 Suggested packages:
+#7 14.87   python3-doc python3-tk python3-venv python3.12-venv python3.12-doc binutils
+#7 14.87   binfmt-support
+#7 14.87 Recommended packages:
+#7 14.87   python3-mysqldb
+#7 14.96 The following NEW packages will be installed:
+#7 14.97   libexpat1 libgflags2.2 libpython3-stdlib libpython3.12-minimal
+#7 14.97   libpython3.12-stdlib librocksdb8.9 libsnappy1v5 mariadb-plugin-rocksdb
+#7 14.97   media-types netbase python3 python3-minimal python3.12 python3.12-minimal
+#7 14.97   rocksdb-tools
+#7 15.43 0 upgraded, 15 newly installed, 0 to remove and 17 not upgraded.
+#7 15.43 Need to get 13.6 MB of archives.
+#7 15.43 After this operation, 46.4 MB of additional disk space will be used.
+#7 15.43 Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-minimal amd64 3.12.3-1ubuntu0.17 [839 kB]
+#7 15.47 Get:2 http://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble/main amd64 mariadb-plugin-rocksdb amd64 1:11.8.9+maria~ubu2404 [3317 kB]
+#7 16.58 Get:3 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1 amd64 2.6.1-2ubuntu0.6 [98.9 kB]
+#7 17.15 Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-minimal amd64 3.12.3-1ubuntu0.17 [2335 kB]
+#7 17.93 Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-minimal amd64 3.12.3-0ubuntu2.1 [27.4 kB]
+#7 18.25 Get:6 http://archive.ubuntu.com/ubuntu noble/main amd64 media-types all 10.1.0 [27.5 kB]
+#7 18.53 Get:7 http://archive.ubuntu.com/ubuntu noble/main amd64 netbase all 6.4 [13.1 kB]
+#7 18.59 Get:8 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-stdlib amd64 3.12.3-1ubuntu0.17 [2071 kB]
+#7 19.06 Get:9 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12 amd64 3.12.3-1ubuntu0.17 [651 kB]
+#7 20.08 Get:10 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3-stdlib amd64 3.12.3-0ubuntu2.1 [10.1 kB]
+#7 20.36 Get:11 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3 amd64 3.12.3-0ubuntu2.1 [23.0 kB]
+#7 20.90 Get:12 http://archive.ubuntu.com/ubuntu noble/universe amd64 libgflags2.2 amd64 2.2.2-2build1 [74.5 kB]
+#7 21.57 Get:13 http://archive.ubuntu.com/ubuntu noble/main amd64 libsnappy1v5 amd64 1.1.10-1build1 [28.6 kB]
+#7 21.86 Get:14 http://archive.ubuntu.com/ubuntu noble/universe amd64 librocksdb8.9 amd64 8.9.1-2 [3805 kB]
+#7 22.95 Get:15 http://archive.ubuntu.com/ubuntu noble/universe amd64 rocksdb-tools amd64 8.9.1-2 [248 kB]
+#7 23.65 debconf: delaying package configuration, since apt-utils is not installed
+#7 23.67 Fetched 13.6 MB in 9s (1592 kB/s)
+#7 23.74 Selecting previously unselected package libpython3.12-minimal:amd64.
+#7 23.74 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 8874 files and directories currently installed.)
+#7 23.75 Preparing to unpack .../libpython3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+#7 23.76 Unpacking libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+#7 23.82 Selecting previously unselected package libexpat1:amd64.
+#7 23.82 Preparing to unpack .../libexpat1_2.6.1-2ubuntu0.6_amd64.deb ...
+#7 23.83 Unpacking libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#7 23.86 Selecting previously unselected package python3.12-minimal.
+#7 23.86 Preparing to unpack .../python3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+#7 23.87 Unpacking python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#7 23.93 Setting up libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+#7 23.94 Setting up libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#7 23.95 Setting up python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#7 24.81 Selecting previously unselected package python3-minimal.
+#7 24.81 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 9193 files and directories currently installed.)
+#7 24.82 Preparing to unpack .../0-python3-minimal_3.12.3-0ubuntu2.1_amd64.deb ...
+#7 24.82 Unpacking python3-minimal (3.12.3-0ubuntu2.1) ...
+#7 24.84 Selecting previously unselected package media-types.
+#7 24.84 Preparing to unpack .../1-media-types_10.1.0_all.deb ...
+#7 24.85 Unpacking media-types (10.1.0) ...
+#7 24.87 Selecting previously unselected package netbase.
+#7 24.87 Preparing to unpack .../2-netbase_6.4_all.deb ...
+#7 24.88 Unpacking netbase (6.4) ...
+#7 24.90 Selecting previously unselected package libpython3.12-stdlib:amd64.
+#7 24.90 Preparing to unpack .../3-libpython3.12-stdlib_3.12.3-1ubuntu0.17_amd64.deb ...
+#7 24.90 Unpacking libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+#7 25.07 Selecting previously unselected package python3.12.
+#7 25.07 Preparing to unpack .../4-python3.12_3.12.3-1ubuntu0.17_amd64.deb ...
+#7 25.07 Unpacking python3.12 (3.12.3-1ubuntu0.17) ...
+#7 25.11 Selecting previously unselected package libpython3-stdlib:amd64.
+#7 25.11 Preparing to unpack .../5-libpython3-stdlib_3.12.3-0ubuntu2.1_amd64.deb ...
+#7 25.11 Unpacking libpython3-stdlib:amd64 (3.12.3-0ubuntu2.1) ...
+#7 25.14 Setting up python3-minimal (3.12.3-0ubuntu2.1) ...
+#7 25.31 Selecting previously unselected package python3.
+#7 25.31 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 9634 files and directories currently installed.)
+#7 25.32 Preparing to unpack .../0-python3_3.12.3-0ubuntu2.1_amd64.deb ...
+#7 25.32 Unpacking python3 (3.12.3-0ubuntu2.1) ...
+#7 25.36 Selecting previously unselected package libgflags2.2.
+#7 25.36 Preparing to unpack .../1-libgflags2.2_2.2.2-2build1_amd64.deb ...
+#7 25.36 Unpacking libgflags2.2 (2.2.2-2build1) ...
+#7 25.39 Selecting previously unselected package libsnappy1v5:amd64.
+#7 25.39 Preparing to unpack .../2-libsnappy1v5_1.1.10-1build1_amd64.deb ...
+#7 25.40 Unpacking libsnappy1v5:amd64 (1.1.10-1build1) ...
+#7 25.43 Selecting previously unselected package librocksdb8.9.
+#7 25.43 Preparing to unpack .../3-librocksdb8.9_8.9.1-2_amd64.deb ...
+#7 25.44 Unpacking librocksdb8.9 (8.9.1-2) ...
+#7 25.51 Selecting previously unselected package rocksdb-tools.
+#7 25.51 Preparing to unpack .../4-rocksdb-tools_8.9.1-2_amd64.deb ...
+#7 25.51 Unpacking rocksdb-tools (8.9.1-2) ...
+#7 25.54 Selecting previously unselected package mariadb-plugin-rocksdb.
+#7 25.54 Preparing to unpack .../5-mariadb-plugin-rocksdb_1%3a11.8.9+maria~ubu2404_amd64.deb ...
+#7 25.55 Unpacking mariadb-plugin-rocksdb (1:11.8.9+maria~ubu2404) ...
+#7 25.63 Setting up media-types (10.1.0) ...
+#7 25.64 Setting up libsnappy1v5:amd64 (1.1.10-1build1) ...
+#7 25.65 Setting up netbase (6.4) ...
+#7 25.67 Setting up libgflags2.2 (2.2.2-2build1) ...
+#7 25.68 Setting up libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+#7 25.69 Setting up python3.12 (3.12.3-1ubuntu0.17) ...
+#7 26.84 Setting up librocksdb8.9 (8.9.1-2) ...
+#7 26.85 Setting up rocksdb-tools (8.9.1-2) ...
+#7 26.86 Setting up libpython3-stdlib:amd64 (3.12.3-0ubuntu2.1) ...
+#7 26.86 Setting up python3 (3.12.3-0ubuntu2.1) ...
+#7 26.97 Setting up mariadb-plugin-rocksdb (1:11.8.9+maria~ubu2404) ...
+#7 26.98 Processing triggers for mariadb-server (1:11.8.9+maria~ubu2404) ...
+#7 27.06 invoke-rc.d: could not determine current runlevel
+#7 27.06 invoke-rc.d: policy-rc.d denied execution of restart.
+#7 27.08 Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+#7 DONE 27.1s
+
+#8 [stage-0 3/3] COPY --chmod=0755 rocksdb.cnf /etc/mysql/mariadb.conf.d/rocksdb.cnf
+#8 DONE 2.4s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.7s done
+#9 writing image sha256:773c1c3f993470230c89b7d8752ea1d4a5b2bd561fd7084094a8b0d0fffe7839 done
+#9 naming to docker.io/library/cu-repro-20261030-db done
+#9 DONE 0.7s
+
+#10 resolving provenance for metadata file
+#10 DONE 0.0s
+ cu-repro-20261030-db  Built
+
+== Start database and wait for health ==
+ Container cu-repro-20261030-db-1  Creating
+ Container cu-repro-20261030-db-1  Created
+ Container cu-repro-20261030-db-1  Starting
+ Container cu-repro-20261030-db-1  Started
+ Container cu-repro-20261030-db-1  Waiting
+ Container cu-repro-20261030-db-1  Healthy
+
+== Verify all five actual engines and row contents ==
+ Container cu-repro-20261030-db-1  Running
+Server: 11.8.9-MariaDB-ubu2404
+PASS: InnoDB - actual engine verified; 3 rows matched
+PASS: Aria - actual engine verified; 3 rows matched
+PASS: MyISAM - actual engine verified; 3 rows matched
+PASS: MEMORY - actual engine verified; 3 rows matched
+PASS: ROCKSDB - actual engine verified; 3 rows matched
+PASS: all five engines. Setup check only; no benchmark results yet.
+
+SETUP PASS: output is writable, unit tests passed, and all five engines passed.
+No benchmark was run. Continue with the README pilot; preserve your .env and database volume.
+For this stack, include -p cu-repro-20261030 in subsequent docker compose commands.

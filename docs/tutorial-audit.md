@@ -1,5 +1,12 @@
 # README and tutorial audit — October 15, 2026
 
+**October 30 reproduction follow-up:** fresh isolated setup and OpenFlights pilot/full
+completed at `5afc5f0` on managed cloud Linux amd64. The [new archive and laptop comparison](openflights-linux-reproduction.md)
+preserve raw results, controls, build adaptations and host limitations. This closes
+the cloud setup/benchmark-output path beyond the write probe. The executor uses
+Debian userspace/nested Docker; independent physical Ubuntu installation, Zane's
+physical-laptop package and human Windows/macOS walkthroughs remain separate work.
+
 **October 29 follow-up:** main revision `8fd722cbd0b429b1f28e8b4c02b378d17d486e56`
 passed [all four CI jobs](https://github.com/majdsl/CU-Databases-Project/actions/runs/40883972632).
 The current tutorial adds per-case lock-counter deltas, SQL procedure-interval

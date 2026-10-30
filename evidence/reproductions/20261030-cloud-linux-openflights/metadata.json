@@ -1,0 +1,82 @@
+{
+  "format_version": 1,
+  "record_date": "2026-10-30",
+  "timezone": "Europe/Berlin",
+  "tested_commit": "5afc5f03f697c3ad1ed92feafade0d49e3261cd0",
+  "tested_branch": "main",
+  "executor": "Codex managed cloud Linux amd64, nested Docker; Debian 13 userspace, Ubuntu 24.04-based database image",
+  "operator": "Codex execution in the project owner session; not a Zane/Zeineldin laptop run",
+  "compose_project": "cu-repro-20261030",
+  "fresh_checkout": true,
+  "fresh_credentials": true,
+  "fresh_database_volume": true,
+  "cloud_pilot": "20261030T184911Z-openflights-329f0869",
+  "cloud_full": "20261030T184936Z-openflights-85032cd6",
+  "laptop_pilot": "20261009T152651Z-openflights-b44366ef",
+  "laptop_full": "20261009T160813Z-openflights-6884f225",
+  "setup": {
+    "status": "passed",
+    "unit_tests": 140,
+    "verified_engines": [
+      "InnoDB",
+      "Aria",
+      "MyISAM",
+      "MEMORY",
+      "ROCKSDB"
+    ]
+  },
+  "images": [
+    {
+      "Id": "sha256:773c1c3f993470230c89b7d8752ea1d4a5b2bd561fd7084094a8b0d0fffe7839",
+      "RepoTags": [
+        "cu-repro-20261030-db:latest"
+      ],
+      "RepoDigests": [],
+      "Created": "2026-10-30T18:48:40.304502668Z",
+      "Architecture": "amd64",
+      "Os": "linux"
+    },
+    {
+      "Id": "sha256:ab7bb291c1122c3ef48c033fb6e0b6c8cceaffdd04136fa78613f01b3a88b40d",
+      "RepoTags": [
+        "cu-repro-20261030-runner:latest"
+      ],
+      "RepoDigests": [],
+      "Created": "2026-10-30T18:48:03.461619513Z",
+      "Architecture": "amd64",
+      "Os": "linux"
+    }
+  ],
+  "image_identity_scope": "Images resolved and recorded before pilot; no intervening builds/pulls/settings changes in the recorded command sequence. DB actual image captured; removed runner containers have no retained per-run image inspections. Compose tags were used, without immutable-ID runtime enforcement.",
+  "controls": {
+    "db_cpu_quota": 2,
+    "db_memory_bytes": 2147483648,
+    "runner_cpu_quota": 1,
+    "runner_memory_bytes": 536870912,
+    "query_cache": "OFF",
+    "autocommit": "ON",
+    "memory_table_max_bytes": 134217728
+  },
+  "power_condition": "Managed cloud Linux host; physical power and governor unavailable; no other benchmark containers running",
+  "build_adaptations": [
+    "External CA secret for pip/apt TLS trust; verification remained enabled",
+    "COPY --chmod=0755 for private checkout files; repository Dockerfiles unchanged",
+    "Only fresh disposable results directory chmod 0777 for runner UID 10001",
+    "Available base/layer build cache reused; not a cold-cache build"
+  ],
+  "retained_resources": {
+    "original_volume": "cu-engine-lab_db_data",
+    "new_volume": "cu-repro-20261030_db_data",
+    "new_database_status": "stopped cleanly, exit 0"
+  },
+  "limits": [
+    "Shared virtualized host; physical machine controls and workload isolation unknown",
+    "No physical Ubuntu installation or independent human walkthrough",
+    "No rerun of other performance/recovery experiments in this record",
+    "Warm reads; driver/network overhead included; durability/cache budgets not equalized",
+    "No fresh stock-tutorial or all-report checks in this reproduction sequence; older maintenance/CI records are separate",
+    "Zane independent laptop setup/tutorial/report/pilot/full package remains pending"
+  ],
+  "privacy": "Only reviewed results, summaries, sanitized-field provenance, logs and build adapters included. No .env, passwords, Docker auth config, CA file contents or full container environment.",
+  "raw_result_policy": "New results.json and summary.md copied byte-for-byte; historical evidence unchanged; pilots excluded from full comparisons"
+}

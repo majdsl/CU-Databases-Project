@@ -1,0 +1,19 @@
+Generated two SVG charts, 120 condition summaries and canonical-JSON SHA-256 provenance.
+Generated two SVG charts, 120 condition summaries and canonical-JSON SHA-256 provenance.
+Generated report, four figure files, and two derived-data files.
+Generated report, four figure files, and two derived-data files.
+Validated 60 trials and 60 log checksums; reported 50 full-run trials. Wrote recovery findings and two charts.
+Validated 60 trials and 60 log checksums; reported 50 full-run trials. Wrote recovery findings and two charts.
+Verified 30 trials; reported 25 full-run trials. Wrote OpenFlights charts, derived data and findings.
+Verified 30 trials; reported 25 full-run trials. Wrote OpenFlights charts, derived data and findings.
+Validated 28 trials; reported 24 full trials, 72 trial/workload observations and four figure files.
+Validated 28 trials; reported 24 full trials, 72 trial/workload observations and four figure files.
+Validated 14 trials and 14 worker files; reported 12 full trials and 24 trial/phase observations.
+Validated 14 trials and 14 worker files; reported 12 full trials and 24 trial/phase observations.
+Validated 180 trials and 540 stage files; reported 150 full trials in 30 groups.
+Validated 180 trials and 540 stage files; reported 150 full trials in 30 groups.
+Validated 4 pilot and 32 full trials; pilot excluded from full statistics.
+Wrote seven derived files; full trial observations: {'trials': 32, 'row_loads': 2097152, 'timed_lookups': 32000, 'timed_crc32_scans': 160}
+Validated 4 pilot and 32 full trials; pilot excluded from full statistics.
+Wrote seven derived files; full trial observations: {'trials': 32, 'row_loads': 2097152, 'timed_lookups': 32000, 'timed_crc32_scans': 160}
+REPORT CHECK PASS: 8 reports, 55 outputs; inputs preserved; optimization=0
