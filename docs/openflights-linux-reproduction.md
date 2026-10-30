@@ -144,14 +144,14 @@ standard-library Python, no running Docker and no reporting/plotting dependencie
 
 ```bash
 python3 scripts/fetch_openflights.py
-python3 evidence/reproductions/20261030-cloud-linux-openflights/validate.py
-python3 -O evidence/reproductions/20261030-cloud-linux-openflights/validate.py
+python3 scripts/check_cloud_openflights.py
+python3 -O scripts/check_cloud_openflights.py
 ```
 
-The fetcher works offline if the pinned file already exists. The validator makes no
-database changes; its explicit `--write` option only regenerates comparison JSON/CSV
-and is intended for archive maintenance before checksums are sealed. Validation preserves
-all archived data. [Preservation metadata](../evidence/reproductions/20261030-cloud-linux-openflights/preservation.json)
+The fetcher works offline if the pinned file already exists. The current guard handles
+Windows/POSIX checksum paths, requires the sealed checksum manifest and makes no database
+or archive changes. The original validator and its pre-sealing `--write` maintenance
+option remain preserved inside the historical archive. [Preservation metadata](../evidence/reproductions/20261030-cloud-linux-openflights/preservation.json)
 records the baseline Git trees and counts of historical files checked byte-for-byte.
 
 ## Limits and pending teammate evidence
@@ -176,3 +176,7 @@ actual conditions/images and a readable transcript under his own fixed tested re
 His prompt also requests immutable image selection for OpenFlights. Attribute those
 future results to him when received and validated; this cloud run does not complete or
 replace that contribution. A later documentation review can check instruction clarity.
+
+For future sessions, the [current OpenFlights launcher](openflights-reproduction.md)
+adds immutable image selection and actual container-image capture. This strengthens
+future execution without retroactively filling missing per-run image metadata here.

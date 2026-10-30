@@ -135,8 +135,8 @@ interactive Windows PowerShell reproduction remains separate.
 Short writer durations and CI counter output are not performance or engine-ranking
 evidence. A tutorial demonstration is separate from the archived repeated benchmarks.
 Normal laptop operation should follow the tutorial, not this restart-capable CI driver.
-The lightweight database suite has 140 tests, including immutable image selection,
-retagging/collision checks and worker-control drift rejection. The offline suite has
+At `62ca1fa`, the lightweight database suite had 140 tests, including immutable image selection,
+retagging/collision checks and worker-control drift rejection. Its offline suite had
 47 tests covering storage/compression reports, immutable write-diagnostic and
 cache-pressure source provenance, private
 credential creation, tutorial guards/counters/transaction outcomes, Windows output-path
@@ -145,6 +145,26 @@ The all-report regression generates all eight reports twice in a temporary copy 
 checks that source/evidence inputs retain their hashes. The CI job first fetches the
 checksum-pinned OpenFlights data; reporting itself is offline. It exercises the current
 working files rather than accidentally testing an older Git archive.
+
+The current offline job also runs `scripts/check_cloud_openflights.py` normally
+and with `-O`. It checks the separately archived laptop/cloud pilot/full data,
+comparison JSON/CSV, measured source and all sealed archive checksums. Its current
+entry point canonicalizes Windows/POSIX paths and rejects missing checksums or a
+maintenance `--write` request without changing the archived validator. Corruption
+guards exercise changed samples/digests, comparisons, source and checksum coverage.
+
+Host-launcher guards in `report-tests/` additionally verify immutable OpenFlights
+image selection, retagging resistance, actual container/volume ownership, pre-workload
+source/server/SQL controls, failed-stage preservation and local Docker endpoint
+selection. These host-only checks do not require adding the launcher to the runner
+image or changing historical Dockerfile provenance. Current test totals are printed
+by the workflow; dated records retain their original counts.
+
+The integration job runs `scripts/run_openflights.py --smoke` separately. It prepares
+unique DB/runner images, selects immutable IDs, checks actual containers and all five
+engines, and cleanly stops its isolated database while retaining its volume. It does
+not run timed OpenFlights trials. Performance pilot/full runs still require a person
+to prepare, review the pilot, and explicitly invoke full with the same session.
 
 **Validated October 26, 2026:** [PR run 40395842648](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395842648)
 and [push run 40395828223](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395828223)

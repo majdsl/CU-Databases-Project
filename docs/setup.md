@@ -17,15 +17,58 @@ OpenFlights source. The DB and runner are limited to 2 GiB and 512 MiB; allow ad
 memory for Docker and builds. Recorded hardware and software are in
 [the environment record](benchmark-environment.md).
 
-## One-command setup
+## Native Linux output prerequisite
+
+The runner uses UID/GID 10001 and writes to the host's `results/` bind mount.
+On an ordinary rootful Docker host, a new directory with mode `0755` owned by a
+login UID other than 10001 does not grant the runner write access. Prepare access before the first
+setup build if it is not already configured. Windows Docker Desktop users can
+continue to the wrapper below; these POSIX ACL commands are for native Linux.
+
+From the repository root, check that `setfacl` is available:
+
+```bash
+command -v setfacl
+```
+
+If it is missing on Ubuntu/Debian, install the `acl` package:
+
+```bash
+sudo apt-get update
+sudo apt-get install acl
+```
+
+Then grant the runner access to this directory only:
+
+```bash
+mkdir -p results
+setfacl -m u:10001:rwx results
+```
+
+The ACL changes this directory's access without changing ownership, existing file
+contents or permissions throughout the repository. It is not recursive. Existing
+ACLs may already grant access; setup does not try to infer Docker access from Unix
+mode bits. Rootless/user-remapped Docker and SELinux can require different host
+configuration. Follow the relevant administrator instructions for that setup.
+The actual container write probe remains the authoritative check before testing
+or starting MariaDB.
+
+Setup prints the scoped commands with your checkout's quoted absolute path before
+credentials, downloads and builds. If its later write probe fails, the error repeats
+those commands and the missing-utility hint. It does not execute them or change
+ownership/permissions automatically. CI owns a fresh disposable directory and
+explicitly assigns it to UID 10001; it does not change ownership on your laptop.
+
+## Setup wrapper after prerequisites
 
 Validated from a fresh Ubuntu CI checkout on October 15:
 [85 tests and all five engines passed](https://github.com/majdsl/CU-Databases-Project/actions/runs/38824387276)
 at `ead6f10`, including the output-write probe. Independent reproduction of this
 wrapper on Windows remains pending.
 
-From the checkout, run `python scripts/setup_project.py` on Windows or
-`python3 scripts/setup_project.py` on Linux. The wrapper resolves the repository directory
+After the prerequisites above, run `python scripts/setup_project.py` on Windows or
+`python3 scripts/setup_project.py` on Linux. This wrapper is one command; the native
+Linux access preparation is a separate first-run prerequisite. It resolves the repository directory
 from its own path, checks the engine and Compose, preserves or creates credentials,
 verifies the dataset, builds the runner, checks output permissions, runs unit tests,
 builds/starts MariaDB, waits for health, and checks all five engines. It stops at the first
@@ -42,26 +85,6 @@ use the fixed `cu-engine-lab` project; a second clone alone is not an isolated d
 Do not run this lab against an existing application database. Setup may recreate this
 lab's container after a build while preserving its named volume. Avoid setup during
 an active measurement or another person's use of that stack.
-
-## Native Linux output permissions
-
-The runner uses UID/GID 10001 and writes to the host's `results/` bind mount.
-If setup reports that `/results` is not writable, grant this UID access to that directory
-from the repository root (requires the host's `setfacl` utility):
-
-```bash
-mkdir -p results
-setfacl -m u:10001:rwx results
-python3 scripts/setup_project.py
-```
-
-This grants access to the directory without changing ownership of existing files or
-making the entire repository writable. The runner creates a new folder for every run.
-Read permissions normally allow you to inspect its results; if editing a generated file
-is necessary, manage that file's permissions separately. Rootless/user-remapped Docker
-and SELinux can require additional administrator configuration; the write probe must
-pass before benchmarking. CI owns a fresh disposable directory and explicitly assigns
-it to UID 10001; it does not change ownership on a user's laptop.
 
 ## Manual equivalent
 

@@ -1,5 +1,11 @@
 # Image provenance: pilot and full identities
 
+For future OpenFlights sessions, the [host launcher](openflights-reproduction.md)
+builds once, selects immutable DB/runner image IDs and captures actual container image
+identities before and after each worker. Pilot/full stages share that selection and
+reject source, settings or power-label drift. This is separate from the historical
+records below and does not reconstruct missing past metadata.
+
 ## Why two builds were selected
 
 The host orchestrators run a build at the start of each invocation:

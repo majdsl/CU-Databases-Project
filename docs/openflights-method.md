@@ -134,6 +134,12 @@ isolate concurrency and failure behavior. Neither alone supports all production 
 
 ## Run one command at a time
 
+For new measurements, follow the [frozen-image reproduction guide](openflights-reproduction.md).
+Its host launcher prepares once, records actual DB/runner images and controls, then
+requires separate pilot/full commands using one session manifest. The benchmark below
+remains available as a low-level entry point; direct Compose tag commands alone do not
+enforce immutable image selection or capture actual runner identities.
+
 On the host, from the repository root, with Docker Desktop's Linux engine running:
 
 ```powershell
@@ -169,7 +175,9 @@ without a success summary. Inspect that table and partial results before retryin
 delete the database volume to clear an error. This harness never issues crash commands.
 
 The real pilot/full runs, evidence review and findings are complete for this scope.
-The project is now on `main`, with [correctness CI](ci.md), a [pinned Python base](runner-image.md)
-and [workload recommendations](engine-recommendations.md). Independent fresh-checkout
-reproduction, confirmed team contributions and the remaining [audit items](tutorial-audit.md)
-still require follow-up.
+The project is on `main`, with [correctness CI](ci.md), a [pinned Python base](runner-image.md),
+[workload recommendations](engine-recommendations.md) and [confirmed team contributions](team-contributions.md).
+The [October 30 cloud reproduction](openflights-linux-reproduction.md) adds fresh setup
+and separately compared full measurements on a Debian-userspace/nested-Docker executor.
+Independent physical-laptop/human walkthroughs, including Zane's pending package,
+remain separate from that evidence. See the [audit record](tutorial-audit.md) for scope.

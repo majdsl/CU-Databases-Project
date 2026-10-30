@@ -1,0 +1,145 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Europe/Berlin",
+  "base_commit": "62ca1fa128ba1c41b9905cf06ec1c0fa8a167ace",
+  "working_changes": true,
+  "scope": "Development correctness and preservation checks; no new timed benchmark or score claim",
+  "source_sha256": {
+    "scripts/run_openflights.py": "9b060d1c2b900c35b96b25b5a2935d7ecf478b7c8f0c10a5886197fa40435d55",
+    "scripts/check_cloud_openflights.py": "88b194f70759f776906972efdb8d4b5e92494e8e09e3a81d4570ed97b7d9ef5d",
+    "scripts/setup_project.py": "4d345209512d18a0cac259f4f0fd174ae665a01d064aa982b08e374597ae0762",
+    "report-tests/test_cloud_openflights.py": "d92c1f542612da2a8d11ee2fc140c9913813c891cc0ad6c5e07d27d848cdb81a",
+    "report-tests/test_openflights_launcher.py": "34e6a33f7efbb7fdec886b76025e567cb13909d0369832804aec3e8f65a3d978",
+    "tests/test_setup.py": "e7e13c63bec4f730674e76aae87d84b80dfe14e2e281eff5f4f8483dd75234d2",
+    ".github/workflows/correctness.yml": "1c6cbba731f7d2a09a367bda3327b1c3406fa284d7d3fca233f7987f427e11a7"
+  },
+  "checks": [
+    {
+      "check": "unit-normal",
+      "exit_code": 0,
+      "elapsed_seconds": 1.9,
+      "log": "logs/unit-normal.txt",
+      "tests": 146
+    },
+    {
+      "check": "unit-optimized",
+      "exit_code": 0,
+      "elapsed_seconds": 3.01,
+      "log": "logs/unit-optimized.txt",
+      "tests": 146
+    },
+    {
+      "check": "report-normal",
+      "exit_code": 0,
+      "elapsed_seconds": 189.08,
+      "log": "logs/report-normal.txt",
+      "tests": 74
+    },
+    {
+      "check": "report-optimized",
+      "exit_code": 0,
+      "elapsed_seconds": 179.92,
+      "log": "logs/report-optimized.txt",
+      "tests": 74
+    },
+    {
+      "check": "launcher-focused",
+      "tests": 21,
+      "exit_code": 0
+    },
+    {
+      "check": "launcher-optimized",
+      "tests": 21,
+      "exit_code": 0
+    }
+  ],
+  "test_scope_note": "Full offline suite ran74 tests in each mode; three result-readback cases were then added and all21 launcher cases passed in each mode. Final offline suite discovers77 tests; CI runs the complete final tree.",
+  "openflights_retagging": {
+    "session": "results/20261030T222829Z-openflights-session-7cd95181/session.json",
+    "status": "completed",
+    "images": {
+      "db": "sha256:640e33afbc5083b7097dca1b564fbc4aa7e212c5c9026f57996ddfe138d75582",
+      "runner": "sha256:5fb8c192bd879579e159419a7d135d86f24a1cec6ffd645b2fac7c8c2d31bc8f"
+    },
+    "retargeted_tag": "cu-openflights-7cd95181e8754d18afaf3962a0a33a71-runner:local",
+    "temporary_tag_target": "sha256:640e33afbc5083b7097dca1b564fbc4aa7e212c5c9026f57996ddfe138d75582",
+    "actual_worker_image": "sha256:5fb8c192bd879579e159419a7d135d86f24a1cec6ffd645b2fac7c8c2d31bc8f",
+    "actual_worker_image_after": "sha256:5fb8c192bd879579e159419a7d135d86f24a1cec6ffd645b2fac7c8c2d31bc8f",
+    "database_after": {
+      "container_id": "59b3c460a93f60e2f003ef25ae63f96fa61430114fa910519040c313a0c28800",
+      "image_id": "sha256:640e33afbc5083b7097dca1b564fbc4aa7e212c5c9026f57996ddfe138d75582",
+      "selected_reference": "sha256:640e33afbc5083b7097dca1b564fbc4aa7e212c5c9026f57996ddfe138d75582",
+      "memory_bytes": 2147483648,
+      "nano_cpus": 2000000000,
+      "ownership_labels": {
+        "com.docker.compose.project": "cu-openflights-7cd95181e8754d18afaf3962a0a33a71",
+        "com.docker.compose.service": "db",
+        "cu.openflights.owner": "7cd95181e8754d18afaf3962a0a33a71"
+      },
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "cu-openflights-7cd95181e8754d18afaf3962a0a33a71_db_data",
+          "Destination": "/var/lib/mysql",
+          "RW": true
+        }
+      ],
+      "state": {
+        "Status": "running",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "StartedAt": "2026-10-30T22:29:07.084927109Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      }
+    },
+    "database_stop": {
+      "container_id": "59b3c460a93f60e2f003ef25ae63f96fa61430114fa910519040c313a0c28800",
+      "image_id": "sha256:640e33afbc5083b7097dca1b564fbc4aa7e212c5c9026f57996ddfe138d75582",
+      "selected_reference": "sha256:640e33afbc5083b7097dca1b564fbc4aa7e212c5c9026f57996ddfe138d75582",
+      "memory_bytes": 2147483648,
+      "nano_cpus": 2000000000,
+      "ownership_labels": {
+        "com.docker.compose.project": "cu-openflights-7cd95181e8754d18afaf3962a0a33a71",
+        "com.docker.compose.service": "db",
+        "cu.openflights.owner": "7cd95181e8754d18afaf3962a0a33a71"
+      },
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "cu-openflights-7cd95181e8754d18afaf3962a0a33a71_db_data",
+          "Destination": "/var/lib/mysql",
+          "RW": true
+        }
+      ],
+      "state": {
+        "Status": "exited",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "StartedAt": "2026-10-30T22:29:07.084927109Z",
+        "FinishedAt": "2026-10-30T22:29:32.069423334Z"
+      }
+    },
+    "no_timed_benchmark": true,
+    "tag_restored": true
+  },
+  "output_permissions": {
+    "initial_mode": "0755",
+    "initial_owner_uid": 1000,
+    "runner_uid": 10001,
+    "initial_probe_exit": 1,
+    "scoped_named_user_acl_probe_exit": 0,
+    "acl_applied_to": "disposable results directory only",
+    "existing_file_data_owner_mode_preserved": true,
+    "directory_owner_preserved": true,
+    "method": "POSIX named-user ACL xattr equivalent to setfacl -m u:10001:rwx; no host setfacl installed",
+    "image_id": "sha256:ab7bb291c1122c3ef48c033fb6e0b6c8cceaffdd04136fa78613f01b3a88b40d",
+    "database_or_volume_used": false
+  },
+  "historical_evidence_and_provenance_files_unchanged": 941,
+  "original_database_volumes_preserved": [
+    "cu-engine-lab_db_data",
+    "cu-repro-20261030_db_data"
+  ],
+  "environment_settings_changed": false,
+  "privacy": "No credential values, .env files, full environment dumps or full container inspection included."
+}

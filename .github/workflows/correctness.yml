@@ -41,6 +41,8 @@ jobs:
           python3 scripts/run_cache_pressure.py --smoke --power-condition CI-correctness-only
       - name: Isolated write-diagnostic lifecycle smoke (not performance evidence)
         run: python3 scripts/run_write_diagnostics.py --smoke --power-condition CI-correctness-only
+      - name: Frozen-image OpenFlights lifecycle smoke (not performance evidence)
+        run: python3 scripts/run_openflights.py --smoke --power-condition CI-correctness-only
       - name: Tutorial SQL, restart and cleanup correctness
         run: python3 scripts/check_tutorial.py --project "$CI_PROJECT"
       - name: Isolated MyRocks compression correctness (not performance evidence)
@@ -94,6 +96,10 @@ jobs:
       - name: Fetch checksum-pinned report dataset
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" scripts/fetch_openflights.py
+      - name: Validate cloud OpenFlights archive and laptop comparison
+        run: |
+          "$RUNNER_TEMP/report-validation/bin/python" scripts/check_cloud_openflights.py
+          "$RUNNER_TEMP/report-validation/bin/python" -O scripts/check_cloud_openflights.py
       - name: Regenerate all reports and run offline guards with and without optimization
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" -m unittest discover -s report-tests -v
