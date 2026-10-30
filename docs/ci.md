@@ -160,6 +160,11 @@ selection. These host-only checks do not require adding the launcher to the runn
 image or changing historical Dockerfile provenance. Current test totals are printed
 by the workflow; dated records retain their original counts.
 
+The fresh disposable CI results directory stays owned by the host user and grants
+group 10001 write access, so host orchestrators and the container runner can both
+create output without an ownership flip between steps. This CI-only preparation
+does not make results writable by everyone or alter any existing user directory.
+
 The integration job runs `scripts/run_openflights.py --smoke` separately. It prepares
 unique DB/runner images, selects immutable IDs, checks actual containers and all five
 engines, and cleanly stops its isolated database while retaining its volume. It does

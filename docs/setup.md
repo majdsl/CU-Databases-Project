@@ -57,7 +57,8 @@ Setup prints the scoped commands with your checkout's quoted absolute path befor
 credentials, downloads and builds. If its later write probe fails, the error repeats
 those commands and the missing-utility hint. It does not execute them or change
 ownership/permissions automatically. CI owns a fresh disposable directory and
-explicitly assigns it to UID 10001; it does not change ownership on your laptop.
+grants its runner group 10001 write access while retaining host ownership; it does
+not change ownership or groups on your laptop.
 
 ## Setup wrapper after prerequisites
 
