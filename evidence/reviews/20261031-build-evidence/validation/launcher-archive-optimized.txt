@@ -1,0 +1,29 @@
+...............Saved evidence ZIP: /tmp/evidence export xd6jjqb8/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+Saved evidence ZIP: /tmp/evidence export a0ll_lpz/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+Saved evidence ZIP: /tmp/evidence export jh10t5o2/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+Saved evidence ZIP: /tmp/evidence export _u6r9nqf/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "ON"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+.Failed isolated session retained: /tmp/tmp21zp1__6/results/session with spaces/session.json
+Inspect its logs, container and table before stopping; no retry or volume deletion was performed.
+.......Prepared immutable images. Session: /tmp/tmpnomwl3f7/results/20261031T132710Z-openflights-session-ecf522d6/session.json
+...Run --pilot, review its summary, then --full using this session and the same power description.
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+.....
+----------------------------------------------------------------------
+Ran 31 tests in 4.632s
+
+OK

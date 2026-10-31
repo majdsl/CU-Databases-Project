@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 27, in <module>
+  File "/usr/local/lib/python3.12/tempfile.py", line 886, in __init__
+    self.name = mkdtemp(suffix, prefix, dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/tempfile.py", line 384, in mkdtemp
+    _os.mkdir(file, 0o700)
+OSError: [Errno 28] No space left on device: '/results/.openflights-probe-eajet4ah'

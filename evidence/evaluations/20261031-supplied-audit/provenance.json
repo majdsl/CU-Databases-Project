@@ -1,0 +1,20 @@
+{
+  "format_version": 1,
+  "kind": "user_supplied_practice_audit_handoff",
+  "assessment_date": "2026-10-31",
+  "assessment_timezone": "Europe/Berlin",
+  "repository": "majdsl/CU-Databases-Project",
+  "evaluated_commit": "b5c16bd2db3c352539e720b4aafd62b0fb4be50a",
+  "source_handoff_bytes": 31567,
+  "source_handoff_sha256": "80154ccb75c3aff84c15b01f632b7c07d131fae996e1510280cf8cbff98d7eaf",
+  "extraction": "Evaluation section between BEGIN/END OFFICIAL EVALUATION markers; CRLF/CR normalized to LF and boundary separator blank lines removed. Full original handoff retained in receiving workspace and recovery bundle.",
+  "evaluation_sha256": "f5eda131d327477a6ec2c5f0ee02a3c21e4172b1a902169514dbf74928577c34",
+  "reported_score": {
+    "documentation": 9,
+    "mariadb_depth": 10,
+    "execution": 9,
+    "usability": 9,
+    "total": 37
+  },
+  "verification_scope": "Supplied assessment text; underlying separate-audit ZIP and raw results are unavailable in this workspace. This archive does not independently establish their execution or publish their raw measurements."
+}

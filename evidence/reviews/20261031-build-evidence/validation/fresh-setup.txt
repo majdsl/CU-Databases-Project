@@ -1,0 +1,465 @@
+
+== Check Docker engine ==
+
+== Check Compose ==
+Docker Compose version v2.40.3
+
+== Native Linux output prerequisite ==
+The runner uses UID/GID 10001 and must be able to create files in the results directory.
+On an ordinary rootful Docker host, grant this directory access if it is not already configured:
+setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:
+  sudo apt-get update
+  sudo apt-get install acl
+  mkdir -p -- /workspace/work/audit-followups-20261031/runtime-source/results
+  setfacl -m u:10001:rwx -- /workspace/work/audit-followups-20261031/runtime-source/results
+The container write probe is authoritative; existing ACLs may already grant access.
+Rootless/user-remapped Docker and SELinux can need different host configuration; see docs/setup.md.
+Setup does not change ownership or permissions or delete existing data.
+
+== Preserve or create local credentials ==
+Created .env with random local credentials. Do not commit or share it.
+
+== Fetch and verify route data ==
+OpenFlights: verified existing file: /workspace/work/audit-followups-20261031/runtime-source/data/openflights/routes.dat
+
+== Build Python runner ==
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.66kB done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from runner.Dockerfile
+#2 transferring dockerfile: 1.45kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 693B done
+#4 DONE 0.0s
+
+#5 [stage-0  1/18] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 2.98MB 0.2s done
+#6 DONE 0.2s
+
+#7 [stage-0  7/18] COPY --chmod=0755 scripts/run_recovery.py scripts/run_recovery.py
+#7 CACHED
+
+#8 [stage-0  2/18] WORKDIR /app
+#8 CACHED
+
+#9 [stage-0  5/18] COPY --chmod=0755 scripts/check_environment.py scripts/check_environment.py
+#9 CACHED
+
+#10 [stage-0  9/18] COPY --chmod=0755 scripts/setup_project.py scripts/setup_project.py
+#10 CACHED
+
+#11 [stage-0  3/18] COPY --chmod=0755 requirements.txt .
+#11 CACHED
+
+#12 [stage-0 12/18] COPY --chmod=0755 scripts/run_rocksdb_compression.py scripts/run_rocksdb_compression.py
+#12 CACHED
+
+#13 [stage-0  8/18] COPY --chmod=0755 scripts/fetch_openflights.py scripts/fetch_openflights.py
+#13 CACHED
+
+#14 [stage-0  6/18] COPY --chmod=0755 scripts/run_storage.py scripts/run_storage.py
+#14 CACHED
+
+#15 [stage-0 10/18] COPY --chmod=0755 scripts/run_cache_pressure.py scripts/run_cache_pressure.py
+#15 CACHED
+
+#16 [stage-0 13/18] COPY --chmod=0755 data/openflights data/openflights
+#16 CACHED
+
+#17 [stage-0  4/18] RUN --mount=type=secret,id=cloud_ca,required=true PIP_CERT=/run/secrets/cloud_ca pip install --no-cache-dir --require-hashes -r requirements.txt
+#17 CACHED
+
+#18 [stage-0 11/18] COPY --chmod=0755 scripts/run_write_diagnostics.py scripts/run_write_diagnostics.py
+#18 CACHED
+
+#19 [stage-0 14/18] COPY --chmod=0755 sql sql
+#19 CACHED
+
+#20 [stage-0 15/18] COPY --chmod=0755 benchmarks benchmarks
+#20 DONE 7.9s
+
+#21 [stage-0 16/18] COPY --chmod=0755 tests tests
+#21 DONE 7.0s
+
+#22 [stage-0 17/18] COPY --chmod=0755 Dockerfile compose.yaml compose.runner-2cpu.yaml ./
+#22 DONE 1.0s
+
+#23 [stage-0 18/18] COPY --chmod=0755 docker/mariadb docker/mariadb
+#23 DONE 1.1s
+
+#24 exporting to image
+#24 exporting layers
+#24 exporting layers 0.9s done
+#24 writing image sha256:a114f8916b2df15b421d1f4d5bb563ff31769080c203c92ddedd6b9ee863193d 0.0s done
+#24 naming to docker.io/library/cu-followup-20261031-e096851-setup-runner 0.0s done
+#24 DONE 0.9s
+
+#25 resolving provenance for metadata file
+#25 DONE 0.0s
+ cu-followup-20261031-e096851-setup-runner  Built
+
+== Check benchmark output permissions ==
+ Network cu-followup-20261031-e096851-setup_default  Creating
+ Network cu-followup-20261031-e096851-setup_default  Created
+ Volume cu-followup-20261031-e096851-setup_db_data  Creating
+ Volume cu-followup-20261031-e096851-setup_db_data  Created
+PASS: runner can write /results
+
+== Run unit tests ==
+test_all_engine_schemas_have_same_columns_and_indexes (test_baseline.BaselineTests.test_all_engine_schemas_have_same_columns_and_indexes) ... ok
+test_complete_report_labels_statistical_unit (test_baseline.BaselineTests.test_complete_report_labels_statistical_unit) ... ok
+test_deterministic_dataset_and_fingerprint (test_baseline.BaselineTests.test_deterministic_dataset_and_fingerprint) ... ok
+test_existing_table_is_never_dropped (test_baseline.BaselineTests.test_existing_table_is_never_dropped) ... ok
+test_invalid_workload_rejected (test_baseline.BaselineTests.test_invalid_workload_rejected) ... ok
+test_json_checkpoint_replaces_previous_valid_file (test_baseline.BaselineTests.test_json_checkpoint_replaces_previous_valid_file) ... ok
+test_lookup_stream_is_reproducible_and_in_range (test_baseline.BaselineTests.test_lookup_stream_is_reproducible_and_in_range) ... ok
+test_partial_runs_cannot_be_reported_as_complete (test_baseline.BaselineTests.test_partial_runs_cannot_be_reported_as_complete) ... ok
+test_row_validation_detects_corruption_missing_and_extra_rows (test_baseline.BaselineTests.test_row_validation_detects_corruption_missing_and_extra_rows) ... ok
+test_scan_oracle_has_known_answer (test_baseline.BaselineTests.test_scan_oracle_has_known_answer) ... ok
+test_schedule_balances_every_position (test_baseline.BaselineTests.test_schedule_balances_every_position) ... ok
+test_silent_engine_substitution_fails_and_cleans_up_owned_table (test_baseline.BaselineTests.test_silent_engine_substitution_fails_and_cleans_up_owned_table) ... ok
+test_statistics_known_values (test_baseline.BaselineTests.test_statistics_known_values) ... ok
+test_summary_weights_rounds_equally (test_baseline.BaselineTests.test_summary_weights_rounds_equally) ... ok
+test_wrong_database_is_rejected_before_connection (test_baseline.BaselineTests.test_wrong_database_is_rejected_before_connection) ... ok
+test_actual_footprint_required (test_cache_pressure.CachePressureTests.test_actual_footprint_required) ... ok
+test_counter_resets_rejected_but_gauges_can_decrease (test_cache_pressure.CachePressureTests.test_counter_resets_rejected_but_gauges_can_decrease) ... ok
+test_failed_start_preserves_project_and_checkpoint (test_cache_pressure.CachePressureTests.test_failed_start_preserves_project_and_checkpoint) ... Cache pressure: {'round': 1, 'rows': 128, 'position': 1}
+Partial results: /tmp/tmpycgvogof/results/20261031T133048Z-cache-pressure-70a9e5a9
+Failed isolated project retained: cu-pressure-70a9e5a980a84a4d8de2a54a66b0c462-1
+ok
+test_full_schedule_balances_size_order (test_cache_pressure.CachePressureTests.test_full_schedule_balances_size_order) ... ok
+test_host_refuses_normal_or_preexisting_project (test_cache_pressure.CachePressureTests.test_host_refuses_normal_or_preexisting_project) ... ok
+test_incomplete_runs_cannot_be_summarized (test_cache_pressure.CachePressureTests.test_incomplete_runs_cannot_be_summarized) ... ok
+test_missing_counters_not_zero (test_cache_pressure.CachePressureTests.test_missing_counters_not_zero) ... ok
+test_payload_and_host_oracle_are_reproducible (test_cache_pressure.CachePressureTests.test_payload_and_host_oracle_are_reproducible) ... ok
+test_queries_verify_payload_and_crc (test_cache_pressure.CachePressureTests.test_queries_verify_payload_and_crc) ... ok
+test_stream_verification_rejects_corruption_missing_extra (test_cache_pressure.CachePressureTests.test_stream_verification_rejects_corruption_missing_extra) ... ok
+test_unclean_shutdown_prevents_successful_cleanup (test_cache_pressure.CachePressureTests.test_unclean_shutdown_prevents_successful_cleanup) ... ok
+test_worker_requires_isolation_before_connection (test_cache_pressure.CachePressureTests.test_worker_requires_isolation_before_connection) ... ok
+test_abnormal_worker_exit_retains_stdout_and_container (test_cache_pressure.ImmutableImageBindingTests.test_abnormal_worker_exit_retains_stdout_and_container) ... ok
+test_build_tag_collision_prevents_build (test_cache_pressure.ImmutableImageBindingTests.test_build_tag_collision_prevents_build) ... ok
+test_build_uses_unique_tags_then_freezes_resolved_ids (test_cache_pressure.ImmutableImageBindingTests.test_build_uses_unique_tags_then_freezes_resolved_ids) ... ok
+test_control_changes_and_wrong_resource_limits_are_rejected (test_cache_pressure.ImmutableImageBindingTests.test_control_changes_and_wrong_resource_limits_are_rejected) ... ok
+test_mismatched_image_is_refused_before_start_and_removal (test_cache_pressure.ImmutableImageBindingTests.test_mismatched_image_is_refused_before_start_and_removal) ... ok
+test_preexisting_worker_is_not_recreated (test_cache_pressure.ImmutableImageBindingTests.test_preexisting_worker_is_not_recreated) ... ok
+test_retagging_cannot_change_created_or_started_worker (test_cache_pressure.ImmutableImageBindingTests.test_retagging_cannot_change_created_or_started_worker) ... ok
+test_windows_host_source_paths_match_linux_copy (test_cache_pressure.ImmutableImageBindingTests.test_windows_host_source_paths_match_linux_copy) ... ok
+test_connection_failure_aborts_barrier_without_success_report (test_concurrency.ConcurrencyTests.test_connection_failure_aborts_barrier_without_success_report) ... ok
+test_engine_substitution_refused_and_owned_table_cleaned (test_concurrency.ConcurrencyTests.test_engine_substitution_refused_and_owned_table_cleaned) ... ok
+test_existing_table_never_dropped (test_concurrency.ConcurrencyTests.test_existing_table_never_dropped) ... ok
+test_failed_or_incomplete_runs_cannot_be_summarized (test_concurrency.ConcurrencyTests.test_failed_or_incomplete_runs_cannot_be_summarized) ... ok
+test_invalid_workload_rejected (test_concurrency.ConcurrencyTests.test_invalid_workload_rejected) ... ok
+test_same_total_work_and_key_frequencies_at_all_client_counts (test_concurrency.ConcurrencyTests.test_same_total_work_and_key_frequencies_at_all_client_counts) ... ok
+test_update_failure_is_not_retried (test_concurrency.ConcurrencyTests.test_update_failure_is_not_retried) ... ok
+test_update_oracle_changes_only_expected_column (test_concurrency.ConcurrencyTests.test_update_oracle_changes_only_expected_column) ... ok
+test_workers_preserve_all_successful_operations (test_concurrency.ConcurrencyTests.test_workers_preserve_all_successful_operations) ... ok
+test_wrong_database_rejected_before_connecting (test_concurrency.ConcurrencyTests.test_wrong_database_rejected_before_connecting) ... ok
+test_balanced_pairs_and_identical_streams (test_memory_indexes.MemoryIndexTests.test_balanced_pairs_and_identical_streams) ... ok
+test_corrupt_and_missing_loaded_rows_rejected (test_memory_indexes.MemoryIndexTests.test_corrupt_and_missing_loaded_rows_rejected) ... ok
+test_counter_reset_not_reported_as_work (test_memory_indexes.MemoryIndexTests.test_counter_reset_not_reported_as_work) ... ok
+test_existing_table_never_changed (test_memory_indexes.MemoryIndexTests.test_existing_table_never_changed) ... ok
+test_index_substitution_rejected (test_memory_indexes.MemoryIndexTests.test_index_substitution_rejected) ... ok
+test_known_answers_and_endpoints (test_memory_indexes.MemoryIndexTests.test_known_answers_and_endpoints) ... ok
+test_schema_changes_only_secondary_index (test_memory_indexes.MemoryIndexTests.test_schema_changes_only_secondary_index) ... ok
+test_statistics_use_trials_and_reject_incomplete_evidence (test_memory_indexes.MemoryIndexTests.test_statistics_use_trials_and_reject_incomplete_evidence) ... ok
+test_wrong_database_rejected_before_connect (test_memory_indexes.MemoryIndexTests.test_wrong_database_rejected_before_connect) ... ok
+test_bad_network_payload_never_becomes_dataset (test_openflights.OpenFlightsTests.test_bad_network_payload_never_becomes_dataset) ... ok
+test_checksum_and_row_count_are_required (test_openflights.OpenFlightsTests.test_checksum_and_row_count_are_required) ... ok
+test_complete_pilot_checkpoint_and_summary (test_openflights.OpenFlightsTests.test_complete_pilot_checkpoint_and_summary) ... OpenFlights round 1/1: MyISAM
+OpenFlights round 1/1: ROCKSDB
+OpenFlights round 1/1: InnoDB
+OpenFlights round 1/1: MEMORY
+OpenFlights round 1/1: Aria
+ok
+test_connection_failure_leaves_failed_checkpoint_without_summary (test_openflights.OpenFlightsTests.test_connection_failure_leaves_failed_checkpoint_without_summary) ... # OpenFlights route comparison
+
+Run: 20261031T133049Z-openflights-7d0df92f
+
+**PILOT: one round per engine; no variability estimate or ranking.**
+
+Rows per trial: 3. Power condition: test.
+Read statistics summarize round means, not pooled individual queries. Values are mean ± sample SD.
+
+| Engine | Load (s) | Point lookup (ms) | Full scan (ms) | Source aggregate (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| InnoDB | 0.0000 ± n/a | 0.0017 ± n/a | 0.0053 ± n/a | 0.0051 ± n/a |
+| Aria | 0.0000 ± n/a | 0.0320 ± n/a | 0.0068 ± n/a | 0.0056 ± n/a |
+| MyISAM | 0.0000 ± n/a | 0.0016 ± n/a | 0.0054 ± n/a | 0.0049 ± n/a |
+| MEMORY | 0.0000 ± n/a | 0.0016 ± n/a | 0.0048 ± n/a | 0.0048 ± n/a |
+| ROCKSDB | 0.0000 ± n/a | 0.0014 ± n/a | 0.0041 ± n/a | 0.0042 ± n/a |
+
+Every row and query answer was checked. Raw samples, query streams, plans, actual DDL,
+dataset/source hashes and runtime/settings metadata are in results.json.
+These are warm reads on a reused server. Timings include driver/network work; durability and
+cache budgets are not equalized. No physical-disk, cold-cache or steady-state claim is made.
+The routes snapshot is historical reference data, not observed flights or current schedules.
+Keep these results separate from synthetic events and the pilot separate from full statistics.
+Data: OpenFlights, via MariaDB/openflights; ODbL 1.0. See docs/openflights-method.md.
+
+Saved: /tmp/tmpsb6d3ya3/20261031T133049Z-openflights-7d0df92f
+Partial results: /tmp/tmp5vl8_i58/20261031T133049Z-openflights-d8bd8514
+An owned failed-trial table may remain; inspect it before any retry.
+ok
+test_existing_bad_download_is_never_replaced (test_openflights.OpenFlightsTests.test_existing_bad_download_is_never_replaced) ... ok
+test_existing_table_is_not_changed (test_openflights.OpenFlightsTests.test_existing_table_is_not_changed) ... ok
+test_incomplete_invalid_or_unverified_runs_cannot_be_summarized (test_openflights.OpenFlightsTests.test_incomplete_invalid_or_unverified_runs_cannot_be_summarized) ... ok
+test_invalid_config_and_database_rejected_before_loading (test_openflights.OpenFlightsTests.test_invalid_config_and_database_rejected_before_loading) ... ok
+test_oracles_include_nulls_and_nonindexed_row_values (test_openflights.OpenFlightsTests.test_oracles_include_nulls_and_nonindexed_row_values) ... ok
+test_parser_preserves_nulls_empty_strings_and_repeated_route_keys (test_openflights.OpenFlightsTests.test_parser_preserves_nulls_empty_strings_and_repeated_route_keys) ... ok
+test_parser_rejects_malformed_rows_and_truncation (test_openflights.OpenFlightsTests.test_parser_rejects_malformed_rows_and_truncation) ... ok
+test_schema_is_identical_except_engine_and_uses_btree (test_openflights.OpenFlightsTests.test_schema_is_identical_except_engine_and_uses_btree) ... ok
+test_statistics_use_five_round_means (test_openflights.OpenFlightsTests.test_statistics_use_five_round_means) ... ok
+test_substitution_and_failed_writes_preserve_trial_table (test_openflights.OpenFlightsTests.test_substitution_and_failed_writes_preserve_trial_table) ... ok
+test_successful_trial_checks_data_and_cleans_only_owned_table (test_openflights.OpenFlightsTests.test_successful_trial_checks_data_and_cleans_only_owned_table) ... ok
+test_verification_detects_changed_missing_extra_and_reordered_rows (test_openflights.OpenFlightsTests.test_verification_detects_changed_missing_extra_and_reordered_rows) ... ok
+test_verified_download_and_offline_reuse (test_openflights.OpenFlightsTests.test_verified_download_and_offline_reuse) ... ok
+test_atomic_receipt_refuses_overwrite (test_recovery.RecoveryTests.test_atomic_receipt_refuses_overwrite) ... ok
+test_authentication_failure_is_not_retried_or_called_data_loss (test_recovery.RecoveryTests.test_authentication_failure_is_not_retried_or_called_data_loss) ... ok
+test_check_table_errors_retain_even_matching_data (test_recovery.RecoveryTests.test_check_table_errors_retain_even_matching_data) ... ok
+test_clean_control_rejects_forced_shutdown (test_recovery.RecoveryTests.test_clean_control_rejects_forced_shutdown) ... ok
+test_compare_intact_missing_changed_unexpected_and_duplicates (test_recovery.RecoveryTests.test_compare_intact_missing_changed_unexpected_and_duplicates) ... ok
+test_complete_pilot_records_both_conditions_and_retains_unreadable_trials (test_recovery.RecoveryTests.test_complete_pilot_records_both_conditions_and_retains_unreadable_trials) ... Recovery round 1/1: MyISAM clean
+Recovery round 1/1: MyISAM sigkill
+Recovery round 1/1: MEMORY sigkill
+Recovery round 1/1: MEMORY clean
+Recovery round 1/1: ROCKSDB clean
+Recovery round 1/1: ROCKSDB sigkill
+Recovery round 1/1: InnoDB sigkill
+Recovery round 1/1: InnoDB clean
+Recovery round 1/1: Aria clean
+Recovery round 1/1: Aria sigkill
+# Recovery pilot
+
+Run: 20261031T133049Z-recovery-6ffcdad2
+
+100 acknowledged single-row autocommit inserts per trial; 1 round(s).
+Each trial uses a fresh volume. No write is in flight at the planned stop.
+SIGKILL tests a database-process crash with host/kernel still running, not power loss.
+
+| Engine | Round | Stop | Observation | Intact rows | Missing | Changed | Restart through verification (s) |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: |
+| MyISAM | 1 | clean | unreadable | n/a | n/a | n/a | 0.003 |
+| MyISAM | 1 | sigkill | unreadable | n/a | n/a | n/a | 0.001 |
+| MEMORY | 1 | sigkill | readable | 0 | 100 | 0 | 0.001 |
+| MEMORY | 1 | clean | readable | 0 | 100 | 0 | 0.002 |
+| ROCKSDB | 1 | clean | readable | 100 | 0 | 0 | 0.002 |
+| ROCKSDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.003 |
+| InnoDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.002 |
+| InnoDB | 1 | clean | readable | 100 | 0 | 0 | 0.002 |
+| Aria | 1 | clean | readable | 100 | 0 | 0 | 0.003 |
+| Aria | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+
+Timing includes Docker startup, observer-container launch, connection polling, full data read and CHECK TABLE.
+It is not engine-only recovery latency. Unavailable/unreadable tables have unknown survival, not zero rows.
+MEMORY rows are volatile even for clean restarts. Data survival in this test is not a durability guarantee.
+The writer holds its connection open until the stop; receipt transfer and host orchestration introduce delay.
+Automatic engine recovery may occur; the harness never issues REPAIR TABLE or forces compaction.
+Completed means the protocol finished, not that every engine preserved every row.
+Raw receipts, observations, source hashes, settings, timings and server logs are saved beside this report.
+Retained projects needing review: 2
+See docs/recovery-method.md for protocol and limitations.
+
+Saved: /tmp/tmpyb6d_7_9/results/20261031T133049Z-recovery-6ffcdad2
+ok
+test_compose_cannot_target_normal_project (test_recovery.RecoveryTests.test_compose_cannot_target_normal_project) ... ok
+test_each_ack_follows_a_single_row_success (test_recovery.RecoveryTests.test_each_ack_follows_a_single_row_success) ... ok
+test_empty_is_readable_loss_not_unavailable (test_recovery.RecoveryTests.test_empty_is_readable_loss_not_unavailable) ... ok
+test_existing_project_refused (test_recovery.RecoveryTests.test_existing_project_refused) ... ok
+test_guard_rejects_normal_database (test_recovery.RecoveryTests.test_guard_rejects_normal_database) ... ok
+test_inserts_not_retried_after_ambiguous_failure (test_recovery.RecoveryTests.test_inserts_not_retried_after_ambiguous_failure) ... ok
+test_partial_reports_rejected (test_recovery.RecoveryTests.test_partial_reports_rejected) ... ok
+test_prepare_holds_connection_after_receipt_without_postload_queries (test_recovery.RecoveryTests.test_prepare_holds_connection_after_receipt_without_postload_queries) ... ok
+test_prepare_refuses_preexisting_tables_before_ddl (test_recovery.RecoveryTests.test_prepare_refuses_preexisting_tables_before_ddl) ... ok
+test_receipt_needs_complete_ordered_acknowledgments (test_recovery.RecoveryTests.test_receipt_needs_complete_ordered_acknowledgments) ... ok
+test_row_limits (test_recovery.RecoveryTests.test_row_limits) ... ok
+test_sigkill_requires_137_and_not_oom (test_recovery.RecoveryTests.test_sigkill_requires_137_and_not_oom) ... ok
+test_startup_failure_retains_evidence_and_never_kills_or_deletes (test_recovery.RecoveryTests.test_startup_failure_retains_evidence_and_never_kills_or_deletes) ... Recovery round 1/1: MyISAM clean
+Partial results: /tmp/tmpxh9swpzl/results/20261031T133049Z-recovery-a380615b
+ok
+test_unlabelled_existing_volume_refused (test_recovery.RecoveryTests.test_unlabelled_existing_volume_refused) ... ok
+test_unreadable_table_does_not_become_zero_survival (test_recovery.RecoveryTests.test_unreadable_table_does_not_become_zero_survival) ... ok
+test_wrong_container_or_mount_blocks_crash (test_recovery.RecoveryTests.test_wrong_container_or_mount_blocks_crash) ... ok
+test_completed_run_requires_clean_stop_inventory_and_exact_images (test_rocksdb_compression.RocksDBCompressionTests.test_completed_run_requires_clean_stop_inventory_and_exact_images) ... ok
+test_existing_resources_and_invalid_names_are_never_reused (test_rocksdb_compression.RocksDBCompressionTests.test_existing_resources_and_invalid_names_are_never_reused) ... ok
+test_failed_start_retains_resources_and_failed_checkpoint (test_rocksdb_compression.RocksDBCompressionTests.test_failed_start_retains_resources_and_failed_checkpoint) ... Compression trial: {'round': 1, 'position': 1, 'profile': 'compressible', 'codec': 'none'}
+Partial results: /tmp/tmphf765op2/run
+Owned isolated resources retained: cu-compression-05f4abd9e8ba4053b42acb7afd5c96d0-1
+ok
+test_foreign_image_labels_mounts_and_quotas_refused_before_mutation (test_rocksdb_compression.RocksDBCompressionTests.test_foreign_image_labels_mounts_and_quotas_refused_before_mutation) ... ok
+test_full_design_balances_position_and_every_pair_order (test_rocksdb_compression.RocksDBCompressionTests.test_full_design_balances_position_and_every_pair_order) ... ok
+test_inventory_rejects_symlinks (test_rocksdb_compression.RocksDBCompressionTests.test_inventory_rejects_symlinks) ... ok
+test_inventory_requires_each_mapped_file_once_and_nonzero (test_rocksdb_compression.RocksDBCompressionTests.test_inventory_requires_each_mapped_file_once_and_nonzero) ... ok
+test_live_database_cannot_be_inventoried_or_deleted (test_rocksdb_compression.RocksDBCompressionTests.test_live_database_cannot_be_inventoried_or_deleted) ... ok
+test_missing_wrong_duplicate_and_incomplete_sst_properties_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_missing_wrong_duplicate_and_incomplete_sst_properties_rejected) ... ok
+test_nonfinite_and_incomplete_query_samples_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_nonfinite_and_incomplete_query_samples_rejected) ... ok
+test_option_fallback_and_compaction_overrides_are_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_option_fallback_and_compaction_overrides_are_rejected) ... ok
+test_partial_runs_cannot_be_summarized (test_rocksdb_compression.RocksDBCompressionTests.test_partial_runs_cannot_be_summarized) ... ok
+test_private_inspection_credentials_and_local_paths_not_logged (test_rocksdb_compression.RocksDBCompressionTests.test_private_inspection_credentials_and_local_paths_not_logged) ... Docker step: docker container inspect
+ok
+test_remote_context_rejected_before_any_creation (test_rocksdb_compression.RocksDBCompressionTests.test_remote_context_rejected_before_any_creation) ... ok
+test_stale_or_missing_worker_fingerprint_rejected (test_rocksdb_compression.RocksDBCompressionTests.test_stale_or_missing_worker_fingerprint_rejected) ... ok
+test_stream_rejects_corruption_missing_extra_and_reordered_rows (test_rocksdb_compression.RocksDBCompressionTests.test_stream_rejects_corruption_missing_extra_and_reordered_rows) ... ok
+test_worker_refuses_nonisolated_environment_before_connection (test_rocksdb_compression.RocksDBCompressionTests.test_worker_refuses_nonisolated_environment_before_connection) ... ok
+test_existing_results_ownership_modes_and_contents_are_preserved (test_setup.SetupTests.test_existing_results_ownership_modes_and_contents_are_preserved) ... ok
+test_failed_probe_prints_exact_linux_repair_and_prevents_database_actions (test_setup.SetupTests.test_failed_probe_prints_exact_linux_repair_and_prevents_database_actions) ... ok
+test_invalid_dataset_stops_before_build_or_database (test_setup.SetupTests.test_invalid_dataset_stops_before_build_or_database) ... ok
+test_linux_access_guidance_precedes_credentials_download_and_build (test_setup.SetupTests.test_linux_access_guidance_precedes_credentials_download_and_build) ... ok
+test_missing_setfacl_has_install_hint_but_does_not_reject_existing_access (test_setup.SetupTests.test_missing_setfacl_has_install_hint_but_does_not_reject_existing_access) ... 
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Native Linux output prerequisite ==
+The runner uses UID/GID 10001 and must be able to create files in the results directory.
+On an ordinary rootful Docker host, grant this directory access if it is not already configured:
+setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:
+  sudo apt-get update
+  sudo apt-get install acl
+  mkdir -p -- /tmp/tmpbcjl4ewo/results
+  setfacl -m u:10001:rwx -- /tmp/tmpbcjl4ewo/results
+The container write probe is authoritative; existing ACLs may already grant access.
+Rootless/user-remapped Docker and SELinux can need different host configuration; see docs/setup.md.
+Setup does not change ownership or permissions or delete existing data.
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+ok
+test_scoped_linux_repair_commands_quote_paths_with_spaces_and_apostrophes (test_setup.SetupTests.test_scoped_linux_repair_commands_quote_paths_with_spaces_and_apostrophes) ... ok
+test_unwritable_output_stops_before_database_start (test_setup.SetupTests.test_unwritable_output_stops_before_database_start) ... ok
+test_windows_never_recommends_posix_permission_commands (test_setup.SetupTests.test_windows_never_recommends_posix_permission_commands) ... ok
+test_wrong_platform_stops_before_credentials_or_build (test_setup.SetupTests.test_wrong_platform_stops_before_credentials_or_build) ... ok
+test_existing_project_rejected (test_storage.StorageTests.test_existing_project_rejected) ... ok
+test_existing_tables_not_changed (test_storage.StorageTests.test_existing_tables_not_changed) ... 
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Native Linux output prerequisite ==
+The runner uses UID/GID 10001 and must be able to create files in the results directory.
+On an ordinary rootful Docker host, grant this directory access if it is not already configured:
+setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:
+  sudo apt-get update
+  sudo apt-get install acl
+  mkdir -p -- /tmp/tmpmpbie3l_/results
+  setfacl -m u:10001:rwx -- /tmp/tmpmpbie3l_/results
+The container write probe is authoritative; existing ACLs may already grant access.
+Rootless/user-remapped Docker and SELinux can need different host configuration; see docs/setup.md.
+Setup does not change ownership or permissions or delete existing data.
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+
+== Build Python runner ==
+
+== Check benchmark output permissions ==
+
+== Check Docker engine ==
+ok
+test_failed_trial_preserves_evidence_and_volume (test_storage.StorageTests.test_failed_trial_preserves_evidence_and_volume) ... Storage round 1/1: MyISAMPartial results: /tmp/tmpb87u9a45/results/20261031T133049Z-storage-432672d0
+
+ok
+test_incomplete_report_rejected (test_storage.StorageTests.test_incomplete_report_rejected) ... ok
+test_inventory_sparse_hardlinks_symlinks (test_storage.StorageTests.test_inventory_sparse_hardlinks_symlinks) ... ok
+test_loader_requires_isolation (test_storage.StorageTests.test_loader_requires_isolation) ... ok
+test_memory_and_disk_are_distinguished (test_storage.StorageTests.test_memory_and_disk_are_distinguished) ... ok
+test_negative_delta_retained (test_storage.StorageTests.test_negative_delta_retained) ... ok
+test_no_snapshot_of_live_database (test_storage.StorageTests.test_no_snapshot_of_live_database) ... ok
+test_normal_project_rejected_before_command (test_storage.StorageTests.test_normal_project_rejected_before_command) ... ok
+test_unclean_shutdown_blocks_measurement (test_storage.StorageTests.test_unclean_shutdown_blocks_measurement) ... ok
+test_counter_units_and_deltas (test_telemetry.TelemetryTests.test_counter_units_and_deltas) ... ok
+test_cpu_report_marks_unavailable_observations (test_telemetry.TelemetryTests.test_cpu_report_marks_unavailable_observations) ... ok
+test_missing_data_is_not_zero_throttling (test_telemetry.TelemetryTests.test_missing_data_is_not_zero_throttling) ... ok
+test_parsing_and_invalid_counters (test_telemetry.TelemetryTests.test_parsing_and_invalid_counters) ... ok
+test_reset_and_quota_change_not_reported_as_valid (test_telemetry.TelemetryTests.test_reset_and_quota_change_not_reported_as_valid) ... ok
+test_snapshot_handles_missing_cgroup_files (test_telemetry.TelemetryTests.test_snapshot_handles_missing_cgroup_files) ... ok
+test_wrong_quota_rejected_before_database_connection (test_telemetry.TelemetryTests.test_wrong_quota_rejected_before_database_connection) ... ok
+test_cpu_rejects_reset_restart_quota_and_missing (test_write_diagnostics.WriteDiagnosticTests.test_cpu_rejects_reset_restart_quota_and_missing) ... ok
+test_cpu_units_and_window_bounds (test_write_diagnostics.WriteDiagnosticTests.test_cpu_units_and_window_bounds) ... ok
+test_failed_worker_retains_volume_and_partial_evidence (test_write_diagnostics.WriteDiagnosticTests.test_failed_worker_retains_volume_and_partial_evidence) ... Write diagnostics: {'round': 1, 'engine': 'InnoDB', 'pattern': 'disjoint', 'clients': 1}
+Partial results: /tmp/tmpayplxjs4/results/20261031T133049Z-write-diagnostics-4c4d1ec2
+Failed isolated project retained: cu-writes-4c4d1ec23fad42449165e897e900e431-1
+ok
+test_full_schedule_balances_engine_position_and_fixed_work (test_write_diagnostics.WriteDiagnosticTests.test_full_schedule_balances_engine_position_and_fixed_work) ... ok
+test_host_validation_detects_wrong_data_workers_and_cpu (test_write_diagnostics.WriteDiagnosticTests.test_host_validation_detects_wrong_data_workers_and_cpu) ... ok
+test_missing_lock_is_not_zero_and_gauge_can_fall (test_write_diagnostics.WriteDiagnosticTests.test_missing_lock_is_not_zero_and_gauge_can_fall) ... ok
+test_normal_project_and_existing_resources_rejected (test_write_diagnostics.WriteDiagnosticTests.test_normal_project_and_existing_resources_rejected) ... ok
+test_report_rejects_partial_and_duplicates (test_write_diagnostics.WriteDiagnosticTests.test_report_rejects_partial_and_duplicates) ... ok
+test_worker_requires_isolation_before_connecting (test_write_diagnostics.WriteDiagnosticTests.test_worker_requires_isolation_before_connecting) ... ok
+
+----------------------------------------------------------------------
+Ran 146 tests in 2.668s
+
+OK
+
+== Build five-engine MariaDB ==
+#1 [internal] load local bake definitions
+#1 reading from stdin 878B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from db.Dockerfile
+#2 transferring dockerfile: 716B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [stage-0 1/3] FROM docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 210B done
+#6 DONE 0.0s
+
+#7 [stage-0 2/3] RUN --mount=type=secret,id=cloud_ca,required=true apt-get -o Acquire::https::CaInfo=/run/secrets/cloud_ca update     && DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::https::CaInfo=/run/secrets/cloud_ca install -y --no-install-recommends        mariadb-plugin-rocksdb=1:11.8.9+maria~ubu2404     && test "$(dpkg-query -W -f='${Version}' mariadb-server-core)" = '1:11.8.9+maria~ubu2404'     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [stage-0 3/3] COPY --chmod=0755 rocksdb.cnf /etc/mysql/mariadb.conf.d/rocksdb.cnf
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 writing image sha256:d07f0847f68693a2c8236ed56aa43a8eca658611283c70a2daef0bd443a7a0d9 done
+#9 naming to docker.io/library/cu-followup-20261031-e096851-setup-db
+#9 naming to docker.io/library/cu-followup-20261031-e096851-setup-db done
+#9 DONE 0.1s
+
+#10 resolving provenance for metadata file
+#10 DONE 0.0s
+ cu-followup-20261031-e096851-setup-db  Built
+
+== Start database and wait for health ==
+ Container cu-followup-20261031-e096851-setup-db-1  Creating
+ Container cu-followup-20261031-e096851-setup-db-1  Created
+ Container cu-followup-20261031-e096851-setup-db-1  Starting
+ Container cu-followup-20261031-e096851-setup-db-1  Started
+ Container cu-followup-20261031-e096851-setup-db-1  Waiting
+ Container cu-followup-20261031-e096851-setup-db-1  Healthy
+
+== Verify all five actual engines and row contents ==
+ Container cu-followup-20261031-e096851-setup-db-1  Running
+Server: 11.8.9-MariaDB-ubu2404
+PASS: InnoDB - actual engine verified; 3 rows matched
+PASS: Aria - actual engine verified; 3 rows matched
+PASS: MyISAM - actual engine verified; 3 rows matched
+PASS: MEMORY - actual engine verified; 3 rows matched
+PASS: ROCKSDB - actual engine verified; 3 rows matched
+PASS: all five engines. Setup check only; no benchmark results yet.
+
+SETUP PASS: output is writable, unit tests passed, and all five engines passed.
+No benchmark was run. Continue with the README pilot; preserve your .env and database volume.
+For this stack, include -p cu-followup-20261031-e096851-setup in subsequent docker compose commands.

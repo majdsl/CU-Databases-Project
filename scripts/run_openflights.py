@@ -22,6 +22,7 @@ from benchmarks import openflights as benchmark
 from benchmarks.core import dataset_digest
 from benchmarks.run import save_json
 from benchmarks.telemetry import quota_cpus
+from scripts import build_manifest
 
 PROJECT = re.compile(r'cu-openflights-([0-9a-f]{32})\Z')
 IMAGE = re.compile(r'sha256:[0-9a-f]{64}\Z')
@@ -126,7 +127,8 @@ def host_identity():
         except (OSError, subprocess.CalledProcessError):
             return 'unavailable (source archive)'
     return dict(commit=git('rev-parse', 'HEAD'), tracked_status=git('status', '--porcelain', '--untracked-files=no'),
-                launcher_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+                launcher_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                build_manifest_helper_sha256=build_manifest.helper_sha256())
 
 
 def expected_runtime(session):
@@ -138,7 +140,7 @@ def expected_runtime(session):
 def validate_session(session, path):
     match = PROJECT.fullmatch(session.get('project', ''))
     require(match is not None and match[1] == session.get('token'), 'Invalid isolated session identity')
-    require(session.get('format_version') == 1 and session.get('experiment') == 'immutable_openflights_v1',
+    require(session.get('format_version') in (1, 2) and session.get('experiment') == 'immutable_openflights_v1',
             'Unsupported session manifest')
     require(set(session.get('images', {})) == {'db', 'runner'} and
             all(IMAGE.fullmatch(value) for value in session['images'].values()), 'Invalid selected image IDs')
@@ -147,6 +149,8 @@ def validate_session(session, path):
     runtime = path.parent/'runtime-images.compose.json'
     require(json.loads(runtime.read_text(encoding='utf-8')) == expected_runtime(session),
             'Frozen runtime override changed')
+    if session['format_version'] == 2:
+        build_manifest.verify(path, session)
 
 
 def load_session(path):
@@ -170,12 +174,17 @@ def operation_lock(path):
         lock.unlink()
 
 
-def compose(session, path, *args, capture=False, overrides=()):
+def compose_command(session, *args, overrides=()):
     require(PROJECT.fullmatch(session['project']) is not None, 'Only isolated OpenFlights projects allowed')
     argv = ['docker', 'compose', '--env-file', str(ROOT/'.env'), '-f', str(ROOT/'compose.yaml')]
     for override in overrides:
         argv += ['-f', str(override)]
     argv += ['-p', session['project'], *args]
+    return argv
+
+
+def compose(session, path, *args, capture=False, overrides=()):
+    argv = compose_command(session, *args, overrides=overrides)
     session.setdefault('commands', []).append(argv)
     save_json(path, session)
     return execute(argv, capture)
@@ -208,7 +217,7 @@ def prepare(build_override=None):
     directory = ROOT/'results'/(stamp+'-openflights-session-'+token[:8])
     directory.mkdir(parents=True, exist_ok=False)
     path = directory/'session.json'
-    session = dict(format_version=1, experiment='immutable_openflights_v1', token=token, project=project,
+    session = dict(format_version=2, experiment='immutable_openflights_v1', token=token, project=project,
         status='preparing', stages={}, host=host_identity(), source_sha256=source_hashes(),
         dataset_sha256=dataset_digest(rows), rows=len(rows), commands=[], power_condition=None,
         compose_version=execute(['docker', 'compose', 'version', '--short'], True),
@@ -225,6 +234,9 @@ def prepare(build_override=None):
         overrides = ([build_override] if build_override is not None else [])+[build_file]
         if build_override is not None:
             session['build_adapter_sha256'] = hashlib.sha256(build_override.read_bytes()).hexdigest()
+        config_argv = compose_command(session, 'config', '--format', 'json', overrides=overrides)
+        session['commands'].append(config_argv)
+        inputs_before = build_manifest.capture_inputs(ROOT, config_argv)
         compose(session, path, 'build', 'db', 'runner', overrides=overrides)
         session['images'] = {}
         for role, tag in tags.items():
@@ -234,6 +246,15 @@ def prepare(build_override=None):
                     'Unexpected built image identity/platform')
             session['images'][role] = info['id']
         save_json(directory/'runtime-images.compose.json', expected_runtime(session))
+        record = build_manifest.collect(ROOT, session, config_argv, inputs_before)
+        if build_override is not None:
+            require(hashlib.sha256(build_override.read_bytes()).hexdigest() == session['build_adapter_sha256'],
+                    'Build adapter changed during preparation; retain this failed session')
+        record_path = directory/'build-manifest.json'
+        save_json(record_path, record)
+        session['build_manifest'] = dict(file=record_path.name,
+                                        sha256=hashlib.sha256(record_path.read_bytes()).hexdigest())
+        build_manifest.verify(path, session)
         session['status'] = 'prepared'
         save_json(path, session)
     except BaseException as error:
@@ -467,8 +488,13 @@ def run_stage(path, mode, power=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_mutually_exclusive_group(required=True)
-    for mode in ('prepare', 'pilot', 'full', 'stop', 'smoke'):
-        modes.add_argument('--'+mode, action='store_true')
+    descriptions = dict(prepare='Build once and record immutable images/packages in a new session',
+                        pilot='Run the five-engine pilot; inspect its results before --full',
+                        full='Run the full benchmark after reviewing this session\'s successful pilot',
+                        stop='Stop only this session\'s database cleanly; retain its volume and results',
+                        smoke='Check five-engine correctness in a separate session; no timed benchmark')
+    for mode, help_text in descriptions.items():
+        modes.add_argument('--'+mode, action='store_true', help=help_text)
     parser.add_argument('--session', type=Path, help='Prepared results/.../session.json')
     parser.add_argument('--power-condition', help='Actual conditions; identical description required across pilot/full')
     parser.add_argument('--build-override', type=Path, help='Build-only proxy/CA adapter; runtime always uses frozen IDs')

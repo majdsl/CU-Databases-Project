@@ -1,0 +1,32 @@
+{
+  "setup_project": "cu-followup-20261031-e096851-setup",
+  "adapter_purpose": "External CA trust BuildKit secret for HTTPS APT/pip; COPY modes for runner read access. Package versions and experiment runtime settings unchanged. Not an environment configuration publication.",
+  "adapter_sha256": {
+    "compose.cloud.yaml": "8ad9ab26a1b8d19bac50d9414816fbd5a63d415e1f4e16c5ef60e66355ddebce",
+    "runner.Dockerfile": "c52705a6d07975c5fac94721a3f6142684b765fed932226477a8ee72abc12ab3",
+    "db.Dockerfile": "a733d99c355b05887e3b6b1cbb3f4e736890a263c3ab2b8a48c5a9c55cf0ff39"
+  },
+  "fresh_results_access_command": [
+    "docker",
+    "run",
+    "--rm",
+    "--pull=never",
+    "--network=none",
+    "--read-only",
+    "--user=0:0",
+    "--mount",
+    "type=bind,src=/workspace/work/audit-followups-20261031/runtime-source/results,dst=/new-results",
+    "--entrypoint",
+    "python",
+    "sha256:5fb8c192bd879579e159419a7d135d86f24a1cec6ffd645b2fac7c8c2d31bc8f",
+    "-c",
+    "import os; os.chown('/new-results', -1, 10001); os.chmod('/new-results', 0o2775)"
+  ],
+  "fresh_results_mode": "0o2775",
+  "fresh_results_uid": 1000,
+  "fresh_results_gid": 10001,
+  "access_scope": "Only the newly created empty results directory; host UID1000 has no sudo/setfacl, so a no-network immutable runner adjusted group/mode via the exact bind mount.",
+  "setup_tested_commit": "e09685102cc6620b453860fbde4f9ae14e1bb60c",
+  "benchmark_tested_commit": "13961d3aa3d156ccc249ab6dc47eaf09c8730481",
+  "pre_measurement_followup": "Supported plain Buildx inspection replaces unsupported --format. Previous untimed prepared session retained; no timed stages ran there. Full 100-test offline suites passed at parent e096851; 15 updated manifest tests and actual builder inspection passed at final helper."
+}

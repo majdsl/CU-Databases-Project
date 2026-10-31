@@ -1,0 +1,126 @@
+{
+  "reason": "Second independent attempt also failed ENOSPC at worker pre-workload write probe; no benchmark trials ran.",
+  "scope": "Only this failed project containers and new unused images with exact owned project tags and creation timestamps; every volume and all pre-existing containers/images retained.",
+  "retained_container_records": [
+    {
+      "container_id": "d908e70a916a56b72267406668d20d324452df6a062a03de7870f22b414a8e94",
+      "role": "runner",
+      "project": "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f",
+      "image_id": "sha256:30ffca7d2e8225081814f4ffc2dc26e441989543dfbc38aba5938f690f8e24dd",
+      "state": {
+        "Status": "exited",
+        "ExitCode": 1,
+        "OOMKilled": false,
+        "StartedAt": "2026-10-31T13:41:37.358308495Z",
+        "FinishedAt": "2026-10-31T13:41:38.01793377Z"
+      },
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Destination": "/results",
+          "RW": true
+        }
+      ],
+      "redacted_logs": "Traceback (most recent call last):\n  File \"<string>\", line 27, in <module>\n  File \"/usr/local/lib/python3.12/tempfile.py\", line 886, in __init__\n    self.name = mkdtemp(suffix, prefix, dir)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/tempfile.py\", line 384, in mkdtemp\n    _os.mkdir(file, 0o700)\nOSError: [Errno 28] No space left on device: '/results/.openflights-probe-eajet4ah'\n"
+    },
+    {
+      "container_id": "7c6ac8611e01bc979c836ef6c94b69bdba32531e7e2e84a0859c1b5b7bec6ab6",
+      "role": "db",
+      "project": "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f",
+      "image_id": "sha256:191047a9c4a5f957442a2f74d5a92d53ac925c0d3479e791a1922e06868a38a0",
+      "state": {
+        "Status": "exited",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "StartedAt": "2026-10-31T13:41:24.392323945Z",
+        "FinishedAt": "2026-10-31T13:44:23.518881986Z"
+      },
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f_db_data",
+          "Destination": "/var/lib/mysql",
+          "RW": true
+        }
+      ],
+      "redacted_logs": "2026-10-31 13:41:24+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.8.9+maria~ubu2404 started.\n2026-10-31 13:41:24+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'\n2026-10-31 13:41:24+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.8.9+maria~ubu2404 started.\n2026-10-31 13:41:25+00:00 [Note] [Entrypoint]: Initializing database files\n2026-10-31 13:41:27+00:00 [Note] [Entrypoint]: Database files initialized\n2026-10-31 13:41:27+00:00 [Note] [Entrypoint]: Starting temporary server\n2026-10-31 13:41:27+00:00 [Note] [Entrypoint]: Waiting for server startup\n2026-10-31 13:41:31+00:00 [Note] [Entrypoint]: Temporary server started.\n2026-10-31 13:41:32+00:00 [Note] [Entrypoint]: Creating database engine_lab\n2026-10-31 13:41:32+00:00 [Note] [Entrypoint]: Creating user benchmark\n2026-10-31 13:41:32+00:00 [Note] [Entrypoint]: Giving user benchmark access to schema engine_lab\n2026-10-31 13:41:32+00:00 [Note] [Entrypoint]: Securing system users (equivalent to running mysql_secure_installation)\n\n2026-10-31 13:41:32+00:00 [Note] [Entrypoint]: Stopping temporary server\n2026-10-31 13:41:32+00:00 [Note] [Entrypoint]: Temporary server stopped\n\n2026-10-31 13:41:32+00:00 [Note] [Entrypoint]: MariaDB init process done. Ready for start up.\n\n2026-10-31 13:41:24+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB\n2026-10-31 13:41:25 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).\ncreate_uring failed: falling back to libaio\n2026-10-31 13:41:27 0 [Warning] Could not increase number of max_open_files to more than 16384 (request: 32185)\n2026-10-31 13:41:27 0 [Note] Starting MariaDB 11.8.9-MariaDB-ubu2404 source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid iw2qJgzdYAC6s1XdVAUoXOqf0DE= as process 112\n2026-10-31 13:41:27 0 [Note] RocksDB: 2 column families found\n2026-10-31 13:41:27 0 [Note] RocksDB: Column Families at start:\n2026-10-31 13:41:27 0 [Note]   cf=default\n2026-10-31 13:41:27 0 [Note]     write_buffer_size=67108864\n2026-10-31 13:41:27 0 [Note]     target_file_size_base=67108864\n2026-10-31 13:41:27 0 [Note]   cf=__system__\n2026-10-31 13:41:27 0 [Note]     write_buffer_size=67108864\n2026-10-31 13:41:27 0 [Note]     target_file_size_base=67108864\n2026-10-31 13:41:27 0 [Note] RocksDB: Table_store: loaded DDL data for 0 tables\n2026-10-31 13:41:27 0 [Note] RocksDB: global statistics using get_sched_indexer_t indexer\n2026-10-31 13:41:27 0 [Note] MyRocks storage engine plugin has been successfully initialized.\n2026-10-31 13:41:27 0 [Note] InnoDB: Compressed tables use zlib 1.3\n2026-10-31 13:41:27 0 [Note] InnoDB: Using transactional memory\n2026-10-31 13:41:27 0 [Note] InnoDB: Number of transaction pools: 1\n2026-10-31 13:41:27 0 [Note] InnoDB: Using AVX512 instructions\n2026-10-31 13:41:27 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).\ncreate_uring failed: falling back to libaio\n2026-10-31 13:41:27 0 [Note] InnoDB: Using Linux native AIO\n2026-10-31 13:41:27 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m\n2026-10-31 13:41:27 0 [Note] InnoDB: Completed initialization of buffer pool\n2026-10-31 13:41:27 0 [Note] InnoDB: Buffered log writes (block size=512 bytes)\n2026-10-31 13:41:27 0 [Note] InnoDB: End of log at LSN=45568\n2026-10-31 13:41:27 0 [Note] InnoDB: Opened 3 undo tablespaces\n2026-10-31 13:41:27 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.\n2026-10-31 13:41:27 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...\n2026-10-31 13:41:27 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.\n2026-10-31 13:41:27 0 [Note] InnoDB: log sequence number 45568; transaction id 14\n2026-10-31 13:41:27 0 [Note] Plugin 'FEEDBACK' is disabled.\n2026-10-31 13:41:27 0 [Note] Plugin 'wsrep-provider' is disabled.\n2026-10-31 13:41:31 0 [Note] mariadbd: Event Scheduler: Loaded 0 events\n2026-10-31 13:41:31 0 [Note] mariadbd: ready for connections.\nVersion: '11.8.9-MariaDB-ubu2404'  socket: '/run/mysqld/mysqld.sock'  port: 0  mariadb.org binary distribution\n2026-10-31 13:41:32 0 [Note] mariadbd (initiated by: unknown): Normal shutdown\n2026-10-31 13:41:32 0 [Note] InnoDB: FTS optimize thread exiting.\n2026-10-31 13:41:32 0 [Note] InnoDB: Starting shutdown...\n2026-10-31 13:41:32 0 [Note] InnoDB: Dumping buffer pool(s) to /var/lib/mysql/ib_buffer_pool\n2026-10-31 13:41:32 0 [Note] InnoDB: Buffer pool(s) dump completed at 261031 13:41:32\n2026-10-31 13:41:32 0 [Note] InnoDB: Removed temporary tablespace data file: \"./ibtmp1\"\n2026-10-31 13:41:32 0 [Note] Shutdown completed; log sequence number 45568; transaction id 15\n2026-10-31 13:41:32 0 [Note] mariadbd: Shutdown complete\n2026-10-31 13:41:32 0 [Warning] Could not increase number of max_open_files to more than 16384 (request: 32185)\n2026-10-31 13:41:32 0 [Note] Starting MariaDB 11.8.9-MariaDB-ubu2404 source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid iw2qJgzdYAC6s1XdVAUoXOqf0DE= as process 1\n2026-10-31 13:41:32 0 [Note] RocksDB: 2 column families found\n2026-10-31 13:41:32 0 [Note] RocksDB: Column Families at start:\n2026-10-31 13:41:32 0 [Note]   cf=default\n2026-10-31 13:41:32 0 [Note]     write_buffer_size=67108864\n2026-10-31 13:41:32 0 [Note]     target_file_size_base=67108864\n2026-10-31 13:41:32 0 [Note]   cf=__system__\n2026-10-31 13:41:32 0 [Note]     write_buffer_size=67108864\n2026-10-31 13:41:32 0 [Note]     target_file_size_base=67108864\n2026-10-31 13:41:32 0 [Note] RocksDB: Table_store: loaded DDL data for 0 tables\n2026-10-31 13:41:32 0 [Note] RocksDB: global statistics using get_sched_indexer_t indexer\n2026-10-31 13:41:32 0 [Note] MyRocks storage engine plugin has been successfully initialized.\n2026-10-31 13:41:32 0 [Note] InnoDB: Compressed tables use zlib 1.3\n2026-10-31 13:41:32 0 [Note] InnoDB: Using transactional memory\n2026-10-31 13:41:32 0 [Note] InnoDB: Number of transaction pools: 1\n2026-10-31 13:41:32 0 [Note] InnoDB: Using AVX512 instructions\n2026-10-31 13:41:32 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).\ncreate_uring failed: falling back to libaio\n2026-10-31 13:41:32 0 [Note] InnoDB: Using Linux native AIO\n2026-10-31 13:41:32 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388612m, innodb_buffer_pool_size=128m\n2026-10-31 13:41:32 0 [Note] InnoDB: Completed initialization of buffer pool\n2026-10-31 13:41:32 0 [Note] InnoDB: Buffered log writes (block size=512 bytes)\n2026-10-31 13:41:32 0 [Note] InnoDB: End of log at LSN=45568\n2026-10-31 13:41:32 0 [Note] InnoDB: Opened 3 undo tablespaces\n2026-10-31 13:41:32 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.\n2026-10-31 13:41:32 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...\n2026-10-31 13:41:32 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.\n2026-10-31 13:41:32 0 [Note] InnoDB: log sequence number 45568; transaction id 14\n2026-10-31 13:41:32 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool\n2026-10-31 13:41:32 0 [Note] Plugin 'FEEDBACK' is disabled.\n2026-10-31 13:41:32 0 [Note] Plugin 'wsrep-provider' is disabled.\n2026-10-31 13:41:32 0 [Note] InnoDB: Buffer pool(s) load completed at 261031 13:41:32\n2026-10-31 13:41:33 0 [Note] Server socket created on IP: '0.0.0.0', port: '3306'.\n2026-10-31 13:41:33 0 [Note] Server socket created on IP: '::', port: '3306'.\n2026-10-31 13:41:33 0 [Note] mariadbd: Event Scheduler: Loaded 0 events\n2026-10-31 13:41:33 0 [Note] mariadbd: ready for connections.\nVersion: '11.8.9-MariaDB-ubu2404'  socket: '/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution\n2026-10-31 13:44:23 0 [Note] mariadbd (initiated by: unknown): Normal shutdown\n2026-10-31 13:44:23 0 [Note] InnoDB: FTS optimize thread exiting.\n2026-10-31 13:44:23 0 [Note] InnoDB: Starting shutdown...\n2026-10-31 13:44:23 0 [Note] InnoDB: Dumping buffer pool(s) to /var/lib/mysql/ib_buffer_pool\n2026-10-31 13:44:23 0 [Note] InnoDB: Buffer pool(s) dump completed at 261031 13:44:23\n2026-10-31 13:44:23 0 [Note] InnoDB: Removed temporary tablespace data file: \"./ibtmp1\"\n2026-10-31 13:44:23 0 [Note] Shutdown completed; log sequence number 45568; transaction id 15\n2026-10-31 13:44:23 0 [Note] mariadbd: Shutdown complete\n"
+    }
+  ],
+  "removed_owned_image_records": [
+    {
+      "tag": "cu-followup-20261031-e096851-setup-runner:latest",
+      "image_id": "sha256:a114f8916b2df15b421d1f4d5bb563ff31769080c203c92ddedd6b9ee863193d",
+      "created": "2026-10-31T13:30:36.885688568Z"
+    },
+    {
+      "tag": "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-runner:local",
+      "image_id": "sha256:30ffca7d2e8225081814f4ffc2dc26e441989543dfbc38aba5938f690f8e24dd",
+      "created": "2026-10-31T13:30:36.885688568Z"
+    },
+    {
+      "tag": "cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-runner:local",
+      "image_id": "sha256:d24377064bf6b184bce126809f2fcf4db877d52367078926dea8e367e09c874e",
+      "created": "2026-10-31T13:30:36.885688568Z"
+    },
+    {
+      "tag": "cu-openflights-a1f2d670ae9d42679a8f318cbbf7da8d-runner:local",
+      "image_id": "sha256:fd790f2af5a95b9d0f26caa0d7ab487039924fbe1f26b18ce704cf756092762b",
+      "created": "2026-10-31T13:30:36.885688568Z"
+    }
+  ],
+  "commands": [
+    [
+      "docker",
+      "stop",
+      "--time",
+      "120",
+      "7c6ac8611e01"
+    ],
+    [
+      "docker",
+      "rm",
+      "d908e70a916a56b72267406668d20d324452df6a062a03de7870f22b414a8e94"
+    ],
+    [
+      "docker",
+      "rm",
+      "7c6ac8611e01bc979c836ef6c94b69bdba32531e7e2e84a0859c1b5b7bec6ab6"
+    ],
+    [
+      "docker",
+      "image",
+      "rm",
+      "cu-followup-20261031-e096851-setup-runner:latest"
+    ],
+    [
+      "docker",
+      "image",
+      "rm",
+      "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-runner:local"
+    ],
+    [
+      "docker",
+      "image",
+      "rm",
+      "cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-runner:local"
+    ],
+    [
+      "docker",
+      "image",
+      "rm",
+      "cu-openflights-a1f2d670ae9d42679a8f318cbbf7da8d-runner:local"
+    ]
+  ],
+  "disk_after_container_removal": {
+    "total": 8417406976,
+    "used": 6922297344,
+    "free": 1048838144
+  },
+  "disk_after_image_removal": {
+    "total": 8417406976,
+    "used": 6922215424,
+    "free": 1048920064
+  },
+  "retained_volume": "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f_db_data"
+}

@@ -1,0 +1,140 @@
+.................Cache pressure: {'round': 1, 'rows': 128, 'position': 1}
+Partial results: /tmp/tmp4t4u3rkx/results/20261031T132209Z-cache-pressure-12697053
+Failed isolated project retained: cu-pressure-12697053bb9f4af0ad41f529fd9adee8-1
+.......................................OpenFlights round 1/1: MyISAM
+OpenFlights round 1/1: ROCKSDB
+OpenFlights round 1/1: InnoDB
+OpenFlights round 1/1: MEMORY
+OpenFlights round 1/1: Aria
+.Partial results: /tmp/tmpik3aa9_d/20261031T132209Z-openflights-40fb42ae
+An owned failed-trial table may remain; inspect it before any retry.
+...................# OpenFlights route comparison
+
+Run: 20261031T132209Z-openflights-87ee617b
+
+**PILOT: one round per engine; no variability estimate or ranking.**
+
+Rows per trial: 3. Power condition: test.
+Read statistics summarize round means, not pooled individual queries. Values are mean ± sample SD.
+
+| Engine | Load (s) | Point lookup (ms) | Full scan (ms) | Source aggregate (ms) |
+| --- | ---: | ---: | ---: | ---: |
+| InnoDB | 0.0000 ± n/a | 0.0013 ± n/a | 0.0041 ± n/a | 0.0079 ± n/a |
+| Aria | 0.0000 ± n/a | 0.0014 ± n/a | 0.0042 ± n/a | 0.0037 ± n/a |
+| MyISAM | 0.0000 ± n/a | 0.0014 ± n/a | 0.0047 ± n/a | 0.0038 ± n/a |
+| MEMORY | 0.0000 ± n/a | 0.0014 ± n/a | 0.0045 ± n/a | 0.0041 ± n/a |
+| ROCKSDB | 0.0000 ± n/a | 0.0013 ± n/a | 0.0038 ± n/a | 0.0036 ± n/a |
+
+Every row and query answer was checked. Raw samples, query streams, plans, actual DDL,
+dataset/source hashes and runtime/settings metadata are in results.json.
+These are warm reads on a reused server. Timings include driver/network work; durability and
+cache budgets are not equalized. No physical-disk, cold-cache or steady-state claim is made.
+The routes snapshot is historical reference data, not observed flights or current schedules.
+Keep these results separate from synthetic events and the pilot separate from full statistics.
+Data: OpenFlights, via MariaDB/openflights; ODbL 1.0. See docs/openflights-method.md.
+
+Saved: /tmp/tmpwadisocq/20261031T132209Z-openflights-87ee617b
+Recovery round 1/1: MyISAM clean
+Recovery round 1/1: MyISAM sigkill
+Recovery round 1/1: MEMORY sigkill
+Recovery round 1/1: MEMORY clean
+Recovery round 1/1: ROCKSDB clean
+Recovery round 1/1: ROCKSDB sigkill
+Recovery round 1/1: InnoDB sigkill
+Recovery round 1/1: InnoDB clean
+Recovery round 1/1: Aria clean
+Recovery round 1/1: Aria sigkill
+.............# Recovery pilot
+
+Run: 20261031T132209Z-recovery-1a438388
+
+100 acknowledged single-row autocommit inserts per trial; 1 round(s).
+Each trial uses a fresh volume. No write is in flight at the planned stop.
+SIGKILL tests a database-process crash with host/kernel still running, not power loss.
+
+| Engine | Round | Stop | Observation | Intact rows | Missing | Changed | Restart through verification (s) |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: |
+| MyISAM | 1 | clean | unreadable | n/a | n/a | n/a | 0.001 |
+| MyISAM | 1 | sigkill | unreadable | n/a | n/a | n/a | 0.000 |
+| MEMORY | 1 | sigkill | readable | 0 | 100 | 0 | 0.002 |
+| MEMORY | 1 | clean | readable | 0 | 100 | 0 | 0.002 |
+| ROCKSDB | 1 | clean | readable | 100 | 0 | 0 | 0.002 |
+| ROCKSDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.002 |
+| InnoDB | 1 | sigkill | readable | 100 | 0 | 0 | 0.001 |
+| InnoDB | 1 | clean | readable | 100 | 0 | 0 | 0.002 |
+| Aria | 1 | clean | readable | 100 | 0 | 0 | 0.001 |
+| Aria | 1 | sigkill | readable | 100 | 0 | 0 | 0.002 |
+
+Timing includes Docker startup, observer-container launch, connection polling, full data read and CHECK TABLE.
+It is not engine-only recovery latency. Unavailable/unreadable tables have unknown survival, not zero rows.
+MEMORY rows are volatile even for clean restarts. Data survival in this test is not a durability guarantee.
+The writer holds its connection open until the stop; receipt transfer and host orchestration introduce delay.
+Automatic engine recovery may occur; the harness never issues REPAIR TABLE or forces compaction.
+Completed means the protocol finished, not that every engine preserved every row.
+Raw receipts, observations, source hashes, settings, timings and server logs are saved beside this report.
+Retained projects needing review: 2
+See docs/recovery-method.md for protocol and limitations.
+
+Saved: /tmp/tmpsoz4rzbr/results/20261031T132209Z-recovery-1a438388
+Recovery round 1/1: MyISAM clean
+Partial results: /tmp/tmpfeiao1uv/results/20261031T132209Z-recovery-9583c60c
+......Compression trial: {'round': 1, 'position': 1, 'profile': 'compressible', 'codec': 'none'}
+Partial results: /tmp/tmpbw9g1pge/run
+Owned isolated resources retained: cu-compression-9b9f096276d04dc2a758bd7d0531cb2b-1
+..........Docker step: docker container inspect
+.......
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Native Linux output prerequisite ==
+The runner uses UID/GID 10001 and must be able to create files in the results directory.
+On an ordinary rootful Docker host, grant this directory access if it is not already configured:
+setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:
+  sudo apt-get update
+  sudo apt-get install acl
+  mkdir -p -- /tmp/tmp2cx8tz5m/results
+  setfacl -m u:10001:rwx -- /tmp/tmp2cx8tz5m/results
+The container write probe is authoritative; existing ACLs may already grant access.
+Rootless/user-remapped Docker and SELinux can need different host configuration; see docs/setup.md.
+Setup does not change ownership or permissions or delete existing data.
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+....
+== Check Docker engine ==
+
+== Check Compose ==
+
+== Native Linux output prerequisite ==
+The runner uses UID/GID 10001 and must be able to create files in the results directory.
+On an ordinary rootful Docker host, grant this directory access if it is not already configured:
+setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:
+  sudo apt-get update
+  sudo apt-get install acl
+  mkdir -p -- /tmp/tmpbs_myr_q/results
+  setfacl -m u:10001:rwx -- /tmp/tmpbs_myr_q/results
+The container write probe is authoritative; existing ACLs may already grant access.
+Rootless/user-remapped Docker and SELinux can need different host configuration; see docs/setup.md.
+Setup does not change ownership or permissions or delete existing data.
+
+== Preserve or create local credentials ==
+
+== Fetch and verify route data ==
+
+== Build Python runner ==
+
+== Check benchmark output permissions ==
+..
+== Check Docker engine ==
+...Storage round 1/1: MyISAM
+Partial results: /tmp/tmppwzh7s_x/results/20261031T132209Z-storage-702aa6e8
+..................Write diagnostics: {'round': 1, 'engine': 'InnoDB', 'pattern': 'disjoint', 'clients': 1}
+Partial results: /tmp/tmpnlrstsr0/results/20261031T132209Z-write-diagnostics-358d92b9
+Failed isolated project retained: cu-writes-358d92b9e86e4f78bac5174312ff0964-1
+.......
+----------------------------------------------------------------------
+Ran 146 tests in 1.112s
+
+OK

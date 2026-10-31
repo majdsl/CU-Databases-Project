@@ -1,0 +1,121 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.74kB done
+#1 DONE 0.0s
+
+#2 [runner internal] load build definition from runner.Dockerfile
+#2 DONE 0.0s
+
+#3 [db internal] load build definition from db.Dockerfile
+#3 transferring dockerfile: 716B done
+#3 DONE 0.0s
+
+#2 [runner internal] load build definition from runner.Dockerfile
+#2 transferring dockerfile: 1.45kB done
+#2 DONE 0.0s
+
+#4 [db internal] load metadata for docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#4 DONE 0.0s
+
+#5 [db internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [runner internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#6 DONE 0.0s
+
+#7 [db stage-0 1/3] FROM docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#7 DONE 0.0s
+
+#8 [runner internal] load .dockerignore
+#8 transferring context: 693B done
+#8 DONE 0.0s
+
+#9 [db internal] load build context
+#9 transferring context: 33B done
+#9 DONE 0.0s
+
+#10 [db stage-0 2/3] RUN --mount=type=secret,id=cloud_ca,required=true apt-get -o Acquire::https::CaInfo=/run/secrets/cloud_ca update     && DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::https::CaInfo=/run/secrets/cloud_ca install -y --no-install-recommends        mariadb-plugin-rocksdb=1:11.8.9+maria~ubu2404     && test "$(dpkg-query -W -f='${Version}' mariadb-server-core)" = '1:11.8.9+maria~ubu2404'     && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [db stage-0 3/3] COPY --chmod=0755 rocksdb.cnf /etc/mysql/mariadb.conf.d/rocksdb.cnf
+#11 CACHED
+
+#12 [runner stage-0  1/18] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#12 DONE 0.0s
+
+#13 [runner internal] load build context
+#13 transferring context: 5.10kB done
+#13 DONE 0.0s
+
+#14 [runner stage-0 10/18] COPY --chmod=0755 scripts/run_cache_pressure.py scripts/run_cache_pressure.py
+#14 CACHED
+
+#15 [runner stage-0 11/18] COPY --chmod=0755 scripts/run_write_diagnostics.py scripts/run_write_diagnostics.py
+#15 CACHED
+
+#16 [runner stage-0  2/18] WORKDIR /app
+#16 CACHED
+
+#17 [runner stage-0 12/18] COPY --chmod=0755 scripts/run_rocksdb_compression.py scripts/run_rocksdb_compression.py
+#17 CACHED
+
+#18 [runner stage-0  5/18] COPY --chmod=0755 scripts/check_environment.py scripts/check_environment.py
+#18 CACHED
+
+#19 [runner stage-0 17/18] COPY --chmod=0755 Dockerfile compose.yaml compose.runner-2cpu.yaml ./
+#19 CACHED
+
+#20 [runner stage-0  8/18] COPY --chmod=0755 scripts/fetch_openflights.py scripts/fetch_openflights.py
+#20 CACHED
+
+#21 [runner stage-0  7/18] COPY --chmod=0755 scripts/run_recovery.py scripts/run_recovery.py
+#21 CACHED
+
+#22 [runner stage-0 14/18] COPY --chmod=0755 sql sql
+#22 CACHED
+
+#23 [runner stage-0 15/18] COPY --chmod=0755 benchmarks benchmarks
+#23 CACHED
+
+#24 [runner stage-0  3/18] COPY --chmod=0755 requirements.txt .
+#24 CACHED
+
+#25 [runner stage-0  9/18] COPY --chmod=0755 scripts/setup_project.py scripts/setup_project.py
+#25 CACHED
+
+#26 [runner stage-0  6/18] COPY --chmod=0755 scripts/run_storage.py scripts/run_storage.py
+#26 CACHED
+
+#27 [runner stage-0  4/18] RUN --mount=type=secret,id=cloud_ca,required=true PIP_CERT=/run/secrets/cloud_ca pip install --no-cache-dir --require-hashes -r requirements.txt
+#27 CACHED
+
+#28 [runner stage-0 13/18] COPY --chmod=0755 data/openflights data/openflights
+#28 CACHED
+
+#29 [runner stage-0 16/18] COPY --chmod=0755 tests tests
+#29 CACHED
+
+#30 [runner stage-0 18/18] COPY --chmod=0755 docker/mariadb docker/mariadb
+#30 CACHED
+
+#31 [db] exporting to image
+#31 exporting layers done
+#31 writing image sha256:191047a9c4a5f957442a2f74d5a92d53ac925c0d3479e791a1922e06868a38a0 done
+#31 naming to docker.io/library/cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db:local done
+#31 DONE 0.0s
+
+#32 [runner] exporting to image
+#32 exporting layers done
+#32 writing image sha256:30ffca7d2e8225081814f4ffc2dc26e441989543dfbc38aba5938f690f8e24dd done
+#32 naming to docker.io/library/cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-runner:local 0.0s done
+#32 DONE 0.0s
+
+#33 [db] resolving provenance for metadata file
+#33 DONE 0.0s
+
+#34 [runner] resolving provenance for metadata file
+#34 DONE 0.0s
+ cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-runner:local  Built
+ cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db:local  Built
+Prepared immutable images. Session: /workspace/work/audit-followups-20261031/runtime-source/results/20261031T134100Z-openflights-session-7d351fd3/session.json
+Run --pilot, review its summary, then --full using this session and the same power description.

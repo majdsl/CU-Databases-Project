@@ -81,6 +81,7 @@ class LauncherTests(unittest.TestCase):
             root=Path(tmp);(root/'.env').write_text('fixture secret not consumed')
             (root/'results').mkdir()
             images={'db':'sha256:'+'b'*64,'runner':'sha256:'+'c'*64}
+            helper_hash=host.build_manifest.helper_sha256()
             def execute(argv,capture=False):
                 if argv[1]=='info': return 'linux/amd64'
                 if argv[1:3]==['compose','version']: return 'test-compose'
@@ -88,7 +89,12 @@ class LauncherTests(unittest.TestCase):
                 role='db' if argv[-1].endswith('-db:local') else 'runner'
                 return json.dumps({'id':images[role],'os':'linux','architecture':'amd64'})
             with patch.object(host,'execute',side_effect=execute),patch.object(host,'ensure_new'),\
-                 patch.object(host,'compose') as compose,patch.object(host,'host_identity',return_value={'commit':'tested'}),\
+                 patch.object(host,'compose') as compose,patch.object(host,'host_identity',return_value={
+                     'commit':'tested','build_manifest_helper_sha256':helper_hash}),\
+                 patch.object(host.build_manifest,'capture_inputs',return_value={}),\
+                 patch.object(host.build_manifest,'collect',side_effect=lambda root,session,argv,inputs: dict(
+                     format_version=1,collector_sha256=helper_hash,source_commit='tested',source_sha256={},
+                     images={role:dict(image_id=image) for role,image in session['images'].items()})),\
                  patch.object(host,'source_hashes',return_value={}),patch.object(host.benchmark,'load_dataset',return_value=({},[(1,)])):
                 path=host.prepare()
             data=json.loads(path.read_text())
@@ -96,6 +102,12 @@ class LauncherTests(unittest.TestCase):
             self.assertEqual(json.loads((path.parent/'runtime-images.compose.json').read_text()),host.expected_runtime(data))
             self.assertEqual(compose.call_args.args[2:],('build','db','runner'))
             self.assertEqual(data['status'],'prepared')
+            self.assertEqual(data['format_version'],2)
+            self.assertEqual(data['build_manifest']['file'],'build-manifest.json')
+            host.load_session(path)
+            (path.parent/'build-manifest.json').write_text('tampered')
+            with self.assertRaisesRegex(RuntimeError,'checksum'):
+                host.load_session(path)
             self.assertNotIn('fixture secret',path.read_text())
 
     def test_paths_with_spaces_stay_single_arguments(self):
@@ -119,6 +131,25 @@ class LauncherTests(unittest.TestCase):
                     host.run_stage(path,'pilot','same power')
                 start.assert_not_called()
             self.assertEqual(json.loads(path.read_text())['status'],'prepared')
+
+    def test_collector_change_refused_before_database(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(host,'ROOT',Path(tmp)):
+            session,path=self.fixture(Path(tmp))
+            session['host']=host.host_identity();host.save_json(path,session)
+            with patch.object(host,'source_hashes',return_value=session['source_sha256']),\
+                    patch.object(host.build_manifest,'helper_sha256',return_value='f'*64),\
+                    patch.object(host,'start_database') as start:
+                with self.assertRaisesRegex(RuntimeError,'source/revision changed'):
+                    host.run_stage(path,'pilot','same power')
+            start.assert_not_called()
+
+    def test_legacy_session_loads_but_new_session_requires_build_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(host,'ROOT',Path(tmp)):
+            session,path=self.fixture(Path(tmp))
+            host.load_session(path)
+            session['format_version']=2;host.save_json(path,session)
+            with self.assertRaisesRegex(RuntimeError,'Missing build manifest'):
+                host.load_session(path)
 
     def test_remote_docker_endpoint_refused_without_contacting_daemon(self):
         with patch.dict(os.environ, {'DOCKER_HOST': 'tcp://remote.example:2376'}, clear=True), \

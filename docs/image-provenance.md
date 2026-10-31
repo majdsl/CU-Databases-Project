@@ -3,7 +3,10 @@
 For future OpenFlights sessions, the [host launcher](openflights-reproduction.md)
 builds once, selects immutable DB/runner image IDs and captures actual container image
 identities before and after each worker. Pilot/full stages share that selection and
-reject source, settings or power-label drift. This is separate from the historical
+reject source, settings or power-label drift. New prepared sessions also retain a
+hash-linked [build record](build-reconstruction.md) with effective Dockerfile hashes,
+installed package versions, output filesystem layer identities and bounded registry
+descriptor lookups with explicit availability limits. This is separate from the historical
 records below and does not reconstruct missing past metadata.
 
 ## Why two builds were selected
@@ -92,8 +95,10 @@ platform, and reuse that immutable selection for both pilot and full. Record bui
 logs, base/output manifests, image configuration/layer identities and package
 inventories before measurements. Abort a paired experiment if its selected identities
 change unexpectedly. Pin transitive dependencies if byte-identical reconstruction
-is required. This is a future control improvement; it does not reconstruct missing
-historical provenance or change the original measurements.
+is required. The OpenFlights prepared-session collector now records the available
+build/package fields described above; signed transitive-package snapshots and a
+paired reconstruction study remain future work. These controls do not reconstruct
+missing historical provenance or change the original measurements.
 
 References: [Docker image inspection](https://docs.docker.com/reference/cli/docker/image/inspect/),
 [Docker digests and multi-platform manifests](https://docs.docker.com/dhi/explore/security-concepts/digests/),

@@ -103,14 +103,23 @@ so do not run it during active measurements.
 
 Keep `.env` private and unchanged for an existing database. A second clone shares the
 normal Compose project name; it is not automatically an isolated database.
-Stop the lab with `docker compose stop` to preserve data.
 
 ## Run one comparison and read the result
 
 For new measurements, use the [frozen-image OpenFlights launcher](docs/openflights-reproduction.md).
 It creates a separate project/database volume, builds once, and records the actual
 database and runner images. Existing lab credentials and volumes are preserved.
-Prepare the session first (use `python3` on Linux):
+Setup leaves its database running. Before measuring, stop that setup database if it is
+your lab and nobody else is using it:
+
+```powershell
+docker compose stop db
+```
+
+If setup used `--project-name <name>`, use `docker compose -p <name> stop db` instead.
+This retains its volume. Do not stop another person's stack; arrange a quiet measurement
+period. Run the commands below from the repository root (use `python3` on Linux).
+Prepare the session first:
 
 ```powershell
 python scripts/run_openflights.py --prepare
@@ -139,11 +148,22 @@ This runs 25 trials, placing each engine once in each position over five rounds.
 Timings on another machine need not be identical. Compare the conditions and variation,
 and keep pilot observations separate from full-run statistics.
 
-The session records image identities, controls and the paths to the unchanged raw
-benchmark folders. Do not rebuild or edit code/settings between pilot and full.
+The session records image identities, controls and the run IDs of the unchanged raw
+benchmark folders. Keep the session in this checkout's `results/` until finished.
+Do not rebuild, pull, commit, switch revisions or edit tracked files/settings between stages.
 When finished, `python scripts/run_openflights.py --stop --session "results/<session>/session.json"`
-stops only the session's verified database and retains its volume. See the guide for
-failure inspection and the separate correctness-only smoke.
+stops only the session's verified database and retains its volume. Then save a portable
+backup of the completed pilot/full evidence:
+
+```powershell
+python scripts/archive_openflights.py --session "results/<session>/session.json" --output "openflights-evidence.zip"
+```
+
+`results/` is ignored by Git; new measurements stay local until you copy or archive
+them. The ZIP keeps both raw runs and session records together, excludes `.env` and
+leaves the originals intact. It is not uploaded or committed automatically. See the
+[guide](docs/openflights-reproduction.md) for offline verification, failure inspection
+and the separate correctness-only smoke.
 
 **Worked interpretation:** MEMORY loaded the archived route table in 0.6906 ± 0.0410 s,
 versus InnoDB's 1.1840 ± 0.0383 s. That advantage can help a rebuildable cache.

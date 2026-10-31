@@ -1,0 +1,13 @@
+ Network cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c_default  Creating
+ Network cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c_default  Created
+ Volume cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c_db_data  Creating
+ Volume cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c_db_data  Created
+ Container cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-db-1  Creating
+ Container cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-db-1  Created
+ Container cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-db-1  Starting
+ Container cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-db-1  Started
+ Container cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-db-1  Waiting
+container cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c-db-1 exited (1)
+Failed isolated session retained: /workspace/work/audit-followups-20261031/runtime-source/results/20261031T133611Z-openflights-session-bd4c242a/session.json
+Inspect its logs, container and table before stopping; no retry or volume deletion was performed.
+FAILED: Command '['docker', 'compose', '--env-file', '/workspace/work/audit-followups-20261031/runtime-source/.env', '-f', '/workspace/work/audit-followups-20261031/runtime-source/compose.yaml', '-f', '/workspace/work/audit-followups-20261031/runtime-source/results/20261031T133611Z-openflights-session-bd4c242a/runtime-images.compose.json', '-p', 'cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c', 'up', '-d', '--no-build', '--pull', 'never', '--no-recreate', '--wait', '--wait-timeout', '180', 'db']' returned non-zero exit status 1.

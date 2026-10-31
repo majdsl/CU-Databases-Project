@@ -1,0 +1,24 @@
+ Network cu-openflights-7d351fd3a23448cfb99c6e43732cb99f_default  Creating
+ Network cu-openflights-7d351fd3a23448cfb99c6e43732cb99f_default  Created
+ Volume cu-openflights-7d351fd3a23448cfb99c6e43732cb99f_db_data  Creating
+ Volume cu-openflights-7d351fd3a23448cfb99c6e43732cb99f_db_data  Created
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db-1  Creating
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db-1  Created
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db-1  Starting
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db-1  Started
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db-1  Waiting
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db-1  Healthy
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db-1  Running
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-runner-1  Creating
+ Container cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-runner-1  Created
+Traceback (most recent call last):
+  File "<string>", line 27, in <module>
+  File "/usr/local/lib/python3.12/tempfile.py", line 886, in __init__
+    self.name = mkdtemp(suffix, prefix, dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/tempfile.py", line 384, in mkdtemp
+    _os.mkdir(file, 0o700)
+OSError: [Errno 28] No space left on device: '/results/.openflights-probe-eajet4ah'
+Failed isolated session retained: /workspace/work/audit-followups-20261031/runtime-source/results/20261031T134100Z-openflights-session-7d351fd3/session.json
+Inspect its logs, container and table before stopping; no retry or volume deletion was performed.
+FAILED: Worker failed; container and partial evidence retained
