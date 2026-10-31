@@ -87,6 +87,13 @@ Do not run this lab against an existing application database. Setup may recreate
 lab's container after a build while preserving its named volume. Avoid setup during
 an active measurement or another person's use of that stack.
 
+Setup leaves this database running. Before starting an isolated OpenFlights measurement,
+stop your setup database with `docker compose stop db`, or
+`docker compose -p <name> stop db` if you selected `--project-name <name>`.
+Both commands retain its volume. Stop only your own lab when nobody else is using it;
+do not interrupt another stack to free resources. Then follow the
+[prepare → pilot → full → stop → save sequence](openflights-reproduction.md).
+
 ## Manual equivalent
 
 If diagnosing a failed step, these are the core operations. Run separately and stop on

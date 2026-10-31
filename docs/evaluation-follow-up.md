@@ -58,3 +58,10 @@ and version, published prompt version/date, and a record of tools/commands used.
 Ask the evaluator to assess that revision against the published criteria and verify
 claims against files. Preserve the output before making further changes. A new score
 must come from that evaluation; this follow-up does not award the remaining points.
+
+## Later practice assessment
+
+A separate [October 31 assessment and follow-up](audit-followup-20261031.md)
+records the supplied 37/40 review of `b5c16bd`, its evidence availability and the
+subsequent documentation, build-record and evidence-export changes. The 35/40
+response above remains a record of the earlier review.
