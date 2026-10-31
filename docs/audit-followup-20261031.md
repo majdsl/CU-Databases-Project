@@ -24,6 +24,9 @@ the managed sandbox's disk limit prevented a new full timing run. Every database
 volume and all pre-existing evidence were retained. The exporter has fixture-level
 full-session validation; a successful real format-v2 pilot/full/export remains a
 separate validation task on a host with adequate physical capacity.
+The [final guard transcripts](../evidence/reviews/20261031-final-guards/README.md)
+supplement the original validation logs; CI also checks both sealed archives'
+complete byte coverage.
 
 The supplied assessment's separate chat became unavailable before its raw-results ZIP
 was transferred. Its reported October 31 pilot/full identities are preserved in the

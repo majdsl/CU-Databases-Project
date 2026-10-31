@@ -99,6 +99,10 @@ jobs:
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" scripts/check_cloud_openflights.py
           "$RUNNER_TEMP/report-validation/bin/python" -O scripts/check_cloud_openflights.py
+      - name: Verify sealed build records and final guard transcripts
+        run: |
+          python3 evidence/reviews/20261031-build-evidence/verify.py
+          python3 evidence/reviews/20261031-final-guards/verify.py
       - name: Regenerate all reports and run offline guards with and without optimization
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" -m unittest discover -s report-tests -v

@@ -1,0 +1,59 @@
+test_ambiguous_or_malformed_plain_builder_inspection_stays_unavailable (test_build_manifest.BuildManifestTests.test_ambiguous_or_malformed_plain_builder_inspection_stays_unavailable) ... ok
+test_build_record_hash_and_identity_binding_reject_tampering (test_build_manifest.BuildManifestTests.test_build_record_hash_and_identity_binding_reject_tampering) ... ok
+test_builder_probe_has_no_bootstrap_and_retains_no_names_endpoints_or_environment (test_build_manifest.BuildManifestTests.test_builder_probe_has_no_bootstrap_and_retains_no_names_endpoints_or_environment) ... ok
+test_command_failures_and_timeout_do_not_expose_stderr_or_credentials (test_build_manifest.BuildManifestTests.test_command_failures_and_timeout_do_not_expose_stderr_or_credentials) ... ok
+test_complete_collection_keeps_only_safe_fields_and_uses_selected_images (test_build_manifest.BuildManifestTests.test_complete_collection_keeps_only_safe_fields_and_uses_selected_images) ... ok
+test_direct_registry_manifest_does_not_assert_platform_was_verified (test_build_manifest.BuildManifestTests.test_direct_registry_manifest_does_not_assert_platform_was_verified) ... ok
+test_effective_dockerfile_change_during_build_is_rejected_before_inventory (test_build_manifest.BuildManifestTests.test_effective_dockerfile_change_during_build_is_rejected_before_inventory) ... ok
+test_effective_external_and_inline_dockerfiles_are_hashed_without_path_or_contents (test_build_manifest.BuildManifestTests.test_effective_external_and_inline_dockerfiles_are_hashed_without_path_or_contents) ... ok
+test_image_mismatch_platform_and_missing_layers_are_rejected (test_build_manifest.BuildManifestTests.test_image_mismatch_platform_and_missing_layers_are_rejected) ... ok
+test_inventory_rejects_malformed_duplicate_and_empty_installed_records (test_build_manifest.BuildManifestTests.test_inventory_rejects_malformed_duplicate_and_empty_installed_records) ... ok
+test_plain_builder_node_fields_remain_grouped_and_node_names_remain_private (test_build_manifest.BuildManifestTests.test_plain_builder_node_fields_remain_grouped_and_node_names_remain_private) ... ok
+test_python_inventory_normalized_duplicates_and_invalid_values_are_rejected (test_build_manifest.BuildManifestTests.test_python_inventory_normalized_duplicates_and_invalid_values_are_rejected) ... ok
+test_registry_ambiguity_and_failures_are_explicitly_unavailable (test_build_manifest.BuildManifestTests.test_registry_ambiguity_and_failures_are_explicitly_unavailable) ... ok
+test_registry_index_selects_correct_platform_and_never_copies_annotations (test_build_manifest.BuildManifestTests.test_registry_index_selects_correct_platform_and_never_copies_annotations) ... ok
+test_unresolved_or_unpinned_from_does_not_become_a_verified_base (test_build_manifest.BuildManifestTests.test_unresolved_or_unpinned_from_does_not_become_a_verified_base) ... ok
+test_before_workload_incompatible_server_or_sql_never_starts_benchmark (test_openflights_launcher.LauncherTests.test_before_workload_incompatible_server_or_sql_never_starts_benchmark) ... ok
+test_before_workload_source_drift_rejected_inside_worker (test_openflights_launcher.LauncherTests.test_before_workload_source_drift_rejected_inside_worker) ... ok
+test_changed_endpoint_refused_before_database_operation (test_openflights_launcher.LauncherTests.test_changed_endpoint_refused_before_database_operation) ... ok
+test_collector_change_refused_before_database (test_openflights_launcher.LauncherTests.test_collector_change_refused_before_database) ... ok
+test_completed_pilot_and_full_readback_preserves_original_bytes (test_openflights_launcher.LauncherTests.test_completed_pilot_and_full_readback_preserves_original_bytes) ... ok
+test_explicit_context_takes_precedence_over_docker_host (test_openflights_launcher.LauncherTests.test_explicit_context_takes_precedence_over_docker_host) ... ok
+test_failed_or_already_attempted_stage_cannot_retry (test_openflights_launcher.LauncherTests.test_failed_or_already_attempted_stage_cannot_retry) ... ok
+test_failed_worker_and_control_drift_retain_output_and_container (test_openflights_launcher.LauncherTests.test_failed_worker_and_control_drift_retain_output_and_container) ... OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "ON"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+ok
+test_failure_checkpoint_preserves_session_and_refuses_retry (test_openflights_launcher.LauncherTests.test_failure_checkpoint_preserves_session_and_refuses_retry) ... Failed isolated session retained: /tmp/tmpwx1025m9/results/session with spaces/session.json
+Inspect its logs, container and table before stopping; no retry or volume deletion was performed.
+ok
+test_full_requires_unchanged_pilot_and_power (test_openflights_launcher.LauncherTests.test_full_requires_unchanged_pilot_and_power) ... ok
+test_full_stage_cannot_accept_a_pilot_or_path_traversal_output (test_openflights_launcher.LauncherTests.test_full_stage_cannot_accept_a_pilot_or_path_traversal_output) ... ok
+test_legacy_session_loads_but_new_session_requires_build_manifest (test_openflights_launcher.LauncherTests.test_legacy_session_loads_but_new_session_requires_build_manifest) ... ok
+test_normal_project_and_existing_unlabelled_volume_are_refused (test_openflights_launcher.LauncherTests.test_normal_project_and_existing_unlabelled_volume_are_refused) ... ok
+test_paths_with_spaces_stay_single_arguments (test_openflights_launcher.LauncherTests.test_paths_with_spaces_stay_single_arguments) ... ok
+test_preexisting_worker_refused_without_creation (test_openflights_launcher.LauncherTests.test_preexisting_worker_refused_without_creation) ... ok
+test_prepare_builds_unique_tags_then_binds_only_ids (test_openflights_launcher.LauncherTests.test_prepare_builds_unique_tags_then_binds_only_ids) ... Prepared immutable images. Session: /tmp/tmpfz08lmh9/results/20261031T133528Z-openflights-session-26cd0b83/session.json
+Run --pilot, review its summary, then --full using this session and the same power description.
+ok
+test_remote_docker_endpoint_refused_without_contacting_daemon (test_openflights_launcher.LauncherTests.test_remote_docker_endpoint_refused_without_contacting_daemon) ... ok
+test_result_with_inconsistent_runtime_probe_is_rejected (test_openflights_launcher.LauncherTests.test_result_with_inconsistent_runtime_probe_is_rejected) ... ok
+test_retagging_cannot_change_created_image_and_only_success_is_removed (test_openflights_launcher.LauncherTests.test_retagging_cannot_change_created_image_and_only_success_is_removed) ... OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+ok
+test_runtime_override_tampering_refused (test_openflights_launcher.LauncherTests.test_runtime_override_tampering_refused) ... ok
+test_source_change_refused_before_database (test_openflights_launcher.LauncherTests.test_source_change_refused_before_database) ... ok
+test_wrong_actual_image_refused_before_start (test_openflights_launcher.LauncherTests.test_wrong_actual_image_refused_before_start) ... ok
+test_wrong_database_owner_prevents_stop (test_openflights_launcher.LauncherTests.test_wrong_database_owner_prevents_stop) ... ok
+
+----------------------------------------------------------------------
+Ran 38 tests in 0.139s
+
+OK
