@@ -34,7 +34,7 @@ results directory for UID 10001 and runs the README setup wrapper,
 
 1. Generates disposable local credentials without printing their values.
 2. Downloads the pinned OpenFlights snapshot and verifies its checksum.
-3. Builds the pinned Python runner and checks results-mount write access and runs the complete unit suite (currently 140 tests).
+3. Builds the pinned Python runner, checks results-mount write access and runs the complete lightweight unit suite.
 4. Builds the custom MariaDB image, including the pinned MyRocks plugin package.
 5. Starts a fresh database volume and waits for its healthcheck.
 6. Checks all five actual storage engines and verifies parameterized inserts/readback.
@@ -96,8 +96,8 @@ and with optimized Python (`-O`). The suite includes storage-report validation a
 the tutorial drivers' project/ownership/credential guards. Hassan Kheder's regression covers row count,
 checksum, exit code, OOM, inventory totals and storage deltas, requiring rejection
 before any output directory is created. The database image continues to run its
-132 lightweight tests without Matplotlib or the archived evidence. The extra offline
-test uses archived data; it is not another database experiment. See the
+lightweight suite without Matplotlib or the archived evidence. The offline
+regression uses archived data; it is not another database experiment. See the
 [contribution review](teammate-1-review.md).
 
 Six compression-report tests validate the real archived pilot/full files and
@@ -106,7 +106,7 @@ altered raw workers/inventories/command bytes and a wrong network namespace, and
 require rejection before output creation. They distinguish tiny floating-point
 roundoff from material statistic changes. Two generations must produce the same
 seven files and leave raw evidence untouched. These tests use the reporting
-environment; the lightweight runner remains at 140 tests without Matplotlib.
+environment; the lightweight runner does not require Matplotlib.
 
 ## Live tutorial correctness
 

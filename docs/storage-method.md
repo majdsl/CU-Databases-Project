@@ -1,7 +1,8 @@
 # Isolated storage footprint experiment
 
-Status: implementation prepared; local unit tests passed. A real Docker/MariaDB
-pilot is still required on the project laptop. There are no storage results yet.
+Status: completed laptop pilot and full runs are archived separately. The full run
+contains 25 verified trials; see the [storage findings](storage-findings.md) for
+measurements, raw evidence and limits.
 
 ## Question and scope
 
@@ -89,8 +90,11 @@ Unit tests cover namespace rejection, existing-resource refusal, live/unclean-se
 snapshot refusal, loader isolation, protection of pre-existing tables, evidence
 retention on failure, sparse files, hardlinks, symlinks, signed deltas, and report
 labels/completeness. Existing baseline tests check the reused generator/validator.
-These are not live database integration tests. The pilot on the laptop is still
-required before treating any run as validated evidence.
+These guard tests are separate from live database validation. The completed
+[five-trial pilot](../evidence/storage/20261006T115445Z-storage-bdfbdd47/results.json)
+and [25-trial full run](../evidence/storage/20261006T120404Z-storage-a5d23142/results.json)
+record actual row checks, stopped-server inventories and clean shutdowns. Pilot
+observations are excluded from the full-run statistics.
 
 ## Sources
 

@@ -18,6 +18,12 @@ source head `ed7ee7a1f754e085f33d4327a2cd3c1f73741bd6`, tested merge revision
 architecture agreement. The workflow continues checking both platforms on pushes,
 pull requests and manual dispatch.
 
+These October 27 records cover the six common SQL files present at those revisions.
+The current reproduction command below uses seven common files, including the later
+transaction demonstration (`05b-transactions.sql`). The historical records do not
+claim to validate SQL added after their tested revisions; current CI runs the
+expanded sequence.
+
 The [Windows archive](../evidence/reviews/20261027-windows-stock-tutorial/README.md)
 comes from the owner's existing checkout at recorded commit
 `e6767a5c14c862d686bcd9adda0945103db2d556`, using Python 3.10.11 and Docker 29.8.0.
@@ -48,13 +54,15 @@ the `commit` field is supplied automatically in GitHub Actions.
 ## What the check establishes
 
 - The pinned official image starts from a new named volume and reaches a healthy state.
-- The six common SQL files mounted read-only match the checkout's SHA-256 hashes.
+- The seven current common SQL files mounted read-only match the checkout's SHA-256 hashes.
 - InnoDB, Aria, MyISAM and MEMORY are the actual table engines, with 50,000 rows each.
   Row checks compare IDs, generated fields and notes with their deterministic formulas.
 - Both MEMORY index variants hold 100,000 rows. Equality returns 20 rows and range
   returns 200; plans show `ref` for equality, BTREE `range` and HASH `ALL` for ranges.
 - Six invalid procedure calls fail. Single and two-writer update totals match
   the affected rows, including disjoint and same-row cases.
+- A two-row transfer rolls back on InnoDB and remains applied on the three
+  non-transactional engines, with exact balances checked.
 - A clean restart preserves the persistent engines' rows and updates; MEMORY empties.
 - SQL cleanup removes tutorial objects and preserves an unrelated sentinel.
 - The script removes only the container and volume with this invocation's ownership
@@ -62,7 +70,9 @@ the `commit` field is supplied automatically in GitHub Actions.
 
 Five offline failure-path tests additionally cover resource collisions, foreign
 ownership, architecture mismatch, invalid project names and credential-safe logs.
-The full offline suite has seven tests and passes normally and with optimized Python.
+They form part of the complete offline suite, which CI runs normally and with
+optimized Python (`-O`). See [CI scope](ci.md) for the current checks and dated
+validation records.
 
 ## Image and scope
 
