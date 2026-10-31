@@ -1,0 +1,24 @@
+{
+  "historical_files_checked": 946,
+  "historical_hashes_unchanged": true,
+  "preexisting_volumes": [
+    "cu-engine-lab_db_data",
+    "cu-openflights-7cd95181e8754d18afaf3962a0a33a71_db_data",
+    "cu-repro-20261030_db_data"
+  ],
+  "all_preexisting_volumes_retained": true,
+  "current_volumes": [
+    "cu-engine-lab_db_data",
+    "cu-followup-20261031-e096851-setup_db_data",
+    "cu-openflights-7cd95181e8754d18afaf3962a0a33a71_db_data",
+    "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f_db_data",
+    "cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c_db_data",
+    "cu-repro-20261030_db_data"
+  ],
+  "timed_trials_collected": 0,
+  "reason_no_new_timings": "Both new attempts failed capacity checks before the benchmark workload: DB initialization and worker writable-output probe.",
+  "environment_settings_changed": false,
+  "credentials_excluded": true,
+  "setup_tested_commit": "e09685102cc6620b453860fbde4f9ae14e1bb60c",
+  "final_helper_and_preparation_commit": "13961d3aa3d156ccc249ab6dc47eaf09c8730481"
+}

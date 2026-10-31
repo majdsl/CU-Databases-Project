@@ -11,6 +11,8 @@ its own database volume. The normal lab database is not restarted or reused.
 Only local Unix-socket or Windows named-pipe Docker endpoints are supported, because
 the results bind mount must refer to this checkout. Remote/TCP daemons are refused.
 Do not run another measurement at the same time; shared host work can affect timings.
+Check [physical disk headroom](setup.md#disk-capacity) before preparing another
+isolated session, especially with nested Docker's `vfs` storage driver.
 
 Run all commands below from the repository root. Setup leaves its lab database running;
 before measuring, stop that database if it is your lab and nobody else is using it:

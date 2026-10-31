@@ -1,0 +1,12 @@
+services:
+  runner:
+    build:
+      dockerfile: /workspace/work/audit-followups-20261031/build/runner.Dockerfile
+      secrets: [cloud_ca]
+  db:
+    build:
+      dockerfile: /workspace/work/audit-followups-20261031/build/db.Dockerfile
+      secrets: [cloud_ca]
+secrets:
+  cloud_ca:
+    file: /etc/ssl/certs/ca-certificates.crt

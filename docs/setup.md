@@ -17,6 +17,22 @@ OpenFlights source. The DB and runner are limited to 2 GiB and 512 MiB; allow ad
 memory for Docker and builds. Recorded hardware and software are in
 [the environment record](benchmark-environment.md).
 
+## Disk capacity
+
+Check free space where Docker stores its data and where this checkout lives. On
+Linux, `df -h` shows filesystem capacity; `docker system df` lists Docker's logical
+object usage. With the `vfs` storage driver, copied container/layer files can use
+substantially more physical space than the logical image sizes suggest. Stopping a
+container retains its writable layer as well as its volume. Allow room for the
+separate measurement database and runner after setup.
+
+An initialization failure saying `No space left on device` is not a completed
+pilot. Preserve its session, database logs and volume, inspect capacity and resource
+ownership, then start a new session after resolving the cause. Do not retry the
+failed stage or use a broad volume-pruning command. Removing an inspected,
+disposable stopped container can free its writable layer while retaining its
+volume; retain the diagnostics first and leave unrelated resources alone.
+
 ## Native Linux output prerequisite
 
 The runner uses UID/GID 10001 and writes to the host's `results/` bind mount.

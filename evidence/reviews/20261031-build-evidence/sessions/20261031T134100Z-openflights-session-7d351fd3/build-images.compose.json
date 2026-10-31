@@ -1,0 +1,10 @@
+{
+  "services": {
+    "db": {
+      "image": "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-db:local"
+    },
+    "runner": {
+      "image": "cu-openflights-7d351fd3a23448cfb99c6e43732cb99f-runner:local"
+    }
+  }
+}

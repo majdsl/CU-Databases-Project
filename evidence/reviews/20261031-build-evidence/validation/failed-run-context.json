@@ -1,0 +1,24 @@
+{
+  "benchmark_tested_commit": "13961d3aa3d156ccc249ab6dc47eaf09c8730481",
+  "session_path": "/workspace/work/audit-followups-20261031/runtime-source/results/20261031T133611Z-openflights-session-bd4c242a/session.json",
+  "session_project": "cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c",
+  "power_condition": "managed shared cloud; physical power/governor unavailable; no competing initiated workloads",
+  "kernel": "6.18.57",
+  "machine": "x86_64",
+  "os_release": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.6\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+  "docker_host_resources": {
+    "cpus": 3,
+    "memory_bytes": 10452459520,
+    "driver": "vfs"
+  },
+  "pilot_command": [
+    "/workspace/work/audit-followups-20261031/venv/bin/python",
+    "scripts/run_openflights.py",
+    "--pilot",
+    "--session",
+    "/workspace/work/audit-followups-20261031/runtime-source/results/20261031T133611Z-openflights-session-bd4c242a/session.json",
+    "--power-condition",
+    "managed shared cloud; physical power/governor unavailable; no competing initiated workloads"
+  ],
+  "host_limitations": "Shared managed cloud, nested Docker; physical host, firmware, power/governor and background tenants are not controlled or visible. Not a native Ubuntu or physical-laptop replication."
+}

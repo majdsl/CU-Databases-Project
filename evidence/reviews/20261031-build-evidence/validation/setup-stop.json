@@ -1,0 +1,30 @@
+{
+  "project": "cu-followup-20261031-e096851-setup",
+  "container_id": "ce9921b8d9ae615ae7a585323b8b919d0f2b24a8d7fd5ff652854618c12b6ef5",
+  "image_id": "sha256:d07f0847f68693a2c8236ed56aa43a8eca658611283c70a2daef0bd443a7a0d9",
+  "state": {
+    "Status": "exited",
+    "ExitCode": 0,
+    "OOMKilled": false,
+    "StartedAt": "2026-10-31T13:31:07.485335733Z",
+    "FinishedAt": "2026-10-31T13:32:11.599860432Z"
+  },
+  "volume": "cu-followup-20261031-e096851-setup_db_data",
+  "volume_policy": "retained",
+  "stop_command": [
+    "docker",
+    "compose",
+    "--env-file",
+    "/workspace/work/audit-followups-20261031/runtime-source/.env",
+    "-f",
+    "/workspace/work/audit-followups-20261031/runtime-source/compose.yaml",
+    "-f",
+    "/workspace/work/audit-followups-20261031/build/compose.cloud.yaml",
+    "-p",
+    "cu-followup-20261031-e096851-setup",
+    "stop",
+    "-t",
+    "120",
+    "db"
+  ]
+}

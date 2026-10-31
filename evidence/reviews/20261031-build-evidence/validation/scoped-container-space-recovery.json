@@ -1,0 +1,72 @@
+{
+  "reason": "Fresh DB initialization failed ENOSPC before timed workload; nested Docker vfs clones use physical space.",
+  "scope": "Only the two newly created stopped validation DB containers; no force flag and no volume deletion. Pre-existing containers/resources untouched.",
+  "retained_container_records": [
+    {
+      "container_id": "ce9921b8d9ae615ae7a585323b8b919d0f2b24a8d7fd5ff652854618c12b6ef5",
+      "project": "cu-followup-20261031-e096851-setup",
+      "image_id": "sha256:d07f0847f68693a2c8236ed56aa43a8eca658611283c70a2daef0bd443a7a0d9",
+      "state": {
+        "Status": "exited",
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "StartedAt": "2026-10-31T13:31:07.485335733Z",
+        "FinishedAt": "2026-10-31T13:32:11.599860432Z"
+      },
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "cu-followup-20261031-e096851-setup_db_data",
+          "Destination": "/var/lib/mysql",
+          "RW": true
+        }
+      ]
+    },
+    {
+      "container_id": "4ea3c2259d9ba22814d9fae937e2bfe48ce326cb4aaa2b68d99b7bc0b57ef185",
+      "project": "cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c",
+      "image_id": "sha256:3a5ed00ea303b4ec8b22a711d380d350fdca1792ee0def022bcbeefccd8fb891",
+      "state": {
+        "Status": "exited",
+        "ExitCode": 1,
+        "OOMKilled": false,
+        "StartedAt": "2026-10-31T13:36:55.584699857Z",
+        "FinishedAt": "2026-10-31T13:36:56.485518585Z"
+      },
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c_db_data",
+          "Destination": "/var/lib/mysql",
+          "RW": true
+        }
+      ]
+    }
+  ],
+  "commands": [
+    [
+      "docker",
+      "rm",
+      "ce9921b8d9ae615ae7a585323b8b919d0f2b24a8d7fd5ff652854618c12b6ef5"
+    ],
+    [
+      "docker",
+      "rm",
+      "4ea3c2259d9ba22814d9fae937e2bfe48ce326cb4aaa2b68d99b7bc0b57ef185"
+    ]
+  ],
+  "retained_volumes": [
+    "cu-followup-20261031-e096851-setup_db_data",
+    "cu-openflights-bd4c242ae5784f8a8fa56796c9a5f73c_db_data"
+  ],
+  "disk_before": {
+    "total": 8417406976,
+    "used": 8387969024,
+    "free": 0
+  },
+  "disk_after": {
+    "total": 8417406976,
+    "used": 6764908544,
+    "free": 1206226944
+  }
+}
