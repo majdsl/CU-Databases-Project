@@ -60,8 +60,8 @@ class BuildManifestTests(unittest.TestCase):
                 if argv[:3] == ['docker', 'buildx', 'version']:
                     return 'github.com/docker/buildx v0.29.0 '+SECRET
                 if argv[:3] == ['docker', 'buildx', 'inspect']:
-                    return json.dumps(dict(Name=SECRET, Driver='docker', Nodes=[dict(Name=SECRET,Endpoint=SECRET,
-                                           Status='running',Buildkit='v0.25.0',DriverOpts={'private':SECRET})]))
+                    return ('Name: '+SECRET+'\nDriver: docker\nNodes:\nName: '+SECRET+'\nEndpoint: '+SECRET+
+                            '\nStatus: running\nBuildKit version: v0.25.0\nLabels:\n  private: '+SECRET+'\n')
                 if argv[:4] == ['docker', 'buildx', 'imagetools', 'inspect']:
                     return json.dumps(self.index() if argv[-1] == BASE else self.image_manifest())
                 if argv[:3] == ['docker', 'image', 'inspect']:
@@ -161,18 +161,48 @@ class BuildManifestTests(unittest.TestCase):
             self.assertEqual(call.kwargs['timeout'],15)
 
     def test_builder_probe_has_no_bootstrap_and_retains_no_names_endpoints_or_environment(self):
-        value=dict(Name=SECRET,Driver='docker-container',Nodes=[dict(Name=SECRET,Endpoint=SECRET,
-                   Status='inactive',Buildkit='N/A',Flags=[SECRET],Env={'PASSWORD':SECRET})])
-        with patch.object(record,'command',return_value=json.dumps(value)) as command:
+        value=('Name: '+SECRET+'\nDriver: docker-container\nNodes:\nName: '+SECRET+'\nEndpoint: '+SECRET+
+               '\nStatus: inactive\nBuildKit version: N/A\nDriver Options: private="'+SECRET+'"\nLabels:\n'+
+               '  Status: '+SECRET+'\n  BuildKit version: '+SECRET+'\n')
+        with patch.object(record,'command',return_value=value) as command:
             result=record.builder_details(Path('/unused'))
         self.assertEqual(result['nodes'],[dict(status='inactive',buildkit='unavailable')])
         self.assertNotIn(SECRET,json.dumps(result))
         self.assertNotIn('--bootstrap',command.call_args.args[0])
+        self.assertEqual(command.call_args.args[0],['docker','buildx','inspect'])
         self.assertEqual(command.call_args.kwargs['timeout'],10)
         with patch.object(record,'command',side_effect=record.RecordError(SECRET)):
             result=record.builder_details(Path('/unused'))
         self.assertEqual(result['status'],'unavailable')
         self.assertNotIn(SECRET,json.dumps(result))
+
+    def test_plain_builder_node_fields_remain_grouped_and_node_names_remain_private(self):
+        value=('Name: '+SECRET+'\nDriver: docker-container\nNodes:\nName: private-1\nEndpoint: '+SECRET+
+               '\nStatus: running\nBuildKit version: v0.24.0\nLabels:\n  private: '+SECRET+
+               '\nName: private-2\nEndpoint: '+SECRET+'\nStatus: stopped\nBuildKit version: v0.23.2\n')
+        with patch.object(record,'command',return_value=value):
+            result=record.builder_details(Path('/unused'))
+        self.assertEqual(result['nodes'],[dict(status='running',buildkit='v0.24.0'),
+                                          dict(status='stopped',buildkit='v0.23.2')])
+        self.assertNotIn('private-',json.dumps(result))
+        self.assertNotIn(SECRET,json.dumps(result))
+
+    def test_ambiguous_or_malformed_plain_builder_inspection_stays_unavailable(self):
+        prefix='Name: private\nDriver: docker\nNodes:\nName: private-0\n'
+        values=[prefix+'Status: running\nStatus: stopped\nBuildKit version: v0.24.0\n',
+                prefix+'Status: running\nBuildKit version: '+SECRET+'\n',
+                prefix+'Status: running\n',
+                prefix+'Status: inactive\nName: private-0\nStatus: stopped\n',
+                prefix+'BuildKit version: v0.24.0\n',
+                'Driver: docker\nStatus: running\nBuildKit version: v0.24.0\n',
+                prefix+'Status: inactive\nDriver: remote\n',
+                prefix+'Status: inactive\nNodes:\n',
+                SECRET]
+        for value in values:
+            with self.subTest(value=value),patch.object(record,'command',return_value=value):
+                result=record.builder_details(Path('/unused'))
+            self.assertEqual(result['status'],'unavailable')
+            self.assertNotIn(SECRET,json.dumps(result))
 
     def test_registry_ambiguity_and_failures_are_explicitly_unavailable(self):
         index=self.index();index['manifests'].append(copy.deepcopy(index['manifests'][0]))

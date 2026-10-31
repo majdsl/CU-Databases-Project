@@ -28,8 +28,10 @@ limitation is recorded explicitly. Index selection is based on its platform
 descriptor, rather than an inferred operating system effect.
 
 The Buildx plugin version and the selected BuildKit builder version are separate.
-An inspection without `--bootstrap` records only the existing builder's driver
-and node BuildKit versions/status, when available. It does not start, create or
+The supported plain `docker buildx inspect` command, without `--bootstrap`, records
+only the existing builder's driver and grouped node BuildKit versions/status when
+available. Names, endpoints and nested label/option text are discarded. Ambiguous
+or unsupported output is recorded as unavailable. The command does not start, create or
 reconfigure a builder. Unavailable details remain explicit; they do not prove
 which backend an external build adapter or alternative Compose mode used.
 

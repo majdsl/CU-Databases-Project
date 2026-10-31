@@ -203,23 +203,60 @@ def tool_versions(root, compose_version):
     return selected
 
 
+def parse_builder_details(text):
+    """Select only root-level fields from Buildx's supported plain inspection.
+
+    Names delimit nodes but are never returned. Indented labels/options are not
+    fields, even when their text resembles Status or BuildKit version.
+    """
+    driver = None
+    nodes_section = False
+    nodes = []
+    current = None
+    names = set()
+    for line in text.splitlines():
+        match = re.fullmatch(r'([A-Za-z][A-Za-z ]*):[ \t]*(.*)', line)
+        if match is None:
+            continue
+        key, value = match[1], match[2].strip()
+        if key == 'Driver':
+            require(driver is None and not nodes_section and value in
+                    {'docker', 'docker-container', 'kubernetes', 'remote', 'cloud'},
+                    'Ambiguous or unsupported selected builder driver')
+            driver = value
+        elif key == 'Nodes':
+            require(not nodes_section and not value, 'Ambiguous selected builder nodes section')
+            nodes_section = True
+        elif key == 'Name' and nodes_section:
+            require(bool(value) and value not in names, 'Ambiguous selected builder node boundary')
+            names.add(value)
+            current = {}
+            nodes.append(current)
+        elif key in {'Status', 'BuildKit version', 'Buildkit', 'BuildKit'}:
+            require(nodes_section and current is not None, 'Ungrouped selected builder node field')
+            field = 'status' if key == 'Status' else 'buildkit'
+            require(field not in current, 'Duplicate selected builder node field')
+            if field == 'status':
+                require(value in {'running', 'inactive', 'stopped', 'error'}, 'Unknown selected builder node status')
+            else:
+                require(value in {'', 'N/A'} or
+                        re.fullmatch(r'v?[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.+_-]*', value),
+                        'Invalid selected builder version')
+                value = value if value not in {'', 'N/A'} else 'unavailable'
+            current[field] = value
+    require(driver is not None and nodes_section and bool(nodes), 'Selected builder details unavailable')
+    for node in nodes:
+        require('status' in node, 'Selected builder node status unavailable')
+        node.setdefault('buildkit', 'unavailable')
+        require(node['status'] != 'running' or node['buildkit'] != 'unavailable',
+                'Running selected builder version unavailable')
+    return dict(status='observed_without_bootstrap', driver=driver, nodes=nodes)
+
+
 def builder_details(root):
-    """Inspect existing state only: no bootstrap, endpoint names or node options."""
+    """Inspect existing state only; Buildx inspect does not support --format."""
     try:
-        value = json_output(command(['docker', 'buildx', 'inspect', '--format', '{{json .}}'], root, timeout=10))
-        require(isinstance(value, dict) and value.get('Driver') in
-                {'docker', 'docker-container', 'kubernetes', 'remote', 'cloud'}, 'Unknown selected builder driver')
-        nodes = value.get('Nodes')
-        require(isinstance(nodes, list) and bool(nodes), 'Selected builder nodes unavailable')
-        selected = []
-        for node in nodes:
-            require(isinstance(node, dict), 'Invalid selected builder node')
-            version = node.get('Buildkit', '')
-            status = node.get('Status')
-            selected.append(dict(buildkit=version if isinstance(version, str) and
-                                 re.fullmatch(r'v?[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.+_-]*', version) else 'unavailable',
-                                 status=status if status in {'running', 'inactive', 'stopped', 'error'} else 'unavailable'))
-        return dict(status='observed_without_bootstrap', driver=value['Driver'], nodes=selected)
+        return parse_builder_details(command(['docker', 'buildx', 'inspect'], root, timeout=10))
     except RecordError:
         return dict(status='unavailable', reason='selected_builder_unavailable_or_unsupported')
 
