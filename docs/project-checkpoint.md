@@ -7,6 +7,10 @@ Operational handoff; the reader's starting point remains [README](../README.md).
 - Starting and last verified remote `main`: `93e3eedc1db066bc3d9254d6d9fef25a12ba6206`.
   `git fetch origin` and `git ls-remote origin refs/heads/main` agreed on November 1.
 - Active branch: `improve/session-validation-20261101`; [PR #15](https://github.com/majdsl/CU-Databases-Project/pull/15).
+- Completed implementation/evidence milestone `ffadc4d11411d887acb67bfaced0465a7c20c1e5`
+  is pushed. Final merge/main identity and publication outcomes
+  belong to the linked release manifests below; recording them there avoids moving
+  the main revision being assessed.
 - Initial checkpoint `d75c4b7271d9f5877ddb2a37b5f1a2a75febc5e6` pushed and
   verified with `git ls-remote`. Workflow source frozen at
   `2da20124ca1e52128d7cb8c3536736ae139239f7` for [manual run 41321256187](https://github.com/majdsl/CU-Databases-Project/actions/runs/41321256187).
@@ -51,8 +55,10 @@ Operational handoff; the reader's starting point remains [README](../README.md).
    also passed real five-engine integration/tutorial and native stock amd64/ARM64.
    Three new snapshot guards passed normally/optimized, bringing the current offline
    suite to 105 (confirm against the final passing CI).
-5. Pending: publish remaining records and complete snapshot artifact; merge checked
-   PR; verify remote main/checks; publish a fresh, explicitly internal assessment.
+5. All reviewed small evidence, original session ZIP and logs are committed/pushed.
+   The [PR checks](https://github.com/majdsl/CU-Databases-Project/pull/15/checks)
+   record the final head validation and merge state. The final main checks and
+   assessed SHA are recorded by the post-merge publication manifests below.
 
 ## Environment and evidence boundaries
 
@@ -73,9 +79,11 @@ inventories are observations, not a complete dependency lock or identical-image 
 
 The real session ZIP is pushed at `41a39140b9d80e5ec64e3dd7710fe3501f0e558d`;
 an HTTP read of its immutable GitHub raw URL matched its 87,843 bytes and SHA-256.
-Commit the remaining reviewed local logs (explicitly retained despite global `*.log`
-ignore), complete snapshot index and final publication guards. Confirm final PR checks
-before merging; verify remote main and its checks afterward. Large public package
+The remaining reviewed local logs (explicitly retained despite global `*.log` ignore),
+complete snapshot index and final publication guards are now committed. A clean
+`git archive` extraction passed all new archive verifiers and real-session semantic
+rechecking. Confirm final PR checks before merging; verify remote main and its checks
+afterward. Large public package
 inputs will use GitHub Releases after privacy review: direct workspace upload returned
 HTTP 401 on `uploads.github.com` (no release remained), so the manual trusted-main
 publication workflow will use its scoped GitHub Actions token after merge. It verifies
@@ -85,6 +93,16 @@ Then publish the exact-format internal assessment of that unchanged main revisio
 `internal-review-20261101`; [the review source/handoff](../evidence/evaluations/20261101-internal-review/README.md)
 records the official prompt and external review inputs. That release's provenance
 records the final main SHA without another main commit moving the evaluated target.
+
+For a replacement chat: inspect PR #15 first. If merged, read `publication-manifest.json`
+at [the raw-evidence release](https://github.com/majdsl/CU-Databases-Project/releases/tag/evidence-reconstruction-20261101)
+and [internal-review release](https://github.com/majdsl/CU-Databases-Project/releases/tag/internal-review-20261101).
+Verify their actual published SHA/checksums and successful publication-run links;
+use those durable records to distinguish finished steps from this pre-merge handoff.
+If publication is absent, dispatch `Publish reviewed evidence` on verified `main`
+using the exact artifact IDs/hashes in the snapshot index; notes-only `artifacts: []`
+publishes the fresh internal assessment without advancing main. Do not rerun
+measurements merely to rebuild chat context. The remaining external task is below.
 
 ## Remaining physical-host task
 
