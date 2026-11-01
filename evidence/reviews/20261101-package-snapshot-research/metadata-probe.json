@@ -1,0 +1,151 @@
+{
+  "scope": "Read-only metadata/signature probe; no package installation, dependency resolution or Docker build. HTTPS-distributed public keys; no independent key ceremony.",
+  "snapshot_candidate": "20261031T000000Z",
+  "downloads": [
+    {
+      "file": "ubuntu-keyring.deb",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/u/ubuntu-keyring/ubuntu-keyring_2023.11.28.1_all.deb",
+      "bytes": 11124,
+      "sha256": "36de43b15853ccae0028e9a767613770c704833f82586f28eb262f0311adb8a8"
+    },
+    {
+      "file": "mariadb-key.pgp",
+      "url": "https://mariadb.org/mariadb_release_signing_key.pgp",
+      "bytes": 6575,
+      "sha256": "00adb387f4c12e8982cfc28165d225695621494354cd58108c6845063bfb74b5"
+    },
+    {
+      "file": "noble.InRelease",
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261031T000000Z/dists/noble/InRelease",
+      "bytes": 255850,
+      "sha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0"
+    },
+    {
+      "file": "noble-updates.InRelease",
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261031T000000Z/dists/noble-updates/InRelease",
+      "bytes": 126125,
+      "sha256": "86950a25d17620eb961ee8e232e778d26b50481db6aa35688669258da0323762"
+    },
+    {
+      "file": "noble-security.InRelease",
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261031T000000Z/dists/noble-security/InRelease",
+      "bytes": 126127,
+      "sha256": "b98a23bb0d3a8e45a891aef8b0120049329b135598eb6edc584049afc8407474"
+    },
+    {
+      "file": "mariadb.InRelease",
+      "url": "https://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu/dists/noble/InRelease",
+      "bytes": 27853,
+      "sha256": "f17449bf8921f70085b0d6abb6c780c35c0abe62fa1378571f3925206faeb349"
+    },
+    {
+      "file": "noble-backports.InRelease",
+      "url": "https://snapshot.ubuntu.com/ubuntu/20261031T000000Z/dists/noble-backports/InRelease",
+      "bytes": 126173,
+      "sha256": "9e4b7ffca034829246f8760fc622c4c787751e687f6ba9b4c643da40405fc47f"
+    }
+  ],
+  "verification": [
+    {
+      "file": "noble.InRelease",
+      "exit_code": 0,
+      "gpg_status": [
+        "[GNUPG:] NEWSIG",
+        "[GNUPG:] KEY_CONSIDERED F6ECB3762474EDA9D21B7022871920D1991BC93C 0",
+        "[GNUPG:] SIG_ID GVnDvebl2qOVy2n1fx2yPFLiSUA 2024-04-25 1714057881",
+        "[GNUPG:] GOODSIG 871920D1991BC93C Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>",
+        "[GNUPG:] VALIDSIG F6ECB3762474EDA9D21B7022871920D1991BC93C 2024-04-25 1714057881 0 4 0 1 10 01 F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "[GNUPG:] TRUST_UNDEFINED 0 pgp"
+      ],
+      "gpg_message": [
+        "gpg: Signature made Thu Apr 25 15:11:21 2024 UTC",
+        "gpg:                using RSA key F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "gpg: Good signature from \"Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>\" [unknown]",
+        "gpg: WARNING: This key is not certified with a trusted signature!",
+        "gpg:          There is no indication that the signature belongs to the owner.",
+        "Primary key fingerprint: F6EC B376 2474 EDA9 D21B  7022 8719 20D1 991B C93C"
+      ]
+    },
+    {
+      "file": "noble-updates.InRelease",
+      "exit_code": 0,
+      "gpg_status": [
+        "[GNUPG:] NEWSIG",
+        "[GNUPG:] KEY_CONSIDERED F6ECB3762474EDA9D21B7022871920D1991BC93C 0",
+        "[GNUPG:] SIG_ID 3c8gwUpAU6qC8xs8hrgda7i35+E 2026-10-30 1793388751",
+        "[GNUPG:] GOODSIG 871920D1991BC93C Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>",
+        "[GNUPG:] VALIDSIG F6ECB3762474EDA9D21B7022871920D1991BC93C 2026-10-30 1793388751 0 4 0 1 10 01 F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "[GNUPG:] TRUST_UNDEFINED 0 pgp"
+      ],
+      "gpg_message": [
+        "gpg: Signature made Fri Oct 30 19:32:31 2026 UTC",
+        "gpg:                using RSA key F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "gpg: Good signature from \"Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>\" [unknown]",
+        "gpg: WARNING: This key is not certified with a trusted signature!",
+        "gpg:          There is no indication that the signature belongs to the owner.",
+        "Primary key fingerprint: F6EC B376 2474 EDA9 D21B  7022 8719 20D1 991B C93C"
+      ]
+    },
+    {
+      "file": "noble-security.InRelease",
+      "exit_code": 0,
+      "gpg_status": [
+        "[GNUPG:] NEWSIG",
+        "[GNUPG:] KEY_CONSIDERED F6ECB3762474EDA9D21B7022871920D1991BC93C 0",
+        "[GNUPG:] SIG_ID X2bcg7I0+AgvXphZndxXiqoXkP0 2026-10-30 1793332955",
+        "[GNUPG:] GOODSIG 871920D1991BC93C Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>",
+        "[GNUPG:] VALIDSIG F6ECB3762474EDA9D21B7022871920D1991BC93C 2026-10-30 1793332955 0 4 0 1 10 01 F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "[GNUPG:] TRUST_UNDEFINED 0 pgp"
+      ],
+      "gpg_message": [
+        "gpg: Signature made Fri Oct 30 04:02:35 2026 UTC",
+        "gpg:                using RSA key F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "gpg: Good signature from \"Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>\" [unknown]",
+        "gpg: WARNING: This key is not certified with a trusted signature!",
+        "gpg:          There is no indication that the signature belongs to the owner.",
+        "Primary key fingerprint: F6EC B376 2474 EDA9 D21B  7022 8719 20D1 991B C93C"
+      ]
+    },
+    {
+      "file": "mariadb.InRelease",
+      "exit_code": 0,
+      "gpg_status": [
+        "[GNUPG:] NEWSIG",
+        "[GNUPG:] KEY_CONSIDERED 177F4010FE56CA3336300305F1656F24C74CD1D8 0",
+        "[GNUPG:] SIG_ID XqfDZo09YSsrIh/P+cMNjNVu3kU 2026-08-25 1787645018",
+        "[GNUPG:] GOODSIG F1656F24C74CD1D8 MariaDB Signing Key <signing-key@mariadb.org>",
+        "[GNUPG:] VALIDSIG 177F4010FE56CA3336300305F1656F24C74CD1D8 2026-08-25 1787645018 0 4 0 1 8 01 177F4010FE56CA3336300305F1656F24C74CD1D8",
+        "[GNUPG:] TRUST_UNDEFINED 0 pgp"
+      ],
+      "gpg_message": [
+        "gpg: Signature made Tue Aug 25 08:03:38 2026 UTC",
+        "gpg:                using RSA key 177F4010FE56CA3336300305F1656F24C74CD1D8",
+        "gpg: Good signature from \"MariaDB Signing Key <signing-key@mariadb.org>\" [unknown]",
+        "gpg: WARNING: This key is not certified with a trusted signature!",
+        "gpg:          There is no indication that the signature belongs to the owner.",
+        "Primary key fingerprint: 177F 4010 FE56 CA33 3630  0305 F165 6F24 C74C D1D8"
+      ]
+    },
+    {
+      "file": "noble-backports.InRelease",
+      "exit_code": 0,
+      "gpg_status": [
+        "[GNUPG:] NEWSIG",
+        "[GNUPG:] KEY_CONSIDERED F6ECB3762474EDA9D21B7022871920D1991BC93C 0",
+        "[GNUPG:] SIG_ID TuiJWHjknvlRqrjpEDo+DoSk6wY 2026-10-29 1793317019",
+        "[GNUPG:] GOODSIG 871920D1991BC93C Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>",
+        "[GNUPG:] VALIDSIG F6ECB3762474EDA9D21B7022871920D1991BC93C 2026-10-29 1793317019 0 4 0 1 10 01 F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "[GNUPG:] TRUST_UNDEFINED 0 pgp"
+      ],
+      "gpg_message": [
+        "gpg: Signature made Thu Oct 29 23:36:59 2026 UTC",
+        "gpg:                using RSA key F6ECB3762474EDA9D21B7022871920D1991BC93C",
+        "gpg: Good signature from \"Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>\" [unknown]",
+        "gpg: WARNING: This key is not certified with a trusted signature!",
+        "gpg:          There is no indication that the signature belongs to the owner.",
+        "Primary key fingerprint: F6EC B376 2474 EDA9 D21B  7022 8719 20D1 991B C93C"
+      ]
+    }
+  ],
+  "mariadb_key_import_exit": 0
+}
