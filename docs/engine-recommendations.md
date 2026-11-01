@@ -7,8 +7,10 @@ rebuildable loading workload, and MyRocks when storage pressure warrants further
 
 These are conditional engineering recommendations for the project's MariaDB 11.8.9 setup.
 They combine measured observations with documented engine features; they are not a universal
-ranking. The experiments did not implement a booking application or test multi-statement
-transactions. A recommendation for that application is an inference from its requirements.
+ranking. The performance experiments did not implement a booking application or measure
+multi-statement transactions. The separate [transaction tutorial](tutorial.md#5c-commit-and-rollback-depend-on-the-engine)
+checks exact COMMIT/ROLLBACK outcomes on all five engines. A recommendation for a booking
+application remains an inference from its requirements, not a tested application design.
 
 ## Choose by requirements first
 

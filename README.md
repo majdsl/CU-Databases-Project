@@ -137,6 +137,9 @@ answer is checked. The saved container path `/results/<run-id>` maps to
 `results/<run-id>` in your checkout. Open `summary.md`; retain `results.json` for the
 raw samples, checksums, query plans and runtime/settings metadata. One pilot round cannot
 estimate variability. Investigate partial/failed output before proceeding.
+The command can be quiet while it captures worker output. See the guide's
+[pilot inspection steps](docs/openflights-reproduction.md#pilot-inspect-then-full)
+for live read-only inspection, exact success markers and finding the raw run ID.
 
 After reviewing the pilot:
 
@@ -309,9 +312,8 @@ Future improvements can be added to this completed record.
 See [team contributions and supporting evidence](docs/team-contributions.md) for
 completed work, AI assistance, linked commits/reviews and the limits of each check.
 Follow-up changes use branches and pull requests into `main`, the branch read by
-the official evaluator. The [received 35/40 practice evaluation and follow-up](docs/evaluation-follow-up.md)
-track project-level feedback and possible extensions. Evaluation provenance and
-the scope of the recorded checks are documented in the [evidence plan](docs/evidence-plan.md).
+the official evaluator. The [evidence plan](docs/evidence-plan.md) records the scope
+of completed checks, historical review provenance and remaining reproduction work.
 
 References: [official assignment and rubric](https://mariadb.org/bachelor_hackathon_2026-09/),
 [MariaDB engine documentation](https://mariadb.com/docs/server/server-usage/storage-engines).

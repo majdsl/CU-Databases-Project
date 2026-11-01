@@ -61,11 +61,31 @@ probes surround the worker to record source/runtime, server and SQL settings. Th
 probes add work outside the harness's existing timed queries and loads.
 Worker output is captured and printed after that worker exits, so the command can be
 quiet while it runs. Do not relaunch it because output has paused.
+From a second terminal, `docker ps` shows running containers without changing the
+session. The session's `stages.pilot.runner_before.container_id` (or the corresponding
+`full` field) identifies the worker; `docker logs <container-id>` reads its current
+output. Successful workers are removed after validation, so use the retained
+`pilot-transcript.txt` or `full-transcript.txt` afterward.
 
 The pilot must finish with five verified trials and a summary marked **PILOT**. Read
 its raw result and summary before continuing. The session records each stage's run ID;
 the original `results.json` and `summary.md` are left unchanged. One pilot round does
 not estimate variability.
+
+The terminal must end with `Pilot passed. Review its raw results/summary before invoking --full.`
+To inspect the session without extra tools, run:
+
+```powershell
+python -m json.tool "results/<session>/session.json"
+```
+
+Check `status` is `pilot_completed` and `stages.pilot.status` is `completed`.
+Use `stages.pilot.result.run_id` as `<pilot-run-id>` in the paths
+`results/<pilot-run-id>/summary.md` and `results/<pilot-run-id>/results.json`.
+Open those files in an editor: the summary must
+be marked **PILOT**, and the raw result must have `status: "completed"` and five
+trials, one per engine. Investigate any failed/partial trial before proceeding.
+Use the original session path for `--full`, not either raw-run directory.
 
 ```powershell
 python scripts/run_openflights.py --full --session "results/<session>/session.json" --power-condition "plugged in; battery saver off"
@@ -79,6 +99,9 @@ change the IDs selected in the runtime override.
 Full mode uses the existing 25-trial balanced workload: 67,663 verified routes per
 trial, with five rounds per engine. Retain raw timings, per-trial means, sample SD and
 the session's image/control records together. Keep pilot and full statistics separate.
+Success ends with `Full run passed. Use --stop with this session to retain its database volume.`
+The session now has `status: "completed"`; `stages.full.result.run_id` locates the
+separate 25-trial result and summary.
 Comparing hosts requires separate conditions and uncertainty; identical source/settings
 do not imply identical machines or causal operating-system effects.
 
@@ -123,6 +146,20 @@ python verify.py
 The verifier checks byte hashes and complete file coverage. The bundle preserves the
 original `results/<session>/` and `results/<run-id>/` layout; its root also contains
 `README.md`, `SHA256SUMS.txt` and `verify.py`.
+
+For a complete command-line round trip, choose a new directory outside the checkout,
+then extract and verify (use `python3` on Linux):
+
+```powershell
+python -m zipfile -e "openflights-evidence.zip" "../openflights-evidence-check"
+python "../openflights-evidence-check/verify.py"
+```
+
+Expect `BUNDLE CHECKSUMS PASS`; this establishes complete byte integrity of the
+export, not authenticity or a second SQL execution. The destination must be new
+and empty so unrelated files do not change its coverage check. Record the ZIP's
+SHA-256 and a verified durable location when handing it off; a code push does not
+back up this ignored local file.
 
 The local output layout is:
 
