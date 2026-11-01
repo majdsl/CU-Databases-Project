@@ -52,3 +52,14 @@ not establish that this independent run is complete.
 
 A study varying only InnoDB buffer-pool capacity is optional. The existing table-size
 experiment's confounds remain disclosed; no new cache-causation claim is made here.
+
+## Later validation — November 1
+
+The [complete format-v2 CI session](../evidence/reproductions/20261101-ci-openflights-session/README.md)
+now supplies real five-trial pilot and 25-trial full raw data, stable prepared
+source/images/controls, clean shutdown, export and successful offline verification
+after separate extraction. It closes the lifecycle-validation task identified above.
+The October 31 failures and unavailable assessment-chat ZIP retain their original
+status. This new shared-CI run does not complete Zane's physical-laptop reproduction.
+See the [current checkpoint](project-checkpoint.md) and
+[build reconstruction record](build-reconstruction.md) for later work and its limits.

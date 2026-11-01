@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: correctness-${{ github.workflow }}-${{ github.ref }}
+  group: correctness-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -111,6 +111,14 @@ jobs:
         run: |
           python3 evidence/reviews/20261031-build-evidence/verify.py
           python3 evidence/reviews/20261031-final-guards/verify.py
+          python3 evidence/reviews/20261101-local-validation/verify.py
+          (cd evidence/reviews/20261101-package-snapshot-research && sha256sum -c SHA256SUMS.txt)
+      - name: Verify the complete real OpenFlights session archive offline
+        run: |
+          python3 evidence/reproductions/20261101-ci-openflights-session/verify.py
+          python3 evidence/reproductions/20261101-ci-openflights-session/bundle/verify.py
+          python3 evidence/reproductions/20261101-ci-openflights-session/recheck.py
+          python3 -O evidence/reproductions/20261101-ci-openflights-session/recheck.py
       - name: Regenerate all reports and run offline guards with and without optimization
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" -m unittest discover -s report-tests -v
@@ -260,9 +268,41 @@ jobs:
           print(json.dumps(record, indent=2))
           print('OPENFLIGHTS SESSION WORKFLOW PASS')
           PY
+      - name: Preserve owned database failure logs before the disposable VM is removed
+        if: failure() && env.VALIDATION_OUTPUT != ''
+        run: |
+          python3 - <<'PY' > "$VALIDATION_OUTPUT/failure-database.txt"
+          import os, pathlib, subprocess
+          from scripts import run_openflights as launcher
+          selected = os.environ.get('OPENFLIGHTS_SESSION')
+          if not selected:
+              print('No prepared session was selected; database diagnostics unavailable.')
+          else:
+              try:
+                  session, path = launcher.load_session(pathlib.Path(selected))
+                  launcher.require(launcher.local_docker_endpoint() == session['docker_endpoint_kind'],
+                                   'Session Docker endpoint kind changed')
+                  database = launcher.identity(session, path, 'db')
+                  result = subprocess.run(['docker', 'logs', '--tail', '200', database['Id']],
+                      text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True)
+                  print(result.stdout, end='')
+              except Exception as error:
+                  print('Owned session database diagnostics unavailable: ' + type(error).__name__)
+          PY
+          if [ -f .env ]; then
+            if ! docker compose -p "$SESSION_SETUP_PROJECT" logs --no-color --tail=200 db > "$VALIDATION_OUTPUT/failure-setup-database.txt" 2>&1; then
+              printf '%s\n' 'Setup database logs unavailable; retained any output above.' >> "$VALIDATION_OUTPUT/failure-setup-database.txt"
+            fi
+          fi
       - name: Stop the failed owned session without retrying or deleting its volume
         if: failure() && env.OPENFLIGHTS_SESSION != ''
         run: python3 scripts/run_openflights.py --stop --session "$OPENFLIGHTS_SESSION" 2>&1 | tee "$VALIDATION_OUTPUT/failure-stop.txt"
+      - name: Leave the owned setup database stopped even if setup failed
+        if: always() && env.VALIDATION_OUTPUT != ''
+        run: |
+          if [ -f .env ]; then
+            docker compose -p "$SESSION_SETUP_PROJECT" stop -t 120 db 2>&1 | tee "$VALIDATION_OUTPUT/setup-final-stop.txt"
+          fi
       - name: Retain validation output for publication and review
         if: always() && env.VALIDATION_OUTPUT != ''
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

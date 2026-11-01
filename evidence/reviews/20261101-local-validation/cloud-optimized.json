@@ -1,0 +1,12 @@
+{
+  "name": "cloud-optimized",
+  "command": [
+    ".venv/bin/python",
+    "-O",
+    "scripts/check_cloud_openflights.py"
+  ],
+  "started_utc": "2026-11-01T15:26:58.606042+00:00",
+  "elapsed_seconds": 2.49,
+  "exit_code": 0,
+  "log": "cloud-optimized.log"
+}

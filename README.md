@@ -225,7 +225,8 @@ Eight report generators cover 32 chart files, including index, buffer-pool, comp
 [report reproduction commands and checks](docs/report-reproducibility.md).
 CI uses fresh containers and runs unit tests, real five-engine checks and a
 stock-image tutorial on native Linux amd64 and ARM64;
-see [CI scope](docs/ci.md). Performance measurements stay on controlled machines.
+see [CI scope](docs/ci.md). Performance recommendations use the scoped laptop
+experiments; cloud and shared-CI timings retain their separate validation labels.
 The [laptop record](docs/benchmark-environment.md), [runner image pin](docs/runner-image.md)
 and [setup details](docs/setup.md) document versions and remaining environment limits.
 

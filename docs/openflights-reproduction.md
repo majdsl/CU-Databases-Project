@@ -5,6 +5,12 @@ Use this host-side launcher for new pilot/full measurements after completing
 SQL, timing boundaries and default workload unchanged while recording which images
 and controls actually executed it. Use `python3` instead of `python` on Linux.
 
+The [complete November 1 validation](../evidence/reproductions/20261101-ci-openflights-session/README.md)
+retains real five-trial pilot/25-trial full results, clean shutdown, build records,
+the exported ZIP and successful standalone verification after extraction. It
+validates this workflow on a shared Linux CI host; its timings are not laptop
+performance findings or independent human installation evidence.
+
 The launcher requires the existing private `.env` and verified OpenFlights dataset.
 It preserves them and creates a unique `cu-openflights-<id>` Compose project with
 its own database volume. The normal lab database is not restarted or reused.
@@ -159,7 +165,7 @@ Expect `BUNDLE CHECKSUMS PASS`; this establishes complete byte integrity of the
 export, not authenticity or a second SQL execution. The destination must be new
 and empty so unrelated files do not change its coverage check. Record the ZIP's
 SHA-256 and a verified durable location when handing it off; a code push does not
-back up this ignored local file.
+back up this uncommitted local file.
 
 The local output layout is:
 

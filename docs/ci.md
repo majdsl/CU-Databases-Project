@@ -220,6 +220,20 @@ not infer engine rankings or operating-system effects from them. A workflow defi
 or queued run does not establish success; record the tested SHA, completed run link,
 actual output, published archive path and checksum only after inspecting the result.
 
+The [November 1 completed run](../evidence/reproductions/20261101-ci-openflights-session/README.md)
+passed all five jobs, including the real complete session. Its source SHA, original
+ZIP, 5/25-trial raw data, controls and shutdown are committed separately from laptop
+performance evidence. Later workflow maintenance does not change that tested revision.
+
+Large, privacy-reviewed package-input archives can use the manual
+[Publish reviewed evidence workflow](../.github/workflows/publish-reviewed-evidence.yml)
+after it reaches `main`. It accepts explicit artifact IDs and expected SHA-256 values,
+refuses other branches, and grants `actions: read`/`contents: write` only to that manual
+publication job. It creates a new prerelease tag at the dispatched main SHA, does not
+overwrite existing assets, and downloads uploaded assets again to verify their hashes.
+Notes-only publication can preserve an exact internal assessment without advancing the
+main revision it evaluates. Default correctness jobs retain read-only contents access.
+
 **Validated October 26, 2026:** [PR run 40395842648](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395842648)
 and [push run 40395828223](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395828223)
 passed against tutorial source head `1526e565d6aeb177ca177dd4f6e74bfabd92f5d4`.

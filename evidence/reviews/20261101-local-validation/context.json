@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-11-01T15:24:22.598179+00:00",
+  "source_sha": "d75c4b7271d9f5877ddb2a37b5f1a2a75febc5e6",
+  "working_tree": " M README.md\n M docs/engine-recommendations.md\n M docs/openflights-reproduction.md\n M docs/setup.md\n M docs/tutorial.md\n",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "dependencies": {
+    "PyMySQL": "1.1.2",
+    "matplotlib": "3.10.8"
+  },
+  "scope": "Current working files tested; documentation and workflow changes are being developed concurrently by other agents. No Docker builds or timed database workloads executed by this validation.",
+  "finished_utc": "2026-11-01T15:27:59.345011+00:00",
+  "finishing_source_sha": "2da20124ca1e52128d7cb8c3536736ae139239f7",
+  "finishing_working_tree": " M .github/workflows/correctness.yml\n M docs/build-reconstruction.md\n?? evidence/reviews/20261101-package-snapshot-research/\n",
+  "committed_changes_during_validation": [
+    ".github/workflows/correctness.yml",
+    "README.md",
+    "docs/ci.md",
+    "docs/engine-recommendations.md",
+    "docs/openflights-reproduction.md",
+    "docs/setup.md",
+    "docs/tutorial.md"
+  ],
+  "computational_inputs_changed": []
+}

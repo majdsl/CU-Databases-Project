@@ -1,6 +1,6 @@
 # Evidence plan
 
-Status reviewed October 30, 2026, including the confirmed team roster, hands-on tutorial,
+Status reviewed November 1, 2026, including the confirmed team roster, hands-on tutorial,
 and verified OpenFlights, storage/recovery,
 MEMORY index, InnoDB cache-pressure, server CPU/lock-wait and MyRocks codec evidence. Completed measurements
 are evidence for their stated workloads, not a universal engine ranking. The separate
@@ -19,6 +19,15 @@ build-once OpenFlights session with actual container image/control capture, expl
 Linux output prerequisites, and [portable cloud-archive CI checks](report-reproducibility.md).
 These strengthen future reproduction and regression coverage; they do not replace
 historical metadata or count as new controlled performance measurements.
+
+The [November 1 complete format-v2 session validation](../evidence/reproductions/20261101-ci-openflights-session/README.md)
+now establishes setup → stop setup DB → prepare → five-trial pilot → automated
+inspection → 25-trial full → clean stop → export → separate extraction and offline
+verification. Raw results, unchanged source/image/control identities, build records
+and the original ZIP are retained. This closes the format-v2 lifecycle gap, with
+shared-CI timings explicitly classified as validation observations. It does not
+complete independent human or physical-laptop reproduction. The
+[operational checkpoint](project-checkpoint.md) tracks current publication and review.
 
 | Criterion | Evidence available | Remaining work |
 | --- | --- | --- |

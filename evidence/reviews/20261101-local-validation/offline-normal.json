@@ -1,0 +1,16 @@
+{
+  "name": "offline-normal",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "report-tests",
+    "-v"
+  ],
+  "started_utc": "2026-11-01T15:24:31.480916+00:00",
+  "elapsed_seconds": 187.657,
+  "exit_code": 0,
+  "log": "offline-normal.log"
+}
