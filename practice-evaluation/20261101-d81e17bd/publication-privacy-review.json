@@ -1,0 +1,8 @@
+{
+  "reviewed_utc": "2026-11-01T17:44:10.242082+00:00",
+  "scope": "All files under artifacts, selected for fresh evaluation; no venv, local credentials, source checkout or downloaded large original ZIPs included.",
+  "high_confidence_credential_private_key_personal_path_matches": [],
+  "manual_review": "Root and delegated reviewers read relevant logs and metadata. GitHub masked credentials remain masked. Generic /workspace, /home/runner and container system paths are not personal paths.",
+  "redactions": [],
+  "private_originals": "Original reviewed artifacts remain at evaluation root/artifacts; downloaded original public ZIPs remain outside publication in root/downloads."
+}

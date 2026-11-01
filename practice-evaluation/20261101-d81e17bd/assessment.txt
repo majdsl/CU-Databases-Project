@@ -1,0 +1,28 @@
+REPOSITORY: https://github.com/majdsl/CU-Databases-Project, main; frozen HEAD d81e17bd92b67d29905a59ff1af2a22745f0187d, matching remote main and the expected revision; reviewed November 1, 2026.
+
+AREA: 6, “Choosing the right storage engine,” named on README.md’s first line. Criteria and linked storage-engine references checked against the [live assignment](https://mariadb.org/bachelor_hackathon_2026-09/); evaluation prompt unchanged, last updated September 4, 2026.
+
+SCORES: documentation=9, mariadb_depth=10, execution=9, usability=9
+
+TOTAL: 37/40
+
+VERDICT: Assessed - no blocking issues.
+
+SUMMARY: A thoroughly evidenced five-engine measurement lab with practical recommendations and reusable tutorials; this is a fresh AI practice evaluation. [Assessment, provenance, reviewed logs and checksums](https://github.com/majdsl/CU-Databases-Project/tree/evidence/practice-evaluation-20261101-d81e17bd-52a28b/practice-evaluation/20261101-d81e17bd).
+
+NOTES: Current material contains approximately 67 Python, 26 SQL, 45 Markdown and 9 YAML files, three Dockerfiles and 32 figures; 57 archived-source and 1,105 evidence files are separate. MariaDB capabilities include five per-table engines, HASH/BTREE indexes, transactions, table/row locking, buffer-pool pressure, MyRocks compression and restart persistence. The work combines controlled measurements, evidence validators and reusable SQL lessons.
+
+BLOCKING: none
+
+DOCUMENTATION: [README.md](https://github.com/majdsl/CU-Databases-Project/blob/d81e17bd92b67d29905a59ff1af2a22745f0187d/README.md), docs/openflights-method.md, docs/engine-recommendations.md and docs/team-contributions.md explain setup, reasoned schema choices, methods, figures, trade-offs and contributions.
+Raise by updating stale progress statements: [docs/concurrency-method.md:77](https://github.com/majdsl/CU-Databases-Project/blob/d81e17bd92b67d29905a59ff1af2a22745f0187d/docs/concurrency-method.md#L77) still calls storage measurement pending despite completed docs/storage-findings.md; consolidate historical reporting notes into a clear current overview.
+
+MARIADB DEPTH: [sql/openflights/](https://github.com/majdsl/CU-Databases-Project/tree/d81e17bd92b67d29905a59ff1af2a22745f0187d/sql/openflights) exercises five comparable engines; docs/memory-index-findings.md, docs/cache-pressure-findings.md, docs/write-diagnostics-findings.md and docs/rocksdb-compression-findings.md investigate access plans, cache limits, locking and codecs. Transaction and restart tutorials expose real engine differences beyond the assignment minimum.
+At the rubric ceiling; interrupted commits, deadlocks and sustained compaction would extend the demonstrated scope.
+
+EXECUTION: Repeated balanced trials, sample SD, row/query verification and source provenance support the findings. Fresh checks passed 146 lightweight and 105 report tests in each Python mode, eight-report/55-output regeneration, both cloud checks and all eight evidence checks. Fresh four-engine SQL passed; [current-SHA correctness CI](https://github.com/majdsl/CU-Databases-Project/actions/runs/41329137852) passed five-engine integration. Custom builds and performance workloads were not personally rerun: this host has a 7.84 GiB filesystem with vfs. Historical measurements, older CI execution and checksum verification retain their distinct scopes.
+Mandatory deduction −1: “SQL built by string interpolation,” at [benchmarks/openflights.py:20](https://github.com/majdsl/CU-Databases-Project/blob/d81e17bd92b67d29905a59ff1af2a22745f0187d/benchmarks/openflights.py#L20) and related statements. The published rule is unqualified; these interpolate fixed identifiers while values are parameterized, so this is not an SQL-injection finding. Literal statements would remove that rubric deduction; no other mandatory deduction was found.
+
+USABILITY: [docs/tutorial.md](https://github.com/majdsl/CU-Databases-Project/blob/d81e17bd92b67d29905a59ff1af2a22745f0187d/docs/tutorial.md) deliberately teaches engine selection, HASH/BTREE, locking, rollback and restart volatility. scripts/setup_project.py provides one-command setup after prerequisites; scripts/check_stock_tutorial.py supplies a reusable four-engine alternative, freshly verified here.
+Raise by combining platform selection, Linux output-access preparation and the first result into one concise newcomer path; these steps currently span README.md, docs/setup.md and docs/openflights-reproduction.md. Five-engine support remains Linux amd64; native ARM64 evidence covers the stock four-engine path.
+
