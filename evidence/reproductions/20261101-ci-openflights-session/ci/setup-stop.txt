@@ -1,0 +1,2 @@
+ Container cu-session-setup-41321256187-1-db-1  Stopping
+ Container cu-session-setup-41321256187-1-db-1  Stopped

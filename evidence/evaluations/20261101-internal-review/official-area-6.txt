@@ -1,0 +1,19 @@
+6. Choosing the right storage engine
+
+The feature. MariaDB lets you pick the storage engine per table — InnoDB, Aria, MyRocks, MEMORY, ARCHIVE — while the SQL you write stays the same.
+
+The project. Build one dataset and one workload harness, then run the same schema across several engines and measure what actually changes: load time, on-disk size, point-lookup latency, full-scan time, concurrent write throughput, crash recovery behaviour. To the extent the openflights data set is insufficient for illustrating the properties, identify and use a suitable complementary data set.
+
+Documentation. Storage engines
+
+Goal and evaluation criteria. Trade-offs made visible and surprising rather than quoted from a manual:
+
+the same schema and the same workload across at least three engines (depth)
+
+where each engine wins and where it loses, and why that follows from how it stores data (depth)
+
+measurements repeated rather than taken once, with machine and settings stated (execution)
+
+a harness a reader can rerun on their own machine and get comparable numbers (usability)
+
+a recommendation someone could act on: which engine for which workload, and what it costs (documentation)

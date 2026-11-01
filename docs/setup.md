@@ -26,6 +26,28 @@ substantially more physical space than the logical image sizes suggest. Stopping
 container retains its writable layer as well as its volume. Allow room for the
 separate measurement database and runner after setup.
 
+Before building, inspect the daemon and existing resources (these commands work in
+PowerShell and bash):
+
+```powershell
+docker info --format '{{.Driver}} {{.DockerRootDir}}'
+docker system df
+docker ps -a
+docker volume ls
+```
+
+On native Linux, run `df -h .` and `df -i .` from the checkout. Also run both checks
+against the Docker root path printed above; it can be on a different filesystem and
+may require administrator access. On Docker Desktop, inspect free space in its Linux
+VM/disk allocation as well as on the host drive. A large host drive or a small logical
+image total alone does not establish available space inside Docker.
+
+The [October 31 capacity failures](../evidence/reviews/20261031-build-evidence/README.md)
+exhausted an approximately 8 GB managed filesystem with `vfs` while adding a separate
+session after setup. The project has no measured universal minimum: storage driver,
+cached layers and retained resources change the physical requirement. If the host
+has the same constraint, use a larger host instead of repeating the failed build.
+
 An initialization failure saying `No space left on device` is not a completed
 pilot. Preserve its session, database logs and volume, inspect capacity and resource
 ownership, then start a new session after resolving the cause. Do not retry the

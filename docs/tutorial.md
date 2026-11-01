@@ -205,7 +205,7 @@ The scripts create separate two-row `tut_tx_*` tables with balances 100/100. Eac
 engine receives the same statements: begin, add 25 to one row, subtract 25 from
 the other, and roll back. A second transfer starts from a reset baseline and commits.
 The scripts refuse an existing transaction-demo table and remove their own tables
-when finished. Step7's cleanup also removes these reserved names after an interrupted run.
+when finished. Step 7's cleanup also removes these reserved names after an interrupted run.
 
 | Observation | InnoDB / MyRocks | Aria / MyISAM / MEMORY |
 | --- | --- | --- |
@@ -214,11 +214,11 @@ when finished. Step7's cleanup also removes these reserved names after an interr
 | After `ROLLBACK` | `1:100,2:100` | `1:125,2:75` |
 | After the separate `COMMIT` example | `1:125,2:75` | `1:125,2:75` |
 
-Nontransactional engines can produce warning1196 on `ROLLBACK`: their writes cannot
+Nontransactional engines can produce warning 1196 on `ROLLBACK`: their writes cannot
 be rolled back. This is the behavior being demonstrated, not an expected SQL error.
 Aria's crash-safe `TRANSACTIONAL` option does not provide multi-statement transactions.
 The automated tutorial verifies actual engine identities and every row-pair outcome
-from these exact source files. An invariant such as total balance200 alone would miss
+from these exact source files. An invariant such as total balance 200 alone would miss
 the difference; the individual balances are checked.
 
 This lesson demonstrates rollback/commit semantics in a live server. It does not

@@ -1,0 +1,14 @@
+BUNDLE CHECKSUMS PASS: 14 files; integrity only, not authenticity or SQL re-execution.
+BUNDLE CHECKSUMS PASS: 14 files; integrity only, not authenticity or SQL re-execution.
+BUNDLE CHECKSUMS PASS: 14 files; integrity only, not authenticity or SQL re-execution.
+BUNDLE CHECKSUMS PASS: 14 files; integrity only, not authenticity or SQL re-execution.
+{
+  "source_commit": "2da20124ca1e52128d7cb8c3536736ae139239f7",
+  "tracked_status": "",
+  "archive_sha256": "2df17236c7f9ed91acded1525a1eb87ef04f756d40029ac01e1278ecf795c35a",
+  "pilot_verified_trials": 5,
+  "full_verified_trials": 25,
+  "classification": "shared-CI workflow-validation observations",
+  "verification": "extracted directory and ZIP; normal and optimized Python; no Docker or repository imports"
+}
+OPENFLIGHTS SESSION WORKFLOW PASS

@@ -1,0 +1,1 @@
+deb [signed-by=/etc/apt/trusted.gpg.d/mariadb.gpg] https://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu/ noble main main/debug

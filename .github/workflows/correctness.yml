@@ -4,12 +4,18 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      validate_openflights_session:
+        description: Run a complete pilot/full/export workflow on a disposable shared CI host
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
 
 concurrency:
-  group: correctness-${{ github.workflow }}-${{ github.ref }}
+  group: correctness-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -34,6 +40,8 @@ jobs:
           chmod g+rwx results
       - name: Run documented setup wrapper
         run: python3 scripts/setup_project.py --project-name "$CI_PROJECT"
+      - name: Run lightweight guards with optimized Python
+        run: docker compose -p "$CI_PROJECT" run --rm --no-deps runner python -O -m unittest discover -s tests -v
       - name: MEMORY index correctness smoke (not benchmark evidence)
         run: docker compose -p "$CI_PROJECT" run --rm runner python -m benchmarks.memory_indexes --smoke --power-condition CI-correctness-only
       - name: Isolated cache-pressure lifecycle smoke (not performance evidence)
@@ -103,7 +111,220 @@ jobs:
         run: |
           python3 evidence/reviews/20261031-build-evidence/verify.py
           python3 evidence/reviews/20261031-final-guards/verify.py
+          python3 evidence/reviews/20261101-local-validation/verify.py
+          python3 evidence/reviews/20261101-snapshot-builds/verify.py
+          (cd evidence/reviews/20261101-package-snapshot-research && sha256sum -c SHA256SUMS.txt)
+          (cd evidence/evaluations/20261101-internal-review && sha256sum -c SHA256SUMS.txt)
+      - name: Verify the complete real OpenFlights session archive offline
+        run: |
+          python3 evidence/reproductions/20261101-ci-openflights-session/verify.py
+          python3 evidence/reproductions/20261101-ci-openflights-session/bundle/verify.py
+          python3 evidence/reproductions/20261101-ci-openflights-session/recheck.py
+          python3 -O evidence/reproductions/20261101-ci-openflights-session/recheck.py
       - name: Regenerate all reports and run offline guards with and without optimization
         run: |
           "$RUNNER_TEMP/report-validation/bin/python" -m unittest discover -s report-tests -v
           "$RUNNER_TEMP/report-validation/bin/python" -O -m unittest discover -s report-tests -v
+
+  openflights-session:
+    name: Complete OpenFlights session (shared-CI workflow validation)
+    if: github.event_name == 'workflow_dispatch' && inputs.validate_openflights_session
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      SESSION_SETUP_PROJECT: cu-session-setup-${{ github.run_id }}-${{ github.run_attempt }}
+      SESSION_POWER: GitHub-hosted shared Ubuntu amd64 VM; physical power and co-tenancy uncontrolled; workflow-validation observations only
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out the exact dispatched revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Inspect physical capacity, limits and existing Docker resources before building
+        run: |
+          export VALIDATION_OUTPUT="$RUNNER_TEMP/openflights-validation"
+          mkdir -p "$VALIDATION_OUTPUT"
+          echo "VALIDATION_OUTPUT=$VALIDATION_OUTPUT" >> "$GITHUB_ENV"
+          python3 - <<'PY' | tee "$VALIDATION_OUTPUT/preflight.json"
+          import json, os, pathlib, platform, shutil, subprocess
+          def command(*args):
+              return subprocess.check_output(args, text=True).strip()
+          revision = command('git', 'rev-parse', 'HEAD')
+          if revision != os.environ['GITHUB_SHA'] or command('git', 'status', '--porcelain'):
+              raise RuntimeError('Dispatch must start at its exact clean source revision')
+          docker = json.loads(command('docker', 'info', '--format',
+              '{"driver":{{json .Driver}},"root":{{json .DockerRootDir}},"memory_bytes":{{json .MemTotal}},"cpus":{{json .NCPU}}}'))
+          disks = {str(p): dict(zip(('total', 'used', 'free'), shutil.disk_usage(p)))
+                   for p in (pathlib.Path.cwd(), pathlib.Path(docker['root']))}
+          record = dict(source_commit=revision, tracked_status='', runner_os=platform.platform(),
+              host_kind='shared GitHub-hosted disposable VM; workflow validation only', docker=docker,
+              physical_filesystem_bytes=disks, power_condition=os.environ['SESSION_POWER'],
+              workflow_run_url=f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}")
+          print(json.dumps(record, indent=2), flush=True)
+          if docker['driver'] == 'vfs':
+              raise RuntimeError('Do not repeat copied-layer vfs capacity failures in this job')
+          if any(disk['free'] < 25 * 1024**3 for disk in disks.values()):
+              raise RuntimeError('This CI validation requires at least 25 GiB physical free space before building')
+          if docker['memory_bytes'] < 4 * 1024**3 or docker['cpus'] < 2:
+              raise RuntimeError('Insufficient Docker CPU or memory capacity')
+          PY
+          {
+            df -h . /var/lib/docker
+            df -i . /var/lib/docker
+            ulimit -a
+            docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}'
+            docker system df
+          } | tee "$VALIDATION_OUTPUT/preflight-resources.txt"
+      - name: Run setup and stop only its owned database
+        run: |
+          mkdir -p results
+          sudo chgrp 10001 results
+          chmod g+rwx results
+          python3 scripts/setup_project.py --project-name "$SESSION_SETUP_PROJECT" 2>&1 | tee "$VALIDATION_OUTPUT/setup.txt"
+          docker compose -p "$SESSION_SETUP_PROJECT" stop -t 120 db 2>&1 | tee "$VALIDATION_OUTPUT/setup-stop.txt"
+      - name: Prepare immutable session without changing the checkout
+        run: |
+          python3 scripts/run_openflights.py --prepare 2>&1 | tee "$VALIDATION_OUTPUT/prepare.txt"
+          python3 - <<'PY'
+          import json, os, pathlib
+          paths = list(pathlib.Path('results').glob('*-openflights-session-*/session.json'))
+          if len(paths) != 1:
+              raise RuntimeError('Expected exactly one newly prepared session')
+          session = json.loads(paths[0].read_text())
+          if session['format_version'] != 2 or session['status'] != 'prepared' or session['host']['commit'] != os.environ['GITHUB_SHA'] or session['host']['tracked_status']:
+              raise RuntimeError('Expected a clean format-v2 session at the dispatched source')
+          with open(os.environ['GITHUB_ENV'], 'a') as stream:
+              stream.write('OPENFLIGHTS_SESSION=' + str(paths[0]) + '\n')
+          PY
+      - name: Run five real pilot trials with the prepared session
+        run: python3 scripts/run_openflights.py --pilot --session "$OPENFLIGHTS_SESSION" --power-condition "$SESSION_POWER" 2>&1 | tee "$VALIDATION_OUTPUT/pilot.txt"
+      - name: Inspect pilot raw verification, controls and PILOT summary before full
+        run: |
+          python3 - <<'PY' | tee "$VALIDATION_OUTPUT/pilot-inspection.txt"
+          import json, os, pathlib
+          from benchmarks import openflights
+          session = json.loads(pathlib.Path(os.environ['OPENFLIGHTS_SESSION']).read_text())
+          stage = session['stages']['pilot']
+          directory = pathlib.Path('results') / stage['result']['run_id']
+          result = json.loads((directory / 'results.json').read_text())
+          summary = (directory / 'summary.md').read_text()
+          if stage['status'] != 'completed' or result['config']['pilot'] is not True or len(result['trials']) != 5:
+              raise RuntimeError('Pilot did not complete five verified trials')
+          if openflights.summarize(result) != result['statistics'] or openflights.markdown(result) != summary or '**PILOT:' not in summary:
+              raise RuntimeError('Pilot summary/statistics do not match verified raw trials')
+          if stage['controls'] != dict(before=session['control_reference'], after=session['control_reference']):
+              raise RuntimeError('Pilot controls changed')
+          print(summary)
+          print('PILOT INSPECTION PASS: five verified trials; statistics and controls checked; automated CI review only.')
+          PY
+      - name: Run 25 real full trials using the same source, images, controls and power label
+        run: python3 scripts/run_openflights.py --full --session "$OPENFLIGHTS_SESSION" --power-condition "$SESSION_POWER" 2>&1 | tee "$VALIDATION_OUTPUT/full.txt"
+      - name: Inspect full raw verification and separate statistics
+        run: |
+          python3 - <<'PY' | tee "$VALIDATION_OUTPUT/full-inspection.txt"
+          import json, os, pathlib
+          from benchmarks import openflights
+          session = json.loads(pathlib.Path(os.environ['OPENFLIGHTS_SESSION']).read_text())
+          stage = session['stages']['full']
+          directory = pathlib.Path('results') / stage['result']['run_id']
+          result = json.loads((directory / 'results.json').read_text())
+          summary = (directory / 'summary.md').read_text()
+          if session['status'] != 'completed' or stage['status'] != 'completed' or result['config']['pilot'] is not False or len(result['trials']) != 25:
+              raise RuntimeError('Full did not complete 25 verified trials')
+          if openflights.summarize(result) != result['statistics'] or openflights.markdown(result) != summary or '**FULL:' not in summary:
+              raise RuntimeError('Full summary/statistics do not match verified raw trials')
+          if stage['controls'] != dict(before=session['control_reference'], after=session['control_reference']):
+              raise RuntimeError('Full controls changed')
+          if stage['result']['run_id'] == session['stages']['pilot']['result']['run_id']:
+              raise RuntimeError('Pilot and full raw runs were not kept separate')
+          print(summary)
+          print('FULL INSPECTION PASS: 25 verified trials; pilot excluded from full statistics; CI validation only.')
+          PY
+      - name: Record a clean owned shutdown and export the complete session
+        run: |
+          python3 scripts/run_openflights.py --stop --session "$OPENFLIGHTS_SESSION" 2>&1 | tee "$VALIDATION_OUTPUT/session-stop.txt"
+          python3 scripts/archive_openflights.py --session "$OPENFLIGHTS_SESSION" --output "$VALIDATION_OUTPUT/openflights-evidence.zip" 2>&1 | tee "$VALIDATION_OUTPUT/export.txt"
+      - name: Extract elsewhere and verify offline in normal and optimized Python
+        run: |
+          python3 - <<'PY' | tee "$VALIDATION_OUTPUT/offline-verification.txt"
+          import hashlib, json, os, pathlib, subprocess, sys, tempfile, zipfile
+          output = pathlib.Path(os.environ['VALIDATION_OUTPUT'])
+          archive = output / 'openflights-evidence.zip'
+          with tempfile.TemporaryDirectory(prefix='extracted-openflights-', dir=os.environ['RUNNER_TEMP']) as temporary:
+              extracted = pathlib.Path(temporary)
+              with zipfile.ZipFile(archive) as bundle:
+                  bundle.extractall(extracted)
+              for flags in ([], ['-O']):
+                  subprocess.run([sys.executable, *flags, 'verify.py'], cwd=extracted, check=True)
+                  subprocess.run([sys.executable, *flags, 'verify.py', str(archive)], cwd=extracted, check=True)
+          sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          status = subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], text=True).strip()
+          if sha != os.environ['GITHUB_SHA'] or status:
+              raise RuntimeError('Measurement checkout changed during the prepared session')
+          record = dict(source_commit=sha, tracked_status=status, archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
+              pilot_verified_trials=5, full_verified_trials=25, classification='shared-CI workflow-validation observations',
+              verification='extracted directory and ZIP; normal and optimized Python; no Docker or repository imports')
+          (output / 'validation.json').write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record, indent=2))
+          print('OPENFLIGHTS SESSION WORKFLOW PASS')
+          PY
+      - name: Preserve owned database failure logs before the disposable VM is removed
+        if: failure() && env.VALIDATION_OUTPUT != ''
+        run: |
+          python3 - <<'PY' > "$VALIDATION_OUTPUT/failure-database.txt"
+          import os, pathlib, subprocess
+          from scripts import run_openflights as launcher
+          selected = os.environ.get('OPENFLIGHTS_SESSION')
+          if not selected:
+              print('No prepared session was selected; database diagnostics unavailable.')
+          else:
+              try:
+                  session, path = launcher.load_session(pathlib.Path(selected))
+                  launcher.require(launcher.local_docker_endpoint() == session['docker_endpoint_kind'],
+                                   'Session Docker endpoint kind changed')
+                  database = launcher.identity(session, path, 'db')
+                  result = subprocess.run(['docker', 'logs', '--tail', '200', database['Id']],
+                      text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True)
+                  print(result.stdout, end='')
+              except Exception as error:
+                  print('Owned session database diagnostics unavailable: ' + type(error).__name__)
+          PY
+          if [ -f .env ]; then
+            if ! docker compose -p "$SESSION_SETUP_PROJECT" logs --no-color --tail=200 db > "$VALIDATION_OUTPUT/failure-setup-database.txt" 2>&1; then
+              printf '%s\n' 'Setup database logs unavailable; retained any output above.' >> "$VALIDATION_OUTPUT/failure-setup-database.txt"
+            fi
+          fi
+      - name: Stop the failed owned session without retrying or deleting its volume
+        if: failure() && env.OPENFLIGHTS_SESSION != ''
+        run: python3 scripts/run_openflights.py --stop --session "$OPENFLIGHTS_SESSION" 2>&1 | tee "$VALIDATION_OUTPUT/failure-stop.txt"
+      - name: Leave the owned setup database stopped even if setup failed
+        if: always() && env.VALIDATION_OUTPUT != ''
+        run: |
+          if [ -f .env ]; then
+            docker compose -p "$SESSION_SETUP_PROJECT" stop -t 120 db 2>&1 | tee "$VALIDATION_OUTPUT/setup-final-stop.txt"
+          fi
+      - name: Retain validation output for publication and review
+        if: always() && env.VALIDATION_OUTPUT != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: openflights-session-validation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.VALIDATION_OUTPUT }}/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retain known failed-session records for diagnosis
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: openflights-session-failure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            results/*-openflights-session-*/session.json
+            results/*-openflights-session-*/build-manifest.json
+            results/*-openflights-session-*/*-images.compose.json
+            results/*-openflights-session-*/*-command.compose.json
+            results/*-openflights-session-*/*-transcript.txt
+            results/*-openflights-*/results.json
+            results/*-openflights-*/summary.md
+          if-no-files-found: warn
+          retention-days: 30

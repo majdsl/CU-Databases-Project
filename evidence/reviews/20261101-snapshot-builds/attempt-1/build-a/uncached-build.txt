@@ -1,0 +1,211 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.17kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#2 ...
+
+#3 [auth] library/mariadb:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#2 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.70kB done
+#5 DONE 0.0s
+
+#6 [1/4] FROM docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112
+#6 resolve docker.io/library/mariadb@sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112 done
+#6 sha256:8b5f33ebd85d1775657e974ed10434128bb493c80e826ceaa54074fd1a92a112 5.13kB / 5.13kB done
+#6 sha256:de4cf325ed1fc8a22460b4f285de7b9e06d89edbd593505e678ec480f86e501b 2.48kB / 2.48kB done
+#6 sha256:cc7f5fdd7c8fff6867e8ac4df3e7e0faf6c56aebe621a13565479a9a94e4bf13 8.76kB / 8.76kB done
+#6 sha256:edd1ed89f0d443580bd42e5a10cd8736aba5a3438b2a0645c2ebb50119bb0eba 12.58MB / 29.76MB 0.1s
+#6 sha256:e52011c90f609397f8dab13a50b5fb9897fe79c74d8970d83fd0f852ec216b63 0B / 1.35kB 0.1s
+#6 sha256:e1b0125bd61ec0352a6d45c0e0e68cfa6f1f08e9e6f7af9d98acefabbe90d7d9 0B / 5.25MB 0.1s
+#6 sha256:edd1ed89f0d443580bd42e5a10cd8736aba5a3438b2a0645c2ebb50119bb0eba 29.76MB / 29.76MB 0.3s
+#6 sha256:e52011c90f609397f8dab13a50b5fb9897fe79c74d8970d83fd0f852ec216b63 1.35kB / 1.35kB 0.1s done
+#6 sha256:e1b0125bd61ec0352a6d45c0e0e68cfa6f1f08e9e6f7af9d98acefabbe90d7d9 5.25MB / 5.25MB 0.3s
+#6 sha256:06237a023be85f0c49b669b8ddf84822f9780ef1bd893d74ccc52e1f6efddfd3 116B / 116B 0.3s
+#6 sha256:edd1ed89f0d443580bd42e5a10cd8736aba5a3438b2a0645c2ebb50119bb0eba 29.76MB / 29.76MB 0.3s done
+#6 sha256:e1b0125bd61ec0352a6d45c0e0e68cfa6f1f08e9e6f7af9d98acefabbe90d7d9 5.25MB / 5.25MB 0.3s done
+#6 sha256:06237a023be85f0c49b669b8ddf84822f9780ef1bd893d74ccc52e1f6efddfd3 116B / 116B 0.3s done
+#6 extracting sha256:edd1ed89f0d443580bd42e5a10cd8736aba5a3438b2a0645c2ebb50119bb0eba 0.1s
+#6 sha256:d7d99ef55dfc8a7109e0346914f2177990b380f7c0bed74c0004b8de7ef53a63 0B / 330B 0.4s
+#6 sha256:187fe76a81220615e2cfa958da5747f7f1daedd63fb6ef7d1a8142c63e9ef0b7 0B / 68.89MB 0.4s
+#6 sha256:6281c2a67899f6e8a9cf551487188e70e54edbdf5b0883b6a1940a02b359a6e3 0B / 4.03kB 0.4s
+#6 sha256:d7d99ef55dfc8a7109e0346914f2177990b380f7c0bed74c0004b8de7ef53a63 330B / 330B 0.4s done
+#6 sha256:187fe76a81220615e2cfa958da5747f7f1daedd63fb6ef7d1a8142c63e9ef0b7 8.39MB / 68.89MB 0.5s
+#6 sha256:6281c2a67899f6e8a9cf551487188e70e54edbdf5b0883b6a1940a02b359a6e3 4.03kB / 4.03kB 0.4s done
+#6 sha256:187fe76a81220615e2cfa958da5747f7f1daedd63fb6ef7d1a8142c63e9ef0b7 46.14MB / 68.89MB 0.6s
+#6 sha256:ee60c3800df75db5a38681d302ee828d23fb872c6cd76604622b982f37063453 8.49kB / 8.49kB 0.5s done
+#6 sha256:187fe76a81220615e2cfa958da5747f7f1daedd63fb6ef7d1a8142c63e9ef0b7 68.89MB / 68.89MB 0.7s
+#6 extracting sha256:edd1ed89f0d443580bd42e5a10cd8736aba5a3438b2a0645c2ebb50119bb0eba 0.6s done
+#6 sha256:187fe76a81220615e2cfa958da5747f7f1daedd63fb6ef7d1a8142c63e9ef0b7 68.89MB / 68.89MB 1.0s done
+#6 extracting sha256:e52011c90f609397f8dab13a50b5fb9897fe79c74d8970d83fd0f852ec216b63 done
+#6 extracting sha256:e1b0125bd61ec0352a6d45c0e0e68cfa6f1f08e9e6f7af9d98acefabbe90d7d9
+#6 extracting sha256:e1b0125bd61ec0352a6d45c0e0e68cfa6f1f08e9e6f7af9d98acefabbe90d7d9 0.2s done
+#6 extracting sha256:06237a023be85f0c49b669b8ddf84822f9780ef1bd893d74ccc52e1f6efddfd3
+#6 extracting sha256:06237a023be85f0c49b669b8ddf84822f9780ef1bd893d74ccc52e1f6efddfd3 done
+#6 extracting sha256:d7d99ef55dfc8a7109e0346914f2177990b380f7c0bed74c0004b8de7ef53a63 done
+#6 extracting sha256:187fe76a81220615e2cfa958da5747f7f1daedd63fb6ef7d1a8142c63e9ef0b7 0.1s
+#6 extracting sha256:187fe76a81220615e2cfa958da5747f7f1daedd63fb6ef7d1a8142c63e9ef0b7 1.0s done
+#6 extracting sha256:6281c2a67899f6e8a9cf551487188e70e54edbdf5b0883b6a1940a02b359a6e3
+#6 extracting sha256:6281c2a67899f6e8a9cf551487188e70e54edbdf5b0883b6a1940a02b359a6e3 done
+#6 extracting sha256:ee60c3800df75db5a38681d302ee828d23fb872c6cd76604622b982f37063453 done
+#6 DONE 4.2s
+
+#7 [2/4] COPY reconstruction /usr/local/share/reconstruction
+#7 DONE 0.0s
+
+#8 [3/4] RUN set -eu;     . /etc/os-release; test "$VERSION_ID" = 24.04;     test -s /usr/share/keyrings/ubuntu-archive-keyring.gpg;     test -s /etc/apt/trusted.gpg.d/mariadb.gpg;     rm -f /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources;     cp /usr/local/share/reconstruction/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources;     cp /usr/local/share/reconstruction/mariadb.list /etc/apt/sources.list.d/mariadb.list;     apt-get update;     (cd /var/lib/apt/lists && sha256sum -c /usr/local/share/reconstruction/inrelease.sha256);     mkdir -p /usr/local/share/reconstruction/indexes /usr/local/share/reconstruction/packages /usr/local/share/reconstruction/keys;     cp /usr/share/keyrings/ubuntu-archive-keyring.gpg /etc/apt/trusted.gpg.d/mariadb.gpg /usr/local/share/reconstruction/keys/;     (cd /usr/local/share/reconstruction/keys && sha256sum ./*.gpg > SHA256SUMS.txt);     cp /var/lib/apt/lists/*_InRelease /var/lib/apt/lists/*_Packages* /usr/local/share/reconstruction/indexes/;     DEBIAN_FRONTEND=noninteractive apt-get       -o Dir::Cache::archives=/usr/local/share/reconstruction/packages       install -y --no-install-recommends mariadb-plugin-rocksdb=1:11.8.9+maria~ubu2404;     test "$(dpkg-query -W -f='${Version}' mariadb-server-core)" = '1:11.8.9+maria~ubu2404';     test "$(dpkg-query -W -f='${Version}' mariadb-plugin-rocksdb)" = '1:11.8.9+maria~ubu2404';     (cd /usr/local/share/reconstruction/packages && sha256sum ./*.deb > SHA256SUMS.txt);     dpkg-query -W -f='${binary:Package}\t${Version}\t${Architecture}\t${db:Status-Status}\n'       > /usr/local/share/reconstruction/installed-packages.txt;     rm -rf /var/lib/apt/lists/* /usr/local/share/reconstruction/packages/partial;     rm -f /usr/local/share/reconstruction/packages/lock
+#8 0.936 Get:1 https://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble InRelease [27.9 kB]
+#8 1.161 Get:2 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble InRelease [256 kB]
+#8 1.312 Get:3 https://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble/main/debug amd64 Packages [9731 B]
+#8 1.517 Get:4 https://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble/main amd64 Packages [14.5 kB]
+#8 2.050 Get:5 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates InRelease [126 kB]
+#8 2.355 Get:6 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-backports InRelease [126 kB]
+#8 2.775 Get:7 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-security InRelease [126 kB]
+#8 3.229 Get:8 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/restricted amd64 Packages [117 kB]
+#8 3.524 Get:9 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/multiverse amd64 Packages [331 kB]
+#8 3.879 Get:10 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/main amd64 Packages [1808 kB]
+#8 4.435 Get:11 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/universe amd64 Packages [19.3 MB]
+#8 5.573 Get:12 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/restricted amd64 Packages [2240 kB]
+#8 6.129 Get:13 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/multiverse amd64 Packages [61.7 kB]
+#8 6.367 Get:14 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 Packages [1741 kB]
+#8 7.140 Get:15 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/universe amd64 Packages [2172 kB]
+#8 7.341 Get:16 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-backports/multiverse amd64 Packages [669 B]
+#8 7.479 Get:17 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-backports/universe amd64 Packages [36.0 kB]
+#8 7.790 Get:18 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-backports/main amd64 Packages [49.0 kB]
+#8 7.938 Get:19 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-security/main amd64 Packages [1412 kB]
+#8 8.189 Get:20 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-security/multiverse amd64 Packages [55.6 kB]
+#8 8.310 Get:21 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-security/restricted amd64 Packages [2122 kB]
+#8 8.497 Get:22 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-security/universe amd64 Packages [1550 kB]
+#8 8.600 Fetched 33.7 MB in 8s (3975 kB/s)
+#8 8.600 Reading package lists...
+#8 9.089 snapshot.ubuntu.com_ubuntu_20261031T000000Z_dists_noble_InRelease: OK
+#8 9.089 snapshot.ubuntu.com_ubuntu_20261031T000000Z_dists_noble-updates_InRelease: OK
+#8 9.089 snapshot.ubuntu.com_ubuntu_20261031T000000Z_dists_noble-backports_InRelease: OK
+#8 9.089 snapshot.ubuntu.com_ubuntu_20261031T000000Z_dists_noble-security_InRelease: OK
+#8 9.089 archive.mariadb.org_mariadb-11.8.9_repo_ubuntu_dists_noble_InRelease: OK
+#8 9.115 Reading package lists...
+#8 9.603 Building dependency tree...
+#8 9.712 Reading state information...
+#8 9.820 The following additional packages will be installed:
+#8 9.820   libexpat1 libgflags2.2 libpython3-stdlib libpython3.12-minimal
+#8 9.820   libpython3.12-stdlib librocksdb8.9 libsnappy1v5 media-types netbase python3
+#8 9.820   python3-minimal python3.12 python3.12-minimal rocksdb-tools
+#8 9.821 Suggested packages:
+#8 9.821   python3-doc python3-tk python3-venv python3.12-venv python3.12-doc binutils
+#8 9.821   binfmt-support
+#8 9.821 Recommended packages:
+#8 9.821   python3-mysqldb
+#8 9.873 The following NEW packages will be installed:
+#8 9.873   libexpat1 libgflags2.2 libpython3-stdlib libpython3.12-minimal
+#8 9.874   libpython3.12-stdlib librocksdb8.9 libsnappy1v5 mariadb-plugin-rocksdb
+#8 9.874   media-types netbase python3 python3-minimal python3.12 python3.12-minimal
+#8 9.874   rocksdb-tools
+#8 10.65 0 upgraded, 15 newly installed, 0 to remove and 17 not upgraded.
+#8 10.65 Need to get 13.6 MB of archives.
+#8 10.65 After this operation, 46.4 MB of additional disk space will be used.
+#8 10.65 Get:1 https://archive.mariadb.org/mariadb-11.8.9/repo/ubuntu noble/main amd64 mariadb-plugin-rocksdb amd64 1:11.8.9+maria~ubu2404 [3317 kB]
+#8 10.84 Get:2 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 libpython3.12-minimal amd64 3.12.3-1ubuntu0.17 [839 kB]
+#8 11.83 Get:3 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 libexpat1 amd64 2.6.1-2ubuntu0.6 [98.9 kB]
+#8 11.99 Get:4 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 python3.12-minimal amd64 3.12.3-1ubuntu0.17 [2335 kB]
+#8 12.40 Get:5 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 python3-minimal amd64 3.12.3-0ubuntu2.1 [27.4 kB]
+#8 12.66 Get:6 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/main amd64 media-types all 10.1.0 [27.5 kB]
+#8 12.90 Get:7 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/main amd64 netbase all 6.4 [13.1 kB]
+#8 13.10 Get:8 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 libpython3.12-stdlib amd64 3.12.3-1ubuntu0.17 [2071 kB]
+#8 13.34 Get:9 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 python3.12 amd64 3.12.3-1ubuntu0.17 [651 kB]
+#8 13.57 Get:10 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 libpython3-stdlib amd64 3.12.3-0ubuntu2.1 [10.1 kB]
+#8 13.72 Get:11 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble-updates/main amd64 python3 amd64 3.12.3-0ubuntu2.1 [23.0 kB]
+#8 13.88 Get:12 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/universe amd64 libgflags2.2 amd64 2.2.2-2build1 [74.5 kB]
+#8 14.10 Get:13 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/main amd64 libsnappy1v5 amd64 1.1.10-1build1 [28.6 kB]
+#8 14.29 Get:14 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/universe amd64 librocksdb8.9 amd64 8.9.1-2 [3805 kB]
+#8 14.81 Get:15 https://snapshot.ubuntu.com/ubuntu/20261031T000000Z noble/universe amd64 rocksdb-tools amd64 8.9.1-2 [248 kB]
+#8 18.53 debconf: delaying package configuration, since apt-utils is not installed
+#8 18.55 Fetched 13.6 MB in 9s (1584 kB/s)
+#8 18.57 Selecting previously unselected package libpython3.12-minimal:amd64.
+#8 18.57 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 8874 files and directories currently installed.)
+#8 18.57 Preparing to unpack .../libpython3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+#8 18.57 Unpacking libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+#8 18.63 Selecting previously unselected package libexpat1:amd64.
+#8 18.63 Preparing to unpack .../libexpat1_2.6.1-2ubuntu0.6_amd64.deb ...
+#8 18.63 Unpacking libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#8 18.64 Selecting previously unselected package python3.12-minimal.
+#8 18.64 Preparing to unpack .../python3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+#8 18.64 Unpacking python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#8 18.69 Setting up libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+#8 18.69 Setting up libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#8 18.69 Setting up python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#8 19.14 Selecting previously unselected package python3-minimal.
+#8 19.14 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 9193 files and directories currently installed.)
+#8 19.14 Preparing to unpack .../0-python3-minimal_3.12.3-0ubuntu2.1_amd64.deb ...
+#8 19.15 Unpacking python3-minimal (3.12.3-0ubuntu2.1) ...
+#8 19.18 Selecting previously unselected package media-types.
+#8 19.18 Preparing to unpack .../1-media-types_10.1.0_all.deb ...
+#8 19.18 Unpacking media-types (10.1.0) ...
+#8 19.20 Selecting previously unselected package netbase.
+#8 19.20 Preparing to unpack .../2-netbase_6.4_all.deb ...
+#8 19.20 Unpacking netbase (6.4) ...
+#8 19.21 Selecting previously unselected package libpython3.12-stdlib:amd64.
+#8 19.21 Preparing to unpack .../3-libpython3.12-stdlib_3.12.3-1ubuntu0.17_amd64.deb ...
+#8 19.21 Unpacking libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+#8 19.29 Selecting previously unselected package python3.12.
+#8 19.29 Preparing to unpack .../4-python3.12_3.12.3-1ubuntu0.17_amd64.deb ...
+#8 19.29 Unpacking python3.12 (3.12.3-1ubuntu0.17) ...
+#8 19.31 Selecting previously unselected package libpython3-stdlib:amd64.
+#8 19.31 Preparing to unpack .../5-libpython3-stdlib_3.12.3-0ubuntu2.1_amd64.deb ...
+#8 19.31 Unpacking libpython3-stdlib:amd64 (3.12.3-0ubuntu2.1) ...
+#8 19.33 Setting up python3-minimal (3.12.3-0ubuntu2.1) ...
+#8 19.41 Selecting previously unselected package python3.
+#8 19.41 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 9634 files and directories currently installed.)
+#8 19.42 Preparing to unpack .../0-python3_3.12.3-0ubuntu2.1_amd64.deb ...
+#8 19.42 Unpacking python3 (3.12.3-0ubuntu2.1) ...
+#8 19.43 Selecting previously unselected package libgflags2.2.
+#8 19.43 Preparing to unpack .../1-libgflags2.2_2.2.2-2build1_amd64.deb ...
+#8 19.43 Unpacking libgflags2.2 (2.2.2-2build1) ...
+#8 19.45 Selecting previously unselected package libsnappy1v5:amd64.
+#8 19.45 Preparing to unpack .../2-libsnappy1v5_1.1.10-1build1_amd64.deb ...
+#8 19.45 Unpacking libsnappy1v5:amd64 (1.1.10-1build1) ...
+#8 19.46 Selecting previously unselected package librocksdb8.9.
+#8 19.46 Preparing to unpack .../3-librocksdb8.9_8.9.1-2_amd64.deb ...
+#8 19.46 Unpacking librocksdb8.9 (8.9.1-2) ...
+#8 19.49 Selecting previously unselected package rocksdb-tools.
+#8 19.49 Preparing to unpack .../4-rocksdb-tools_8.9.1-2_amd64.deb ...
+#8 19.49 Unpacking rocksdb-tools (8.9.1-2) ...
+#8 19.50 Selecting previously unselected package mariadb-plugin-rocksdb.
+#8 19.51 Preparing to unpack .../5-mariadb-plugin-rocksdb_1%3a11.8.9+maria~ubu2404_amd64.deb ...
+#8 19.51 Unpacking mariadb-plugin-rocksdb (1:11.8.9+maria~ubu2404) ...
+#8 19.55 Setting up media-types (10.1.0) ...
+#8 19.55 Setting up libsnappy1v5:amd64 (1.1.10-1build1) ...
+#8 19.55 Setting up netbase (6.4) ...
+#8 19.56 Setting up libgflags2.2 (2.2.2-2build1) ...
+#8 19.56 Setting up libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+#8 19.56 Setting up python3.12 (3.12.3-1ubuntu0.17) ...
+#8 20.07 Setting up librocksdb8.9 (8.9.1-2) ...
+#8 20.07 Setting up rocksdb-tools (8.9.1-2) ...
+#8 20.07 Setting up libpython3-stdlib:amd64 (3.12.3-0ubuntu2.1) ...
+#8 20.07 Setting up python3 (3.12.3-0ubuntu2.1) ...
+#8 20.13 Setting up mariadb-plugin-rocksdb (1:11.8.9+maria~ubu2404) ...
+#8 20.13 Processing triggers for mariadb-server (1:11.8.9+maria~ubu2404) ...
+#8 20.17 invoke-rc.d: could not determine current runlevel
+#8 20.17 invoke-rc.d: policy-rc.d denied execution of restart.
+#8 20.17 Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+#8 DONE 20.8s
+
+#9 [4/4] COPY mariadb/rocksdb.cnf /etc/mysql/mariadb.conf.d/rocksdb.cnf
+#9 DONE 0.0s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 0.8s done
+#10 writing image sha256:c13967e4abf73d7f8388464661fbe1b47809236a680f8b89236923b5b70cca05 done
+#10 naming to docker.io/library/cu-reconstruction-db:41322017709-1-a done
+#10 DONE 0.8s

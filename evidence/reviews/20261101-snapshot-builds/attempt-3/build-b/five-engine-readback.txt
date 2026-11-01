@@ -1,0 +1,7 @@
+Server: 11.8.9-MariaDB-ubu2404
+PASS: InnoDB - actual engine verified; 3 rows matched
+PASS: Aria - actual engine verified; 3 rows matched
+PASS: MyISAM - actual engine verified; 3 rows matched
+PASS: MEMORY - actual engine verified; 3 rows matched
+PASS: ROCKSDB - actual engine verified; 3 rows matched
+PASS: all five engines. Setup check only; no benchmark results yet.

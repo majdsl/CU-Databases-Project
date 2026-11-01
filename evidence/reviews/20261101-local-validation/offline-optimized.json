@@ -1,0 +1,17 @@
+{
+  "name": "offline-optimized",
+  "command": [
+    ".venv/bin/python",
+    "-O",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "report-tests",
+    "-v"
+  ],
+  "started_utc": "2026-11-01T15:24:32.694094+00:00",
+  "elapsed_seconds": 191.279,
+  "exit_code": 0,
+  "log": "offline-optimized.log"
+}

@@ -1,0 +1,108 @@
+name: Publish reviewed evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifacts:
+        description: Reviewed artifact JSON list with artifact_id, file_name and sha256; [] for notes only
+        type: string
+        required: true
+      release_tag:
+        description: New evidence or internal-review tag
+        type: string
+        required: true
+      title:
+        description: Evidence release title
+        type: string
+        required: true
+      notes:
+        description: Reviewed public provenance or exact assessment text
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      EVIDENCE_ARTIFACTS: ${{ inputs.artifacts }}
+      EVIDENCE_TAG: ${{ inputs.release_tag }}
+      EVIDENCE_TITLE: ${{ inputs.title }}
+      EVIDENCE_NOTES: ${{ inputs.notes }}
+    steps:
+      - name: Publish only reviewed bytes with required hashes from trusted main
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, re, subprocess, tempfile
+          tag = os.environ['EVIDENCE_TAG']
+          if not re.fullmatch(r'(?:evidence|internal-review)-[a-z0-9][a-z0-9-]{0,70}', tag):
+              raise ValueError('Use a new evidence-* or internal-review-* tag')
+          items = json.loads(os.environ['EVIDENCE_ARTIFACTS'])
+          if not isinstance(items, list) or len(items) > 8:
+              raise ValueError('Expected at most eight reviewed artifacts')
+          names = {'release-notes.md', 'publication-manifest.json'}
+          for item in items:
+              if (not isinstance(item, dict) or set(item) != {'artifact_id', 'file_name', 'sha256'}
+                  or type(item['artifact_id']) is not int or item['artifact_id'] <= 0
+                  or not re.fullmatch(r'[a-z0-9][a-z0-9.-]{0,100}\.zip', item['file_name'])
+                  or not re.fullmatch(r'[0-9a-f]{64}', item['sha256']) or item['file_name'] in names):
+                  raise ValueError('Invalid reviewed artifact identity, name or checksum')
+              names.add(item['file_name'])
+          repo = os.environ['GH_REPO']
+          def api(path):
+              return json.loads(subprocess.check_output(['gh', 'api', 'repos/' + repo + '/' + path]))
+          with tempfile.TemporaryDirectory() as temporary:
+              root = pathlib.Path(temporary)
+              files = []
+              for item in items:
+                  metadata = api('actions/artifacts/' + str(item['artifact_id']))
+                  if metadata.get('expired') or metadata['id'] != item['artifact_id']:
+                      raise ValueError('Reviewed artifact is unavailable')
+                  path = root / item['file_name']
+                  with path.open('wb') as stream:
+                      subprocess.run(['gh', 'api', 'repos/' + repo + '/actions/artifacts/'
+                                      + str(item['artifact_id']) + '/zip'], stdout=stream, check=True)
+                  if hashlib.sha256(path.read_bytes()).hexdigest() != item['sha256']:
+                      raise ValueError('Downloaded artifact differs from the privacy-reviewed bytes')
+                  files.append(path)
+              notes = root / 'release-notes.md'
+              notes.write_text(os.environ['EVIDENCE_NOTES'], encoding='utf-8')
+              manifest = root / 'publication-manifest.json'
+              manifest.write_text(json.dumps(dict(published_from_main=os.environ['GITHUB_SHA'],
+                  publication_run_url=f"https://github.com/{repo}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
+                  artifacts=items, notes_sha256=hashlib.sha256(notes.read_bytes()).hexdigest()), indent=2) + '\n')
+              files += [notes, manifest]
+              # Creating the ref is atomic: an existing tag must fail before any
+              # upload, rather than letting release create silently reuse it.
+              subprocess.run(['gh', 'api', '--method', 'POST', 'repos/' + repo + '/git/refs',
+                  '--field', 'ref=refs/tags/' + tag, '--field', 'sha=' + os.environ['GITHUB_SHA']], check=True)
+              try:
+                  subprocess.run(['gh', 'release', 'create', tag, '--repo', repo, '--verify-tag',
+                      '--prerelease', '--title', os.environ['EVIDENCE_TITLE'], '--notes-file', str(notes),
+                      *map(str, files)], check=True)
+              except subprocess.CalledProcessError:
+                  print('PUBLICATION FAILED after creating tag ' + tag + ' at ' + os.environ['GITHUB_SHA']
+                        + '; the tag and any partial release assets are retained. Inspect before using a new tag.', flush=True)
+                  raise
+              # Verify durable uploaded bytes by downloading each release asset anew.
+              checked = root / 'remote-check'
+              checked.mkdir()
+              subprocess.run(['gh', 'release', 'download', tag, '--repo', repo, '--dir', str(checked)], check=True)
+              if {p.name for p in checked.iterdir()} != {p.name for p in files}:
+                  raise ValueError('Published release assets differ from reviewed output')
+              for path in files:
+                  if hashlib.sha256((checked / path.name).read_bytes()).digest() != hashlib.sha256(path.read_bytes()).digest():
+                      raise ValueError('Published release checksum differs: ' + path.name)
+              print('DURABLE EVIDENCE PUBLICATION PASS: all uploaded assets downloaded again and hash-verified.')
+              print('https://github.com/' + repo + '/releases/tag/' + tag)
+          PY

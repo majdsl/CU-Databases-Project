@@ -1,0 +1,3 @@
+ Container cu-openflights-ba84d4b7ef054dcfa9fc92930289d739-db-1  Stopping
+ Container cu-openflights-ba84d4b7ef054dcfa9fc92930289d739-db-1  Stopped
+Database stopped; credentials, evidence and database volume retained.

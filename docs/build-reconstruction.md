@@ -80,9 +80,87 @@ build caches, image metadata, source files and build-system versions can also
 affect final identities. Matching package versions does not establish matching
 image bytes or equivalent physical hosts.
 
-A later reconstruction study should select and maintain a signed package
-snapshot/version-lock strategy, perform two fresh isolated builds from it,
-compare package/config/layer records and run setup/engine correctness checks.
-Explain metadata-only differences and retain the resulting images separately
-from existing measurement pairs. This project does not claim that study is
-already complete or that missing historical configurations can be recovered.
+## A concrete snapshot follow-up
+
+The [November 1 read-only feasibility probe](../evidence/reviews/20261101-package-snapshot-research/README.md)
+retrieved and verified signed metadata for Ubuntu's `20261031T000000Z` snapshot
+(`noble`, `noble-updates`, `noble-backports`, `noble-security`) and MariaDB's versioned 11.8.9
+Ubuntu archive. These sources are available candidates for an isolated study;
+the probe did not resolve, download or install the dependency set, build images,
+or validate MariaDB/MyRocks compatibility. The normal project Dockerfiles are unchanged.
+
+[Ubuntu's maintained snapshot service](https://snapshot.ubuntu.com/) supports
+Ubuntu 24.04's APT and documents a retention intention of at least two years.
+That is useful for a controlled reconstruction study, not an indefinite package
+retention guarantee. The MariaDB archive is versioned, but its URL is not itself
+a content digest or a complete transitive lock.
+
+The isolated [experimental Dockerfile](../docker/reconstruction/Dockerfile) and
+[paired-build workflow](../.github/workflows/build-reconstruction.yml) implement
+this candidate separately from the normal project build. The pinned base was
+inspected without network access or MariaDB startup: Ubuntu 24.04.5, APT 2.8.3,
+the four Ubuntu pockets above, and the MariaDB 11.8.9 archive. The candidate uses
+one explicit snapshot for every Ubuntu pocket and retains the MariaDB archive,
+exact MyRocks version, both base digests and hash-required Python dependency.
+It also checks the exact SHA-256 of all five signed `InRelease` files after APT
+verifies their signatures, then retains their selected indexes and the downloaded
+additional packages. This constrains more inputs than an inventory alone.
+
+The workflow requires a disposable GitHub-hosted builder with at least 20 GiB
+physical free space and a non-`vfs` storage driver. It makes two DB builds with
+`--no-cache --pull` on one daemon, sharing only the pinned base layers, and uses
+one frozen runner image for both actual five-engine setup/readback checks. It
+retains logs, package inputs and allowlisted image/configuration/layer comparisons.
+This is an uncached repeated-build experiment on one host, not independent-host
+reconstruction or a performance comparison. See the actual CI record before
+treating the workflow definition as a successful validation.
+
+Keep repository signature checks and TLS verification enabled; do not use
+`trusted=yes` or unauthenticated installation to make a snapshot work. Preserve
+the signed Release metadata, selected package indexes, downloaded `.deb` hashes
+and non-secret source/keyring identities for both builds. A future timestamp
+change is a dependency update requiring a new validation record.
+
+Run setup and actual five-engine correctness against each image pair, then compare
+installed packages, image configurations and filesystem layer identities. Record
+differences explicitly; matching inventories alone do not establish identical
+image bytes. Retain both images in durable storage with verified pullable digests
+if later reconstruction depends on their availability. Keep these images and
+observations separate from existing measurement pairs.
+
+The [November 1 paired-build record](../evidence/reviews/20261101-snapshot-builds/README.md)
+now establishes successful signed-snapshot builds and five-engine correctness
+against both. Package inventories and selected runtime configuration matched;
+image/config IDs and RootFS diff IDs differed. All 46 selected retained package-input
+file contents matched, but the full filesystem was not compared. These results
+do not establish byte-identical images. The normal build retains its original
+configuration; snapshot adoption requires a maintained update/retention policy.
+
+This managed workspace has an approximately
+8 GB filesystem and Docker's copying `vfs` driver, which already exhausted space
+during the [October 31 attempts](../evidence/reviews/20261031-build-evidence/README.md).
+The November 1 review therefore used metadata-only probes and did not repeat those
+builds locally; the later paired study ran in disposable GitHub-hosted CI. This
+project does not claim a complete package lock, byte-identical
+reconstruction, or recovery of missing historical configurations.
+
+### First CI attempt and correction
+
+The [first reconstruction CI attempt](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322017709)
+tested `516defd8ca504f17de67b13c6f9c4d9afc27f8dc` on a disposable Ubuntu
+`overlay2` host with about 85 GiB initially free. The first signed-snapshot DB
+build and healthy startup succeeded, including all five exact signed-metadata
+hash checks and export of package inputs. The five-engine worker was never
+launched: `docker compose run` rejected the unsupported `--no-build` option.
+The owned database then stopped cleanly with exit code 0 and no OOM event.
+No second build completed, so this attempt does not establish paired-build or
+five-engine correctness.
+
+The corrected worker command uses `run --rm --no-deps --pull never runner`,
+with the already selected local immutable image and without requesting a build.
+`up` retains its supported `--no-build` option. New source revisions and CI runs
+validated the correction separately. The first successful paired run's artifact
+omitted a checksummed hidden file; `include-hidden-files: true` fixes that upload
+defect. Complete [run 41322953291](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322953291)
+retains all 30 checksummed files. The [three-attempt index](../evidence/reviews/20261101-snapshot-builds/README.md)
+preserves exact source/run/archive identities and every outcome separately.

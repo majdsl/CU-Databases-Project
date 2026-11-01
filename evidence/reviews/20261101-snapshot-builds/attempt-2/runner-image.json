@@ -1,0 +1,43 @@
+{
+  "architecture": "amd64",
+  "config_id_source": "Docker image inspect Id; no registry output digest inferred",
+  "created": "2026-11-01T15:42:03.009567722Z",
+  "docker_config_id": "sha256:66d75cfe03fde20c7c008a42d7e502d6c06d1d287e8ea31f3b793ef0537c29f3",
+  "image_id": "sha256:66d75cfe03fde20c7c008a42d7e502d6c06d1d287e8ea31f3b793ef0537c29f3",
+  "os": "linux",
+  "rootfs_diff_ids": [
+    "sha256:15f1c8eb1ab18eae260c7fb6296434cbe1ff0e1e30fd814ae92a80dd54005e62",
+    "sha256:e1fa2746ad6d51e7de9171dfcbb1fe93d01d51c5d8d3623e0c3b223076dc5d23",
+    "sha256:b361fa3b97940ee89a1aab8fde1027e47ab2c2e700ca2f8d5988ad2c64386e5c",
+    "sha256:dca2a125b4903477bcb42084172cfc98865299810620ffd617bf6e12dd83d89f",
+    "sha256:1487ef7c30d36ed1dcaf208954b3a8653f21a79f0c936fb821ac9a40bce1c489",
+    "sha256:14c8aa5bec61c26b110181e64e421506f8fc24b24c9a05aecd83fb64e8bc4b29",
+    "sha256:ab37cfb99c0d5df01a3e2d246fa99d380a85c0893700250149c5075238d9803a",
+    "sha256:31c7c62002647de3d9dd9436c16abca163644d08c9eb2f08bea9d8edbdacad2b",
+    "sha256:b3ec41ca99292a746f168a66a2f7600cd1772c0bc33747397bb7e3bbaeadee2f",
+    "sha256:68e2b6cb9722466d34c8a55f3cc63461f7c01c398af6c596f660e00775c86125",
+    "sha256:c171151d7c675bc7189907c1e4d85d5c183d73c464a5024d79fec06913f18293",
+    "sha256:e3047abcf795c0d6432ecc81ec2ab07dbbb918b3cd361bb563f961284b440cee",
+    "sha256:e99726062f7c4ba5b8442518653382f934dd9164260b8552828d492c49fb9523",
+    "sha256:fad1181243480412713511d6aa263d9cb5a697c912c515141809da9004ee309a",
+    "sha256:39fd6f42d9967584e2ec9c55258c6773cb0da0f5fa86297492e37a3da7c1a7cf",
+    "sha256:c042dce8a94621394445cbbb94d3871ef54b512f5a0301c80cb2bde889258908",
+    "sha256:ef0c580a6e5cd351979bda1f5292d9f71ae812a978dd7287b2d7b7b9d42ead8f",
+    "sha256:11700f22a124e1f92c3e1f87ca738521004a265dbbed15f559e7f8ec7d37f16c",
+    "sha256:3c39b55103406506fb242efbb8a9c094e91b148626e60d9ce18eab8844e8e94c",
+    "sha256:df767a9323718cf191182574ec1fe578de833e79a5cadbcc2e59b1dfacb6de66",
+    "sha256:11753490b0ee0094a1e60676ee0ccf833a9c17d970b8448005f3e4bd4c1f1a14"
+  ],
+  "runtime_configuration": {
+    "Cmd": [
+      "python",
+      "scripts/check_environment.py"
+    ],
+    "Entrypoint": null,
+    "ExposedPorts": null,
+    "StopSignal": null,
+    "User": "10001:10001",
+    "Volumes": null,
+    "WorkingDir": "/app"
+  }
+}

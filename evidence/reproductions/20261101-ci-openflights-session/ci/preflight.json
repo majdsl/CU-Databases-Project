@@ -1,0 +1,26 @@
+{
+  "source_commit": "2da20124ca1e52128d7cb8c3536736ae139239f7",
+  "tracked_status": "",
+  "runner_os": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "host_kind": "shared GitHub-hosted disposable VM; workflow validation only",
+  "docker": {
+    "driver": "overlay2",
+    "root": "/var/lib/docker",
+    "memory_bytes": 16760348672,
+    "cpus": 4
+  },
+  "physical_filesystem_bytes": {
+    "/home/runner/work/CU-Databases-Project/CU-Databases-Project": {
+      "total": 154894188544,
+      "used": 63105224704,
+      "free": 91772186624
+    },
+    "/var/lib/docker": {
+      "total": 154894188544,
+      "used": 63105224704,
+      "free": 91772186624
+    }
+  },
+  "power_condition": "GitHub-hosted shared Ubuntu amd64 VM; physical power and co-tenancy uncontrolled; workflow-validation observations only",
+  "workflow_run_url": "https://github.com/majdsl/CU-Databases-Project/actions/runs/41321256187"
+}

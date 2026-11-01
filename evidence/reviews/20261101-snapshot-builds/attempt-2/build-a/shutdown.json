@@ -1,0 +1,11 @@
+{
+  "compose_project": "cu-reconstruction-41322523394-1-a",
+  "compose_service": "db",
+  "image_id": "sha256:fca3ca064122dbf551d956826a9a97fc8b06454eabce15e882ab93e728c28ce0",
+  "state": {
+    "ExitCode": 0,
+    "OOMKilled": false,
+    "Running": false,
+    "Status": "exited"
+  }
+}

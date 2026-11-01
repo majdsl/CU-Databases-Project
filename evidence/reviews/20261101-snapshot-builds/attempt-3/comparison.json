@@ -1,0 +1,21 @@
+{
+  "builds": [
+    {
+      "actual_database_image": "sha256:7e52e43036e8a84c31f06a9de32dbdbe752d137d73c3c2fb2fabe4e7b9028569",
+      "five_engine_readback": "passed",
+      "image_id": "sha256:7e52e43036e8a84c31f06a9de32dbdbe752d137d73c3c2fb2fabe4e7b9028569"
+    },
+    {
+      "actual_database_image": "sha256:88767baa47295945a32f2f459334faa9f15c0cfb6c9337a3d481d19d5f6aa207",
+      "five_engine_readback": "passed",
+      "image_id": "sha256:88767baa47295945a32f2f459334faa9f15c0cfb6c9337a3d481d19d5f6aa207"
+    }
+  ],
+  "image_config_ids_identical": false,
+  "package_inventories_identical": true,
+  "rootfs_diff_ids_identical": false,
+  "runner_image": "sha256:81ee90df1aad41038cd0850c8953c868018a2c0be23597fbd4ee6a3ea1592ed2",
+  "scope": "Two --no-cache --pull DB builds on one disposable daemon; base layers shared; one frozen runner image; no timed workloads; images not published to a registry",
+  "selected_runtime_configuration_identical": true,
+  "source_commit": "ab8cc6df8ac823011e9c797e86817d9d2f6ee568"
+}

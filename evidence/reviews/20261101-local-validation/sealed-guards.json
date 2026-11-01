@@ -1,0 +1,11 @@
+{
+  "name": "sealed-guards",
+  "command": [
+    ".venv/bin/python",
+    "evidence/reviews/20261031-final-guards/verify.py"
+  ],
+  "started_utc": "2026-11-01T15:27:01.131088+00:00",
+  "elapsed_seconds": 0.061,
+  "exit_code": 0,
+  "log": "sealed-guards.log"
+}

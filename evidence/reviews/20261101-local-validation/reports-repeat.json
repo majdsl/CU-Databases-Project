@@ -1,0 +1,12 @@
+{
+  "name": "reports-repeat",
+  "command": [
+    ".venv/bin/python",
+    "scripts/check_reports.py",
+    "--repeat"
+  ],
+  "started_utc": "2026-11-01T15:24:33.305120+00:00",
+  "elapsed_seconds": 143.378,
+  "exit_code": 0,
+  "log": "reports-repeat.log"
+}

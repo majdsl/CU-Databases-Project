@@ -49,7 +49,9 @@ isolation and failure handling with fixtures; they are not new benchmark observa
 
 The workflow also runs a tiny MEMORY HASH/BTREE correctness smoke against the real
 server. Its output includes timings, but these are not performance evidence.
-The workflow does not run full timing benchmarks or crash experiments. Shared CI host
+By default the workflow does not run full timing benchmarks or crash experiments. The
+optional session-validation dispatch below runs pilot/full timing workloads solely to
+validate their lifecycle. Shared CI host
 performance cannot replace the controlled laptop measurements. Passing CI establishes
 fresh Linux build/setup and correctness checks for that revision; it does not establish
 a Windows tutorial reproduction, power-loss durability or engine recommendations.
@@ -66,8 +68,9 @@ are required. Normal `pull_request` events are used; there is no privileged
 and resolved Compose configuration are not deliberately printed.
 
 Every Compose command selects a project named from the numeric run and attempt IDs.
-Cleanup removes only that disposable CI project's containers and volumes, even after
-failure. **Do not copy the CI volume-removal command into normal laptop operation**:
+The default integration cleanup removes only that disposable CI project's containers
+and volumes, even after failure. The optional complete-session job retains its database
+volumes until GitHub disposes of the VM. **Do not copy the CI volume-removal command into normal laptop operation**:
 use `docker compose stop` there to preserve data.
 
 External registry/package/download outages can fail a fresh build. The database's
@@ -168,8 +171,68 @@ does not make results writable by everyone or alter any existing user directory.
 The integration job runs `scripts/run_openflights.py --smoke` separately. It prepares
 unique DB/runner images, selects immutable IDs, checks actual containers and all five
 engines, and cleanly stops its isolated database while retaining its volume. It does
-not run timed OpenFlights trials. Performance pilot/full runs still require a person
+not run timed OpenFlights trials. Physical-host performance pilot/full runs still require a person
 to prepare, review the pilot, and explicitly invoke full with the same session.
+
+## Complete OpenFlights workflow validation
+
+The optional **Complete OpenFlights session (shared-CI workflow validation)** job
+checks the current format-v2 workflow on a fresh native amd64 Ubuntu VM. Dispatch it
+from **Actions → Correctness → Run workflow**, select the exact branch to test and
+enable `validate_openflights_session`. The CLI equivalent is:
+
+```bash
+gh workflow run correctness.yml --ref <branch> -f validate_openflights_session=true
+```
+
+The job verifies the exact dispatched SHA and a clean checkout, records physical free
+space, Docker's storage driver, CPU/memory capacity, limits and existing resources
+before building. It refuses `vfs`, less than 25 GiB physical free space, or insufficient
+CPU/memory; it does not prune existing resources to make room. This threshold is a CI
+preflight gate, not a measured universal minimum for every host or storage driver.
+
+It executes setup, stops its specifically named setup database, prepares one immutable
+session, runs a real five-trial pilot, inspects the verified raw results and **PILOT**
+summary, then runs 25 full trials with that same session and explicit shared-CI power
+description. The automated pilot review recomputes the statistics and summary and
+checks trial counts and stable controls before full. This validates the commands;
+it is not independent human installation or pilot review.
+
+After verifying the full statistics separately from the pilot, it records a clean
+owned shutdown, exports both raw runs and provenance, extracts the ZIP elsewhere in
+the runner's temporary directory and runs the bundle's standalone verifier against
+both the extracted files and ZIP, normally and with `-O`. It also checks that the
+measurement checkout's SHA and tracked state stayed unchanged. Success ends with
+`OPENFLIGHTS SESSION WORKFLOW PASS`.
+
+Download the `openflights-session-validation-<run-id>-<attempt>` artifact for
+`openflights-evidence.zip`, `validation.json` with its SHA-256, capacity records, setup,
+pilot/full, inspection, shutdown, export and offline-verification transcripts. Artifacts
+expire after 30 days: a maintainer must privacy-review the files and publish the archive
+at a durable repository location. An artifact upload or ignored `results/` directory
+alone is not a permanent backup. Failed stages are not retried; known session/raw
+records receive a separate failure artifact when available, with `.env` excluded.
+The job retains session volumes and never uses system-wide cleanup.
+
+The workload produces actual timings on a shared CI VM. Classify them as workflow
+validation observations, keep them separate from controlled laptop findings, and do
+not infer engine rankings or operating-system effects from them. A workflow definition
+or queued run does not establish success; record the tested SHA, completed run link,
+actual output, published archive path and checksum only after inspecting the result.
+
+The [November 1 completed run](../evidence/reproductions/20261101-ci-openflights-session/README.md)
+passed all five jobs, including the real complete session. Its source SHA, original
+ZIP, 5/25-trial raw data, controls and shutdown are committed separately from laptop
+performance evidence. Later workflow maintenance does not change that tested revision.
+
+Large, privacy-reviewed package-input archives can use the manual
+[Publish reviewed evidence workflow](../.github/workflows/publish-reviewed-evidence.yml)
+after it reaches `main`. It accepts explicit artifact IDs and expected SHA-256 values,
+refuses other branches, and grants `actions: read`/`contents: write` only to that manual
+publication job. It creates a new prerelease tag at the dispatched main SHA, does not
+overwrite existing assets, and downloads uploaded assets again to verify their hashes.
+Notes-only publication can preserve an exact internal assessment without advancing the
+main revision it evaluates. Default correctness jobs retain read-only contents access.
 
 **Validated October 26, 2026:** [PR run 40395842648](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395842648)
 and [push run 40395828223](https://github.com/majdsl/CU-Databases-Project/actions/runs/40395828223)

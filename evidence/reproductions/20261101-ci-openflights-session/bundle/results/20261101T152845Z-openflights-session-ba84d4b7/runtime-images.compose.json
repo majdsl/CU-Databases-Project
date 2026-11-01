@@ -1,0 +1,23 @@
+{
+  "services": {
+    "db": {
+      "image": "sha256:323388181ca5ab00c12c7f7ff63b8210c728d54ef557ce22a552b1d69523a51e",
+      "labels": {
+        "cu.openflights.owner": "ba84d4b7ef054dcfa9fc92930289d739"
+      }
+    },
+    "runner": {
+      "image": "sha256:78bbacae8b4d65fdf12b79588d3b70a3c9bc5a105165c4b9bbc4aad0e8d849d0",
+      "labels": {
+        "cu.openflights.owner": "ba84d4b7ef054dcfa9fc92930289d739"
+      }
+    }
+  },
+  "volumes": {
+    "db_data": {
+      "labels": {
+        "cu.openflights.owner": "ba84d4b7ef054dcfa9fc92930289d739"
+      }
+    }
+  }
+}
