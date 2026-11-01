@@ -33,12 +33,18 @@ Operational handoff; the reader's starting point remains [README](../README.md).
    extraction/verification; an outdated transaction-check claim was corrected.
    Relative paths and anchors passed static checks. Signed package-snapshot
    metadata is [retained and verified](../evidence/reviews/20261101-package-snapshot-research/README.md).
-   An isolated paired-build CI experiment is in progress. First attempt
+   The isolated paired-build CI experiment is complete. First attempt
    [41322017709](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322017709)
    failed because Compose `run` rejected `--no-build`; source `752a87a` fixes it.
    Second attempt [41322523394](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322523394)
    passed both builds/readbacks, but artifact upload omitted the checksummed
-   `.gitattributes`. Preserve both original artifacts; validate a new complete one.
+   `.gitattributes`. Final complete [run 41322953291](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322953291)
+   at tested PR merge SHA `ab8cc6df8ac823011e9c797e86817d9d2f6ee568` passed both
+   readbacks and clean stops; all 30 checksum entries passed after download.
+   Inventories/configuration match; image IDs and filesystem layers differ.
+   [All three raw archive identities and small records](../evidence/reviews/20261101-snapshot-builds/README.md)
+   are retained separately. The complete original artifact SHA-256 is
+   `e7f883ccc00b186e286c7dc7e8bc7640bf24beb95714e4981ed9a38ac418f995`.
 4. Completed local [normal/optimized validation](../evidence/reviews/20261101-local-validation/README.md):
    146 lightweight and 102 offline tests in each mode; all eight reports/55 outputs
    generated twice; cloud and sealed archive guards passed. The original manual CI
@@ -65,10 +71,30 @@ inventories are observations, not a complete dependency lock or identical-image 
 
 ## Next concrete action
 
-Commit the reviewed session/local evidence and snapshot artifact-upload correction.
-Retain failed and successful snapshot observations separately. Large public package
+The real session ZIP is pushed at `41a39140b9d80e5ec64e3dd7710fe3501f0e558d`;
+an HTTP read of its immutable GitHub raw URL matched its 87,843 bytes and SHA-256.
+Commit the remaining reviewed local logs (explicitly retained despite global `*.log`
+ignore), complete snapshot index and final publication guards. Confirm final PR checks
+before merging; verify remote main and its checks afterward. Large public package
 inputs will use GitHub Releases after privacy review: direct workspace upload returned
 HTTP 401 on `uploads.github.com` (no release remained), so the manual trusted-main
 publication workflow will use its scoped GitHub Actions token after merge. It verifies
 reviewed archive hashes before upload and downloads every release asset again afterward.
 Do not claim durable backup until the repository/release bytes have been verified.
+Then publish the exact-format internal assessment of that unchanged main revision at
+`internal-review-20261101`; [the review source/handoff](../evidence/evaluations/20261101-internal-review/README.md)
+records the official prompt and external review inputs. That release's provenance
+records the final main SHA without another main commit moving the evaluated target.
+
+## Remaining physical-host task
+
+Zane (or another independent reader) should freeze a clean checkout of the final
+main SHA recorded in the internal-review release, inspect physical Docker capacity,
+follow [setup](setup.md) and the [SQL tutorial](tutorial.md), run
+[prepared pilot → inspect → full → stop → export](openflights-reproduction.md), and
+verify the ZIP after extraction elsewhere. Record real laptop/OS/architecture,
+Docker/Python versions, actual power conditions, all command outcomes and reader
+ambiguities; supply the original ZIP and SHA-256 for separate privacy review and
+durable publication. Do not commit or switch the measurement checkout between
+preparation and full, pool its statistics with CI/laptop history, or mark existing
+Windows stock-tutorial correctness as completion of this task.

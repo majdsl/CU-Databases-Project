@@ -1,0 +1,2 @@
+ Container cu-reconstruction-41322953291-1-a-db-1  Stopping
+ Container cu-reconstruction-41322953291-1-a-db-1  Stopped

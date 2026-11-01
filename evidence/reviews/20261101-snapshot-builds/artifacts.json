@@ -1,0 +1,35 @@
+[
+  {
+    "attempt": "attempt-1",
+    "run_id": 41322017709,
+    "artifact_id": 13089459191,
+    "artifact_file": "snapshot-failed-41322017709.zip",
+    "artifact_sha256": "5955f12a633ffdbd089a28f5c227b5ea15e6f85c529c1bd3ea8cd9ccf7bef9d3",
+    "artifact_size_bytes": 51803420,
+    "classification": "failed before five-engine worker",
+    "source_commit": "516defd8ca504f17de67b13c6f9c4d9afc27f8dc",
+    "large_package_tars": "Original bytes in the corresponding release ZIP; omitted from this small Git index, not modified."
+  },
+  {
+    "attempt": "attempt-2",
+    "run_id": 41322523394,
+    "artifact_id": 13090105928,
+    "artifact_file": "snapshot-incomplete-41322523394.zip",
+    "artifact_sha256": "2e80a1f55b5a170648b1c8f2218609e0d53832e7538427c97e41914c784d74cb",
+    "artifact_size_bytes": 103594959,
+    "classification": "paired readback passed; artifact missing hidden checksum entry",
+    "source_commit": "3d2cfa5efc59223bff7e981f6e2c37cd20fd4529",
+    "large_package_tars": "Original bytes in the corresponding release ZIP; omitted from this small Git index, not modified."
+  },
+  {
+    "attempt": "attempt-3",
+    "run_id": 41322953291,
+    "artifact_id": 13089862561,
+    "artifact_file": "snapshot-complete-41322953291.zip",
+    "artifact_sha256": "e7f883ccc00b186e286c7dc7e8bc7640bf24beb95714e4981ed9a38ac418f995",
+    "artifact_size_bytes": 103595175,
+    "classification": "paired readback passed; artifact complete",
+    "source_commit": "ab8cc6df8ac823011e9c797e86817d9d2f6ee568",
+    "large_package_tars": "Original bytes in the corresponding release ZIP; omitted from this small Git index, not modified."
+  }
+]

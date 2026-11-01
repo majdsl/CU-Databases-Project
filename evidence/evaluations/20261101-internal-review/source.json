@@ -1,0 +1,10 @@
+{
+  "assignment_url": "https://mariadb.org/bachelor_hackathon_2026-09/",
+  "retrieved_date": "2026-11-01",
+  "user_timezone": "Europe/Berlin",
+  "published_prompt_updated": "2026-09-04",
+  "downloaded_html_sha256": "231510eed7f12d197dda0b9170333ad67487ed91a0bfc7dd9e7f54aca5c08c28",
+  "extraction": "HTMLParser preformatted block decoded as UTF-8, HTML entities decoded, boundary whitespace stripped, terminal LF added. Area6 text whitespace normalized from fetched page.",
+  "assessment_kind": "Internal practice review by the implementation team; not independent external evaluation.",
+  "final_evaluated_sha_location": "GitHub release internal-review-20261101, REPOSITORY line and publication-manifest.json; produced only after main publication/checks."
+}

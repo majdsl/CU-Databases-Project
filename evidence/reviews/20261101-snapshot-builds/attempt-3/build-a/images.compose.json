@@ -1,0 +1,10 @@
+{
+  "services": {
+    "db": {
+      "image": "sha256:7e52e43036e8a84c31f06a9de32dbdbe752d137d73c3c2fb2fabe4e7b9028569"
+    },
+    "runner": {
+      "image": "sha256:81ee90df1aad41038cd0850c8953c868018a2c0be23597fbd4ee6a3ea1592ed2"
+    }
+  }
+}

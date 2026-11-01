@@ -1,0 +1,2 @@
+$ .venv/bin/python evidence/reviews/20261031-final-guards/verify.py
+BUNDLE CHECKSUMS PASS: 6 files; integrity only, not authenticity or SQL re-execution.

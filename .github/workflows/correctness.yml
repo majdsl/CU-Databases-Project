@@ -112,7 +112,9 @@ jobs:
           python3 evidence/reviews/20261031-build-evidence/verify.py
           python3 evidence/reviews/20261031-final-guards/verify.py
           python3 evidence/reviews/20261101-local-validation/verify.py
+          python3 evidence/reviews/20261101-snapshot-builds/verify.py
           (cd evidence/reviews/20261101-package-snapshot-research && sha256sum -c SHA256SUMS.txt)
+          (cd evidence/evaluations/20261101-internal-review && sha256sum -c SHA256SUMS.txt)
       - name: Verify the complete real OpenFlights session archive offline
         run: |
           python3 evidence/reproductions/20261101-ci-openflights-session/verify.py

@@ -1,0 +1,111 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.17kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#2 ...
+
+#3 [auth] library/python:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#2 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 693B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.68MB 0.0s done
+#5 DONE 0.0s
+
+#6 [ 1/18] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#6 resolve docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 done
+#6 sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 10.37kB / 10.37kB done
+#6 sha256:2b4f19dae3a777dfc3b76730bda1e82e1f66ab2a2686fa93ca78edbfb4f04ffe 1.75kB / 1.75kB done
+#6 sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316 5.66kB / 5.66kB done
+#6 sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 0B / 29.84MB 0.1s
+#6 sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8 0B / 1.29MB 0.1s
+#6 sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 0B / 12.12MB 0.1s
+#6 sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 3.15MB / 29.84MB 0.3s
+#6 sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8 1.29MB / 1.29MB 0.2s done
+#6 sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 12.12MB / 12.12MB 0.3s done
+#6 sha256:bbc5a12237474ec0b23b5051260d56d6436a24d70d9cad961adebe7a037ed813 249B / 249B 0.2s done
+#6 sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 29.84MB / 29.84MB 0.4s done
+#6 extracting sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e
+#6 extracting sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e 0.9s done
+#6 extracting sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8
+#6 extracting sha256:75b6a36c64a1cf3520fc4b4aae4739d5caa8a6a05c27835a920a61784c9c32f8 0.1s done
+#6 extracting sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4
+#6 extracting sha256:6912e23eb44595b44dc6d9882b34f305ad6f6e9667cec70b13e5dbc4f8cd97f4 0.5s done
+#6 extracting sha256:bbc5a12237474ec0b23b5051260d56d6436a24d70d9cad961adebe7a037ed813
+#6 extracting sha256:bbc5a12237474ec0b23b5051260d56d6436a24d70d9cad961adebe7a037ed813 done
+#6 DONE 2.3s
+
+#7 [ 2/18] WORKDIR /app
+#7 DONE 0.0s
+
+#8 [ 3/18] COPY requirements.txt .
+#8 DONE 0.0s
+
+#9 [ 4/18] RUN pip install --no-cache-dir --require-hashes -r requirements.txt
+#9 1.362 Collecting PyMySQL==1.1.2 (from -r requirements.txt (line 1))
+#9 1.427   Downloading pymysql-1.1.2-py3-none-any.whl (45 kB)
+#9 1.452 Installing collected packages: PyMySQL
+#9 1.484 Successfully installed PyMySQL-1.1.2
+#9 1.484 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#9 1.596 
+#9 1.596 [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+#9 1.596 [notice] To update, run: pip install --upgrade pip
+#9 DONE 1.6s
+
+#10 [ 5/18] COPY scripts/check_environment.py scripts/check_environment.py
+#10 DONE 0.0s
+
+#11 [ 6/18] COPY scripts/run_storage.py scripts/run_storage.py
+#11 DONE 0.0s
+
+#12 [ 7/18] COPY scripts/run_recovery.py scripts/run_recovery.py
+#12 DONE 0.0s
+
+#13 [ 8/18] COPY scripts/fetch_openflights.py scripts/fetch_openflights.py
+#13 DONE 0.0s
+
+#14 [ 9/18] COPY scripts/setup_project.py scripts/setup_project.py
+#14 DONE 0.0s
+
+#15 [10/18] COPY scripts/run_cache_pressure.py scripts/run_cache_pressure.py
+#15 DONE 0.0s
+
+#16 [11/18] COPY scripts/run_write_diagnostics.py scripts/run_write_diagnostics.py
+#16 DONE 0.0s
+
+#17 [12/18] COPY scripts/run_rocksdb_compression.py scripts/run_rocksdb_compression.py
+#17 DONE 0.0s
+
+#18 [13/18] COPY data/openflights data/openflights
+#18 DONE 0.0s
+
+#19 [14/18] COPY sql sql
+#19 DONE 0.0s
+
+#20 [15/18] COPY benchmarks benchmarks
+#20 DONE 0.0s
+
+#21 [16/18] COPY tests tests
+#21 DONE 0.0s
+
+#22 [17/18] COPY Dockerfile compose.yaml compose.runner-2cpu.yaml ./
+#22 DONE 0.0s
+
+#23 [18/18] COPY docker/mariadb docker/mariadb
+#23 DONE 0.0s
+
+#24 exporting to image
+#24 exporting layers
+#24 exporting layers 1.3s done
+#24 writing image sha256:66d75cfe03fde20c7c008a42d7e502d6c06d1d287e8ea31f3b793ef0537c29f3 done
+#24 naming to docker.io/library/cu-reconstruction-runner:41322523394-1 done
+#24 DONE 1.3s

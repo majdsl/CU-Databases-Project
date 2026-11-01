@@ -1,0 +1,90 @@
+[
+  {
+    "name": "storage-engines",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines.md",
+    "sha256": "15fb95ec8e14337e24e650f0179d990fd4e1a55ed03e1af856a21ff61bb5df61",
+    "bytes": 10838,
+    "retrieved_utc": "2026-11-01T15:23:24.773801+00:00"
+  },
+  {
+    "name": "innodb",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/innodb/innodb-storage-engine-introduction.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/innodb/innodb-storage-engine-introduction.md",
+    "sha256": "b0860d396db31fd97e5c8c6121d056a7bd1472b4b2a22f105b7570492eafd1cd",
+    "bytes": 12240,
+    "retrieved_utc": "2026-11-01T15:23:24.281541+00:00"
+  },
+  {
+    "name": "aria",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/aria/aria-storage-engine.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/aria/aria-storage-engine.md",
+    "sha256": "f59a8ceb8212fb90a54580c55df3ff0378aca0337386b0d2e4777491279f7a8c",
+    "bytes": 9271,
+    "retrieved_utc": "2026-11-01T15:23:24.319797+00:00"
+  },
+  {
+    "name": "myisam",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/myisam-storage-engine/myisam-overview.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/myisam-storage-engine/myisam-overview.md",
+    "sha256": "b35e70ec5513d68621f6329b3a67076b44e0fde5a3b6d78fa15c5130c978a707",
+    "bytes": 3900,
+    "retrieved_utc": "2026-11-01T15:23:24.343305+00:00"
+  },
+  {
+    "name": "memory",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/memory-storage-engine.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/memory-storage-engine.md",
+    "sha256": "7986085b0bc3d403a32ba7baf7c699d8d1744d5087fec747f4fa46bdabd5d575",
+    "bytes": 4870,
+    "retrieved_utc": "2026-11-01T15:23:24.342044+00:00"
+  },
+  {
+    "name": "myrocks-isolation",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/myrocks/myrocks-transactional-isolation.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/myrocks/myrocks-transactional-isolation.md",
+    "sha256": "f1948d205f0a18720bd0ec678a10f3477c55a27b87ce1dc7028eb147ffc8c514",
+    "bytes": 811,
+    "retrieved_utc": "2026-11-01T15:23:24.634616+00:00"
+  },
+  {
+    "name": "innodb-locks",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/innodb/innodb-lock-modes.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/innodb/innodb-lock-modes.md",
+    "sha256": "070dfb32b764f4fc1755a360fd61b82337b3bf76bbc4b08cbd3528c023e84279",
+    "bytes": 8350,
+    "retrieved_utc": "2026-11-01T15:23:24.647996+00:00"
+  },
+  {
+    "name": "myrocks",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/myrocks/about-myrocks-for-mariadb.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/myrocks/about-myrocks-for-mariadb.md",
+    "sha256": "4df0bdeac75a65f3e2d445ac6ae346ec9b95d79202f89807e8cba667295b1922",
+    "bytes": 5378,
+    "retrieved_utc": "2026-11-01T15:23:24.782444+00:00"
+  },
+  {
+    "name": "foreign-keys",
+    "url": "https://mariadb.com/docs/server/ha-and-performance/optimization-and-tuning/optimization-and-indexes/foreign-keys.md",
+    "final_url": "https://mariadb.com/docs/server/ha-and-performance/optimization-and-tuning/optimization-and-indexes/foreign-keys.md",
+    "sha256": "e524ff4a7a595569011edf100bda4d3ff718fa15af541c83afc9a87a984b5616",
+    "bytes": 21106,
+    "retrieved_utc": "2026-11-01T15:23:24.439760+00:00"
+  },
+  {
+    "name": "storage-engines-storage-engines-overview",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/storage-engines-storage-engines-overview.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/storage-engines-storage-engines-overview.md",
+    "sha256": "6bf3e203798cc1c39b993338cb12a49c36150ca425a013013b5de2de2566d0b0",
+    "bytes": 6586,
+    "retrieved_utc": "2026-11-01T15:23:55.658851+00:00"
+  },
+  {
+    "name": "choosing-the-right-storage-engine",
+    "url": "https://mariadb.com/docs/server/server-usage/storage-engines/choosing-the-right-storage-engine.md",
+    "final_url": "https://mariadb.com/docs/server/server-usage/storage-engines/choosing-the-right-storage-engine.md",
+    "sha256": "ab1c3361b9bfc790aa86b66d4b0013d712a1c0772b346f7ee6fd2b7c87b7590b",
+    "bytes": 9660,
+    "retrieved_utc": "2026-11-01T15:23:56.016771+00:00"
+  }
+]

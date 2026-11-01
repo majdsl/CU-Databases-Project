@@ -87,7 +87,7 @@ retrieved and verified signed metadata for Ubuntu's `20261031T000000Z` snapshot
 (`noble`, `noble-updates`, `noble-backports`, `noble-security`) and MariaDB's versioned 11.8.9
 Ubuntu archive. These sources are available candidates for an isolated study;
 the probe did not resolve, download or install the dependency set, build images,
-or validate MariaDB/MyRocks compatibility. The current Dockerfiles are unchanged.
+or validate MariaDB/MyRocks compatibility. The normal project Dockerfiles are unchanged.
 
 [Ubuntu's maintained snapshot service](https://snapshot.ubuntu.com/) supports
 Ubuntu 24.04's APT and documents a retention intention of at least two years.
@@ -128,11 +128,20 @@ image bytes. Retain both images in durable storage with verified pullable digest
 if later reconstruction depends on their availability. Keep these images and
 observations separate from existing measurement pairs.
 
-Paired build results remain pending publication. This managed workspace has an approximately
+The [November 1 paired-build record](../evidence/reviews/20261101-snapshot-builds/README.md)
+now establishes successful signed-snapshot builds and five-engine correctness
+against both. Package inventories and selected runtime configuration matched;
+image/config IDs and RootFS diff IDs differed. All 46 selected retained package-input
+file contents matched, but the full filesystem was not compared. These results
+do not establish byte-identical images. The normal build retains its original
+configuration; snapshot adoption requires a maintained update/retention policy.
+
+This managed workspace has an approximately
 8 GB filesystem and Docker's copying `vfs` driver, which already exhausted space
 during the [October 31 attempts](../evidence/reviews/20261031-build-evidence/README.md).
 The November 1 review therefore used metadata-only probes and did not repeat those
-builds locally. This project does not claim a complete package lock, byte-identical
+builds locally; the later paired study ran in disposable GitHub-hosted CI. This
+project does not claim a complete package lock, byte-identical
 reconstruction, or recovery of missing historical configurations.
 
 ### First CI attempt and correction
@@ -149,5 +158,9 @@ five-engine correctness.
 
 The corrected worker command uses `run --rm --no-deps --pull never runner`,
 with the already selected local immutable image and without requesting a build.
-`up` retains its supported `--no-build` option. A new source revision and CI run
-must validate the correction; the failed attempt is not rerun or relabelled.
+`up` retains its supported `--no-build` option. New source revisions and CI runs
+validated the correction separately. The first successful paired run's artifact
+omitted a checksummed hidden file; `include-hidden-files: true` fixes that upload
+defect. Complete [run 41322953291](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322953291)
+retains all 30 checksummed files. The [three-attempt index](../evidence/reviews/20261101-snapshot-builds/README.md)
+preserves exact source/run/archive identities and every outcome separately.

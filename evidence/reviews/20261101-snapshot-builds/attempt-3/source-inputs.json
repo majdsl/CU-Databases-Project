@@ -1,0 +1,15 @@
+{
+  ".dockerignore": "b76f4e62481db4ea7331c26be1a551ba6a19278f3a18f357c017356ca772a216",
+  ".github/workflows/build-reconstruction.yml": "86fb2b8d20dd88610cc96322127f4f3f988f1c5394137a91196fb211d27106a0",
+  "Dockerfile": "0bb23f4b0c240ef1b03bc217bf206f248a0776d27c7cf3e8b392ca9bca5f549f",
+  "compose.yaml": "a2328113c8aa13014f3515a2d220293e4e5f447442a57563d5964e4b31c3028a",
+  "docker/mariadb/rocksdb.cnf": "99966bccc69a50f875957acab0a4ab2687cd4dce4125f97e6e5357e26dfd2f53",
+  "docker/reconstruction/Dockerfile": "adc1e09b6e303eb73e5386b7160ff64cf4b5b590d3eb862cd83f4f1aeb506d51",
+  "docker/reconstruction/inrelease.sha256": "f6491c8ee2ea8564cc447fdc7c096d2989835583e9cdffc00d3910fecaaf2b4c",
+  "docker/reconstruction/mariadb.list": "4151e345f30f656f6a2837f9c44af31b2eb75a7f84f3cde7826e303a32b1f9f3",
+  "docker/reconstruction/ubuntu.sources": "8983d5006465db88bcfdde7294b15283b9821138600810cb116e15610a2f33e1",
+  "report-tests/test_build_reconstruction.py": "1d682f8643d9b23a7c1e6589a6c2f330c31568ea271d8530b176adbda49b1dd2",
+  "requirements.txt": "d6071e17a47537839ac0949799ffd203d0ad5dfc2494ac6fd8d7ee9d387ec749",
+  "scripts/build_manifest.py": "fd04ff2eaa0aae27541c5df5c9d6f5b76f40a9ea72e3e50f92862048b922e7c6",
+  "scripts/check_build_reconstruction.py": "2a3e6e234400073adc5219fb4e95d75c7ed465b5e0156fe8ef610c5f0d851159"
+}

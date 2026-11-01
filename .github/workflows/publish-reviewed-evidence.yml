@@ -82,9 +82,18 @@ jobs:
                   publication_run_url=f"https://github.com/{repo}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
                   artifacts=items, notes_sha256=hashlib.sha256(notes.read_bytes()).hexdigest()), indent=2) + '\n')
               files += [notes, manifest]
-              subprocess.run(['gh', 'release', 'create', tag, '--repo', repo, '--target', os.environ['GITHUB_SHA'],
-                  '--prerelease', '--title', os.environ['EVIDENCE_TITLE'], '--notes-file', str(notes),
-                  *map(str, files)], check=True)
+              # Creating the ref is atomic: an existing tag must fail before any
+              # upload, rather than letting release create silently reuse it.
+              subprocess.run(['gh', 'api', '--method', 'POST', 'repos/' + repo + '/git/refs',
+                  '--field', 'ref=refs/tags/' + tag, '--field', 'sha=' + os.environ['GITHUB_SHA']], check=True)
+              try:
+                  subprocess.run(['gh', 'release', 'create', tag, '--repo', repo, '--verify-tag',
+                      '--prerelease', '--title', os.environ['EVIDENCE_TITLE'], '--notes-file', str(notes),
+                      *map(str, files)], check=True)
+              except subprocess.CalledProcessError:
+                  print('PUBLICATION FAILED after creating tag ' + tag + ' at ' + os.environ['GITHUB_SHA']
+                        + '; the tag and any partial release assets are retained. Inspect before using a new tag.', flush=True)
+                  raise
               # Verify durable uploaded bytes by downloading each release asset anew.
               checked = root / 'remote-check'
               checked.mkdir()

@@ -1,0 +1,22 @@
+$ .venv/bin/python scripts/check_cloud_openflights.py
+{
+  "status": "passed",
+  "validated_runs": 4,
+  "validated_trials": 60,
+  "cloud_trials": 30,
+  "full_trials_compared": 50,
+  "comparison_records": 20,
+  "common_sources_validated": 27,
+  "checksum_files": 59,
+  "pilots_excluded_from_comparison": true,
+  "percent_difference_ranges": {
+    "load_seconds": [
+      8.55833596484672,
+      31.169347291154857
+    ],
+    "scan_ms": [
+      37.177166155480144,
+      50.48708161997275
+    ]
+  }
+}

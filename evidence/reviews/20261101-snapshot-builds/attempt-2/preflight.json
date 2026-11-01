@@ -1,0 +1,22 @@
+{
+  "classification": "paired clean-build correctness experiment; no performance measurements",
+  "docker": {
+    "cpus": 4,
+    "driver": "overlay2",
+    "memory_bytes": 16760344576
+  },
+  "physical_filesystem_bytes": {
+    "checkout": {
+      "free": 91769786368,
+      "total": 154894188544,
+      "used": 63107624960
+    },
+    "docker": {
+      "free": 91769786368,
+      "total": 154894188544,
+      "used": 63107624960
+    }
+  },
+  "source_commit": "3d2cfa5efc59223bff7e981f6e2c37cd20fd4529",
+  "workflow_run_url": "https://github.com/majdsl/CU-Databases-Project/actions/runs/41322523394"
+}

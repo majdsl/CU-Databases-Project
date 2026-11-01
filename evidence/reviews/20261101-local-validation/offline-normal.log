@@ -1,0 +1,150 @@
+$ .venv/bin/python -m unittest discover -s report-tests -v
+test_ambiguous_or_malformed_plain_builder_inspection_stays_unavailable (test_build_manifest.BuildManifestTests.test_ambiguous_or_malformed_plain_builder_inspection_stays_unavailable) ... ok
+test_build_record_hash_and_identity_binding_reject_tampering (test_build_manifest.BuildManifestTests.test_build_record_hash_and_identity_binding_reject_tampering) ... ok
+test_builder_probe_has_no_bootstrap_and_retains_no_names_endpoints_or_environment (test_build_manifest.BuildManifestTests.test_builder_probe_has_no_bootstrap_and_retains_no_names_endpoints_or_environment) ... ok
+test_command_failures_and_timeout_do_not_expose_stderr_or_credentials (test_build_manifest.BuildManifestTests.test_command_failures_and_timeout_do_not_expose_stderr_or_credentials) ... ok
+test_complete_collection_keeps_only_safe_fields_and_uses_selected_images (test_build_manifest.BuildManifestTests.test_complete_collection_keeps_only_safe_fields_and_uses_selected_images) ... ok
+test_direct_registry_manifest_does_not_assert_platform_was_verified (test_build_manifest.BuildManifestTests.test_direct_registry_manifest_does_not_assert_platform_was_verified) ... ok
+test_effective_dockerfile_change_during_build_is_rejected_before_inventory (test_build_manifest.BuildManifestTests.test_effective_dockerfile_change_during_build_is_rejected_before_inventory) ... ok
+test_effective_external_and_inline_dockerfiles_are_hashed_without_path_or_contents (test_build_manifest.BuildManifestTests.test_effective_external_and_inline_dockerfiles_are_hashed_without_path_or_contents) ... ok
+test_image_mismatch_platform_and_missing_layers_are_rejected (test_build_manifest.BuildManifestTests.test_image_mismatch_platform_and_missing_layers_are_rejected) ... ok
+test_inventory_rejects_malformed_duplicate_and_empty_installed_records (test_build_manifest.BuildManifestTests.test_inventory_rejects_malformed_duplicate_and_empty_installed_records) ... ok
+test_plain_builder_node_fields_remain_grouped_and_node_names_remain_private (test_build_manifest.BuildManifestTests.test_plain_builder_node_fields_remain_grouped_and_node_names_remain_private) ... ok
+test_python_inventory_normalized_duplicates_and_invalid_values_are_rejected (test_build_manifest.BuildManifestTests.test_python_inventory_normalized_duplicates_and_invalid_values_are_rejected) ... ok
+test_registry_ambiguity_and_failures_are_explicitly_unavailable (test_build_manifest.BuildManifestTests.test_registry_ambiguity_and_failures_are_explicitly_unavailable) ... ok
+test_registry_index_selects_correct_platform_and_never_copies_annotations (test_build_manifest.BuildManifestTests.test_registry_index_selects_correct_platform_and_never_copies_annotations) ... ok
+test_unresolved_or_unpinned_from_does_not_become_a_verified_base (test_build_manifest.BuildManifestTests.test_unresolved_or_unpinned_from_does_not_become_a_verified_base) ... ok
+test_archived_host_and_every_worker_source_validate (test_cache_pressure_findings.CachePressureFindingsTests.test_archived_host_and_every_worker_source_validate) ... ok
+test_changed_snapshot_even_with_matching_modified_manifest_rejected (test_cache_pressure_findings.CachePressureFindingsTests.test_changed_snapshot_even_with_matching_modified_manifest_rejected) ... ok
+test_changed_worker_fingerprint_and_measurement_rejected (test_cache_pressure_findings.CachePressureFindingsTests.test_changed_worker_fingerprint_and_measurement_rejected) ... ok
+test_crlf_checkout_accepted_without_changing_source_identity (test_cache_pressure_findings.CachePressureFindingsTests.test_crlf_checkout_accepted_without_changing_source_identity) ... ok
+test_invalid_source_rejected_before_outputs_created (test_cache_pressure_findings.CachePressureFindingsTests.test_invalid_source_rejected_before_outputs_created) ... ok
+test_missing_wrong_or_extra_archived_fingerprint_rejected (test_cache_pressure_findings.CachePressureFindingsTests.test_missing_wrong_or_extra_archived_fingerprint_rejected) ... ok
+test_source_archive_needs_no_git_or_current_measured_files (test_cache_pressure_findings.CachePressureFindingsTests.test_source_archive_needs_no_git_or_current_measured_files) ... ok
+test_archive_validation_preserves_inputs_and_excludes_pilots (test_cloud_openflights.CloudOpenFlightsTests.test_archive_validation_preserves_inputs_and_excludes_pilots) ... ok
+test_changed_archived_bytes_or_incomplete_checksum_coverage_is_rejected (test_cloud_openflights.CloudOpenFlightsTests.test_changed_archived_bytes_or_incomplete_checksum_coverage_is_rejected) ... ok
+test_changed_cloud_digest_or_missing_query_sample_is_rejected (test_cloud_openflights.CloudOpenFlightsTests.test_changed_cloud_digest_or_missing_query_sample_is_rejected) ... ok
+test_changed_comparison_json_or_csv_is_rejected (test_cloud_openflights.CloudOpenFlightsTests.test_changed_comparison_json_or_csv_is_rejected) ... ok
+test_changed_measured_source_is_rejected (test_cloud_openflights.CloudOpenFlightsTests.test_changed_measured_source_is_rejected) ... ok
+test_checksum_keys_use_portable_separators (test_cloud_openflights.CloudOpenFlightsTests.test_checksum_keys_use_portable_separators) ... ok
+test_current_checker_rejects_write_before_loading_archive (test_cloud_openflights.CloudOpenFlightsTests.test_current_checker_rejects_write_before_loading_archive) ... ok
+test_missing_published_checksum_manifest_is_rejected (test_cloud_openflights.CloudOpenFlightsTests.test_missing_published_checksum_manifest_is_rejected) ... ok
+test_pilot_cannot_be_compared_as_a_full_run (test_cloud_openflights.CloudOpenFlightsTests.test_pilot_cannot_be_compared_as_a_full_run) ... ok
+test_creation_error_propagates_without_generating_or_printing_credentials (test_init_env.InitEnvTests.test_creation_error_propagates_without_generating_or_printing_credentials) ... ok
+test_existing_and_dangling_symlinks_are_not_followed_or_replaced (test_init_env.InitEnvTests.test_existing_and_dangling_symlinks_are_not_followed_or_replaced) ... ok
+test_existing_credentials_and_permissions_are_preserved (test_init_env.InitEnvTests.test_existing_credentials_and_permissions_are_preserved) ... ok
+test_file_is_already_private_before_credentials_are_written (test_init_env.InitEnvTests.test_file_is_already_private_before_credentials_are_written) ... ok
+test_new_credentials_are_private_even_with_permissive_umask (test_init_env.InitEnvTests.test_new_credentials_are_private_even_with_permissive_umask) ... ok
+test_clean_stop_review_and_stage_controls_are_required (test_openflights_archive.ArchiveTests.test_clean_stop_review_and_stage_controls_are_required) ... ok
+test_existing_output_and_publication_race_never_overwrite (test_openflights_archive.ArchiveTests.test_existing_output_and_publication_race_never_overwrite) ... ok
+test_export_preserves_inputs_excludes_private_files_and_keeps_runs_separate (test_openflights_archive.ArchiveTests.test_export_preserves_inputs_excludes_private_files_and_keeps_runs_separate) ... ok
+test_missing_tampered_or_incomplete_evidence_leaves_no_archive (test_openflights_archive.ArchiveTests.test_missing_tampered_or_incomplete_evidence_leaves_no_archive) ... ok
+test_offline_verifier_rejects_corruption_and_unlisted_files (test_openflights_archive.ArchiveTests.test_offline_verifier_rejects_corruption_and_unlisted_files) ... ok
+test_symlinked_inputs_and_run_path_traversal_are_refused (test_openflights_archive.ArchiveTests.test_symlinked_inputs_and_run_path_traversal_are_refused) ... ok
+test_version_two_build_manifest_is_included_and_cannot_change (test_openflights_archive.ArchiveTests.test_version_two_build_manifest_is_included_and_cannot_change) ... ok
+test_windows_summary_bytes_are_retained_after_universal_newline_validation (test_openflights_archive.ArchiveTests.test_windows_summary_bytes_are_retained_after_universal_newline_validation) ... ok
+test_before_workload_incompatible_server_or_sql_never_starts_benchmark (test_openflights_launcher.LauncherTests.test_before_workload_incompatible_server_or_sql_never_starts_benchmark) ... ok
+test_before_workload_source_drift_rejected_inside_worker (test_openflights_launcher.LauncherTests.test_before_workload_source_drift_rejected_inside_worker) ... ok
+test_changed_endpoint_refused_before_database_operation (test_openflights_launcher.LauncherTests.test_changed_endpoint_refused_before_database_operation) ... ok
+test_collector_change_refused_before_database (test_openflights_launcher.LauncherTests.test_collector_change_refused_before_database) ... ok
+test_completed_pilot_and_full_readback_preserves_original_bytes (test_openflights_launcher.LauncherTests.test_completed_pilot_and_full_readback_preserves_original_bytes) ... ok
+test_explicit_context_takes_precedence_over_docker_host (test_openflights_launcher.LauncherTests.test_explicit_context_takes_precedence_over_docker_host) ... ok
+test_failed_or_already_attempted_stage_cannot_retry (test_openflights_launcher.LauncherTests.test_failed_or_already_attempted_stage_cannot_retry) ... ok
+test_failed_worker_and_control_drift_retain_output_and_container (test_openflights_launcher.LauncherTests.test_failed_worker_and_control_drift_retain_output_and_container) ... Saved evidence ZIP: /tmp/evidence export u_3sznfx/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+Saved evidence ZIP: /tmp/evidence export bpwyhxud/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+Saved evidence ZIP: /tmp/evidence export k27uytlr/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+Saved evidence ZIP: /tmp/evidence export ny8_w92p/evidence with spaces.zip
+Original results and database volumes retained. Copy the ZIP outside this workspace for backup.
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "ON"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+ok
+test_failure_checkpoint_preserves_session_and_refuses_retry (test_openflights_launcher.LauncherTests.test_failure_checkpoint_preserves_session_and_refuses_retry) ... Failed isolated session retained: /tmp/tmpynt3wwn1/results/session with spaces/session.json
+Inspect its logs, container and table before stopping; no retry or volume deletion was performed.
+ok
+test_full_requires_unchanged_pilot_and_power (test_openflights_launcher.LauncherTests.test_full_requires_unchanged_pilot_and_power) ... ok
+test_full_stage_cannot_accept_a_pilot_or_path_traversal_output (test_openflights_launcher.LauncherTests.test_full_stage_cannot_accept_a_pilot_or_path_traversal_output) ... ok
+test_legacy_session_loads_but_new_session_requires_build_manifest (test_openflights_launcher.LauncherTests.test_legacy_session_loads_but_new_session_requires_build_manifest) ... ok
+test_normal_project_and_existing_unlabelled_volume_are_refused (test_openflights_launcher.LauncherTests.test_normal_project_and_existing_unlabelled_volume_are_refused) ... ok
+test_paths_with_spaces_stay_single_arguments (test_openflights_launcher.LauncherTests.test_paths_with_spaces_stay_single_arguments) ... ok
+test_preexisting_worker_refused_without_creation (test_openflights_launcher.LauncherTests.test_preexisting_worker_refused_without_creation) ... ok
+test_prepare_builds_unique_tags_then_binds_only_ids (test_openflights_launcher.LauncherTests.test_prepare_builds_unique_tags_then_binds_only_ids) ... Prepared immutable images. Session: /tmp/tmpzh2dzg93/results/20261101T152449Z-openflights-session-19f76540/session.json
+ok
+test_remote_docker_endpoint_refused_without_contacting_daemon (test_openflights_launcher.LauncherTests.test_remote_docker_endpoint_refused_without_contacting_daemon) ... ok
+test_result_with_inconsistent_runtime_probe_is_rejected (test_openflights_launcher.LauncherTests.test_result_with_inconsistent_runtime_probe_is_rejected) ... ok
+test_retagging_cannot_change_created_image_and_only_success_is_removed (test_openflights_launcher.LauncherTests.test_retagging_cannot_change_created_image_and_only_success_is_removed) ... Run --pilot, review its summary, then --full using this session and the same power description.
+OPENFLIGHTS_CONTROLS_BEGIN
+{"before": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}, "after": {"source_sha256": {"example.py": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}, "dataset_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "rows": 67663, "runtime": {"cgroup_cpu_max": "100000 100000", "cgroup_memory_max": "536870912"}, "server_version": "11.8.9-MariaDB-test", "global_variables": {"query_cache_type": "OFF"}, "session_variables": {"query_cache_type": "OFF", "autocommit": "ON", "max_heap_table_size": "134217728", "sql_mode": "STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"}}}
+OPENFLIGHTS_CONTROLS_END
+ok
+test_runtime_override_tampering_refused (test_openflights_launcher.LauncherTests.test_runtime_override_tampering_refused) ... ok
+test_source_change_refused_before_database (test_openflights_launcher.LauncherTests.test_source_change_refused_before_database) ... ok
+test_wrong_actual_image_refused_before_start (test_openflights_launcher.LauncherTests.test_wrong_actual_image_refused_before_start) ... ok
+test_wrong_database_owner_prevents_stop (test_openflights_launcher.LauncherTests.test_wrong_database_owner_prevents_stop) ... ok
+test_all_eight_current_reports_regenerate_without_changing_inputs (test_report_regeneration.ReportRegenerationTests.test_all_eight_current_reports_regenerate_without_changing_inputs) ... Generated two SVG charts, 120 condition summaries and canonical-JSON SHA-256 provenance.
+Generated two SVG charts, 120 condition summaries and canonical-JSON SHA-256 provenance.
+Generated report, four figure files, and two derived-data files.
+Generated report, four figure files, and two derived-data files.
+Validated 60 trials and 60 log checksums; reported 50 full-run trials. Wrote recovery findings and two charts.
+Validated 60 trials and 60 log checksums; reported 50 full-run trials. Wrote recovery findings and two charts.
+Verified 30 trials; reported 25 full-run trials. Wrote OpenFlights charts, derived data and findings.
+Verified 30 trials; reported 25 full-run trials. Wrote OpenFlights charts, derived data and findings.
+Validated 28 trials; reported 24 full trials, 72 trial/workload observations and four figure files.
+Validated 28 trials; reported 24 full trials, 72 trial/workload observations and four figure files.
+Validated 14 trials and 14 worker files; reported 12 full trials and 24 trial/phase observations.
+Validated 14 trials and 14 worker files; reported 12 full trials and 24 trial/phase observations.
+Validated 180 trials and 540 stage files; reported 150 full trials in 30 groups.
+Validated 180 trials and 540 stage files; reported 150 full trials in 30 groups.
+Validated 4 pilot and 32 full trials; pilot excluded from full statistics.
+Wrote seven derived files; full trial observations: {'trials': 32, 'row_loads': 2097152, 'timed_lookups': 32000, 'timed_crc32_scans': 160}
+Validated 4 pilot and 32 full trials; pilot excluded from full statistics.
+Wrote seven derived files; full trial observations: {'trials': 32, 'row_loads': 2097152, 'timed_lookups': 32000, 'timed_crc32_scans': 160}
+ok
+test_changed_statistic_is_rejected_with_location (test_report_regeneration.ReportRegenerationTests.test_changed_statistic_is_rejected_with_location) ... ok
+test_missing_dataset_explains_the_verified_fetch_prerequisite (test_report_regeneration.ReportRegenerationTests.test_missing_dataset_explains_the_verified_fetch_prerequisite) ... ok
+test_output_names_match_report_manifest_on_windows_and_posix (test_report_regeneration.ReportRegenerationTests.test_output_names_match_report_manifest_on_windows_and_posix) ... ok
+test_snapshot_uses_current_files_and_excludes_local_state (test_report_regeneration.ReportRegenerationTests.test_snapshot_uses_current_files_and_excludes_local_state) ... ok
+test_archive_and_trial_statistical_unit (test_rocksdb_compression_findings.CompressionFindingsTests.test_archive_and_trial_statistical_unit) ... ok
+test_generation_repeats_and_preserves_evidence (test_rocksdb_compression_findings.CompressionFindingsTests.test_generation_repeats_and_preserves_evidence) ... ok
+test_incomplete_and_inconsistent_run_rejected (test_rocksdb_compression_findings.CompressionFindingsTests.test_incomplete_and_inconsistent_run_rejected) ... ok
+test_only_floating_roundoff_is_accepted (test_rocksdb_compression_findings.CompressionFindingsTests.test_only_floating_roundoff_is_accepted) ... ok
+test_raw_tamper_rejected_before_outputs (test_rocksdb_compression_findings.CompressionFindingsTests.test_raw_tamper_rejected_before_outputs) ... ok
+test_sql_runtime_and_provenance_changes_rejected (test_rocksdb_compression_findings.CompressionFindingsTests.test_sql_runtime_and_provenance_changes_rejected) ... ok
+test_existing_container_or_volume_is_not_reused (test_stock_tutorial.StockTutorialTests.test_existing_container_or_volume_is_not_reused) ... ok
+test_expected_native_architecture_is_checked_before_creating_resources (test_stock_tutorial.StockTutorialTests.test_expected_native_architecture_is_checked_before_creating_resources) ... ok
+test_foreign_container_or_volume_is_never_removed (test_stock_tutorial.StockTutorialTests.test_foreign_container_or_volume_is_never_removed) ... ok
+test_logs_redact_passwords_and_omit_private_inspection (test_stock_tutorial.StockTutorialTests.test_logs_redact_passwords_and_omit_private_inspection) ... ok
+test_normal_projects_rejected_before_files_or_docker (test_stock_tutorial.StockTutorialTests.test_normal_projects_rejected_before_files_or_docker) ... ok
+test_findings_reject_corrupted_evidence (test_storage_findings.StorageFindingsTests.test_findings_reject_corrupted_evidence) ... ok
+test_counter_delta_rejects_reset_missing_and_noninteger_values (test_tutorial_checks.TutorialObservationTests.test_counter_delta_rejects_reset_missing_and_noninteger_values) ... ok
+test_counter_presence_and_values_are_required (test_tutorial_checks.TutorialObservationTests.test_counter_presence_and_values_are_required) ... ok
+test_each_concurrent_case_has_counter_delta_and_exact_update_checks (test_tutorial_checks.TutorialObservationTests.test_each_concurrent_case_has_counter_delta_and_exact_update_checks) ... ok
+test_hammer_requires_sql_timestamps (test_tutorial_checks.TutorialObservationTests.test_hammer_requires_sql_timestamps) ... ok
+test_invalid_writer_inputs_rejected_before_sql (test_tutorial_checks.TutorialObservationTests.test_invalid_writer_inputs_rejected_before_sql) ... ok
+test_overlap_uses_server_intervals_and_accepts_nonoverlap (test_tutorial_checks.TutorialObservationTests.test_overlap_uses_server_intervals_and_accepts_nonoverlap) ... ok
+test_server_interval_rejects_invalid_and_inconsistent_timings (test_tutorial_checks.TutorialObservationTests.test_server_interval_rejects_invalid_and_inconsistent_timings) ... ok
+test_normal_or_malformed_projects_rejected_before_docker (test_tutorial_driver.TutorialDriverTests.test_normal_or_malformed_projects_rejected_before_docker) ... ok
+test_missing_duplicate_or_malformed_observations_rejected (test_tutorial_transactions.TransactionTutorialTests.test_missing_duplicate_or_malformed_observations_rejected) ... ok
+test_real_source_paths_and_engine_scope (test_tutorial_transactions.TransactionTutorialTests.test_real_source_paths_and_engine_scope) ... ok
+test_wrong_engine_and_changed_semantics_rejected (test_tutorial_transactions.TransactionTutorialTests.test_wrong_engine_and_changed_semantics_rejected) ... ok
+test_archive_works_without_git_or_current_measured_files (test_write_diagnostics_findings.WriteDiagnosticsFindingsTests.test_archive_works_without_git_or_current_measured_files) ... ok
+test_changed_measurements_still_fail_validation (test_write_diagnostics_findings.WriteDiagnosticsFindingsTests.test_changed_measurements_still_fail_validation) ... ok
+test_changed_or_missing_recorded_source_is_rejected (test_write_diagnostics_findings.WriteDiagnosticsFindingsTests.test_changed_or_missing_recorded_source_is_rejected) ... ok
+test_original_archives_and_measured_source_validate (test_write_diagnostics_findings.WriteDiagnosticsFindingsTests.test_original_archives_and_measured_source_validate) ... ok
+test_snapshot_allows_checkout_line_endings_but_not_wrong_revision (test_write_diagnostics_findings.WriteDiagnosticsFindingsTests.test_snapshot_allows_checkout_line_endings_but_not_wrong_revision) ... ok
+test_snapshot_and_manifest_cannot_replace_archived_fingerprints (test_write_diagnostics_findings.WriteDiagnosticsFindingsTests.test_snapshot_and_manifest_cannot_replace_archived_fingerprints) ... ok
+test_tampered_source_rejected_before_output_creation (test_write_diagnostics_findings.WriteDiagnosticsFindingsTests.test_tampered_source_rejected_before_output_creation) ... ok
+
+----------------------------------------------------------------------
+Ran 102 tests in 187.215s
+
+OK
