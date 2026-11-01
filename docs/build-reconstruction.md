@@ -134,3 +134,20 @@ during the [October 31 attempts](../evidence/reviews/20261031-build-evidence/REA
 The November 1 review therefore used metadata-only probes and did not repeat those
 builds locally. This project does not claim a complete package lock, byte-identical
 reconstruction, or recovery of missing historical configurations.
+
+### First CI attempt and correction
+
+The [first reconstruction CI attempt](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322017709)
+tested `516defd8ca504f17de67b13c6f9c4d9afc27f8dc` on a disposable Ubuntu
+`overlay2` host with about 85 GiB initially free. The first signed-snapshot DB
+build and healthy startup succeeded, including all five exact signed-metadata
+hash checks and export of package inputs. The five-engine worker was never
+launched: `docker compose run` rejected the unsupported `--no-build` option.
+The owned database then stopped cleanly with exit code 0 and no OOM event.
+No second build completed, so this attempt does not establish paired-build or
+five-engine correctness.
+
+The corrected worker command uses `run --rm --no-deps --pull never runner`,
+with the already selected local immutable image and without requesting a build.
+`up` retains its supported `--no-build` option. A new source revision and CI run
+must validate the correction; the failed attempt is not rerun or relabelled.

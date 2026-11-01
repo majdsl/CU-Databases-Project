@@ -114,7 +114,9 @@ def run(directory):
         try:
             logged(case, 'database-start', compose + ['up', '-d', '--no-build', '--pull',
                 'never', '--wait', '--wait-timeout', '180', 'db'])
-            logged(case, 'five-engine-readback', compose + ['run', '--rm', '--no-build',
+            # `compose run` has no --no-build flag. The selected image already exists;
+            # no --build is requested, and --no-deps keeps the running DB untouched.
+            logged(case, 'five-engine-readback', compose + ['run', '--rm', '--no-deps',
                 '--pull', 'never', 'runner'])
             observed = output('docker', 'inspect', '--format', '{{.Image}}',
                               output(*compose, 'ps', '-q', 'db'))
