@@ -1,118 +1,98 @@
 # Project checkpoint — November 1, 2026
 
-Operational handoff; the reader's starting point remains [README](../README.md).
+**Implementation, validation and evidence publication are complete.**
+[PR #15](https://github.com/majdsl/CU-Databases-Project/pull/15) merged into `main`
+as `3dfab238d5d34c6d63082b8273fbc63f47c03414`. Both main workflows passed;
+the original archives and internal practice review were subsequently published.
+These outcomes were checked again against GitHub before this documentation cleanup.
+No new evaluation or benchmark is part of the cleanup.
 
-## Source and publication
+The reader starts at [README](../README.md). The next fresh review uses the
+[neutral evaluation handoff](evaluation-handoff.md) and pins remote `main` after
+this documentation cleanup. The implementation and measurement SHAs below are
+dated evidence, not a substitute for that next evaluation target.
 
-- Starting and last verified remote `main`: `93e3eedc1db066bc3d9254d6d9fef25a12ba6206`.
-  `git fetch origin` and `git ls-remote origin refs/heads/main` agreed on November 1.
-- Active branch: `improve/session-validation-20261101`; [PR #15](https://github.com/majdsl/CU-Databases-Project/pull/15).
-- Completed implementation/evidence milestone `ffadc4d11411d887acb67bfaced0465a7c20c1e5`
-  is pushed. Final merge/main identity and publication outcomes
-  belong to the linked release manifests below; recording them there avoids moving
-  the main revision being assessed.
-- Initial checkpoint `d75c4b7271d9f5877ddb2a37b5f1a2a75febc5e6` pushed and
-  verified with `git ls-remote`. Workflow source frozen at
-  `2da20124ca1e52128d7cb8c3536736ae139239f7` for [manual run 41321256187](https://github.com/majdsl/CU-Databases-Project/actions/runs/41321256187).
-  Dispatch: `gh workflow run correctness.yml --ref improve/session-validation-20261101 -f validate_openflights_session=true`.
-  All five jobs passed. Source and complete raw evidence are preserved in
-  [the format-v2 session archive](../evidence/reproductions/20261101-ci-openflights-session/README.md).
-- Starting worktree clean; no applicable `AGENTS.md` found in repository or ancestors.
-- Baseline main [Correctness run 41208021340](https://github.com/majdsl/CU-Databases-Project/actions/runs/41208021340)
-  completed successfully. This is historical validation, not a result for new changes.
-- Official [assignment and evaluation prompt](https://mariadb.org/bachelor_hackathon_2026-09/)
-  fetched November 1; prompt states **last updated September 4, 2026**. Area 6 is
-  “Choosing the right storage engine”; the four criteria remain equally weighted.
+## Source and completed validation
 
-## Priorities and completed milestones
+| Record | Exact revision and observed outcome |
+| --- | --- |
+| Starting main before the implementation round | `93e3eedc1db066bc3d9254d6d9fef25a12ba6206` |
+| Published implementation, PR #15 | `3dfab238d5d34c6d63082b8273fbc63f47c03414`; remote main and merge SHA agreed |
+| [Main Correctness run 41324235736](https://github.com/majdsl/CU-Databases-Project/actions/runs/41324235736) | Success at `3dfab238d5d34c6d63082b8273fbc63f47c03414`: 146 lightweight/105 offline tests, each normally and with `-O`; five-engine setup/integration/tutorial; native amd64/ARM64 stock tutorials; report and sealed-evidence checks |
+| [Main paired-build run 41324235769](https://github.com/majdsl/CU-Databases-Project/actions/runs/41324235769) | Success at that same main SHA: two uncached signed-snapshot database builds, actual five-engine readback and clean stops |
+| [Local validation archive](../evidence/reviews/20261101-local-validation/README.md) | Then-current 146 lightweight/102 offline tests in both modes; eight reports/55 outputs generated twice with inputs preserved; cloud and sealed-archive guards passed. Three later snapshot guards account for main CI's 105 offline tests. |
 
-1. Repository access, starting revision, official rubric and capacity inspected.
-2. Completed: real format-v2 setup → stop setup DB → prepare → pilot → inspect →
-   full → clean stop → export → separate extraction/offline verification on a
-   disposable Ubuntu amd64 CI runner. Pilot `20261101T152902Z-openflights-444900b0`
-   has five verified trials; full `20261101T152915Z-openflights-8fa924ee` has 25.
-   ZIP SHA-256: `2df17236c7f9ed91acded1525a1eb87ef04f756d40029ac01e1278ecf795c35a`.
-   The measurement checkout remained frozen; this separate workspace holds publication.
-3. Newcomer documentation now explains storage/worker inspection and standalone
-   extraction/verification; an outdated transaction-check claim was corrected.
-   Relative paths and anchors passed static checks. Signed package-snapshot
-   metadata is [retained and verified](../evidence/reviews/20261101-package-snapshot-research/README.md).
-   The isolated paired-build CI experiment is complete. First attempt
-   [41322017709](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322017709)
-   failed because Compose `run` rejected `--no-build`; source `752a87a` fixes it.
-   Second attempt [41322523394](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322523394)
-   passed both builds/readbacks, but artifact upload omitted the checksummed
-   `.gitattributes`. Final complete [run 41322953291](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322953291)
-   at tested PR merge SHA `ab8cc6df8ac823011e9c797e86817d9d2f6ee568` passed both
-   readbacks and clean stops; all 30 checksum entries passed after download.
-   Inventories/configuration match; image IDs and filesystem layers differ.
-   [All three raw archive identities and small records](../evidence/reviews/20261101-snapshot-builds/README.md)
-   are retained separately. The complete original artifact SHA-256 is
-   `e7f883ccc00b186e286c7dc7e8bc7640bf24beb95714e4981ed9a38ac418f995`.
-4. Completed local [normal/optimized validation](../evidence/reviews/20261101-local-validation/README.md):
-   146 lightweight and 102 offline tests in each mode; all eight reports/55 outputs
-   generated twice; cloud and sealed archive guards passed. The original manual CI
-   also passed real five-engine integration/tutorial and native stock amd64/ARM64.
-   Three new snapshot guards passed normally/optimized, bringing the current offline
-   suite to 105 (confirm against the final passing CI).
-5. All reviewed small evidence, original session ZIP and logs are committed/pushed.
-   The [PR checks](https://github.com/majdsl/CU-Databases-Project/pull/15/checks)
-   record the final head validation and merge state. The final main checks and
-   assessed SHA are recorded by the post-merge publication manifests below.
+The optional timed OpenFlights session job was **skipped on the main push**.
+Its actual complete run has the separate frozen source below; main rechecked its
+raw records and original export offline. The [CI guide](ci.md) describes job scope.
 
-## Environment and evidence boundaries
+## Complete OpenFlights session and durable ZIP
 
-The managed workspace preflight (`df -h`, `df -i`, `docker info`, `docker ps -a`,
-`docker system df`, cgroup limits) found roughly 7.5 GiB physical free, Docker
-`vfs`, no containers, three existing images and one existing volume. The host
-reports 3 CPUs/approximately 9.7 GiB RAM; this task's cgroup limits are 2 CPUs/8 GiB.
-No local build or new timed workload was attempted: copied-layer pressure caused
-the two previously archived sandbox failures. Existing resources are retained.
-CI will establish workflow correctness, not an OS effect or laptop performance.
+The [real format-v2 session archive](../evidence/reproductions/20261101-ci-openflights-session/README.md)
+records setup → stop the owned setup DB → prepare → pilot → automated inspection
+→ full → clean stop → export → separate extraction and standalone verification.
 
-The missing assessment-chat ZIP remains unverified. Original laptop and October 30
-cloud evidence remain separate; neither failed October 31 sandbox pilot is a success.
-Zane's independent physical-laptop reproduction remains pending. Build package
-inventories are observations, not a complete dependency lock or identical-image proof.
+- Producing source: `2da20124ca1e52128d7cb8c3536736ae139239f7`;
+  [successful manual run 41321256187](https://github.com/majdsl/CU-Databases-Project/actions/runs/41321256187).
+- Session: `20261101T152845Z-openflights-session-ba84d4b7`.
+- Pilot: `20261101T152902Z-openflights-444900b0`, five verified trials.
+- Full: `20261101T152915Z-openflights-8fa924ee`, 25 verified trials; pilot statistics excluded.
+- Source, selected immutable images and required controls stayed unchanged between
+  stages. The session records a clean stop with exit code 0 and no OOM event.
+- [Original ZIP](../evidence/reproductions/20261101-ci-openflights-session/ci/openflights-evidence.zip):
+  87,843 bytes, SHA-256
+  `2df17236c7f9ed91acded1525a1eb87ef04f756d40029ac01e1278ecf795c35a`.
+  An HTTP read at the published implementation SHA matched these bytes.
 
-## Next concrete action
+Standalone verification passed for extracted contents and ZIP, normally and with
+`-O`; offline semantic rechecking matched all 15 original entries. Shared-CI
+observations establish workflow execution, not controlled physical-host performance
+or an independent person's installation.
 
-The real session ZIP is pushed at `41a39140b9d80e5ec64e3dd7710fe3501f0e558d`;
-an HTTP read of its immutable GitHub raw URL matched its 87,843 bytes and SHA-256.
-The remaining reviewed local logs (explicitly retained despite global `*.log` ignore),
-complete snapshot index and final publication guards are now committed. A clean
-`git archive` extraction passed all new archive verifiers and real-session semantic
-rechecking. Confirm final PR checks before merging; verify remote main and its checks
-afterward. Large public package
-inputs will use GitHub Releases after privacy review: direct workspace upload returned
-HTTP 401 on `uploads.github.com` (no release remained), so the manual trusted-main
-publication workflow will use its scoped GitHub Actions token after merge. It verifies
-reviewed archive hashes before upload and downloads every release asset again afterward.
-Do not claim durable backup until the repository/release bytes have been verified.
-Then publish the exact-format internal assessment of that unchanged main revision at
-`internal-review-20261101`; [the review source/handoff](../evidence/evaluations/20261101-internal-review/README.md)
-records the official prompt and external review inputs. That release's provenance
-records the final main SHA without another main commit moving the evaluated target.
+## Snapshot study and completed publications
 
-For a replacement chat: inspect PR #15 first. If merged, read `publication-manifest.json`
-at [the raw-evidence release](https://github.com/majdsl/CU-Databases-Project/releases/tag/evidence-reconstruction-20261101)
-and [internal-review release](https://github.com/majdsl/CU-Databases-Project/releases/tag/internal-review-20261101).
-Verify their actual published SHA/checksums and successful publication-run links;
-use those durable records to distinguish finished steps from this pre-merge handoff.
-If publication is absent, dispatch `Publish reviewed evidence` on verified `main`
-using the exact artifact IDs/hashes in the snapshot index; notes-only `artifacts: []`
-publishes the fresh internal assessment without advancing main. Do not rerun
-measurements merely to rebuild chat context. The remaining external task is below.
+The [three-attempt index](../evidence/reviews/20261101-snapshot-builds/README.md)
+and [artifact identities/checksums](../evidence/reviews/20261101-snapshot-builds/artifacts.json)
+preserve the failed worker invocation, successful pair with an incomplete upload,
+and complete original artifact separately. Complete archived
+[run 41322953291](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322953291)
+tested PR merge `ab8cc6df8ac823011e9c797e86817d9d2f6ee568`; both builds/readbacks/stops
+passed, and all 30 producer-checksummed files passed after download. Its ZIP SHA-256 is
+`e7f883ccc00b186e286c7dc7e8bc7640bf24beb95714e4981ed9a38ac418f995`.
+Inventories, selected runtime configuration and all 46 selected package-input file
+contents matched; image/config IDs and RootFS diff IDs differed. The normal project
+Dockerfiles are unchanged. [Build reconstruction](build-reconstruction.md) records
+retention, registry and adoption limits.
 
-## Remaining physical-host task
+| Publication | Verified durable location and outcome |
+| --- | --- |
+| Three original raw artifact ZIPs | [Evidence release](https://github.com/majdsl/CU-Databases-Project/releases/tag/evidence-reconstruction-20261101); [publication run 41324256907](https://github.com/majdsl/CU-Databases-Project/actions/runs/41324256907) succeeded. Each uploaded asset was downloaded again and hash-verified; GitHub asset digests/sizes match the artifact index. |
+| Historical internal practice review | [Review release](https://github.com/majdsl/CU-Databases-Project/releases/tag/internal-review-20261101); [publication run 41325123834](https://github.com/majdsl/CU-Databases-Project/actions/runs/41325123834) succeeded. Notes bytes and tag were verified. It evaluates `3dfab238d5d34c6d63082b8273fbc63f47c03414`, not later documentation revisions or an independent external review. |
 
-Zane (or another independent reader) should freeze a clean checkout of the final
-main SHA recorded in the internal-review release, inspect physical Docker capacity,
-follow [setup](setup.md) and the [SQL tutorial](tutorial.md), run
-[prepared pilot → inspect → full → stop → export](openflights-reproduction.md), and
-verify the ZIP after extraction elsewhere. Record real laptop/OS/architecture,
-Docker/Python versions, actual power conditions, all command outcomes and reader
-ambiguities; supply the original ZIP and SHA-256 for separate privacy review and
-durable publication. Do not commit or switch the measurement checkout between
-preparation and full, pool its statistics with CI/laptop history, or mark existing
-Windows stock-tutorial correctness as completion of this task.
+Both release tags point to `3dfab238d5d34c6d63082b8273fbc63f47c03414`.
+Their downloadable `publication-manifest.json` files retain publication SHA,
+workflow URL and content hashes. Public evidence required no redactions. The earlier
+workspace upload failure was resolved through native CI publication; no upload is
+pending. Actions artifacts alone are not the durable copies.
+
+## Remaining work and boundaries
+
+- **Next:** a fresh evaluation of pinned post-cleanup `main`, using the neutral
+  handoff and current official prompt. This cleanup does not run that evaluation.
+- **Pending independent physical-host task:** Zane or another reader should freeze
+  that revision, inspect capacity, follow [setup](setup.md) and the
+  [SQL tutorial](tutorial.md), then [prepare → pilot → inspect → full → stop → export](openflights-reproduction.md)
+  and verify after extraction elsewhere. Retain hardware/OS/architecture,
+  Docker/Python versions, actual power conditions, command outcomes, reader feedback,
+  original ZIP and SHA-256. Preserve the measurement checkout between stages.
+- **Separate follow-up:** snapshot-update/retention policy and any project-owned
+  image registry retention; byte-identical reconstruction has not been demonstrated.
+- The unavailable assessment-chat ZIP remains unverified. Original laptop and
+  October 30 cloud evidence stay separate. The two October 31 disk-exhaustion
+  attempts ended before timed workloads and remain failures. Existing Windows
+  stock-tutorial checks do not complete the pending physical-laptop task.
+
+The managed workspace had roughly 7.5 GiB physical free space with Docker `vfs`
+before the implementation round. New timed work and paired builds used adequately
+provisioned disposable CI, preserving existing local resources. Shared-cloud timings
+do not establish an OS effect. Another cloud run is not needed to recover this state.
