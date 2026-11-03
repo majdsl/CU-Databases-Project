@@ -316,5 +316,16 @@ Follow-up changes use branches and pull requests into `main`, the branch read by
 the official evaluator. The [evidence plan](docs/evidence-plan.md) records the scope
 of completed checks, historical review provenance and remaining reproduction work.
 
+## License
+
+The team's original project code and documentation are licensed under the
+[MIT License](LICENSE).
+
+The OpenFlights dataset and OpenFlights-derived data retain their
+[ODbL 1.0 license](data/openflights/LICENSE) and
+[source attribution](data/openflights/README.md). Third-party software, public
+package inputs and externally sourced material keep their respective licenses;
+the MIT license does not replace those terms.
+
 References: [official assignment and rubric](https://mariadb.org/bachelor_hackathon_2026-09/),
 [MariaDB engine documentation](https://mariadb.com/docs/server/server-usage/storage-engines).
