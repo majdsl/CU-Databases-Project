@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from scripts import report_rocksdb_compression_findings as findings
 
@@ -28,6 +29,30 @@ class CompressionFindingsTests(unittest.TestCase):
         for profile in stats.values():
             for condition in profile.values():
                 self.assertTrue(all(s["n"] == 8 for s in condition.values()))
+
+    def test_frozen_source_survives_current_edits_but_rejects_missing_or_changed_history(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for path, digest in findings.FROZEN_SOURCES.items():
+                with self.subTest(path=path):
+                    current = root / path
+                    current.parent.mkdir(parents=True, exist_ok=True)
+                    current.write_text('# unrelated current implementation\n')
+                    frozen = root / 'provenance/write-diagnostics/source' / path
+                    frozen.parent.mkdir(parents=True, exist_ok=True)
+                    original = (findings.ROOT / 'provenance/write-diagnostics/source' / path).read_bytes()
+                    frozen.write_bytes(original)
+                    with patch.object(findings, 'ROOT', root):
+                        findings.verify_source(path, digest, findings.FROZEN_SOURCES)
+                        with self.assertRaises(ValueError):
+                            findings.verify_source(path, '0'*64, findings.FROZEN_SOURCES)
+                        frozen.write_bytes(original + b'\n# changed history\n')
+                        changed = hashlib.sha256(frozen.read_bytes()).hexdigest()
+                        with self.assertRaisesRegex(ValueError, 'Frozen measured source changed'):
+                            findings.verify_source(path, changed, findings.FROZEN_SOURCES)
+                        frozen.unlink()
+                        with self.assertRaises(FileNotFoundError):
+                            findings.verify_source(path, digest, findings.FROZEN_SOURCES)
 
     def test_sql_runtime_and_provenance_changes_rejected(self):
         mutations = [

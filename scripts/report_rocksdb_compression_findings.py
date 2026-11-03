@@ -21,6 +21,13 @@ FULL = "20261027T220128Z-rocksdb-compression-ea876f45"
 MEASURED_COMMIT = "cd3865136c8f466d3d19a5e327c578e033478778"
 EVIDENCE_COMMIT = "7dd87e4fde8f015c1d5f5759f94c910e4804a807"
 EVIDENCE = ROOT / "evidence/rocksdb-compression"
+# These existing frozen files are byte-identical to the sources fingerprinted by
+# both compression runs. Current benchmark edits must not rewrite old provenance.
+FROZEN_SOURCES = {
+    "benchmarks/openflights.py": "8b1c5c20b2aaa3169a7e044f4917af788d456c775bc5b761b97e73b57ff976e6",
+    "benchmarks/run.py": "99ece4de5a7c03d7558648995bcc89f539ed576e9d1756d27018b07db47e3524",
+    "benchmarks/recovery.py": "171039e71783744224a2f4338439962b28be09992c54af32259296fbba91d8c9",
+}
 HOST_FIELDS = {
     "position", "project", "images", "clean_stop", "sst_inventory",
     "table_sst", "resource_cleanup",
@@ -73,7 +80,12 @@ def expected_data():
 
 def verify_source(path, recorded, allowed):
     require(path in allowed, "Unexpected measured source path")
-    raw = (ROOT / path).read_bytes().replace(b"\r\n", b"\n")
+    source = ROOT / path
+    if path in FROZEN_SOURCES:
+        source = ROOT / "provenance/write-diagnostics/source" / path
+    raw = source.read_bytes().replace(b"\r\n", b"\n")
+    if path in FROZEN_SOURCES:
+        require(sha256(raw) == FROZEN_SOURCES[path], "Frozen measured source changed: " + path)
     require(recorded in {sha256(raw), sha256(raw.replace(b"\n", b"\r\n"))},
             "Measured source changed: " + path)
 

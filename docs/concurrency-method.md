@@ -65,8 +65,9 @@ These are short, fixed-work bursts on one reused server, not sustained saturatio
 independent machine replications. The Python runner has one CPU, so client overhead
 can limit observed scaling. The database has two CPUs. Background compaction,
 checkpoints, OS caching, laptop power state and thermal throttling can affect results.
-A follow-up should measure client/server utilization and longer workloads before
-attributing a throughput plateau to an engine's locking design.
+The later [write-diagnostics study](write-diagnostics-findings.md) records client/server
+CPU and lock-wait counters in isolated trials. Its different timing windows are not a
+latency decomposition; longer steady-state workloads remain unmeasured.
 
 Equal SQL and autocommit do not imply equal durability. Aria's TRANSACTIONAL table
 option concerns crash safety, not support for user transactions. MEMORY loses its
@@ -74,11 +75,12 @@ rows on restart. These distinctions must accompany any comparison; this experime
 does not itself measure recovery or rollback. Lock-wait errors are failures, not
 silently discarded observations. Raw error types/codes are retained without passwords.
 
-Physical storage measurement is a separate pending experiment: SHOW TABLE STATUS is
-not a common physical-byte accounting method across these engines. It will need
-isolated volumes, explicit logical/apparent/allocated byte definitions, separate
-engine log accounting and stated MyRocks flush/compaction conditions. A zero persistent
-MEMORY data footprint must never be described as zero RAM cost.
+The separate [storage study](storage-findings.md) is complete; its
+[method](storage-method.md) uses isolated volumes, clean stops, apparent/allocated
+file-byte inventories, separate engine-log accounting and explicit MyRocks
+flush/compaction conditions. SHOW TABLE STATUS is not a common byte-accounting
+method across engines. Docker-volume file allocation is not physical SSD usage,
+and zero persistent MEMORY row bytes do not mean zero RAM cost.
 
 ## References reviewed
 

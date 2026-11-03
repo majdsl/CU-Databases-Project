@@ -65,108 +65,162 @@ were similar. This is a scoped mechanism result, not a new five-engine ranking.
 
 ## Start here
 
-**Hands-on tutorial:** Follow the [storage-engine tutorial](docs/tutorial.md) to create tables on five engines, compare their behavior, and test locking and restart persistence.
-It also demonstrates why the same two-row transfer rolls back on InnoDB/MyRocks
-and remains applied on Aria/MyISAM/MEMORY, with exact SQL outcomes checked automatically.
-
-For a separate four-engine stock-image check, run
-`python scripts/check_stock_tutorial.py` after cloning (use `python3` on Linux).
-It creates and removes its own temporary database and saves a validation transcript.
-See [Path B validation on native Linux amd64/ARM64 and Windows Docker Desktop](docs/stock-tutorial-validation.md).
-
 To explore without installing anything, read the [full OpenFlights summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
 and [findings](docs/openflights-findings.md), then the [decision guide](docs/engine-recommendations.md).
 
-To run the project, install **Git, Python 3.9+ and Docker with Compose**, start Docker,
-and use **Linux amd64 containers**. Windows Docker Desktop and Ubuntu amd64 are the
-primary paths. Initial setup needs internet access. The DB/runner limits are 2 GiB/512 MiB;
-allow extra memory for Docker and builds. For Linux permissions, ARM limitations,
-manual steps and troubleshooting, see [setup details](docs/setup.md). On native Linux,
-complete the [one-time output-access prerequisite](docs/setup.md#native-linux-output-prerequisite)
-before running setup; a normal host-owned directory may not be writable by runner UID 10001.
+### 1. Choose the path for your Docker engine
 
-For a new checkout:
+| Path | Platform | First successful result |
+| --- | --- | --- |
+| Five-engine lab: steps 2–6 below | Linux **amd64** containers; Windows Docker Desktop or native Linux | Verified OpenFlights pilot, then a repeated full comparison |
+| Four-engine stock tutorial: step 2 below | Linux **amd64 or ARM64** containers, including Docker Desktop | SQL correctness transcript for InnoDB, Aria, MyISAM and MEMORY; no MyRocks or performance ranking |
+
+Install **Git, Python 3.9+ and Docker with Compose**, start Docker, and ensure
+`docker info` succeeds. Windows Docker Desktop must use Linux containers.
+The custom five-engine image has not been validated on ARM; emulation is not a
+validated performance path. The stock path has native Linux amd64/ARM64 and
+Windows Docker Desktop [correctness evidence](docs/stock-tutorial-validation.md);
+an interactive macOS walkthrough remains unverified.
+
+Commands below run from the repository root. They use `python` in Windows
+PowerShell; **use `python3` on Linux/macOS**. Initial setup needs internet access.
+For the five-engine lab, allow memory beyond the DB/runner limits of 2 GiB/512 MiB
+and check [Docker's actual disk capacity](docs/setup.md#disk-capacity) before building.
+
+### 2. Get the code
+
+For a new checkout, run:
 
 ```powershell
 git clone --branch main https://github.com/majdsl/CU-Databases-Project.git
 cd CU-Databases-Project
+```
+
+For an existing checkout, save your edits and run `git pull --ff-only` before
+starting a new measurement session.
+
+**Four-engine stock path:** run the following command now, then open the printed
+output directory's `transcript.txt` and `validation.json`:
+
+```powershell
+python scripts/check_stock_tutorial.py
+```
+
+Expect **`STOCK TUTORIAL PASS`** and `Saved: ...` under `results/`. The driver creates
+and removes its own disposable database and retains the transcript. This completes
+the automated stock path; steps 3–6 are for the five-engine lab.
+For interactive SQL and worked explanations, follow the [hands-on tutorial](docs/tutorial.md).
+It covers indexes, locking, restart persistence and transaction rollback.
+
+### 3. Set up the five-engine lab
+
+**Native Linux only:** prepare the output directory for runner UID 10001 before setup:
+
+```bash
+mkdir -p results
+setfacl -m u:10001:rwx results
+```
+
+If `setfacl` is missing, install the `acl` package using the
+[native Linux instructions](docs/setup.md#native-linux-output-prerequisite).
+Windows Docker Desktop does not need these POSIX ACL commands.
+Rootless/user-remapped Docker and SELinux may need administrator-specific configuration;
+the container write probe is the final check.
+
+After those prerequisites, setup is one command:
+
+```powershell
 python scripts/setup_project.py
 ```
 
-After cloning and completing the platform prerequisites, **the setup wrapper is one command**.
-On Linux use `python3 scripts/setup_project.py` after preparing output access above.
-The wrapper verifies Docker, preserves/creates local credentials, fetches checksum-verified
-data, builds containers, checks result-write permissions, runs unit tests and checks
-all five actual engines. Success ends with **`SETUP PASS`**. Stop on errors.
-Setup runs no benchmark and never deletes volumes. It can recreate this lab's container,
-so do not run it during active measurements.
-
-Keep `.env` private and unchanged for an existing database. A second clone shares the
-normal Compose project name; it is not automatically an isolated database.
+Expect the unit suite to finish with `OK`, five actual engine `PASS` lines, and
+**`SETUP PASS`**. The wrapper creates or preserves private credentials, verifies the
+dataset, builds images and checks output access. Stop on errors; use the
+[setup troubleshooting table](docs/setup.md#common-failures-and-safe-stopping).
+Setup runs no benchmark and never deletes volumes. It can recreate this lab's
+container, so do not run it during active measurements.
+Keep `.env` private and unchanged for an existing database. A second clone shares
+the normal Compose project name; it is not automatically an isolated database.
 
 ## Run one comparison and read the result
 
-For new measurements, use the [frozen-image OpenFlights launcher](docs/openflights-reproduction.md).
-It creates a separate project/database volume, builds once, and records the actual
-database and runner images. Existing lab credentials and volumes are preserved.
-Setup leaves its database running. Before measuring, stop that setup database if it is
-your lab and nobody else is using it:
+### 4. Prepare an isolated measurement session
+
+Setup leaves its database running. Stop it if it is your lab and nobody else is using it:
 
 ```powershell
 docker compose stop db
 ```
 
 If setup used `--project-name <name>`, use `docker compose -p <name> stop db` instead.
-This retains its volume. Do not stop another person's stack; arrange a quiet measurement
-period. Run the commands below from the repository root (use `python3` on Linux).
-Prepare the session first:
+This retains its volume. Arrange a quiet measurement period, then prepare once:
 
 ```powershell
 python scripts/run_openflights.py --prepare
 ```
 
-Use the session path printed by that command in the following commands. Keep power
-conditions stable and replace the label with your actual settings:
+Expect `Prepared immutable images. Session: .../session.json`. Copy that **exact
+printed path** into each command below instead of `results/<session>/session.json`.
+Preparation builds once, records both actual image IDs and reserves a separate
+project name. The pilot starts its own database volume; the setup database and
+credentials are preserved.
+Keep the checkout, settings, images and power conditions unchanged through step 6:
+do not pull, rebuild, commit, switch revisions or edit tracked files between stages.
+
+### 5. Run the pilot and inspect your first result
+
+Replace the power label with your actual settings; use the same description for full mode:
 
 ```powershell
 python scripts/run_openflights.py --pilot --session "results/<session>/session.json" --power-condition "plugged in; battery saver off"
 ```
 
-Expect five engine trials and a summary marked **PILOT**. Every loaded row and query
-answer is checked. The saved container path `/results/<run-id>` maps to
-`results/<run-id>` in your checkout. Open `summary.md`; retain `results.json` for the
-raw samples, checksums, query plans and runtime/settings metadata. One pilot round cannot
-estimate variability. Investigate partial/failed output before proceeding.
-The command can be quiet while it captures worker output. See the guide's
-[pilot inspection steps](docs/openflights-reproduction.md#pilot-inspect-then-full)
-for live read-only inspection, exact success markers and finding the raw run ID.
+The launcher captures worker output, so it may be quiet until the worker exits.
+Do not relaunch because output pauses. Success ends with
+**`Pilot passed. Review its raw results/summary before invoking --full.`**
+Inspect the same session file:
 
-After reviewing the pilot:
+```powershell
+python -m json.tool "results/<session>/session.json"
+```
+
+Check `status` is `pilot_completed` and `stages.pilot.status` is `completed`.
+The field `stages.pilot.result.run_id` gives your `<pilot-run-id>`. Open
+`results/<pilot-run-id>/summary.md` and `results/<pilot-run-id>/results.json`.
+The summary must say **PILOT**; the JSON must have `status: "completed"` and five
+trials, one per engine. Every row and query answer is checked. Keep the raw JSON
+with its query plans, checksums and runtime/settings metadata. One pilot round
+cannot estimate variability. Investigate failed/partial output before continuing.
+
+### 6. Run full, stop cleanly and save the evidence
+
+After reviewing the pilot, use the original **session path**, not the raw-run folder:
 
 ```powershell
 python scripts/run_openflights.py --full --session "results/<session>/session.json" --power-condition "plugged in; battery saver off"
 ```
 
-This runs 25 trials, placing each engine once in each position over five rounds.
-Timings on another machine need not be identical. Compare the conditions and variation,
-and keep pilot observations separate from full-run statistics.
-
-The session records image identities, controls and the run IDs of the unchanged raw
-benchmark folders. Keep the session in this checkout's `results/` until finished.
-Do not rebuild, pull, commit, switch revisions or edit tracked files/settings between stages.
-When finished, `python scripts/run_openflights.py --stop --session "results/<session>/session.json"`
-stops only the session's verified database and retains its volume. Then save a portable
-backup of the completed pilot/full evidence:
+Expect **`Full run passed. Use --stop with this session to retain its database volume.`**
+The session's `stages.full.result.run_id` locates the separate full-run summary and
+raw JSON: 25 trials, five balanced rounds, mean ± sample SD of trial means.
+Keep pilots and hosts separate; timings on another machine need not be identical.
 
 ```powershell
+python scripts/run_openflights.py --stop --session "results/<session>/session.json"
 python scripts/archive_openflights.py --session "results/<session>/session.json" --output "openflights-evidence.zip"
+python -m zipfile -e "openflights-evidence.zip" "../openflights-evidence-check"
+python "../openflights-evidence-check/verify.py"
 ```
 
-`results/` is ignored by Git; new measurements stay local until you copy or archive
-them. The ZIP keeps both raw runs and session records together, excludes `.env` and
-leaves the originals intact. It is not uploaded or committed automatically. See the
-[guide](docs/openflights-reproduction.md) for offline verification, failure inspection
-and the separate correctness-only smoke.
+Run each command separately and stop on errors. Choose new ZIP/extraction names if
+those paths already exist. Expect `Saved evidence ZIP:` and **`BUNDLE CHECKSUMS PASS`**.
+Stopping retains the database volume. The ZIP excludes `.env` and includes both raw
+runs, session/build records, checksums and an offline verifier. Verification checks
+byte integrity; it does not rerun SQL or establish authenticity.
+Copy the ZIP somewhere durable: `results/` is ignored by Git and neither the ZIP
+nor new measurements are uploaded automatically. The
+[detailed launcher guide](docs/openflights-reproduction.md) covers diagnostics,
+controls and the separate correctness-only smoke.
 
 **Worked interpretation:** MEMORY loaded the archived route table in 0.6906 ± 0.0410 s,
 versus InnoDB's 1.1840 ± 0.0383 s. That advantage can help a rebuildable cache.

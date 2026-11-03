@@ -1,5 +1,9 @@
 # Reproduce OpenFlights with recorded image identities
 
+New readers can follow the [numbered README path](../README.md#start-here) for
+platform selection, setup, pilot inspection and a verified export in one place.
+This page explains the launcher's controls and diagnostic details.
+
 Use this host-side launcher for new pilot/full measurements after completing
 [setup and the platform prerequisites](setup.md). It keeps the benchmark's dataset,
 SQL, timing boundaries and default workload unchanged while recording which images

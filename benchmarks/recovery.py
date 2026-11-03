@@ -79,8 +79,9 @@ def prepare(engine, count, seed, receipt):
             ddl = cursor.fetchone()[1]
             metadata = {}
             names = VARIABLES | {'myisam_recover_options', 'innodb_fast_shutdown', 'innodb_doublewrite'}
-            for scope in ('GLOBAL', 'SESSION'):
-                cursor.execute('SHOW '+scope+' VARIABLES')
+            for scope, statement in (('GLOBAL', 'SHOW GLOBAL VARIABLES'),
+                                     ('SESSION', 'SHOW SESSION VARIABLES')):
+                cursor.execute(statement)
                 metadata[scope.lower()+'_variables'] = {k:v for k,v in cursor.fetchall() if k.lower() in names}
             result = dict(engine=engine, rows=count, seed=seed, server_version=version,
                 actual_ddl=ddl, expected_dataset_sha256=dataset_digest(rows),
