@@ -17,11 +17,22 @@ from .run import LOCK_NAME, ROOT, measure, runtime_metadata, save_json, source_f
 
 TABLE = 'openflights_routes'
 COLUMNS = 'route_row_id, airline, airline_id, source_code, source_id, destination_code, destination_id, codeshare, stops, equipment'
-INSERT = f'INSERT INTO {TABLE} ({COLUMNS}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
-SELECT_ALL = f'SELECT {COLUMNS} FROM {TABLE} ORDER BY route_row_id'
-POINT = f'SELECT {COLUMNS} FROM {TABLE} WHERE route_row_id = %s'
-SCAN = f'SELECT COUNT(*), COALESCE(SUM(stops),0), COALESCE(SUM(CHAR_LENGTH(equipment)),0) FROM {TABLE}'
-SOURCE = f'SELECT COUNT(*), COALESCE(SUM(stops),0) FROM {TABLE} WHERE source_id = %s'
+# Fixed identifiers are written literally; every runtime value stays driver-bound.
+INSERT = ('INSERT INTO openflights_routes (route_row_id, airline, airline_id, source_code, '
+          'source_id, destination_code, destination_id, codeshare, stops, equipment) '
+          'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)')
+SELECT_ALL = ('SELECT route_row_id, airline, airline_id, source_code, source_id, destination_code, '
+              'destination_id, codeshare, stops, equipment FROM openflights_routes ORDER BY route_row_id')
+POINT = ('SELECT route_row_id, airline, airline_id, source_code, source_id, destination_code, '
+         'destination_id, codeshare, stops, equipment FROM openflights_routes WHERE route_row_id = %s')
+SCAN = ('SELECT COUNT(*), COALESCE(SUM(stops),0), COALESCE(SUM(CHAR_LENGTH(equipment)),0) '
+        'FROM openflights_routes')
+SOURCE = 'SELECT COUNT(*), COALESCE(SUM(stops),0) FROM openflights_routes WHERE source_id = %s'
+EXPLAIN_POINT = ('EXPLAIN SELECT route_row_id, airline, airline_id, source_code, source_id, destination_code, '
+                 'destination_id, codeshare, stops, equipment FROM openflights_routes WHERE route_row_id = %s')
+EXPLAIN_SCAN = ('EXPLAIN SELECT COUNT(*), COALESCE(SUM(stops),0), COALESCE(SUM(CHAR_LENGTH(equipment)),0) '
+                'FROM openflights_routes')
+EXPLAIN_SOURCE = 'EXPLAIN SELECT COUNT(*), COALESCE(SUM(stops),0) FROM openflights_routes WHERE source_id = %s'
 
 
 @dataclass(frozen=True)
@@ -101,12 +112,12 @@ def trial(connection, engine, config, rows, round_index, scan, sources):
         actual = cursor.fetchone()
         if actual is None or actual[0].lower() != engine.lower():
             raise RuntimeError('Engine substitution detected')
-        cursor.execute(f'SHOW CREATE TABLE {TABLE}'); actual_ddl = cursor.fetchone()[1]
+        cursor.execute('SHOW CREATE TABLE openflights_routes'); actual_ddl = cursor.fetchone()[1]
         started = time.perf_counter_ns()
         for offset in range(0, len(rows), config.batch_size):
             cursor.executemany(INSERT, rows[offset:offset + config.batch_size])
         load_seconds = (time.perf_counter_ns() - started) / 1e9
-        cursor.execute(f'ANALYZE TABLE {TABLE}'); analyze = cursor.fetchall()
+        cursor.execute('ANALYZE TABLE openflights_routes'); analyze = cursor.fetchall()
         if any(str(r[2]).lower() == 'error' for r in analyze):
             raise RuntimeError('ANALYZE TABLE failed: ' + str(analyze))
         digest = verify_rows(cursor, rows)
@@ -122,14 +133,14 @@ def trial(connection, engine, config, rows, round_index, scan, sources):
             scan_ms=[measure(cursor, SCAN, None, scan) for _ in range(config.scans)],
             source_ms=[measure(cursor, SOURCE, (key,), sources[key]) for key in source_ids])
         plans = {}
-        for label, statement, params in [('point', POINT, (keys[0],)), ('scan', SCAN, None),
-                                          ('source', SOURCE, (source_ids[0],))]:
-            cursor.execute('EXPLAIN ' + statement, params); plans[label] = cursor.fetchall()
+        for label, statement, params in [('point', EXPLAIN_POINT, (keys[0],)), ('scan', EXPLAIN_SCAN, None),
+                                          ('source', EXPLAIN_SOURCE, (source_ids[0],))]:
+            cursor.execute(statement, params); plans[label] = cursor.fetchall()
         item = dict(engine=engine, round=round_index + 1, load_seconds=load_seconds,
             verified_rows=len(rows), verified_dataset_sha256=digest, actual_ddl=actual_ddl,
             analyze_messages=analyze, explain=plans, lookup_ids=keys, source_ids=source_ids,
             source_result_counts=[sources[k][0] for k in source_ids], **timings)
-        cursor.execute(f'DROP TABLE {TABLE}')  # Only the successfully created and verified trial table.
+        cursor.execute('DROP TABLE openflights_routes')  # Only the successfully created and verified trial table.
         return item
 
 

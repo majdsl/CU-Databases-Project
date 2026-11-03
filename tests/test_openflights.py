@@ -25,6 +25,7 @@ class Cursor:
 
     def execute(self, sql, params=None):
         c = self.connection; c.statements.append(sql); self.answer = []
+        c.bound_calls.append((sql, params))
         if sql.startswith('SELECT GET_LOCK'): self.answer = [(1,)]
         elif sql == 'SELECT VERSION()': self.answer = [('11.8.9-MariaDB',)]
         elif sql == 'SHOW ENGINES': self.answer = [(e, 'YES') for e in ENGINES]
@@ -46,6 +47,7 @@ class Cursor:
 
     def executemany(self, sql, rows):
         if self.connection.insert_error: raise RuntimeError('insert failed')
+        self.connection.batch_calls.append((sql, tuple(rows)))
         self.connection.rows.extend(rows)
 
     def fetchone(self): return self.answer.pop(0) if self.answer else None
@@ -58,6 +60,7 @@ class Connection:
     def __init__(self, exists=False, substitution=None, corrupt=False, insert_error=False):
         self.exists = exists; self.substitution = substitution; self.corrupt = corrupt
         self.insert_error = insert_error; self.statements = []; self.rows = []; self.drops = 0
+        self.bound_calls = []; self.batch_calls = []
     def cursor(self): return Cursor(self)
     def __enter__(self): return self
     def __exit__(self, *args): return False
@@ -142,6 +145,34 @@ class OpenFlightsTests(unittest.TestCase):
         connection = Connection(exists=True)
         with self.assertRaises(RuntimeError): self.perform_trial(connection)
         self.assertEqual(len(connection.statements), 1); self.assertEqual(connection.drops, 0)
+
+    def test_route_values_stay_bound_through_batches_reads_and_plans(self):
+        # Quotes and SQL-looking text must be data, including across batch boundaries.
+        marker = "x'); DROP TABLE openflights_routes; --"
+        rows = [tuple(list(row[:9]) + [marker]) for row in self.rows]
+        config = bench.Config(pilot=True, lookups=10, scans=2, source_queries=10, batch_size=2)
+        for engine in ENGINES:
+            with self.subTest(engine=engine):
+                connection = Connection()
+                result = bench.trial(connection, engine, config, rows, 0, *bench.oracles(rows))
+                self.assertEqual(result['verified_dataset_sha256'], dataset_digest(rows))
+                self.assertEqual([len(batch) for _, batch in connection.batch_calls], [2, 1])
+                self.assertEqual([row for _, batch in connection.batch_calls for row in batch], rows)
+                for statement, batch in connection.batch_calls:
+                    self.assertNotIn(marker, statement)
+                    self.assertEqual(statement.count('%s'), len(batch[0]))
+                for statement, params in connection.bound_calls:
+                    self.assertNotIn(marker, statement)
+                    if params is not None:
+                        self.assertEqual(statement.count('%s'), len(params))
+                point_values = [params[0] for sql, params in connection.bound_calls if sql == bench.POINT]
+                self.assertEqual(point_values, result['lookup_ids'][:50] + result['lookup_ids'])
+                source_values = [params[0] for sql, params in connection.bound_calls if sql == bench.SOURCE]
+                self.assertEqual(source_values, result['source_ids'][:20] + result['source_ids'])
+                self.assertEqual([(sql, params) for sql, params in connection.bound_calls if sql.startswith('EXPLAIN ')],
+                    [('EXPLAIN ' + bench.POINT, (result['lookup_ids'][0],)),
+                     ('EXPLAIN ' + bench.SCAN, None),
+                     ('EXPLAIN ' + bench.SOURCE, (result['source_ids'][0],))])
 
     def test_substitution_and_failed_writes_preserve_trial_table(self):
         for connection in [Connection(substitution='Aria'), Connection(insert_error=True), Connection(corrupt=True)]:

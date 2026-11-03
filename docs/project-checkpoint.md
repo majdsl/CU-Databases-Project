@@ -1,4 +1,40 @@
-# Project checkpoint — November 1, 2026
+# Project checkpoint — November 3, 2026
+
+## Review corrections
+
+This follow-up starts from `main` at `c1190ac0b34445f7ea379de8edaaf6e2d8bcc4ea`,
+which includes the root MIT license. It addresses three concrete findings from the
+[supplied practice review of `d81e17bd`](https://github.com/majdsl/CU-Databases-Project/blob/463d368bd4a135841cc8421eb19beb8756bf1765/practice-evaluation/20261101-d81e17bd/assessment.txt):
+
+- OpenFlights and synthetic benchmark statements use literal fixed identifiers,
+  with runtime values still bound through the driver. Recovery metadata uses two
+  literal SHOW statements. No SQL-injection vulnerability was identified in the
+  prior fixed-identifier construction. Workloads and timer placement are preserved.
+- The [README quick start](../README.md#start-here) puts platform choice, Linux
+  output access, setup, pilot inspection and full/stop/export/verification in one
+  numbered path. The four-engine stock alternative is explicitly separate.
+- The [current reporting guide](report-reproducibility.md) puts the safe eight-report
+  check first and retains the older validation records in a
+  [dated history](report-reproducibility-history.md). The concurrency method now
+  links the completed storage and CPU/lock diagnostic studies.
+
+The compression reporter checks the three changed historical benchmark files
+against identical, already archived source bytes and pins their normalized hashes.
+It rejects missing/altered frozen files and changed recorded fingerprints. No raw
+measurement, historical source snapshot, derived finding, figure, team credit or
+license is rewritten. New regression cases check parameter binding and these
+historical-source failure modes. The matching commit's GitHub Checks record CI
+validation; correctness checks are distinct from performance measurements.
+
+The latest supplied practice score remains **37/40 for `d81e17bd`**. These changes
+have no new independent score and do not guarantee one. Zane's and Hassan's new
+physical-host evidence remains separate work: preserve and verify each original
+ZIP before integrating its findings or extending contribution records. Further
+engine experiments are optional; they are not substitutes for these corrections.
+
+## Archived checkpoint — November 1, 2026
+
+The following record describes the November 1 implementation and validation state.
 
 **Implementation, validation and evidence publication are complete.**
 [PR #15](https://github.com/majdsl/CU-Databases-Project/pull/15) merged into `main`

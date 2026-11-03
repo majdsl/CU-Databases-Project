@@ -18,10 +18,16 @@ from .report import markdown
 ROOT = Path(__file__).resolve().parents[1]
 COLUMNS = "event_id, route_id, departure_epoch, delay_minutes, fare_cents, passengers, payload"
 # SQL is fixed or read from reviewed per-engine files. Data is always parameterized.
-SELECT_ALL = "SELECT " + COLUMNS + " FROM benchmark_events ORDER BY event_id"
-POINT = "SELECT " + COLUMNS + " FROM benchmark_events WHERE event_id = %s"
-INSERT = "INSERT INTO benchmark_events (" + COLUMNS + ") VALUES (%s,%s,%s,%s,%s,%s,%s)"
+SELECT_ALL = ("SELECT event_id, route_id, departure_epoch, delay_minutes, fare_cents, passengers, payload "
+              "FROM benchmark_events ORDER BY event_id")
+POINT = ("SELECT event_id, route_id, departure_epoch, delay_minutes, fare_cents, passengers, payload "
+         "FROM benchmark_events WHERE event_id = %s")
+INSERT = ("INSERT INTO benchmark_events (event_id, route_id, departure_epoch, delay_minutes, fare_cents, "
+          "passengers, payload) VALUES (%s,%s,%s,%s,%s,%s,%s)")
 SCAN = "SELECT COUNT(*), SUM(delay_minutes), SUM(fare_cents * passengers) FROM benchmark_events"
+EXPLAIN_POINT = ("EXPLAIN SELECT event_id, route_id, departure_epoch, delay_minutes, fare_cents, passengers, payload "
+                 "FROM benchmark_events WHERE event_id = %s")
+EXPLAIN_SCAN = "EXPLAIN SELECT COUNT(*), SUM(delay_minutes), SUM(fare_cents * passengers) FROM benchmark_events"
 LOCK_NAME = "cu_engine_lab_baseline"
 VARIABLES = {
     "version", "version_comment", "version_compile_machine", "version_compile_os",
@@ -124,9 +130,9 @@ def trial(connection, engine, config, rows, round_number):
             measure(cursor, SCAN, None, aggregate)
             lookups = [measure(cursor, POINT, (key,), rows[key - 1]) for key in keys]
             scans = [measure(cursor, SCAN, None, aggregate) for _ in range(config.scans)]
-            cursor.execute("EXPLAIN " + POINT, (keys[0],))
+            cursor.execute(EXPLAIN_POINT, (keys[0],))
             point_plan = cursor.fetchall()
-            cursor.execute("EXPLAIN " + SCAN)
+            cursor.execute(EXPLAIN_SCAN)
             scan_plan = cursor.fetchall()
             cursor.execute("SHOW TABLE STATUS WHERE Name = 'benchmark_events'")
             table_status = dict(zip([col[0] for col in cursor.description], cursor.fetchone()))
