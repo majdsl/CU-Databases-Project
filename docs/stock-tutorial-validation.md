@@ -1,5 +1,9 @@
 # Stock-MariaDB tutorial: platform validation
 
+For the command, expected success marker and first result, start with the
+[README quick start](../README.md#start-here). This page records platform evidence
+and explains how to inspect or troubleshoot that same stock-image path.
+
 **Validated October 27, 2026:** the four-engine stock-image tutorial passed on
 native Linux amd64 and ARM64 GitHub runners, and from Windows PowerShell with
 Docker Desktop's WSL2 Linux amd64 engine. It uses the official MariaDB 11.8.9
@@ -44,12 +48,41 @@ is needed. From the repository root:
 python scripts/check_stock_tutorial.py
 ```
 
-On Linux use `python3`. The script uses an unused random project name, creates its
+On Linux/macOS use `python3`. The script uses an unused random project name, creates its
 own credentials in memory and starts a fresh database. Success ends with
 `STOCK TUTORIAL PASS: amd64` or `STOCK TUTORIAL PASS: arm64` and the saved output path.
 Inspect `validation.json`, `commands.json` and `transcript.txt` in that directory.
 For a manual record, preserve `git rev-parse HEAD` alongside the source hashes;
 the `commit` field is supplied automatically in GitHub Actions.
+
+## Read the first result
+
+`STOCK TUTORIAL PASS` means all SQL and lifecycle checks completed. Open the printed
+output directory's `transcript.txt` for command records, SQL output and the final PASS.
+In `validation.json`, check `status: "passed"`; `sequences[0]` records the four
+engines, generated row count, index access, verified writes and transaction checks.
+The `commands.json` file retains command outcomes with credentials redacted.
+Keep all three files together if reporting an issue or handing off evidence.
+
+The driver removes its owned database container and volume after the check, so
+the saved transcript is the first result to read. For hands-on SQL afterwards,
+use the [interactive Path B setup](tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines).
+
+## If the command stops
+
+| Symptom | Next step |
+| --- | --- |
+| Cannot connect to Docker | Start Docker, confirm `docker info` succeeds, then use Linux containers |
+| Image download or disk-space failure | Inspect Docker's image storage and host/VM capacity; [disk diagnostics](setup.md#disk-capacity) explain their different limits |
+| SQL bind mount cannot be read | Check Docker's access to this checkout and the reported mount error |
+| SQL or validation error | Preserve the new `results/...-cu-stock-.../` directory if created; inspect its transcript and failed validation before trying again |
+
+The stock driver uses host Python to save its output; the runner UID 10001 ACL
+prerequisite belongs to the separate five-engine lab. The stock database has a
+1 GiB memory limit, with additional Docker/image overhead. Its automatic cleanup
+is scoped to the resources it created; do not use system-wide volume pruning to
+fix a tutorial error. Native macOS interaction remains unverified by the archived
+platform records, even though Linux ARM64 correctness is checked in CI.
 
 ## What the check establishes
 

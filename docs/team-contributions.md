@@ -1,4 +1,4 @@
-# Team and contributions
+# Digital Crew: team and contributions
 
 Constructor University database course, Fall 2026. The project combines benchmark
 engineering, experimental execution, independent report checks, technical review

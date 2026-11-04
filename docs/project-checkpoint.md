@@ -1,4 +1,37 @@
-# Project checkpoint — November 3, 2026
+# Project checkpoint — November 4, 2026
+
+## Stock tutorial first and a concise findings article
+
+The follow-up starts from `main` at `7e7a975a8fda11516fe3e5d450483bd6b69c8c0a`.
+The owner confirmed the team name **Digital Crew** and supplied Robert Silén's
+interim evaluation row, dated November 3: documentation 10, MariaDB depth 10,
+execution 10 and usability 9 (**39/40**). The exact assessed commit was not supplied;
+the note says the November 3 merge may postdate the evaluated clone. The older
+37/40 practice review remains a separate historical assessment below.
+
+The explicit usability concern was the heavy first-run path. This change makes
+the stock four-engine check the [README's first runnable example](../README.md#start-here),
+puts the full setup/pilot/full/export path in the existing
+[advanced guide](openflights-reproduction.md), and presents Path B first in the
+[interactive tutorial](tutorial.md). The complete approved team contribution
+sections and license are retained. The source repository URL is unchanged.
+
+The suggested [short article](three-engine-lessons.md) explains the MEMORY index,
+two-profile MyRocks compression and Aria lock-counter findings using the existing
+measurements and figures. It distinguishes logical requests, mapped SST bytes
+and wait events from physical I/O, whole-datadir size and blocked time. No new
+performance observation or evaluation score is claimed for these edits.
+
+Zane's and Hassan's additional reproduction files are still pending. Preserve
+and validate each original ZIP, integrate verified findings and contribution
+updates, then obtain the next evaluation of the resulting pinned revision.
+The current commit's GitHub Checks record correctness validation separately from
+these historical measurements. The shared-cloud and physical-host boundaries
+remain in the linked methods and findings.
+
+## Archived checkpoint — November 3, 2026
+
+The following record describes the earlier SQL and reporting follow-up.
 
 ## Review corrections
 

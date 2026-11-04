@@ -1,8 +1,8 @@
 # Setup and troubleshooting
 
-For one numbered path from platform selection through the first verified result,
-start with the [README quick start](../README.md#start-here). This page provides
-the detailed prerequisites, manual equivalents and failure diagnostics.
+For the first working example, start with the [README stock-tutorial quick start](../README.md#start-here).
+For the full lab, follow [five-engine setup through verified export](openflights-reproduction.md).
+This page provides detailed prerequisites, manual equivalents and failure diagnostics.
 
 The repository targets MariaDB 11.8.9, Docker Linux containers and linux/amd64.
 Windows PowerShell and Ubuntu amd64 are the primary paths for the five-engine build.
