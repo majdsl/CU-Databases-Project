@@ -1,13 +1,58 @@
-# Reproduce OpenFlights with recorded image identities
+# Five-engine setup and repeated OpenFlights measurement
 
-New readers can follow the [numbered README path](../README.md#start-here) for
-platform selection, setup, pilot inspection and a verified export in one place.
-This page explains the launcher's controls and diagnostic details.
+This is the complete Linux amd64 path from checkout to a verified evidence ZIP.
+For a simpler first result, use the [four-engine stock tutorial](../README.md#start-here).
+The full lab adds MyRocks and repeated performance measurements; the stock tutorial
+checks correctness and does not establish a timing ranking.
 
-Use this host-side launcher for new pilot/full measurements after completing
-[setup and the platform prerequisites](setup.md). It keeps the benchmark's dataset,
-SQL, timing boundaries and default workload unchanged while recording which images
-and controls actually executed it. Use `python3` instead of `python` on Linux.
+## Set up the five-engine lab
+
+Install Git, Python 3.9+ and Docker with Compose; start Docker and verify that
+`docker info` succeeds. Windows Docker Desktop must use Linux containers.
+The custom MyRocks image is validated for **Linux amd64**, not ARM emulation.
+DB/runner limits are 2 GiB/512 MiB; allow additional memory for Docker and builds.
+Check [actual Docker disk capacity](setup.md#disk-capacity) before building.
+
+For a new checkout, run each command separately:
+
+```powershell
+git clone --branch main https://github.com/majdsl/CU-Databases-Project.git
+cd CU-Databases-Project
+```
+
+For an existing checkout, save your edits and update before starting a session.
+Run every following command from the repository root; use `python3` instead of
+`python` on Linux.
+
+**Native Linux only:** grant runner UID 10001 access to its output directory first:
+
+```bash
+mkdir -p results
+setfacl -m u:10001:rwx results
+```
+
+If `setfacl` is missing, install `acl` using the
+[scoped output-access instructions](setup.md#native-linux-output-prerequisite).
+Windows Docker Desktop does not use these POSIX ACL commands. Rootless Docker,
+user remapping and SELinux can need administrator-specific configuration; the
+container write probe remains authoritative.
+
+```powershell
+python scripts/setup_project.py
+```
+
+Success requires the unit suite's `OK`, five engine PASS lines and **`SETUP PASS`**.
+The wrapper preserves or creates private `.env` credentials, fetches the verified
+routes dataset, builds images and checks output writes. Keep `.env` private and
+unchanged for an existing volume. Setup preserves volumes and can recreate this
+lab's container, so run it outside active measurements. A second clone shares the
+normal Compose project name; it is not automatically isolated.
+Use [setup diagnostics](setup.md#common-failures-and-safe-stopping) if any step fails.
+
+## Measurement controls
+
+The host-side launcher keeps the benchmark's dataset, SQL, timer boundaries and
+default workload unchanged while recording the images and controls that executed it.
 
 The [complete November 1 validation](../evidence/reproductions/20261101-ci-openflights-session/README.md)
 retains real five-trial pilot/25-trial full results, clean shutdown, build records,

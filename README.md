@@ -1,11 +1,43 @@
 A project for area 6, "Choosing the right storage engine" for the [MariaDB student database projects, 2026-09](https://mariadb.org/bachelor_hackathon_2026-09/).
 
-# CU Databases Project: choosing a storage engine
+# Digital Crew: choosing a MariaDB storage engine
 
-We use Python and MariaDB 11.8.9 to compare **InnoDB, Aria, MyISAM, MEMORY and MyRocks**
-(SQL engine name `ROCKSDB`). The project measures load/read performance, concurrent
-updates, storage allocation and acknowledged-row survival after process restarts.
-The runnable code, raw evidence and reports are on `main`.
+We compare InnoDB, Aria, MyISAM, MEMORY and MyRocks on MariaDB 11.8.9.
+Start with a four-engine SQL demonstration; explore the repeated five-engine
+measurements when you want the full experimental workflow.
+
+## Start here
+
+Install **Git, Python 3.9+ and Docker**, then start Docker with Linux containers
+(amd64 or ARM64). From a terminal, run each line separately:
+
+```powershell
+git clone --branch main https://github.com/majdsl/CU-Databases-Project.git
+cd CU-Databases-Project
+python scripts/check_stock_tutorial.py
+```
+
+On Linux/macOS, use `python3` instead of `python`. Already cloned? Run the last
+command from your checkout. Expect **`STOCK TUTORIAL PASS: amd64`** or **`arm64`**,
+then `Saved: ...`. Open that directory's **`transcript.txt`** to read the SQL
+observations; `validation.json` records the checked results and source hashes.
+
+**What you will see:** all four tables start with 50,000 rows. After a server
+restart, MEMORY is empty while InnoDB, Aria and MyISAM retain their rows.
+
+This **Path B** uses a pinned official image and a disposable database. It checks
+indexes, concurrent updates, rollback, restart persistence and cleanup on InnoDB,
+Aria, MyISAM and MEMORY. The server has a 1 GiB memory limit; allow extra room for
+Docker and image downloads. The command needs internet access on first use.
+It uses host Python's standard library; the custom MyRocks build is a later path.
+The temporary database is cleaned up while the transcript is retained.
+
+Follow the [interactive SQL walkthrough](docs/tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines)
+to try the statements yourself, or read the [three measured lessons](docs/three-engine-lessons.md)
+without installing anything. [Platform evidence and troubleshooting](docs/stock-tutorial-validation.md)
+cover the tested Linux amd64/ARM64 and Windows Docker Desktop paths; a physical
+macOS walkthrough is still pending. Tutorial checks demonstrate correctness;
+performance conclusions use the separate repeated measurements below.
 
 ## Which engine, and what does it cost?
 
@@ -24,209 +56,30 @@ restart effects, and is not bytes per route. MEMORY's separate live allocation w
 acknowledged rows in each tested clean/forced restart; this does not prove power-loss
 durability or transactional equivalence.
 
+![Five repeated OpenFlights load trials per engine](docs/figures/openflights-load.png)
+
 ### Why the results differ
 
-| Engine / mechanism | What our evidence shows | Interpretation boundary |
-| --- | --- | --- |
-| **InnoDB:** clustered B-tree pages, transactional logging and a buffer pool | Largest small-table datadir growth here; tables exceeding the fixed pool generated read activity | Page/log allocation and cache capacity matter; we did not isolate the cost of each durability feature. |
-| **Aria:** table-level writes and crash-safe PAGE/log options | Concurrent writers waited even on different rows, with little gain from two to four clients | Lock counters support observed contention; read timings do not isolate its page-cache design. |
-| **MyISAM:** separate data/index storage, table locks and no transactions | Fast persistent-engine loading here; table waits and forced-restart warnings were recorded | Loading speed does not supply transactional safety or eliminate a recovery/repair burden. |
-| **MEMORY:** RAM-resident rows with HASH or BTREE indexes | Rows vanished on restart; HASH range queries scanned while BTREE used range access | Volatility and index access were demonstrated; all flight-read engines were warm, so fast reads alone do not isolate disk avoidance. |
-| **MyRocks:** LSM organization, compression and compaction | Separate codec trials reduced repetitive table SST bytes by 95.15% with ZSTD, but high-entropy bytes by only 0.44% | Payload compressibility matters. This flush-only result does not isolate the cause of the earlier flight timings or measure steady-state compaction. |
+- **MEMORY:** HASH range queries scanned the table; BTREE used range access.
+  The 100,000-row ten-row range took 13.52 times as long with HASH; both tables remain volatile.
+- **MyRocks:** ZSTD cut repetitive table SST bytes by 95.15%, versus 0.44% for
+  high-entropy values. These are flush-only file measurements, not a steady-state compaction result.
+- **Aria:** table-lock waits appeared even for disjoint-row writers; the counters
+  establish contention without assigning a share of runtime to waiting.
 
-The [index](docs/memory-index-findings.md), [cache-pressure](docs/cache-pressure-findings.md),
-[compression](docs/rocksdb-compression-findings.md) and [lock-counter](docs/write-diagnostics-findings.md) experiments test specific
-mechanisms. The [cache/durability inventory](docs/cache-and-durability.md) explains
-why matching configured cache sizes does not equalize total memory or guarantees.
-
-**Image provenance:** the cache-pressure, write-diagnostic and compression orchestrators rebuild
-at the start of each invocation, so pilot and full runs selected separately built
-images. Their recorded source/settings/runtime matched, but image IDs differed.
-The archived records do not identify which image bytes or metadata changed; pilot
-and full statistics stay separate. See the [recorded identities and limits](docs/image-provenance.md).
-
-See the [decision guide](docs/engine-recommendations.md) for requirements, mechanisms
-and evidence. There is no universal winner. In the [CPU diagnostic](docs/cpu-findings.md),
-changing the load generator's quota substantially changed throughput, demonstrating
-why client limits must be checked before judging engine scaling.
-
-The [October 30 cloud Linux reproduction](docs/openflights-linux-reproduction.md)
-passed fresh five-engine setup and OpenFlights pilot/full runs. Its raw evidence and
-per-engine comparison are archived separately from the laptop measurements above;
-shared cloud timings do not establish a Linux-versus-Windows effect. Zane's independent
-physical-laptop reproduction remains pending.
-
-A separate [MEMORY index experiment](docs/memory-index-findings.md) changes only HASH
-versus BTREE: at 100,000 rows, the 10-row range took 13.52 times as long with HASH.
-Plans and counters showed a table scan versus index-range access; equality means
-were similar. This is a scoped mechanism result, not a new five-engine ranking.
-
-![OpenFlights load measurements: individual trials and sample SD](docs/figures/openflights-load.png)
-
-## Start here
-
-To explore without installing anything, read the [full OpenFlights summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
-and [findings](docs/openflights-findings.md), then the [decision guide](docs/engine-recommendations.md).
-
-### 1. Choose the path for your Docker engine
-
-| Path | Platform | First successful result |
-| --- | --- | --- |
-| Five-engine lab: steps 2–6 below | Linux **amd64** containers; Windows Docker Desktop or native Linux | Verified OpenFlights pilot, then a repeated full comparison |
-| Four-engine stock tutorial: step 2 below | Linux **amd64 or ARM64** containers, including Docker Desktop | SQL correctness transcript for InnoDB, Aria, MyISAM and MEMORY; no MyRocks or performance ranking |
-
-Install **Git, Python 3.9+ and Docker with Compose**, start Docker, and ensure
-`docker info` succeeds. Windows Docker Desktop must use Linux containers.
-The custom five-engine image has not been validated on ARM; emulation is not a
-validated performance path. The stock path has native Linux amd64/ARM64 and
-Windows Docker Desktop [correctness evidence](docs/stock-tutorial-validation.md);
-an interactive macOS walkthrough remains unverified.
-
-Commands below run from the repository root. They use `python` in Windows
-PowerShell; **use `python3` on Linux/macOS**. Initial setup needs internet access.
-For the five-engine lab, allow memory beyond the DB/runner limits of 2 GiB/512 MiB
-and check [Docker's actual disk capacity](docs/setup.md#disk-capacity) before building.
-
-### 2. Get the code
-
-For a new checkout, run:
-
-```powershell
-git clone --branch main https://github.com/majdsl/CU-Databases-Project.git
-cd CU-Databases-Project
-```
-
-For an existing checkout, save your edits and run `git pull --ff-only` before
-starting a new measurement session.
-
-**Four-engine stock path:** run the following command now, then open the printed
-output directory's `transcript.txt` and `validation.json`:
-
-```powershell
-python scripts/check_stock_tutorial.py
-```
-
-Expect **`STOCK TUTORIAL PASS`** and `Saved: ...` under `results/`. The driver creates
-and removes its own disposable database and retains the transcript. This completes
-the automated stock path; steps 3–6 are for the five-engine lab.
-For interactive SQL and worked explanations, follow the [hands-on tutorial](docs/tutorial.md).
-It covers indexes, locking, restart persistence and transaction rollback.
-
-### 3. Set up the five-engine lab
-
-**Native Linux only:** prepare the output directory for runner UID 10001 before setup:
-
-```bash
-mkdir -p results
-setfacl -m u:10001:rwx results
-```
-
-If `setfacl` is missing, install the `acl` package using the
-[native Linux instructions](docs/setup.md#native-linux-output-prerequisite).
-Windows Docker Desktop does not need these POSIX ACL commands.
-Rootless/user-remapped Docker and SELinux may need administrator-specific configuration;
-the container write probe is the final check.
-
-After those prerequisites, setup is one command:
-
-```powershell
-python scripts/setup_project.py
-```
-
-Expect the unit suite to finish with `OK`, five actual engine `PASS` lines, and
-**`SETUP PASS`**. The wrapper creates or preserves private credentials, verifies the
-dataset, builds images and checks output access. Stop on errors; use the
-[setup troubleshooting table](docs/setup.md#common-failures-and-safe-stopping).
-Setup runs no benchmark and never deletes volumes. It can recreate this lab's
-container, so do not run it during active measurements.
-Keep `.env` private and unchanged for an existing database. A second clone shares
-the normal Compose project name; it is not automatically an isolated database.
+The [short article](docs/three-engine-lessons.md) explains the controls and practical
+implications. The [decision guide](docs/engine-recommendations.md) covers
+all five engines, with [cache/durability budgets](docs/cache-and-durability.md)
+and [image-provenance limits](docs/image-provenance.md) kept explicit.
 
 ## Run one comparison and read the result
 
-### 4. Prepare an isolated measurement session
-
-Setup leaves its database running. Stop it if it is your lab and nobody else is using it:
-
-```powershell
-docker compose stop db
-```
-
-If setup used `--project-name <name>`, use `docker compose -p <name> stop db` instead.
-This retains its volume. Arrange a quiet measurement period, then prepare once:
-
-```powershell
-python scripts/run_openflights.py --prepare
-```
-
-Expect `Prepared immutable images. Session: .../session.json`. Copy that **exact
-printed path** into each command below instead of `results/<session>/session.json`.
-Preparation builds once, records both actual image IDs and reserves a separate
-project name. The pilot starts its own database volume; the setup database and
-credentials are preserved.
-Keep the checkout, settings, images and power conditions unchanged through step 6:
-do not pull, rebuild, commit, switch revisions or edit tracked files between stages.
-
-### 5. Run the pilot and inspect your first result
-
-Replace the power label with your actual settings; use the same description for full mode:
-
-```powershell
-python scripts/run_openflights.py --pilot --session "results/<session>/session.json" --power-condition "plugged in; battery saver off"
-```
-
-The launcher captures worker output, so it may be quiet until the worker exits.
-Do not relaunch because output pauses. Success ends with
-**`Pilot passed. Review its raw results/summary before invoking --full.`**
-Inspect the same session file:
-
-```powershell
-python -m json.tool "results/<session>/session.json"
-```
-
-Check `status` is `pilot_completed` and `stages.pilot.status` is `completed`.
-The field `stages.pilot.result.run_id` gives your `<pilot-run-id>`. Open
-`results/<pilot-run-id>/summary.md` and `results/<pilot-run-id>/results.json`.
-The summary must say **PILOT**; the JSON must have `status: "completed"` and five
-trials, one per engine. Every row and query answer is checked. Keep the raw JSON
-with its query plans, checksums and runtime/settings metadata. One pilot round
-cannot estimate variability. Investigate failed/partial output before continuing.
-
-### 6. Run full, stop cleanly and save the evidence
-
-After reviewing the pilot, use the original **session path**, not the raw-run folder:
-
-```powershell
-python scripts/run_openflights.py --full --session "results/<session>/session.json" --power-condition "plugged in; battery saver off"
-```
-
-Expect **`Full run passed. Use --stop with this session to retain its database volume.`**
-The session's `stages.full.result.run_id` locates the separate full-run summary and
-raw JSON: 25 trials, five balanced rounds, mean ± sample SD of trial means.
-Keep pilots and hosts separate; timings on another machine need not be identical.
-
-```powershell
-python scripts/run_openflights.py --stop --session "results/<session>/session.json"
-python scripts/archive_openflights.py --session "results/<session>/session.json" --output "openflights-evidence.zip"
-python -m zipfile -e "openflights-evidence.zip" "../openflights-evidence-check"
-python "../openflights-evidence-check/verify.py"
-```
-
-Run each command separately and stop on errors. Choose new ZIP/extraction names if
-those paths already exist. Expect `Saved evidence ZIP:` and **`BUNDLE CHECKSUMS PASS`**.
-Stopping retains the database volume. The ZIP excludes `.env` and includes both raw
-runs, session/build records, checksums and an offline verifier. Verification checks
-byte integrity; it does not rerun SQL or establish authenticity.
-Copy the ZIP somewhere durable: `results/` is ignored by Git and neither the ZIP
-nor new measurements are uploaded automatically. The
-[detailed launcher guide](docs/openflights-reproduction.md) covers diagnostics,
-controls and the separate correctness-only smoke.
-
-**Worked interpretation:** MEMORY loaded the archived route table in 0.6906 ± 0.0410 s,
-versus InnoDB's 1.1840 ± 0.0383 s. That advantage can help a rebuildable cache.
-Our separate restart test lost all MEMORY rows even after clean shutdown, so speed alone
-does not justify using it for the only copy of authoritative data. The linked reports
-show all trials and qualify each conclusion.
+For the **five-engine Linux amd64** lab, follow the complete
+[setup → pilot → inspect → full → stop → verify ZIP guide](docs/openflights-reproduction.md).
+It includes native-Linux output permissions and preserves the setup database.
+Full OpenFlights mode has 25 balanced trials; keep its results separate from pilots
+and from other hosts. New files under `results/` stay local until archived or copied.
+For inspection without a run, open the [archived full summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md).
 
 ## Data model and measurement method
 
@@ -236,24 +89,20 @@ show all trials and qualify each conclusion.
 | Pinned OpenFlights routes | Source-row key; nonunique source/destination index; nullable original IDs | Preserve repeated route combinations and missing IDs instead of silently dropping records |
 
 Each engine receives the same rows, logical schema and query stream **within an experiment**.
-The shared flight schemas use explicit BTREE declarations and utf8mb4_bin to avoid
-MEMORY's default HASH index as a confounder. The separate integer-only index experiment
+The shared flight schemas declare BTREE explicitly to avoid MEMORY's default HASH
+index as a confounder, and use utf8mb4_bin for consistent string comparison.
+The separate integer-only index experiment
 deliberately changes HASH versus BTREE.
 Physical storage still differs. No foreign keys or engine-specific alternatives are added
 to the common schema; this is not a complete airline application. See the
 [synthetic schema rationale](docs/benchmark-method.md), [route transformation](docs/openflights-method.md)
 and directly comparable [SQL schemas](sql/openflights/).
 
-The harness verifies the actual engine, checks every loaded value and validates query
-answers. Verification warms caches. Timings include driver/network work; read statistics
-summarize trial means, not pooled queries. The flight comparisons use five repeats; the MEMORY index comparison uses six.
-These are repeats on one laptop, not independent machines. [Recorded cache and durability settings](docs/cache-and-durability.md) explain why
-equal configured cache sizes are not equal total memory or durability guarantees.
-
-Storage uses stopped-server inventories on fresh volumes. Recovery uses clean versus
-SIGKILL restarts between acknowledged statements, with the host/cache still running.
-Neither test establishes physical SSD footprint, device power-loss behaviour, interrupted
-transactions or steady-state MyRocks compaction.
+Every loaded row and query answer is verified. Read statistics use trial means
+and sample SD across repeated rounds; driver/network time is included and validation
+warms caches. These laptop repeats do not establish independent-host or OS effects.
+Stopped-volume file sizes and process-restart survival are separately scoped;
+see the methods for each experiment below.
 
 ## Explore or reproduce the other experiments
 
@@ -269,20 +118,12 @@ transactions or steady-state MyRocks compaction.
 | Real route data and secondary-index queries | [OpenFlights](docs/openflights-method.md) | [Route findings](docs/openflights-findings.md) |
 | MyRocks compression on two controlled data profiles | [Isolated no-compression/ZSTD protocol](docs/rocksdb-compression-method.md) | [32-trial findings and charts](docs/rocksdb-compression-findings.md); [separate CI correctness](evidence/reviews/20261027-rocksdb-compression-ci/README.md) |
 
-Read reports without rerunning experiments. The storage/recovery harnesses use isolated
-temporary projects; never manually crash the normal lab database. Failed trials preserve
-diagnostic evidence. The historical route snapshot is OpenFlights data, via MariaDB/openflights,
-under [ODbL 1.0](data/openflights/LICENSE); its [download manifest](data/openflights/manifest.json)
-pins the source and checksum. Synthetic events are complementary generated data, not real flights.
 
-Eight report generators cover 32 chart files, including index, buffer-pool, compression and lock-wait evidence. See
-[report reproduction commands and checks](docs/report-reproducibility.md).
-CI uses fresh containers and runs unit tests, real five-engine checks and a
-stock-image tutorial on native Linux amd64 and ARM64;
-see [CI scope](docs/ci.md). Performance recommendations use the scoped laptop
-experiments; cloud and shared-CI timings retain their separate validation labels.
-The [laptop record](docs/benchmark-environment.md), [runner image pin](docs/runner-image.md)
-and [setup details](docs/setup.md) document versions and remaining environment limits.
+The [safe offline report checker](docs/report-reproducibility.md) regenerates eight
+reports / 55 outputs in a temporary copy. [CI](docs/ci.md) checks both stock-image
+architectures and the five-engine lab. [Environment](docs/benchmark-environment.md),
+[setup troubleshooting](docs/setup.md) and the [project checkpoint](docs/project-checkpoint.md)
+provide conditions and validation history.
 
 ## Team and completed contributions
 

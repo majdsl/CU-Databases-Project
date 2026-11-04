@@ -1,6 +1,10 @@
-# Hands-on: one table, five storage engines (about 15 minutes)
+# Hands-on: compare MariaDB storage engines with SQL
 
-This walkthrough lets you *see* the trade-offs our experiments measured, using nothing but SQL. You will create the same table on InnoDB, Aria, MyISAM, MEMORY and MyRocks, inspect what each engine reports, watch a HASH index fall back to a full scan, inspect per-case lock counters, compare COMMIT/ROLLBACK guarantees, and restart the server to empty a MEMORY table.
+Start with **Path B**, the stock-image demonstration of InnoDB, Aria, MyISAM and
+MEMORY. Use Path A when you want to add MyRocks through the five-engine lab.
+The same SQL lessons expose index access, lock counters, rollback and restart
+persistence. You can run the automatic check first, then follow the statements
+interactively below.
 
 It is a demonstration, not a benchmark: single runs, one laptop, no controls. For measured results, follow the links at the end of each step.
 
@@ -13,28 +17,7 @@ lab database and reserve this prefix for the tutorial; do not use it on other da
 
 ## 0. Start a MariaDB client
 
-### Path A: the project's five-engine lab (Linux amd64 Docker)
-
-After `python scripts/setup_project.py` has printed `SETUP PASS`, run this from the repository root (PowerShell or bash):
-
-```powershell
-docker compose up -d --wait db
-docker compose exec db mkdir -p /tutorial
-docker compose cp sql/tutorial/. db:/tutorial/
-docker compose exec db sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ubenchmark engine_lab'
-```
-
-The password comes from the container's own environment (generated earlier into your `.env`), so nothing is typed or stored in the repository. To open a **second terminal** later, run the last command again.
-
 ### Path B: ARM laptops or a quick try (stock image, four engines)
-
-**Validated October 27, 2026:** the automated stock-image path passed on native
-Linux amd64 and ARM64 CI runners and from Windows PowerShell with Docker Desktop's
-WSL2 Linux amd64 engine, using MariaDB 11.8.9 and the six common SQL files present in that historical revision. The transaction lesson below extends the current file sequence.
-The [validation record](stock-tutorial-validation.md) includes commands, image IDs,
-source hashes, restart results and cleanup. This covers four engines; MyRocks is
-part of Path A. The Windows record covers the Python CLI; interactive SQL walkthroughs
-and macOS shell reproduction remain separate.
 
 For an automated check from a clean checkout, with Python 3.9+ and running Docker
 Linux containers, run from the repository root:
@@ -43,11 +26,15 @@ Linux containers, run from the repository root:
 python scripts/check_stock_tutorial.py
 ```
 
-On Linux use `python3`. The command generates temporary credentials, creates its
+On Linux/macOS use `python3`. The command generates temporary credentials, creates its
 own unused container and volume, waits for health, runs the tutorial checks and
 removes only those owned resources. It saves `validation.json`, `commands.json`
 and `transcript.txt` under a new `results/` directory and ends with
 `STOCK TUTORIAL PASS`. It does not read or change the lab's `.env`.
+
+[Platform validation and limits](stock-tutorial-validation.md) cover native Linux
+amd64/ARM64 and the archived Windows Python CLI check. Interactive macOS work
+remains separate. The common sequence includes the transaction lesson.
 
 To work through the SQL interactively instead, use the following manual setup.
 
@@ -78,6 +65,24 @@ still in progress, wait a few seconds and repeat it; connect only after it succe
 An existing `engine-tutorial` name must be inspected before proceeding; do not reuse
 an unrelated server. In Path B, skip step 2 and the MyRocks-only follow-ups (`03b`, `05c` and `06b`).
 The common scripts run without expected errors. Stop and inspect any SQL error; do not continue past it.
+
+After connecting through Path B, continue with
+[step 1: the same table on four engines](#1-the-same-table-on-four-engines).
+
+### Path A: the project's five-engine lab (Linux amd64 Docker)
+
+Complete the [five-engine setup prerequisites](setup.md) first. After
+`python scripts/setup_project.py` has printed `SETUP PASS`, run this from the
+repository root (PowerShell or bash):
+
+```powershell
+docker compose up -d --wait db
+docker compose exec db mkdir -p /tutorial
+docker compose cp sql/tutorial/. db:/tutorial/
+docker compose exec db sh -c 'export MYSQL_PWD=$MARIADB_PASSWORD; exec mariadb --abort-source-on-error -ubenchmark engine_lab'
+```
+
+The password comes from the container's own environment (generated earlier into your `.env`), so nothing is typed or stored in the repository. To open a **second terminal** later, run the last command again.
 
 ## 1. The same table on four engines
 
