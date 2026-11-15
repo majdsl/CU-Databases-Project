@@ -81,11 +81,13 @@ jobs:
         with:
           persist-credentials: false
       - name: Validate stock-image Path B on the native architecture
+        # Keep diagnostics in the job log after the runner discards its files.
         run: >-
           python3 scripts/check_stock_tutorial.py
           --project "$STOCK_PROJECT"
           --expect-architecture "${{ matrix.arch }}"
           --output "results/stock-tutorial-${{ matrix.arch }}"
+          --verbose
 
   report-validation:
     name: Offline report and tutorial guard tests (normal and optimized Python)
