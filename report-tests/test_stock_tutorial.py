@@ -1,5 +1,5 @@
 """Protect existing Docker resources and private credentials in the stock runner."""
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 import io
 import json
 from pathlib import Path
@@ -62,12 +62,36 @@ class StockTutorialTests(unittest.TestCase):
                 returned = lab.command(['container', 'inspect', 'owned'], private_output=True)
             self.assertIn(lab.passwords[0], returned)  # Available in memory for identity checks only.
             fake = subprocess.CompletedProcess([], 1, '', 'failure: ' + ' '.join(lab.passwords))
-            with patch.object(stock.subprocess, 'run', return_value=fake), redirect_stdout(io.StringIO()):
+            stdout = io.StringIO()
+            with patch.object(stock.subprocess, 'run', return_value=fake), redirect_stdout(stdout):
                 with self.assertRaisesRegex(RuntimeError, r'\[REDACTED\]'):
                     lab.command(['logs', 'owned'])
-            saved = (Path(directory)/'transcript.txt').read_text() + json.dumps(lab.records)
+            transcript = (Path(directory)/'transcript.txt').read_text(encoding='utf-8')
+            self.assertIn('COMMAND_RECORD', transcript)
+            self.assertNotIn('COMMAND_RECORD', stdout.getvalue())
+            saved = transcript + json.dumps(lab.records)
             for password in lab.passwords:
                 self.assertNotIn(password, saved)
+
+    def test_missing_docker_points_reader_to_diagnostics(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / 'new-run'
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with patch.object(stock.sys, 'argv', ['check_stock_tutorial.py', '--output', str(output)]), \
+                    patch.object(stock.subprocess, 'run', side_effect=FileNotFoundError('docker')), \
+                    redirect_stdout(stdout), redirect_stderr(stderr):
+                self.assertEqual(stock.main(), 1)
+            self.assertIn('Docker was not found', stderr.getvalue())
+            self.assertIn('docker info', stderr.getvalue())
+            self.assertIn(f'Diagnostics: {output}', stderr.getvalue())
+            self.assertNotIn('STOCK TUTORIAL PASS', stdout.getvalue())
+            self.assertNotIn('STOCK_TUTORIAL_VALIDATION_JSON_BEGIN', stdout.getvalue())
+            transcript = (output / 'transcript.txt').read_text(encoding='utf-8')
+            self.assertIn('STOCK_TUTORIAL_VALIDATION_JSON_BEGIN', transcript)
+            result = json.loads((output / 'validation.json').read_text(encoding='utf-8'))
+            self.assertEqual(result['status'], 'failed')
+            self.assertIsInstance(json.loads((output / 'commands.json').read_text(encoding='utf-8')), list)
+            self.assertFalse((output / 'summary.md').exists())
 
     def test_expected_native_architecture_is_checked_before_creating_resources(self):
         lab = stock.StockTutorial(expected_arch='arm64')

@@ -2,42 +2,49 @@ A project for area 6, "Choosing the right storage engine" for the [MariaDB stude
 
 # Digital Crew: choosing a MariaDB storage engine
 
-We compare InnoDB, Aria, MyISAM, MEMORY and MyRocks on MariaDB 11.8.9.
-Start with a four-engine SQL demonstration; explore the repeated five-engine
-measurements when you want the full experimental workflow.
+We compare five storage engines on MariaDB 11.8.9.
+
+**[Try the tutorial](#start-here)** (four engines) ·
+**[Reproduce the benchmark](docs/openflights-reproduction.md)** (five engines, amd64) ·
+[Example benchmark report](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
 
 ## Start here
 
 Install **Git, Python 3.9+ and Docker**, then start Docker with Linux containers
-(amd64 or ARM64). From a terminal, run each line separately:
+(amd64 or ARM64). Clone once:
 
 ```powershell
 git clone --branch main https://github.com/majdsl/CU-Databases-Project.git
 cd CU-Databases-Project
-python scripts/check_stock_tutorial.py
 ```
 
-On Linux/macOS, use `python3` instead of `python`. Already cloned? Run the last
-command from your checkout. Expect **`STOCK TUTORIAL PASS: amd64`** or **`arm64`**,
-then `Saved: ...`. Open that directory's **`transcript.txt`** to read the SQL
-observations; `validation.json` records the checked results and source hashes.
+From the repository folder:
 
-**What you will see:** all four tables start with 50,000 rows. After a server
-restart, MEMORY is empty while InnoDB, Aria and MyISAM retain their rows.
+| Platform | Run |
+| --- | --- |
+| Windows (PowerShell) | `python scripts/check_stock_tutorial.py` |
+| Linux or macOS | `python3 scripts/check_stock_tutorial.py` |
 
-This **Path B** uses a pinned official image and a disposable database. It checks
-indexes, concurrent updates, rollback, restart persistence and cleanup on InnoDB,
-Aria, MyISAM and MEMORY. The server has a 1 GiB memory limit; allow extra room for
-Docker and image downloads. The command needs internet access on first use.
-It uses host Python's standard library; the custom MyRocks build is a later path.
-The temporary database is cleaned up while the transcript is retained.
+Expect **`STOCK TUTORIAL PASS`** and a **`summary.md`** path. Open the summary to
+see which index the server used, which engine rolled back a change, and which
+tables kept their rows after a restart. Path B uses a pinned stock image and
+cleans up its disposable database. No Python packages or custom build are needed.
+See [prerequisites and troubleshooting](docs/stock-tutorial-validation.md)
+or [run the SQL yourself](docs/tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines).
 
-Follow the [interactive SQL walkthrough](docs/tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines)
-to try the statements yourself, or read the [three measured lessons](docs/three-engine-lessons.md)
-without installing anything. [Platform evidence and troubleshooting](docs/stock-tutorial-validation.md)
-cover the tested Linux amd64/ARM64 and Windows Docker Desktop paths; a physical
-macOS walkthrough is still pending. Tutorial checks demonstrate correctness;
-performance conclusions use the separate repeated measurements below.
+### See one result without installing anything
+
+Two MEMORY tables held the same 100,000 rows. For `airport_id BETWEEN 100 AND 109`,
+they returned the same answer but found it differently:
+
+| Index | Matching rows | How MariaDB found them |
+| --- | ---: | --- |
+| BTREE | 200 | Read the matching range through the index (`range`) |
+| HASH | 200 | Scanned the whole table (`ALL`) |
+
+BTREE keeps keys in order, so MariaDB can seek to the start of a range. Both
+indexes worked for an exact match. See the [tutorial SQL](sql/tutorial/04-index-types.sql)
+and [how to read the plan](docs/tutorial.md#4-why-memorys-index-type-matters).
 
 ## Which engine, and what does it cost?
 

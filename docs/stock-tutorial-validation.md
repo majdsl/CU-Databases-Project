@@ -50,32 +50,35 @@ python scripts/check_stock_tutorial.py
 
 On Linux/macOS use `python3`. The script uses an unused random project name, creates its
 own credentials in memory and starts a fresh database. Success ends with
-`STOCK TUTORIAL PASS: amd64` or `STOCK TUTORIAL PASS: arm64` and the saved output path.
-Inspect `validation.json`, `commands.json` and `transcript.txt` in that directory.
+`STOCK TUTORIAL PASS: amd64` or `STOCK TUTORIAL PASS: arm64` and the path to
+`summary.md`.
 For a manual record, preserve `git rev-parse HEAD` alongside the source hashes;
 the `commit` field is supplied automatically in GitHub Actions.
 
 ## Read the first result
 
-`STOCK TUTORIAL PASS` means all SQL and lifecycle checks completed. Open the printed
-output directory's `transcript.txt` for command records, SQL output and the final PASS.
+`STOCK TUTORIAL PASS` means all SQL and lifecycle checks completed. Open
+`summary.md` to compare the MEMORY index plans, see which engines reversed the
+transfer, and see which tables kept their rows after a restart.
 In `validation.json`, check `status: "passed"`; `sequences[0]` records the four
 engines, generated row count, index access, verified writes and transaction checks.
-The `commands.json` file retains command outcomes with credentials redacted.
-Keep all three files together if reporting an issue or handing off evidence.
+The full `transcript.txt` and `commands.json` retain command outcomes with
+credentials redacted. Add `--verbose` to show these details in the terminal as
+well. Keep the saved directory together if reporting an issue or handing off evidence.
 
-The driver removes its owned database container and volume after the check, so
-the saved transcript is the first result to read. For hands-on SQL afterwards,
-use the [interactive Path B setup](tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines).
+The driver removes its owned database container and volume after the check.
+For hands-on SQL afterwards, use the
+[interactive Path B setup](tutorial.md#path-b-arm-laptops-or-a-quick-try-stock-image-four-engines).
 
 ## If the command stops
 
 | Symptom | Next step |
 | --- | --- |
-| Cannot connect to Docker | Start Docker, confirm `docker info` succeeds, then use Linux containers |
+| Docker command not found | Install Docker or Docker Desktop and confirm `docker info` works in this terminal |
+| Cannot connect to Docker | Start Docker in Linux container mode and confirm `docker info` works |
 | Image download or disk-space failure | Inspect Docker's image storage and host/VM capacity; [disk diagnostics](setup.md#disk-capacity) explain their different limits |
 | SQL bind mount cannot be read | Check Docker's access to this checkout and the reported mount error |
-| SQL or validation error | Preserve the new `results/...-cu-stock-.../` directory if created; inspect its transcript and failed validation before trying again |
+| SQL or validation error | Open the output directory printed after `Diagnostics:`; inspect its transcript and failed validation before trying again |
 
 The stock driver uses host Python to save its output; the runner UID 10001 ACL
 prerequisite belongs to the separate five-engine lab. The stock database has a
@@ -101,11 +104,10 @@ platform records, even though Linux ARM64 correctness is checked in CI.
 - The script removes only the container and volume with this invocation's ownership
   labels, after checking their identities. Existing names are refused before creation.
 
-Five offline failure-path tests additionally cover resource collisions, foreign
+Offline tests additionally cover startup guidance, resource collisions, foreign
 ownership, architecture mismatch, invalid project names and credential-safe logs.
-They form part of the complete offline suite, which CI runs normally and with
-optimized Python (`-O`). See [CI scope](ci.md) for the current checks and dated
-validation records.
+CI runs them normally and with optimized Python (`-O`). See [CI scope](ci.md)
+for the current checks and dated validation records.
 
 ## Image and scope
 
