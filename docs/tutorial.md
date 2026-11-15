@@ -28,9 +28,10 @@ python scripts/check_stock_tutorial.py
 
 On Linux/macOS use `python3`. The command generates temporary credentials, creates its
 own unused container and volume, waits for health, runs the tutorial checks and
-removes only those owned resources. It saves `validation.json`, `commands.json`
-and `transcript.txt` under a new `results/` directory and ends with
-`STOCK TUTORIAL PASS`. It does not read or change the lab's `.env`.
+removes only those owned resources. Look for `STOCK TUTORIAL PASS`, then open the
+printed `summary.md` for the index, rollback and restart results. The new
+`results/` directory also contains `validation.json`, `commands.json` and
+`transcript.txt`. No lab `.env` is needed.
 
 [Platform validation and limits](stock-tutorial-validation.md) cover native Linux
 amd64/ARM64 and the archived Windows Python CLI check. Interactive macOS work

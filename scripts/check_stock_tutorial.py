@@ -24,6 +24,16 @@ PROJECT_LABEL = 'cu.tutorial.project'
 OWNER_LABEL = 'cu.tutorial.owner'
 CLIENT = ('export MYSQL_PWD="$MARIADB_PASSWORD"; exec mariadb --abort-source-on-error '
           '--batch --raw --skip-column-names -ututorial engine_lab')
+ENGINE_NAMES = dict(innodb='InnoDB', aria='Aria', myisam='MyISAM', memory='MEMORY')
+NEXT_STEPS = {
+    'Docker check': 'Start Docker with Linux containers (amd64 or ARM64), then check that docker info works.',
+    'resource check': 'If you supplied --project, retry without it to use a fresh name.',
+    'image download': 'Check access to Docker Hub and free space in Docker, then retry.',
+    'server startup': 'Check Docker memory, disk space and access to this checkout.',
+    'SQL checks': 'Open validation.json and inspect the failed commands in transcript.txt.',
+    'server restart': 'Check Docker is still running and inspect the server diagnostics in transcript.txt.',
+    'cleanup': 'Keep the saved diagnostics and see docs/stock-tutorial-validation.md for troubleshooting.',
+}
 
 
 def validate_project(project):
@@ -38,11 +48,50 @@ def architecture(value):
     return aliases[value.lower()]
 
 
+def render_summary(evidence):
+    sequence = evidence['sequences'][0]
+    access = {'ref': 'Indexed lookup', 'range': 'Index range', 'ALL': 'Full table scan'}
+    lines = [
+        '# Stock MariaDB tutorial: passed', '',
+        f"MariaDB {evidence['server_version']} on a Linux {evidence['architecture']} Docker engine. "
+        'These are correctness results.', '',
+        '## MEMORY indexes', '',
+        '| Filter | Index | Matching rows | Access path |',
+        '| --- | --- | ---: | --- |',
+    ]
+    for item in sequence['indexes']:
+        plan = item['access']
+        lines.append(f"| `{item['predicate']}` | {item['index'].upper()} | {item['count']} | "
+                     f"{access[plan]} (`{plan}`) |")
+    lines += [
+        '', 'Both indexes can look up an exact key. BTREE can also seek into an ordered range; '
+        'HASH scanned the whole table for this range.', '',
+        '## Rollback and restart', '',
+        'In the transfer example, only InnoDB restored the original balances after rollback.', '',
+        '| Engine | Rollback undid the transfer | Rows after restart (separate test) |',
+        '| --- | --- | ---: |',
+    ]
+    for item in sequence['transaction_semantics']:
+        engine = item['engine']
+        restored = 'Yes' if item['rollback_restored'] else 'No'
+        remaining = 0 if engine == 'memory' else sequence['rows_per_table']
+        lines.append(f'| {ENGINE_NAMES[engine]} | {restored} | {remaining:,} |')
+    lines += [
+        '', 'All four restart tables started with the same row count. MEMORY lost its rows; '
+        'the other three retained theirs.', '',
+        'The disposable container and volume were removed. See [the transcript](transcript.txt), '
+        '[checked results](validation.json) and [command records](commands.json) for details.', '',
+    ]
+    return '\n'.join(lines)
+
+
 class StockTutorial:
-    def __init__(self, project=None, output=None, expected_arch=None):
+    def __init__(self, project=None, output=None, expected_arch=None, *, verbose=False):
         self.project = 'cu-stock-' + secrets.token_hex(6) if project is None else project
         validate_project(self.project)  # Before creating files or invoking Docker.
         self.expected_arch = expected_arch
+        self.verbose = verbose
+        self.stage = 'Docker check'
         self.container_name = self.project + '-db'
         self.volume = self.project + '-data'
         self.owner = secrets.token_hex(16)
@@ -68,10 +117,15 @@ class StockTutorial:
             text = text.replace(password, '[REDACTED]')
         return text
 
-    def log(self, text):
+    def progress(self, stage, message):
+        self.stage = stage
+        print(message, flush=True)
+
+    def log(self, text, *, detail=False):
         text = self.redact(text)
         with self.lock:
-            print(text, flush=True)
+            if self.verbose or not detail:
+                print(text, flush=True)
             with (self.output / 'transcript.txt').open('a', encoding='utf-8') as stream:
                 stream.write(text + '\n')
 
@@ -89,7 +143,7 @@ class StockTutorial:
         record = json.loads(self.redact(json.dumps(record)))
         with self.lock:
             self.records.append(record)
-        self.log('COMMAND_RECORD ' + json.dumps(record, sort_keys=True))
+        self.log('COMMAND_RECORD ' + json.dumps(record, sort_keys=True), detail=True)
         if result.returncode:
             raise RuntimeError(self.redact(result.stderr.strip() or 'Docker command failed'))
         return result.stdout.strip()
@@ -133,6 +187,7 @@ class StockTutorial:
         raise RuntimeError('Timed out waiting for the stock MariaDB healthcheck')
 
     def start(self):
+        self.progress('Docker check', 'Checking Docker...')
         info = json.loads(self.command(['info', '--format',
             '{"os":"{{.OSType}}","architecture":"{{.Architecture}}",'
             '"version":"{{.ServerVersion}}","kernel":"{{.KernelVersion}}",'
@@ -144,17 +199,20 @@ class StockTutorial:
                     architecture(platform.machine()) == arch, 'Expected a native Linux architecture match')
         self.evidence['docker'] = info
         self.evidence['architecture'] = arch
+        self.stage = 'resource check'
         existing = self.command(['container', 'ls', '-a', '--filter',
                                  'name=^/' + self.container_name + '$', '--format', '{{.ID}}'])
         require(not existing, 'Container name already exists; refusing to reuse it')
         volumes = self.command(['volume', 'ls', '--format', '{{.Name}}']).splitlines()
         require(self.volume not in volumes, 'Volume name already exists; refusing to reuse it')
+        self.progress('image download', 'Fetching the pinned MariaDB image (first download may take a moment)...')
         self.command(['pull', IMAGE], timeout=300)
         image = json.loads(self.command(['image', 'inspect', IMAGE], private_output=True))[0]
         require(image['Os'] == 'linux' and architecture(image['Architecture']) == arch,
                 'Image architecture differs from the Docker engine')
         self.image_id = image['Id']
         self.evidence['image'] = {k: image.get(k) for k in ('Id', 'Os', 'Architecture', 'RepoDigests')}
+        self.progress('server startup', 'Starting a disposable MariaDB server...')
         labels = ['--label', PROJECT_LABEL+'='+self.project, '--label', OWNER_LABEL+'='+self.owner]
         self.command(['volume', 'create', *labels, self.volume])
         self.inspect_volume()
@@ -184,10 +242,12 @@ class StockTutorial:
         return self.command(['exec', '-i', self.container_id, 'sh', '-c', CLIENT], input_text=text+'\n')
 
     def restart(self):
+        self.progress('server restart', 'Restarting MariaDB to check which tables keep their rows...')
         self.inspect_container()
         self.command(['restart', '--time', '30', self.container_id])
         self.wait_healthy()
         self.inspect_container()
+        self.stage = 'SQL checks'
 
     def cleanup(self):
         removed = dict(container_removed=False, volume_removed=False)
@@ -202,10 +262,16 @@ class StockTutorial:
         self.evidence['resource_cleanup'] = removed
 
     def run(self):
-        self.output.mkdir(parents=True, exist_ok=False)
+        try:
+            self.output.mkdir(parents=True, exist_ok=False)
+        except FileExistsError as exc:
+            raise RuntimeError(f'Output directory already exists: {self.output}. '
+                               'Choose a new --output path or omit that option.') from exc
         error = None
+        failure = None
         try:
             self.start()
+            self.progress('SQL checks', 'Running the four-engine SQL tutorial...')
             version = self.sql('SELECT VERSION();')
             require('MariaDB' in version and version.split('-', 1)[0] == '11.8.9',
                     'Expected the pinned MariaDB 11.8.9')
@@ -220,19 +286,28 @@ class StockTutorial:
             self.evidence['sourced_files'] = checks.sourced_files
             self.sql('DROP TABLE ci_tutorial_sentinel;')
         except Exception as exc:
-            error = self.redact(str(exc))
+            error = self.redact(str(exc)) or type(exc).__name__
+            message = ('Docker was not found. Install Docker or Docker Desktop if needed.'
+                       if self.stage == 'Docker check' and isinstance(exc, FileNotFoundError)
+                       else f'Stopped during {self.stage}: {error.splitlines()[0]}')
+            failure = message + '\nNext: ' + NEXT_STEPS[self.stage]
             if self.container_id:
                 try:
                     self.command(['logs', '--tail', '80', self.container_id])
                 except Exception as diagnostic_error:
-                    self.log('Diagnostic capture failed: '+str(diagnostic_error))
+                    self.log('Diagnostic capture failed: '+str(diagnostic_error), detail=True)
         finally:
             try:
+                if self.container_id or self.volume_created:
+                    self.progress('cleanup', 'Removing the disposable tutorial database...')
                 self.cleanup()
             except Exception as exc:
                 error = (error + '; ' if error else '') + 'Cleanup: ' + self.redact(str(exc))
+                failure = ((failure + '\n' if failure else '') +
+                           'Cleanup did not finish. ' + NEXT_STEPS['cleanup'])
         if not error and not all(self.evidence['resource_cleanup'].values()):
             error = 'Disposable resources were not removed'
+            failure = error + '. ' + NEXT_STEPS['cleanup']
         self.evidence['status'] = 'failed' if error else 'passed'
         if error:
             self.evidence['error'] = error
@@ -243,10 +318,17 @@ class StockTutorial:
         body = json.dumps(self.evidence, indent=2) + '\n'
         (self.output/'validation.json').write_text(body, encoding='utf-8')
         (self.output/'commands.json').write_text(json.dumps(self.records, indent=2)+'\n', encoding='utf-8')
-        self.log('STOCK_TUTORIAL_VALIDATION_JSON_BEGIN\n'+body.rstrip()+'\nSTOCK_TUTORIAL_VALIDATION_JSON_END')
+        self.log('STOCK_TUTORIAL_VALIDATION_JSON_BEGIN\n'+body.rstrip()+'\nSTOCK_TUTORIAL_VALIDATION_JSON_END',
+                 detail=True)
         if error:
-            raise RuntimeError(error)
+            raise RuntimeError(f'{failure}\nDiagnostics: {self.output}')
+        summary = self.output / 'summary.md'
+        summary.write_text(render_summary(self.evidence), encoding='utf-8')
+        self.log('MEMORY range: BTREE used an index range; HASH scanned the table.')
+        self.log('Rollback: InnoDB undid the transfer; Aria, MyISAM and MEMORY did not.')
+        self.log('Restart: InnoDB, Aria and MyISAM kept their rows; MEMORY emptied.')
         self.log('STOCK TUTORIAL PASS: '+self.evidence['architecture'])
+        print('Summary:', summary, flush=True)
         print('Saved:', self.output, flush=True)
         return self.evidence
 
@@ -256,9 +338,11 @@ def main():
     parser.add_argument('--project', help='Disposable project; an unused random name is the default')
     parser.add_argument('--output', type=Path, help='New output directory; existing paths are refused')
     parser.add_argument('--expect-architecture', choices=('amd64', 'arm64'), help='CI native-platform guard')
+    parser.add_argument('--verbose', action='store_true',
+                        help='Also print the saved command and validation details')
     args = parser.parse_args()
     try:
-        StockTutorial(args.project, args.output, args.expect_architecture).run()
+        StockTutorial(args.project, args.output, args.expect_architecture, verbose=args.verbose).run()
     except Exception as error:
         print('STOCK TUTORIAL FAILED:', str(error), file=sys.stderr)
         return 1
