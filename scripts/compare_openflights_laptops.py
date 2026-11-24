@@ -1,4 +1,4 @@
-"""View the two laptop runs offline; optionally verify the private handoff without publishing it."""
+"""Recalculate the two laptops' OpenFlights results offline from their archived trials."""
 import argparse
 import csv
 from dataclasses import asdict
@@ -59,7 +59,15 @@ def published():
     return result
 
 
-def checked_handoff(path, original, second):
+def archive_files(directory):
+    files = {name: (directory / name).read_bytes() for name in PUBLIC_FILES}
+    expected = [hashlib.sha256(files[name]).hexdigest() + '  ' + name for name in sorted(files)]
+    require((directory / 'SHA256SUMS.txt').read_text(encoding='ascii').splitlines() == expected,
+            'Second-laptop archive checksum or file list differs')
+    return files
+
+
+def checked_handoff(path):
     # Check exact identity before reading any private or compressed member. Do not extract the ZIP.
     require(path.stat().st_size == 115943, 'Unexpected handoff size')
     data = path.read_bytes()
@@ -71,7 +79,10 @@ def checked_handoff(path, original, second):
         require(len(sums) == 29 and sorted(sums) == sorted(
             hashlib.sha256(bundle.read(n)).hexdigest() + '  ' + n for n in names if n != 'SHA256SUMS.txt'),
             'Internal checksums differ')
-        public = {n: bundle.read('openflights/' + n) for n in PUBLIC_FILES}
+        return {n: bundle.read('openflights/' + n) for n in PUBLIC_FILES}
+
+
+def peer_stats(public, original, csv_stats):
     stages = {stage: read_run(public[stage + '/results.json'], public[stage + '/summary.md'], rid, stage == 'pilot')
               for stage, rid in RUNS.items()}
     full = stages['full']
@@ -83,8 +94,9 @@ def checked_handoff(path, original, second):
     for a, b in zip(original['trials'], full['trials']):
         for field in ('engine', 'round', 'position', 'lookup_ids', 'source_ids', 'source_result_counts'):
             require(a[field] == b[field], 'Full workloads differ on ' + field)
-    require(rounded(full) == second, 'Recalculated second-laptop figures differ from the published CSV')
-    return public
+    second = rounded(full)
+    require(second == csv_stats, 'Recalculated second-laptop figures differ from the published CSV')
+    return second
 
 
 def save_public(files, destination):
@@ -107,20 +119,21 @@ def table(first, second):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--handoff', type=Path, help='Verify the exact reviewed ZIP and recompute both stages')
+    parser.add_argument('--handoff', type=Path, help='Also verify the reviewed ZIP against the public files')
     parser.add_argument('--save-to', type=Path, help='With --handoff, write four public files to a new directory')
     args = parser.parse_args()
     if args.save_to and not args.handoff:
         parser.error('--save-to requires --handoff')
     original = read_run((FIRST / 'results.json').read_bytes(), (FIRST / 'summary.md').read_bytes(), FIRST.name, False)
-    second = published()
+    public = archive_files(ARCHIVE)
+    second = peer_stats(public, original, published())
     if args.handoff:
-        files = checked_handoff(args.handoff, original, second)
+        files = checked_handoff(args.handoff)
+        require(files == public, 'Public files differ from the reviewed handoff')
         if args.save_to:
             save_public(files, args.save_to)
-        print('Handoff verified: 29 checksums, five pilot trials and 25 full trials.')
-    else:
-        print('Original laptop: recalculated from raw trials. Second laptop: published rounded summary.')
+        print('Handoff verified: all 29 internal checksums match; the four public files are byte-identical.')
+    print('Both laptops: recalculated from 25 full trials each. Second-laptop pilot: five trials checked separately.')
     print('Mean ± sample SD across five full trials per engine on each laptop. No Docker or SQL.\n')
     print('\n'.join(table(rounded(original), second)))
 

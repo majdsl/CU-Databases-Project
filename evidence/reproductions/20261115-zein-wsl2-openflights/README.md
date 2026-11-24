@@ -17,7 +17,7 @@ between those two for scans, try your own workload.
 Each cell is a mean ± sample SD across five balanced rounds **on one host**.
 For scans, one observation is a trial's mean, not an individual query.
 The [original full report](../../openflights/20261009T160813Z-openflights-6884f225/summary.md)
-and [second laptop's full-summary CSV](full-summary.csv) include point lookups and
+and [second laptop's full report](full/summary.md) include point lookups and
 source aggregates too. These are warm client-observed timings. Hardware, Docker
 and builds can differ: this comparison does not isolate a cause or an OS effect.
 
@@ -48,25 +48,29 @@ is a separate environment and is not in the table.
 
 ## What you can verify
 
-The public record here contains the rounded second-laptop statistics and
-[log excerpts](outcomes.txt), including the first failure. At integration the
-private handoff's SHA-256 and 29 internal file hashes matched; all 43 recorded
-benchmark, tutorial and workflow file hashes matched the producing Git revision.
-The trial statistics were recalculated and the pilots kept separate. The
-submitter's log reports a successful check of his original local export; only
-the redacted handoff was supplied to the team. The private ZIP includes Docker
-session labels and must not be published as-is.
-
 From the repository root, run `python scripts/compare_openflights_laptops.py`
-(PowerShell) or `python3 scripts/compare_openflights_laptops.py` (Linux/macOS) to
-print the table using just Python 3.9+. The default view recalculates the original
-laptop's statistics and reads the published rounded values for the second laptop.
+(Windows) or `python3 scripts/compare_openflights_laptops.py` (Linux/macOS).
+Python 3.9+ is all you need. The command recalculates the table from each laptop's
+25 full trials, checks the second laptop's five pilot trials separately, and checks
+the means and sample deviations for all four metrics against the [CSV](full-summary.csv).
 
-A maintainer with the reviewed ZIP can add `--handoff PATH_TO_ZIP` to verify its
-identity, recalculate the second laptop's pilot/full statistics and compare all four
-metrics against the CSV. Add `--save-to results/reviewed-laptop` to write just the
-four verified raw JSON and summary files into a **new** folder. No command here
-runs Docker, contacts a server or modifies the ZIP.
+| Second laptop | Raw measurements | Readable report |
+| --- | --- | --- |
+| Pilot · 5 trials, excluded from the comparison | [results.json](pilot/results.json) | [summary.md](pilot/summary.md) |
+| Full · 25 trials, used in the comparison | [results.json](full/results.json) | [summary.md](full/summary.md) |
+
+The [checksums](SHA256SUMS.txt) cover the four files above. One number in the
+first published CSV was transcribed incorrectly: the ROCKSDB point-lookup sample
+deviation is **0.0103 ms**, not 0.0021 ms. The raw trials and original report agree;
+the correction does not change the means or the load and scan rankings.
+
+The [log excerpts](outcomes.txt) include Zeineldin's first setup failure. At
+integration, all 43 recorded benchmark, tutorial and workflow file hashes matched
+the producing revision. The four public measurement files are byte-for-byte copies
+from the reviewed handoff; the ZIP itself stays private because it contains Docker
+session labels. To check the ZIP as well, add `--handoff PATH_TO_ZIP`: this verifies
+its identity, all 29 internal checksums and that the public files match. Optionally
+add `--save-to results/reviewed-laptop` to copy just the four files to a new folder.
 
 Reviewed ZIP: 115,943 bytes; SHA-256
 `af4ba9377c6cf4ede5fa0f21067567c25296e04e7421afec119dff0320f2129d`.
