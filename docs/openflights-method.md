@@ -179,5 +179,5 @@ The project is on `main`, with [correctness CI](ci.md), a [pinned Python base](r
 [workload recommendations](engine-recommendations.md) and [confirmed team contributions](team-contributions.md).
 The [October 30 cloud reproduction](openflights-linux-reproduction.md) adds fresh setup
 and separately compared full measurements on a Debian-userspace/nested-Docker executor.
-Independent physical-laptop/human walkthroughs, including Zane's pending package,
-remain separate from that evidence. See the [audit record](tutorial-audit.md) for scope.
+The [second physical laptop](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md) has its own pilot/full, conditions and analysis.
+Neither automated run is an unassisted newcomer walkthrough. See the [audit record](tutorial-audit.md) for scope.

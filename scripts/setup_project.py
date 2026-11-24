@@ -17,7 +17,8 @@ def output_access_guidance():
                 "Setup does not change ownership or permissions or delete existing data.")
     directory = shlex.quote(str(ROOT / "results"))
     lines = ["The runner uses UID/GID 10001 and must be able to create files in the results directory.",
-             "On an ordinary rootful Docker host, grant this directory access if it is not already configured:"]
+             "From Linux or an Ubuntu/WSL shell with a Linux-filesystem checkout, grant access to results/ "
+             "if the runner cannot write there (ordinary rootful Docker):"]
     if shutil.which("setfacl") is None:
         lines += ["setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:",
                   "  sudo apt-get update", "  sudo apt-get install acl"]
@@ -46,12 +47,20 @@ def setup(project=None):
     compose = ["docker", "compose"] + (["-p", project] if project else [])
     platform = command("Check Docker engine", ["docker", "info", "--format",
                        "{{.OSType}}/{{.Architecture}}"], capture=True).stdout.strip()
+    python = "python" if sys.platform == "win32" else "python3"
+    stack = "docker compose" + (f" -p {project}" if project else "")
     if platform not in ("linux/x86_64", "linux/amd64"):
+        if platform in ("linux/arm64", "linux/aarch64"):
+            next_step = f"For the four-engine stock tutorial on ARM64, run: {python} scripts/check_stock_tutorial.py"
+        elif platform.startswith("windows/"):
+            next_step = "Switch Docker Desktop to Linux containers and retry."
+        else:
+            next_step = "See docs/setup.md for supported platforms."
         raise RuntimeError(f"Docker reports {platform!r}; this five-engine build requires a Linux amd64 engine. "
-                           "Other architectures are not validated; see docs/setup.md.")
+                           + next_step)
     command("Check Compose", compose + ["version"])
     if sys.platform == "linux":
-        print("\n== Native Linux output prerequisite ==", flush=True)
+        print("\n== Linux / WSL output permissions ==", flush=True)
         print(output_access_guidance(), flush=True)
     command("Preserve or create local credentials", [sys.executable, "scripts/init_env.py"])
     command("Fetch and verify route data", [sys.executable, "scripts/fetch_openflights.py"])
@@ -63,7 +72,8 @@ def setup(project=None):
             "d=tempfile.TemporaryDirectory(prefix='.setup-probe-', dir='/results'); "
             "d.cleanup(); print('PASS: runner can write /results')"])
     except RuntimeError as exc:
-        raise RuntimeError(str(exc) + "\n" + output_access_guidance()) from exc
+        retry = f"{python} scripts/setup_project.py" + (f" --project-name {project}" if project else "")
+        raise RuntimeError(f"{exc}\n{output_access_guidance()}\nAfter fixing access, rerun: {retry}") from exc
     command("Run unit tests", compose + ["run", "--rm", "--no-deps", "runner", "python",
             "-m", "unittest", "discover", "-s", "tests", "-v"])
     command("Build five-engine MariaDB", compose + ["build", "db"])
@@ -71,9 +81,9 @@ def setup(project=None):
             "--wait-timeout", "180", "db"])
     command("Verify all five actual engines and row contents", compose + ["run", "--rm", "runner"])
     print("\nSETUP PASS: output is writable, unit tests passed, and all five engines passed.", flush=True)
-    print("No benchmark was run. Continue with the README pilot; preserve your .env and database volume.")
-    if project:
-        print(f"For this stack, include -p {project} in subsequent docker compose commands.")
+    print("No benchmark was run. Keep your .env. When you are ready to benchmark, stop this setup DB "
+          f"without deleting its volume: {stack} stop db")
+    print("Then follow docs/openflights-reproduction.md to prepare, run and verify the benchmark.")
 
 
 def main():

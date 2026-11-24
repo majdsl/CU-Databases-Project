@@ -9,7 +9,7 @@ raw measurements and historical source fingerprints; it runs no SQL or Docker.
 The dependency installation and checksum-pinned dataset fetch below need internet
 access on first use. After that, the report check is offline. Start from the
 repository root. To produce new database measurements instead, follow the
-[README quick start](../README.md#start-here).
+[five-engine measurement guide](openflights-reproduction.md).
 
 The October validation counts and later generator additions are retained in the
 [dated reporting history](report-reproducibility-history.md). They describe their
@@ -67,6 +67,12 @@ python3 -m venv .venv-report
 .venv-report/bin/python scripts/check_reports.py --repeat
 ```
 
+If Ubuntu (including WSL2) stops at the first command with an **`ensurepip`
+unavailable** message, install the matching venv package named in that error.
+For example, Zeineldin's Ubuntu Python 3.14 needed `sudo apt install python3.14-venv`.
+Then repeat `python3 -m venv .venv-report` and continue inside that environment.
+The stock tutorial does not need this step.
+
 For intentional regeneration, use `.venv-report/bin/python` with the individual
 scripts listed above. Linux CI exercises this path; a native macOS walkthrough
 remains pending. Successful regeneration does not establish cross-host timing results.
@@ -101,8 +107,9 @@ This check does not replace the teammates' independent setup, benchmark and eval
 reviews. The [October 30 cloud reproduction](openflights-linux-reproduction.md) now validates
 fresh setup/output writes on that Debian-userspace/nested-Docker executor. Ordinary native
 Linux users should follow the [output-access prerequisite](setup.md#native-linux-output-prerequisite);
-the container write probe remains authoritative. Independent physical-host walkthroughs
-and unrecorded historical host/build details remain separate gaps.
+the container write probe remains authoritative. [Zeineldin's Windows/WSL2
+run](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md) passed the
+repeat check for all eight reports. Historical host/build details remain as originally recorded.
 No new claim about power loss, transaction rollback or larger-scale performance follows
 from successful report regeneration.
 

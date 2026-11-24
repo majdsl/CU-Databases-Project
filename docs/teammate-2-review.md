@@ -39,6 +39,10 @@ teammate 2. Preferred full name confirmed by the repository owner on October 26,
   to the team, including the need to evaluate `main`, and connected the feedback
   to improvements in the documentation and tutorial.
 
+- **Independent Physical-Laptop Reproduction:** on November 15, Zeineldin
+  completed setup, tutorial, report regeneration and a separate OpenFlights pilot
+  and full run on Windows via Ubuntu/WSL2. See his [verified comparison](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md).
+
 ## Review and follow-up integration
 
 The maintainer reviewed the initial nine changed files and verified that the commit

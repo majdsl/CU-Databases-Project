@@ -195,6 +195,9 @@ above use laptop repeats; the [separate cloud OpenFlights reproduction](openflig
 now adds a second computing environment with its own full-run means and variability.
 It is not a controlled operating-system comparison or an independent physical-laptop
 walkthrough. Unequal engine cache/durability budgets and reused-server effects remain limits.
+On [two physical laptops](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md), MyISAM retained the fastest persistent-engine
+load and Aria the fastest persistent-engine scan. InnoDB and MyISAM exchanged places
+on scans; do not use their original order as a tie-breaker.
 [Correctness CI](ci.md) validates builds and basic engine operation; it is not a
 performance or durability benchmark.
 

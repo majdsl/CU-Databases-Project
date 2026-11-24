@@ -87,4 +87,5 @@ then record the new identity. Later [correctness CI](ci.md) and the
 [October 30 fresh cloud reproduction](openflights-linux-reproduction.md) now provide
 separate build/setup evidence beyond the historical October 9 check. The cloud executor
 uses Debian userspace and nested Docker; a cache-free build or independent physical-laptop
-walkthrough is not inferred. Zane's new laptop package remains pending.
+walkthrough is not inferred. See the [subsequent Windows/WSL2 laptop run](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md)
+for its own selected image IDs.

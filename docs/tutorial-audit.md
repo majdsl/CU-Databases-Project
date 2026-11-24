@@ -1,5 +1,10 @@
 # README and tutorial audit — October 15, 2026
 
+**November 15 follow-up:** [Zeineldin's physical Windows/WSL2 run](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md)
+passed setup after a scoped ACL fix and all seven stock tutorial SQL files. The laptop
+marked pending in the older entries now has its own record. This automated tutorial
+does not establish an unassisted interactive walkthrough.
+
 **October 30 reproduction follow-up:** fresh isolated setup and OpenFlights pilot/full
 completed at `5afc5f0` on managed cloud Linux amd64. The [new archive and laptop comparison](openflights-linux-reproduction.md)
 preserve raw results, controls, build adaptations and host limitations. This closes
