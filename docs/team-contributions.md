@@ -126,6 +126,11 @@ criteria and to practical SQL examples a reader can follow and reuse.
   engine metadata, MEMORY HASH/BTREE plans, concurrent writes, restart persistence
   and cleanup.
 
+- **Independent Reproduction and First-Run Diagnostics:** ran five-engine setup,
+  the stock tutorial, the eight-report repeat check and both OpenFlights stages
+  from Ubuntu/WSL2 on a second Windows laptop. His [results and setup observations](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md)
+  show which rankings held and where the Linux instructions needed clarification.
+
 - **Review Synthesis and Project Refinement:** brought evaluation findings
   back to the team, including the need to evaluate `main`, and helped connect
   documentation improvements to the project's experimental objectives.

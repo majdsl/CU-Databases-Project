@@ -6,7 +6,7 @@ We compare five storage engines on MariaDB 11.8.9.
 
 **[Try the tutorial](#start-here)** (four engines) ·
 **[Reproduce the benchmark](docs/openflights-reproduction.md)** (five engines, amd64) ·
-[Example benchmark report](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md)
+[See one result without installing anything](#see-one-result-without-installing-anything)
 
 ## Start here
 
@@ -23,7 +23,7 @@ From the repository folder:
 | Platform | Run |
 | --- | --- |
 | Windows (PowerShell) | `python scripts/check_stock_tutorial.py` |
-| Linux or macOS | `python3 scripts/check_stock_tutorial.py` |
+| Linux, Ubuntu in WSL, or macOS | `python3 scripts/check_stock_tutorial.py` |
 
 Expect **`STOCK TUTORIAL PASS`** and a **`summary.md`** path. Open the summary to
 see which index the server used, which engine rolled back a change, and which
@@ -83,10 +83,11 @@ and [image-provenance limits](docs/image-provenance.md) kept explicit.
 
 For the **five-engine Linux amd64** lab, follow the complete
 [setup → pilot → inspect → full → stop → verify ZIP guide](docs/openflights-reproduction.md).
-It includes native-Linux output permissions and preserves the setup database.
+It covers output permissions for Linux and Ubuntu/WSL and preserves the setup database.
 Full OpenFlights mode has 25 balanced trials; keep its results separate from pilots
 and from other hosts. New files under `results/` stay local until archived or copied.
-For inspection without a run, open the [archived full summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md).
+Without running anything, [compare the two laptops](evidence/reproductions/20261115-zein-wsl2-openflights/README.md)
+or open the [original full summary](evidence/openflights/20261009T160813Z-openflights-6884f225/summary.md).
 
 ## Data model and measurement method
 
@@ -206,6 +207,9 @@ Future improvements can be added to this completed record.
 
 - **SQL Tutorial Engineering:** authored the initial walkthrough and seven SQL
   scripts demonstrating engine behavior.
+
+- **Independent Benchmark Reproduction:** ran the stock tutorial, reports and five-engine
+  pilot/full on a [second Windows laptop using WSL2](evidence/reproductions/20261115-zein-wsl2-openflights/README.md).
 
 - **Review Synthesis and Project Refinement:** communicated evaluation findings,
   including the need to assess `main`, to guide improvements.

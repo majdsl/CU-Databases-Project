@@ -68,9 +68,10 @@ class SetupTests(unittest.TestCase):
             _, output, _ = self.successful_setup(directory)
         for label in ("Preserve or create local credentials", "Fetch and verify route data",
                       "Build Python runner"):
-            self.assertLess(output.index("Native Linux output prerequisite"), output.index(label))
+            self.assertLess(output.index("Linux / WSL output permissions"), output.index(label))
         self.assertIn("container write probe is authoritative", output)
         self.assertIn("SETUP PASS", output)
+        self.assertIn("docker compose -p test-setup stop db", output)
 
     def test_scoped_linux_repair_commands_quote_paths_with_spaces_and_apostrophes(self):
         root = Path("/tmp/owner's project")
@@ -112,6 +113,7 @@ class SetupTests(unittest.TestCase):
             calls, _, error = self.successful_setup(directory, fail_probe=True)
             expected = "setfacl -m u:10001:rwx -- " + shlex.quote(str(Path(directory) / "results"))
         self.assertIn(expected, error)
+        self.assertIn("After fixing access, rerun: python3 scripts/setup_project.py --project-name test-setup", error)
         self.assertIn("Rootless/user-remapped Docker and SELinux", error)
         self.assertFalse(any("up" in call or call[-2:] == ["build", "db"] for call in calls))
         self.assertFalse(any("-m" in call and "unittest" in call for call in calls))
@@ -123,6 +125,13 @@ class SetupTests(unittest.TestCase):
         self.assertNotIn("setfacl", output + error)
         self.assertNotIn("apt-get", output + error)
         self.assertIn("Docker Desktop file sharing", error)
+
+    def test_linux_arm_points_to_stock_tutorial_before_building(self):
+        with patch.object(setup_project.sys, "platform", "linux"), patch.object(
+                setup_project, "command", return_value=subprocess.CompletedProcess([], 0, "linux/aarch64\n")) as call:
+            with self.assertRaisesRegex(RuntimeError, r"python3 scripts/check_stock_tutorial\.py"):
+                setup_project.setup()
+        self.assertEqual(call.call_count, 1)
 
 
 if __name__ == "__main__":

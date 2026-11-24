@@ -1,0 +1,30 @@
+[logs/setup.log; first attempt]
+setfacl is not on PATH. On Ubuntu/Debian, install the acl package first:
+SETUP FAILED: Check benchmark output permissions failed (exit 1). Stop here and inspect the output above.
+
+[logs/setup-attempt-02.log]
+PASS: runner can write /results
+Ran 147 tests in 0.538s
+OK
+PASS: InnoDB - actual engine verified; 3 rows matched
+PASS: Aria - actual engine verified; 3 rows matched
+PASS: MyISAM - actual engine verified; 3 rows matched
+PASS: MEMORY - actual engine verified; 3 rows matched
+PASS: ROCKSDB - actual engine verified; 3 rows matched
+SETUP PASS: output is writable, unit tests passed, and all five engines passed.
+
+[logs/stock-tutorial.log]
+SQL PASS: 01-create-tables.sql
+SQL PASS: 03-compare.sql
+SQL PASS: 04-index-types.sql
+SQL PASS: 05-lock-demo.sql
+SQL PASS: 05b-transactions.sql
+SQL PASS: 06-after-restart.sql
+SQL PASS: 99-cleanup.sql
+STOCK TUTORIAL PASS: amd64
+
+[logs/report-check.log]
+REPORT CHECK PASS: 8 reports, 55 outputs; inputs preserved; optimization=0
+
+[logs/archive-verify.log; submitter's original local export]
+BUNDLE CHECKSUMS PASS: 14 files; integrity only, not authenticity or SQL re-execution.

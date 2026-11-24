@@ -1,4 +1,13 @@
-# Project checkpoint — November 4, 2026
+# Project checkpoint — November 24, 2026
+
+[Zeineldin's second-laptop measurements and setup outcomes](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md)
+come from his November 15 run at `4fa0cc7`. He completed both OpenFlights stages
+from Ubuntu on WSL2. A reader can see the comparison directly on GitHub. Hassan's
+[completed report review](teammate-1-review.md) stands on its own; no physical
+macOS run is claimed. Robert Silén's November 3 interim result remains 39/40,
+with usability at 9/10. These changes have no new evaluation score.
+
+## Archived checkpoint — November 4, 2026
 
 ## Stock tutorial first and a concise findings article
 

@@ -21,10 +21,11 @@ cd CU-Databases-Project
 ```
 
 For an existing checkout, save your edits and update before starting a session.
-Run every following command from the repository root; use `python3` instead of
-`python` on Linux.
+Run every following command from the repository root. Use `python` in Windows
+PowerShell and `python3` in Linux or Ubuntu/WSL.
 
-**Native Linux only:** grant runner UID 10001 access to its output directory first:
+**Linux or Ubuntu/WSL with a checkout in the Linux filesystem:** if the runner
+does not already have write access, prepare just its output directory:
 
 ```bash
 mkdir -p results
@@ -33,9 +34,11 @@ setfacl -m u:10001:rwx results
 
 If `setfacl` is missing, install `acl` using the
 [scoped output-access instructions](setup.md#native-linux-output-prerequisite).
-Windows Docker Desktop does not use these POSIX ACL commands. Rootless Docker,
-user remapping and SELinux can need administrator-specific configuration; the
-container write probe remains authoritative.
+Skip these shell commands in **Windows PowerShell**. Docker Desktop can serve
+either shell; the checkout's filesystem matters. For an Ubuntu checkout in the
+Linux filesystem use the Linux steps even on Windows. Rootless Docker, user
+remapping and SELinux can need different configuration; the container write
+probe decides whether access works.
 
 ```powershell
 python scripts/setup_project.py
@@ -254,5 +257,5 @@ CI runs this path separately from performance evidence.
 The [original method](openflights-method.md) explains the workload and its limits.
 The [cloud reproduction](openflights-linux-reproduction.md) retains the older mutable-tag
 execution record honestly; this launcher does not retroactively fill its missing
-per-run runner inspection. Zane's physical-laptop results will retain their own exact
-tested revision and conditions when received.
+per-run runner inspection. [Zeineldin's second-laptop run](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md)
+records its own revision, conditions and results.

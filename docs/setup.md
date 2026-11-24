@@ -64,8 +64,12 @@ volume; retain the diagnostics first and leave unrelated resources alone.
 The runner uses UID/GID 10001 and writes to the host's `results/` bind mount.
 On an ordinary rootful Docker host, a new directory with mode `0755` owned by a
 login UID other than 10001 does not grant the runner write access. Prepare access before the first
-setup build if it is not already configured. Windows Docker Desktop users can
-continue to the wrapper below; these POSIX ACL commands are for native Linux.
+setup build if it is not already configured. **Choose by shell and filesystem:**
+Windows PowerShell users can continue to the wrapper below. If you run Ubuntu
+in WSL2 and cloned under your Linux home directory, use the Linux steps here
+even when Docker Desktop provides the engine. For a checkout on a Windows drive,
+do not assume Linux ACLs apply; use the container write probe and check Docker
+Desktop file sharing if it fails.
 
 From the repository root, check that `setfacl` is available:
 
@@ -106,8 +110,9 @@ not change ownership or groups on your laptop.
 
 Validated from a fresh Ubuntu CI checkout on October 15:
 [85 tests and all five engines passed](https://github.com/majdsl/CU-Databases-Project/actions/runs/38824387276)
-at `ead6f10`, including the output-write probe. Independent reproduction of this
-wrapper on Windows remains pending.
+at `ead6f10`, including the output-write probe. On a separate Windows laptop,
+[Zeineldin ran setup from Ubuntu/WSL2](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md):
+the first write probe failed; after the scoped ACL fix, 147 tests and all five engines passed.
 
 After the prerequisites above, run `python scripts/setup_project.py` on Windows or
 `python3 scripts/setup_project.py` on Linux. This wrapper is one command; the native

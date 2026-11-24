@@ -13,7 +13,8 @@ correctness/reproduction checks, separate from the archived laptop performance r
 passed on `ead6f10b1d9ac486898d112d0569926fcf20375a`. The fresh Ubuntu job
 ran the documented wrapper, verified writable output, passed all 85 unit tests,
 built MariaDB and passed all five engine checks, ending with `SETUP PASS`.
-This validates the Linux CI path; independent Windows reproduction remains pending.
+This validates the Linux CI path. [Zeineldin's November Windows/WSL2 run](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md)
+separately exercised the wrapper on a physical laptop.
 
 The [Correctness workflow](../.github/workflows/correctness.yml) runs on pushes,
 pull requests and manual dispatch. **Validated on October 9, 2026:** both push and pull-request runs passed for

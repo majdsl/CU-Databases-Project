@@ -63,6 +63,7 @@ sources or execution capabilities should be recorded explicitly.
 | [Actual complete OpenFlights workflow](https://github.com/majdsl/CU-Databases-Project/actions/runs/41321256187) | Success at frozen source `2da20124ca1e52128d7cb8c3536736ae139239f7`: five pilot trials, inspection, 25 full trials, clean stop, export, separate extraction and standalone verification. Shared-CI workflow validation. |
 | [OpenFlights raw records and provenance](../evidence/reproductions/20261101-ci-openflights-session/README.md) | Session `20261101T152845Z-openflights-session-ba84d4b7`; pilot `20261101T152902Z-openflights-444900b0`; full `20261101T152915Z-openflights-8fa924ee`. Immutable images/controls, raw samples, build record and original export are retained. |
 | [Historical laptop/OpenFlights findings](openflights-findings.md) and [October 30 cloud reproduction](openflights-linux-reproduction.md) | Separate producing revisions, machines, pilot/full files and statistics. The shared-CI workflow does not replace these measurements. |
+| [Zeineldin's second physical laptop](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md) | November 15, source `4fa0cc7`: Ubuntu/WSL2 on Windows; setup, stock tutorial, eight-report check, five pilot trials and 25 full trials. See the comparison for what was privately checked and what is published. |
 | [Snapshot-build index](../evidence/reviews/20261101-snapshot-builds/README.md) | Three original attempts retain failed, incomplete and complete outcomes. Complete archived [run 41322953291](https://github.com/majdsl/CU-Databases-Project/actions/runs/41322953291) used PR merge `ab8cc6df8ac823011e9c797e86817d9d2f6ee568`. |
 | [Baseline main paired-build check](https://github.com/majdsl/CU-Databases-Project/actions/runs/41324235769) | Success at `3dfab238d5d34c6d63082b8273fbc63f47c03414`: two uncached signed-snapshot DB builds/readbacks/stops. Package inventories/configuration match; image/config and filesystem identities differ. |
 
@@ -95,8 +96,8 @@ package-input tar files; the original release ZIPs retain them.
 
 ## Limits relevant to interpreting the evidence
 
-- Shared-CI timings validate the workflow. They do not identify an OS effect or
-  complete independent human/physical-laptop installation; that task remains pending.
+- Shared-CI timings validate the workflow. The separate physical-laptop reproduction
+  used Windows/WSL2. Neither comparison identifies an OS effect.
 - Current native ARM64 coverage is the four-engine stock tutorial. No new interactive
   Windows/macOS walkthrough or ARM64 five-engine lab run is claimed.
 - Experiment-specific methods disclose warm reads/client overhead, unequal

@@ -9,8 +9,8 @@ separate from the original laptop results, offline report reproduction and hoste
 The executor has **Debian 13 userspace, nested Docker and a Linux amd64 kernel**.
 The database image is based on Ubuntu 24.04. This is not a physical Ubuntu install,
 a controlled Linux-versus-Windows experiment, or Zane's independent laptop reproduction.
-That teammate package remains pending and can be archived with its own tested revision,
-setup/tutorial/report logs and physical-machine measurements when received.
+The [later Windows/WSL2 laptop record](../evidence/reproductions/20261115-zein-wsl2-openflights/README.md) has its own tested revision,
+setup outcomes and measurements.
 
 ## Evidence and verification
 
@@ -170,12 +170,9 @@ During archival, `scripts/check_reports.py --repeat` additionally passed on the 
 checkout: all eight historical reports regenerated twice, 55 outputs validated and
 inputs preserved. Its [post-run transcript](../evidence/reproductions/20261030-cloud-linux-openflights/logs/archive-report-check.txt)
 is separate from the measurement-time setup checks.
-Zane's pending physical-laptop package is expected to include independent setup,
-stock tutorial/transaction checks, repeated report regeneration, pilot/full evidence,
-actual conditions/images and a readable transcript under his own fixed tested revision.
-His prompt also requests immutable image selection for OpenFlights. Attribute those
-future results to him when received and validated; this cloud run does not complete or
-replace that contribution. A later documentation review can check instruction clarity.
+Zeineldin's November 15 laptop run covers setup, stock tutorial, report regeneration
+and separate pilot/full measurements with frozen images. It is credited and linked
+above; none of those observations are counted in this cloud comparison.
 
 For future sessions, the [current OpenFlights launcher](openflights-reproduction.md)
 adds immutable image selection and actual container-image capture. This strengthens
